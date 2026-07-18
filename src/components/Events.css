@@ -1,0 +1,278 @@
+/* ============================================
+   EVENTS — ALUMNI GATHERINGS TIMELINE
+   ============================================ */
+
+/* ── Timeline connector ── */
+.events__timeline {
+  position: relative;
+  height: 40px;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.events__timeline-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--line-grey),
+    var(--signal-red),
+    var(--line-grey)
+  );
+  transform: translateY(-50%);
+}
+
+.events__timeline-node {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--paper-white);
+  border: 3px solid var(--signal-red);
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.events__timeline-node::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--signal-red);
+}
+
+/* ── Card grid ── */
+.events__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+/* ── Card ── */
+.events__card {
+  background: var(--paper-white);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.events__card:hover {
+  box-shadow: var(--shadow-elevated);
+  transform: translateY(-6px);
+}
+
+/* ── Upcoming card glow ── */
+.events__card--upcoming {
+  border: 2px solid rgba(232, 48, 42, 0.2);
+}
+
+.events__card--upcoming::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(
+    135deg,
+    rgba(232, 48, 42, 0.08),
+    transparent 50%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Card image ── */
+.events__card-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+}
+
+.events__card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.events__card:hover .events__card-img {
+  transform: scale(1.08);
+}
+
+.events__card-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 40%,
+    rgba(11, 27, 63, 0.7) 100%
+  );
+  pointer-events: none;
+}
+
+/* ── Year badge ── */
+.events__card-year {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: var(--navy-deep);
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  padding: 6px 16px;
+  letter-spacing: 1px;
+  z-index: 1;
+}
+
+/* ── Upcoming badge ── */
+.events__card-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--signal-red);
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  z-index: 2;
+  box-shadow: 0 4px 10px rgba(232, 48, 42, 0.35);
+}
+
+/* ── Card body ── */
+.events__card-body {
+  padding: 24px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+/* ── Meta row ── */
+.events__card-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.events__card-city,
+.events__card-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+.events__card-city svg,
+.events__card-date svg {
+  color: var(--signal-red);
+  font-size: 0.7rem;
+}
+
+/* ── Title ── */
+.events__card-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.35rem;
+  color: var(--navy-deep);
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+
+/* ── Description ── */
+.events__card-desc {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--slate);
+  line-height: 1.7;
+}
+
+/* ── Footer CTA ── */
+.events__card-footer {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-grey);
+}
+
+.events__card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--navy-deep);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.events__card-cta:hover {
+  color: var(--signal-red);
+  gap: 12px;
+}
+
+.events__card-cta--upcoming {
+  color: var(--signal-red);
+  animation: ctaPulse 2s ease-in-out infinite;
+}
+
+@keyframes ctaPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.6; }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .events__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .events__timeline {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .events__grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .events__card-img-wrap {
+    height: 200px;
+  }
+
+  .events__card-body {
+    padding: 18px 18px 16px;
+  }
+
+  .events__card-title {
+    font-size: 1.15rem;
+  }
+}

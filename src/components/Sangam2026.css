@@ -1,0 +1,766 @@
+/* ============================================
+   SANGAM 2026 EVENT PAGE — STYLING
+   ============================================ */
+
+.sangam-page {
+  background: var(--fog-grey);
+  color: var(--navy-deep);
+}
+
+/* ── Hero Banner ── */
+.sangam-hero {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: var(--paper-white);
+  padding: 145px 0 100px;
+  overflow: hidden;
+}
+
+.sangam-hero__inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+@media (min-width: 992px) {
+  .sangam-hero__inner {
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 60px;
+  }
+}
+
+.sangam-hero__content {
+  max-width: 750px;
+}
+
+.sangam-hero__logo-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-card-inner {
+  background: var(--paper-white);
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-elevated);
+  border: 4px solid var(--navy-mid);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.logo-card-inner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--signal-red);
+}
+
+.logo-card-inner:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(11, 27, 63, 0.25);
+}
+
+.sangam-hero-logo {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.sangam-hero__eyebrow {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  color: var(--signal-red);
+  margin-bottom: 12px;
+}
+
+.sangam-hero__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  line-height: 0.95;
+  margin-bottom: 24px;
+}
+
+.sangam-hero__title span {
+  color: var(--signal-red);
+}
+
+.sangam-hero__sub {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 24px;
+}
+
+.hero-register-btn {
+  display: inline-block;
+  background: var(--signal-red);
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  padding: 16px 36px;
+  border-radius: 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 14px rgba(232, 48, 42, 0.4);
+  transition: all 0.3s ease;
+}
+
+.hero-register-btn:hover {
+  background: var(--paper-white);
+  color: var(--navy-deep);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.25);
+  transform: translateY(-3px);
+}
+
+/* Meta Details Bar */
+.sangam-hero__meta {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 28px;
+}
+
+.sangam-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.meta-icon {
+  font-size: 1.6rem;
+  color: var(--signal-red);
+}
+
+.meta-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+.meta-val {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--paper-white);
+}
+
+.venue-map-btn {
+  display: inline-block;
+  margin-top: 8px;
+  background: transparent;
+  color: var(--signal-red);
+  border: 1px solid var(--signal-red);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  padding: 6px 12px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: var(--transition);
+}
+
+.venue-map-btn:hover {
+  background: var(--signal-red);
+  color: var(--paper-white);
+  box-shadow: 0 4px 10px rgba(232, 48, 42, 0.3);
+}
+
+/* ── Countdown Section ── */
+.countdown-section {
+  margin-top: -50px;
+  position: relative;
+  z-index: 10;
+}
+
+.countdown-card {
+  background: var(--navy-mid);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-elevated);
+  padding: 40px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.countdown-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: var(--signal-red);
+}
+
+.countdown-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  color: var(--paper-white);
+  margin-bottom: 24px;
+}
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 20px 10px;
+  transition: transform 0.3s ease;
+}
+
+.countdown-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(232, 48, 42, 0.3);
+}
+
+.countdown-num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: var(--paper-white);
+  line-height: 1;
+}
+
+.countdown-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 8px;
+}
+
+/* ── Main Details Grid ── */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.details-card {
+  background: var(--paper-white);
+  border: 1px solid rgba(11, 27, 63, 0.06);
+  box-shadow: var(--shadow-card);
+  padding: 40px;
+  margin-bottom: 32px;
+}
+
+.details-heading {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--navy-deep);
+  margin-bottom: 30px;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.details-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: var(--signal-red);
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 20px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 0;
+  width: 2px;
+  background: var(--line-grey);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: -24px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--paper-white);
+  border: 2px solid var(--signal-red);
+  z-index: 2;
+  transition: background 0.3s ease;
+}
+
+.timeline-item:hover::before {
+  background: var(--signal-red);
+}
+
+.timeline-time {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.82rem;
+  letter-spacing: 1px;
+  color: var(--signal-red);
+  margin-bottom: 4px;
+}
+
+.timeline-content h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--navy-deep);
+  margin-bottom: 6px;
+}
+
+.timeline-content p {
+  font-size: 0.92rem;
+  color: var(--slate);
+  line-height: 1.6;
+}
+
+/* Highlights */
+.highlights-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.highlights-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.hl-icon {
+  font-size: 1.1rem;
+  color: var(--signal-red);
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.highlights-list span {
+  font-size: 0.95rem;
+  color: var(--navy-deep);
+  line-height: 1.6;
+}
+
+/* ── Ticket Info Card ── */
+.ticket-info-card {
+  background: var(--paper-white);
+  border: 1px solid rgba(11, 27, 63, 0.06);
+  box-shadow: var(--shadow-elevated);
+  padding: 40px;
+  position: sticky;
+  top: 110px;
+}
+
+.ticket-card-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--navy-deep);
+  margin-bottom: 8px;
+}
+
+.ticket-card-sub {
+  font-size: 0.88rem;
+  color: var(--slate);
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.ticket-benefits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.ticket-benefits-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.benefit-icon {
+  font-size: 1rem;
+  color: var(--signal-red);
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.ticket-benefits-list span {
+  font-size: 0.88rem;
+  color: var(--navy-deep);
+  line-height: 1.5;
+}
+
+.register-now-btn {
+  display: block;
+  background: var(--signal-red);
+  color: var(--paper-white) !important;
+  border: none;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  padding: 16px 24px;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.register-now-btn:hover {
+  background: var(--navy-deep);
+  box-shadow: 0 4px 16px rgba(11, 27, 63, 0.25);
+  transform: translateY(-2px);
+}
+
+.ticket-note {
+  font-size: 0.75rem;
+  color: var(--slate);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* ── Sponsors Section ── */
+.sponsors-section {
+  padding: 80px 0;
+  background: var(--paper-white);
+  border-top: 1px solid var(--line-grey);
+}
+
+.sponsors-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 60px;
+}
+
+.sponsors-eyebrow {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  color: var(--signal-red);
+  margin-bottom: 12px;
+}
+
+.sponsors-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 2.2rem;
+  color: var(--navy-deep);
+  margin-bottom: 16px;
+}
+
+.title-underline {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--signal-red) 50%, var(--navy-deep) 50%);
+  margin: 0 auto 24px;
+  border-radius: 2px;
+}
+
+.sponsors-subtitle {
+  font-size: 1.05rem;
+  color: var(--slate);
+  line-height: 1.6;
+}
+
+.sponsors-container {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  align-items: center;
+}
+
+.sponsor-tier {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.tier-badge {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.tier-badge.diamond {
+  background: rgba(30, 60, 114, 0.08);
+  color: #1e3c72;
+  border: 1px solid rgba(30, 60, 114, 0.2);
+}
+
+.tier-badge.gold {
+  background: rgba(212, 175, 55, 0.1);
+  color: #c59b27;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.tier-badge.silver {
+  background: rgba(91, 100, 120, 0.08);
+  color: var(--slate);
+  border: 1px solid rgba(91, 100, 120, 0.2);
+}
+
+.sponsors-grid {
+  display: grid;
+  gap: 24px;
+  justify-content: center;
+  width: 100%;
+}
+
+.diamond-tier .sponsors-grid {
+  grid-template-columns: minmax(260px, 320px);
+}
+
+.gold-tier .sponsors-grid {
+  grid-template-columns: repeat(2, minmax(240px, 280px));
+  max-width: 600px;
+}
+
+.silver-tier .sponsors-grid {
+  grid-template-columns: repeat(3, minmax(180px, 220px));
+  max-width: 720px;
+}
+
+.sponsor-card {
+  background: var(--paper-white);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+}
+
+.sponsor-card.diamond {
+  border: 2px solid rgba(30, 60, 114, 0.15);
+  padding: 24px;
+}
+
+.sponsor-card.gold {
+  border: 1.5px solid rgba(212, 175, 55, 0.2);
+}
+
+.sponsor-card.silver {
+  border: 1px solid var(--line-grey);
+}
+
+.sponsor-logo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sponsor-logo svg {
+  width: 100%;
+  max-height: 50px;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effects */
+.sponsor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(11, 27, 63, 0.12);
+}
+
+.sponsor-card.diamond:hover {
+  border-color: #1e3c72;
+  box-shadow: 0 12px 28px rgba(30, 60, 114, 0.18);
+}
+
+.sponsor-card.gold:hover {
+  border-color: #d4af37;
+  box-shadow: 0 12px 28px rgba(212, 175, 55, 0.18);
+}
+
+.sponsor-card.silver:hover {
+  border-color: var(--navy-deep);
+}
+
+.sponsor-card:hover .sponsor-logo svg {
+  transform: scale(1.03);
+}
+
+/* Sponsors CTA call block */
+.sponsors-cta {
+  margin-top: 60px;
+  background: var(--fog-grey);
+  border: 1px dashed var(--line-grey);
+  border-radius: 12px;
+  padding: 40px 30px;
+  text-align: center;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sponsors-cta-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--navy-deep);
+  margin-bottom: 12px;
+}
+
+.sponsors-cta-text {
+  font-size: 0.95rem;
+  color: var(--slate);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.sponsors-cta-btn {
+  display: inline-block;
+  background: var(--navy-deep);
+  color: var(--paper-white) !important;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 1.5px;
+  padding: 14px 30px;
+  border-radius: 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(11, 27, 63, 0.15);
+}
+
+.sponsors-cta-btn:hover {
+  background: var(--signal-red);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(232, 48, 42, 0.25);
+}
+
+/* ── Responsive styling ── */
+@media (max-width: 1024px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .ticket-info-card {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .sangam-hero {
+    padding: 110px 0 60px;
+    background-attachment: scroll;
+    /* parallax disabled on mobile */
+  }
+
+  .sangam-hero__meta {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .countdown-card {
+    padding: 30px 24px;
+  }
+
+  .countdown-grid {
+    gap: 12px;
+  }
+
+  .countdown-item {
+    padding: 12px 6px;
+  }
+
+  .details-card,
+  .ticket-info-card {
+    padding: 24px;
+  }
+
+  /* Sponsors responsive adjust */
+  .sponsors-section {
+    padding: 60px 0;
+  }
+
+  .sponsors-title {
+    font-size: 1.8rem;
+  }
+
+  .gold-tier .sponsors-grid {
+    grid-template-columns: minmax(220px, 280px);
+  }
+
+  .silver-tier .sponsors-grid {
+    grid-template-columns: repeat(2, minmax(160px, 200px));
+    max-width: 440px;
+  }
+
+  .sponsors-cta {
+    padding: 24px 20px;
+    margin-top: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .countdown-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .silver-tier .sponsors-grid {
+    grid-template-columns: 1fr;
+    max-width: 220px;
+  }
+}

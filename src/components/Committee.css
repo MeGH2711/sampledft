@@ -1,0 +1,152 @@
+.committee__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 8px;
+}
+
+/* Card */
+.committee__card {
+  background: var(--paper-white);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.committee__card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-elevated);
+}
+
+/* Image */
+.committee__img-wrap {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+  background: var(--fog-grey);
+}
+
+.committee__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.5s ease;
+}
+
+.committee__card:hover .committee__img {
+  transform: scale(1.05);
+}
+
+/* Role Text */
+.committee__role-text {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: var(--signal-red);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* Info */
+.committee__info {
+  padding: 18px 20px 22px;
+  border-top: 3px solid var(--signal-red);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.committee__name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--navy-deep);
+  letter-spacing: 0.3px;
+}
+
+.committee__batch {
+  display: block;
+  margin-top: 2px;
+  margin-bottom: 12px;
+}
+
+/* Socials */
+.committee__socials {
+  display: flex;
+  gap: 8px;
+}
+
+.committee__social {
+  width: 32px;
+  height: 32px;
+  background: var(--fog-grey);
+  border: 1px solid var(--line-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--slate);
+  font-size: 0.85rem;
+  transition: var(--transition);
+  border-radius: 0;
+}
+
+.committee__social:hover {
+  background: var(--signal-red);
+  color: var(--paper-white);
+  border-color: var(--signal-red);
+}
+
+/* Subsections */
+.committee__subsection {
+  margin-top: 50px;
+}
+
+.committee__subhead {
+  margin-bottom: 24px;
+}
+
+.committee__subtitle {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--navy-deep);
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+
+.committee__subtitle span {
+  color: var(--signal-red);
+}
+
+.committee__subtext {
+  font-size: 0.95rem;
+  color: var(--slate);
+  max-width: 800px;
+}
+
+.committee .section-sub {
+  max-width: 100%;
+  font-size: 16px;
+}
+
+/* 5 members: 3+2 layout */
+.committee__grid > :nth-child(4),
+.committee__grid > :nth-child(5) {
+  grid-column: auto;
+}
+
+@media (max-width: 900px) {
+  .committee__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .committee__grid {
+    grid-template-columns: 1fr;
+  }
+}
