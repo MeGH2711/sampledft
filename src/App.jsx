@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, Routes, Route } from 'react-router-dom'
 import { scroller } from 'react-scroll'
 import Navbar from './components/Navbar'
@@ -13,15 +13,35 @@ import Events from './components/Events'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import Sangam2026 from './components/Sangam2026'
-import SangamRegister from './components/SangamRegister'
+
 import FounderDesk from './components/FounderDesk'
 import DftAlumniMeet2023 from './components/DftAlumniMeet2023'
 import Sangaath2024 from './components/Sangaath2024'
 import NewsletterSection from './components/NewsletterSection'
 import Newsroom from './components/Newsroom'
+import Login from './components/Login'
+import Profile from './components/Profile'
+import { auth, isFirebaseConfigured } from './firebase'
+import { signOut } from 'firebase/auth'
 
 function App() {
   const location = useLocation()
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('alumniUser')
+    try {
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (isFirebaseConfigured && parsed.uid && String(parsed.uid).startsWith('mock-')) {
+          localStorage.removeItem('alumniUser')
+          return null
+        }
+        return parsed
+      }
+      return null
+    } catch (e) {
+      return null
+    }
+  })
 
   // Scroll behavior: scroll to top on path change, or scroll to section if state.scrollTo is set
   useEffect(() => {
@@ -67,9 +87,36 @@ function App() {
     }
   }, [location.pathname])
 
+  const handleLoginSuccess = (userData) => {
+    setUser(userData)
+    localStorage.setItem('alumniUser', JSON.stringify(userData))
+  }
+
+  const handleUpdateUser = (updatedData) => {
+    setUser(prev => {
+      const merged = { ...prev, ...updatedData }
+      localStorage.setItem('alumniUser', JSON.stringify(merged))
+      return merged
+    })
+  }
+
+  const handleLogout = async () => {
+    if (isFirebaseConfigured && auth) {
+      try {
+        await signOut(auth)
+      } catch (err) {
+        console.error("Firebase SignOut Error:", err)
+      }
+    }
+    setUser(null)
+    localStorage.removeItem('alumniUser')
+  }
+
+  const showHeaderFooter = location.pathname !== '/login'
+
   return (
     <>
-      <Navbar />
+      {showHeaderFooter && <Navbar user={user} onLogout={handleLogout} />}
       <main>
         <Routes>
           <Route path="/" element={
@@ -88,13 +135,15 @@ function App() {
             </>
           } />
           <Route path="/sangam2026" element={<Sangam2026 />} />
-          <Route path="/sangam2026/register" element={<SangamRegister />} />
+
           <Route path="/dftalumnimeet2023" element={<DftAlumniMeet2023 />} />
           <Route path="/sangaath2024" element={<Sangaath2024 />} />
           <Route path="/newsroom" element={<Newsroom />} />
+          <Route path="/login" element={<Login user={user} onLoginSuccess={handleLoginSuccess} />} />
+          <Route path="/profile" element={<Profile user={user} onUpdateUser={handleUpdateUser} />} />
         </Routes>
       </main>
-      <Footer />
+      {showHeaderFooter && <Footer />}
     </>
   )
 }

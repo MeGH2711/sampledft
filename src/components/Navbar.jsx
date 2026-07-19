@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useLocation, Link as RouterLink } from 'react-router-dom'
 import { Link as ScrollLink } from 'react-scroll'
-import { FaBars, FaTimes, FaChevronDown } from 'react-icons/fa'
-import dftLogo from '../assets/Logo/dft-logo.png'
+import { FaBars, FaTimes, FaChevronDown, FaCheckCircle, FaClock } from 'react-icons/fa'
+import dftLogo from '../assets/Logo/dft-logo.avif'
 import './Navbar.css'
 
 const navLinks = [
@@ -17,9 +17,10 @@ const navLinks = [
   { label: 'Contact', to: 'contact' },
 ]
 
-export default function Navbar() {
+export default function Navbar({ user, onLogout }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
   const location = useLocation()
   const isHome = location.pathname === '/'
 
@@ -28,6 +29,14 @@ export default function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    if (!userMenuOpen) return
+    const closeMenu = () => setUserMenuOpen(false)
+    window.addEventListener('click', closeMenu)
+    return () => window.removeEventListener('click', closeMenu)
+  }, [userMenuOpen])
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -85,6 +94,7 @@ export default function Navbar() {
                       <RouterLink to="/sangam2026" className="navbar__dropdown-item">
                         <span className="navbar__dropdown-item-title">Sangam 2026</span>
                         <span className="navbar__dropdown-item-desc">Vadodara (Upcoming)</span>
+                        <span className="navbar__dropdown-item-status"></span>
                       </RouterLink>
                       <RouterLink to="/sangaath2024" className="navbar__dropdown-item">
                         <span className="navbar__dropdown-item-title">Sangaath 2024</span>
@@ -130,6 +140,64 @@ export default function Navbar() {
               <span className="navbar__cta-text">SANGAM 2026</span>
               <div className="navbar__cta-glow"></div>
             </RouterLink>
+
+            {user ? (
+              <div className="navbar__user-menu">
+                <button
+                  className="navbar__user-btn"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setUserMenuOpen(!userMenuOpen)
+                  }}
+                  aria-label="User menu"
+                >
+                  <span className="navbar__avatar">{user.name.charAt(0).toUpperCase()}</span>
+                  <span className="navbar__user-name">Hi, {user.name.split(' ')[0]}</span>
+                  <FaChevronDown className={`navbar__dropdown-arrow ${userMenuOpen ? 'open' : ''}`} />
+                </button>
+                <div className={`navbar__user-dropdown ${userMenuOpen ? 'navbar__user-dropdown--open' : ''}`}>
+                  <div className="navbar__dropdown-header">
+                    <strong className="navbar__dropdown-name">{user.name}</strong>
+                    <div className={`navbar__user-badge ${user.verification_status ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`}>
+                      {user.verification_status ? (
+                        <>
+                          <FaCheckCircle className="navbar__user-badge-icon" /> Verified Alumni
+                          <span className="navbar__user-badge-tooltip">Your account has been successfully verified by the Administrator.</span>
+                        </>
+                      ) : (
+                        <>
+                          <FaClock className="navbar__user-badge-icon" /> Pending Verification
+                          <span className="navbar__user-badge-tooltip">Admin will verify the account, this might take 1-2 days</span>
+                        </>
+                      )}
+                    </div>
+                    <span className="navbar__dropdown-sub">{user.degree ? `${user.degree} · ` : ''}Class of {user.batch}</span>
+                  </div>
+                  <hr className="navbar__dropdown-divider" />
+                  <RouterLink
+                    to="/profile"
+                    className="navbar__user-dropdown-item"
+                    onClick={() => setUserMenuOpen(false)}
+                  >
+                    My Profile
+                  </RouterLink>
+                  <hr className="navbar__dropdown-divider" />
+                  <button
+                    onClick={() => {
+                      onLogout()
+                      setUserMenuOpen(false)
+                    }}
+                    className="navbar__user-dropdown-item navbar__user-dropdown-logout"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <RouterLink to="/login" className="navbar__login-btn">
+                Alumni Portal
+              </RouterLink>
+            )}
 
             <button
               className={`navbar__hamburger ${menuOpen ? 'navbar__hamburger--active' : ''}`}
@@ -239,6 +307,55 @@ export default function Navbar() {
             className="navbar__mobile-footer"
             style={{ transitionDelay: `${0.05 + (navLinks.length * 0.05)}s` }}
           >
+            {user ? (
+              <div className="navbar__mobile-user">
+                <div className="navbar__mobile-user-info">
+                  <span className="navbar__mobile-avatar">{user.name.charAt(0).toUpperCase()}</span>
+                  <div style={{ textAlign: 'left' }}>
+                    <div className="navbar__mobile-user-name">{user.name}</div>
+                    <div className={`navbar__user-badge ${user.verification_status ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`}>
+                      {user.verification_status ? (
+                        <>
+                          <FaCheckCircle className="navbar__user-badge-icon" /> Verified Alumni
+                          <span className="navbar__user-badge-tooltip">Your account has been successfully verified by the Administrator.</span>
+                        </>
+                      ) : (
+                        <>
+                          <FaClock className="navbar__user-badge-icon" /> Pending Verification
+                          <span className="navbar__user-badge-tooltip">Admin will verify the account, this might take 1-2 days</span>
+                        </>
+                      )}
+                    </div>
+                    <div className="navbar__mobile-user-class">Class of {user.batch}</div>
+                  </div>
+                </div>
+                <RouterLink
+                  to="/profile"
+                  className="navbar__mobile-profile-btn"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  My Profile
+                </RouterLink>
+                <button
+                  onClick={() => {
+                    onLogout()
+                    setMenuOpen(false)
+                  }}
+                  className="navbar__mobile-logout-btn"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <RouterLink
+                to="/login"
+                className="navbar__mobile-login-btn"
+                onClick={() => setMenuOpen(false)}
+              >
+                Alumni Portal
+              </RouterLink>
+            )}
+
             <RouterLink
               to="/sangam2026"
               className="navbar__mobile-cta-btn"

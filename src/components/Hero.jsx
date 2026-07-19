@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-scroll'
 import { FaArrowRight, FaChevronDown } from 'react-icons/fa'
-import heroSlide1 from '../assets/Meet2023/img90.7da26a7b0531a14f219e.png'
+import heroSlide1 from '../assets/Meet2023/img90.7da26a7b0531a14f219e.avif'
 import heroSlide2 from '../assets/Sangaath2024/AJY_6412.avif'
-import heroSlide3 from '../assets/Meet2023/img34.9ab305e8ae48ca6fb887.png'
+import heroSlide3 from '../assets/Meet2023/img34.9ab305e8ae48ca6fb887.avif'
 import './Hero.css'
+import ImageWithSkeleton from './ImageWithSkeleton'
 
 const slides = [
   {
@@ -64,7 +65,7 @@ export default function Hero() {
     return () => clearInterval(timer)
   }, [])
 
-  const slide = slides[current]
+
 
   return (
     <section className="hero" id="home">
@@ -74,7 +75,7 @@ export default function Hero() {
           key={i}
           className={`hero__bg-slide ${i === current ? 'hero__bg-slide--active' : ''}`}
         >
-          <img src={s.image} alt="" className="hero__bg-img" />
+          <ImageWithSkeleton src={s.image} alt="" className="hero__bg-img" theme="dark" />
         </div>
       ))}
       <div className="hero__bg-overlay" />
@@ -138,11 +139,12 @@ export default function Hero() {
         <div className="hero__showcase">
           <div className="hero__showcase-frame">
             {slides.map((s, i) => (
-              <img
+              <ImageWithSkeleton
                 key={i}
                 src={s.image}
                 alt="DFT Alumni"
                 className={`hero__showcase-img ${i === current ? 'hero__showcase-img--active' : ''}`}
+                theme="dark"
               />
             ))}
             <div className="hero__showcase-border" />

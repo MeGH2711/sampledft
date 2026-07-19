@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 import { FaMapMarkerAlt, FaCalendarAlt, FaArrowRight } from 'react-icons/fa'
-import eventAhmedabad from '../assets/Meet2023/img79.dcf15f8c3bf07d813ed0.png'
+import eventAhmedabad from '../assets/Meet2023/img79.dcf15f8c3bf07d813ed0.avif'
 import eventSurat from '../assets/Sangaath2024/AJY_6380.avif'
-import eventVadodara from '../assets/event-vadodara.png'
+import eventVadodara from '../assets/event-vadodara.avif'
 import './Events.css'
+import ImageWithSkeleton from './ImageWithSkeleton'
 
 const events = [
   {
@@ -76,7 +77,7 @@ export default function Events() {
             >
               {/* Image */}
               <div className="events__card-img-wrap">
-                <img
+                <ImageWithSkeleton
                   src={evt.image}
                   alt={evt.name}
                   className="events__card-img"

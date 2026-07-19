@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaCheckCircle } from 'react-icons/fa'
-import eventImg from '../assets/event-vadodara.png'
-import sangamLogo from '../assets/Logo/sangam-logo.png'
+import eventImg from '../assets/event-vadodara.avif'
+import sangamLogo from '../assets/Logo/sangam-logo.avif'
 import './Sangam2026.css'
+import ImageWithSkeleton from './ImageWithSkeleton'
 
 export default function Sangam2026() {
   // Countdown timer calculations
@@ -96,7 +96,7 @@ export default function Sangam2026() {
 
           <div className="sangam-hero__logo-card reveal">
             <div className="logo-card-inner">
-              <img src={sangamLogo} alt="Sangam 2026 Logo" className="sangam-hero-logo" />
+              <ImageWithSkeleton src={sangamLogo} alt="Sangam 2026 Logo" className="sangam-hero-logo" />
             </div>
           </div>
         </div>

@@ -1,20 +1,21 @@
 import { useState, useEffect, useRef } from 'react'
 import { FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
-import gallery1 from '../assets/Gallery_Images/slide1.6a4c732aa2da5a9ae6b7.jpg'
-import gallery2 from '../assets/Gallery_Images/AJY_6440.avif'
-import gallery3 from '../assets/Gallery_Images/slide5.a94b512cae1795a73394.jpg'
-import aboutImg from '../assets/Gallery_Images/AJY_6281.avif'
-import visionImg from '../assets/Gallery_Images/slide3.371ff6293903b49b9c33.jpg'
-import missionImg from '../assets/Gallery_Images/AJY_5946.avif'
+import gallery1 from '../assets/Gallery_Images/Gallery_4.avif'
+import gallery2 from '../assets/Gallery_Images/Gallery_2.avif'
+import gallery3 from '../assets/Gallery_Images/Gallery_6.avif'
+import gallery4 from '../assets/Gallery_Images/Gallery_3.avif'
+import gallery5 from '../assets/Gallery_Images/Gallery_5.avif'
+import gallery6 from '../assets/Gallery_Images/Gallery_1.avif'
 import './Gallery.css'
+import ImageWithSkeleton from './ImageWithSkeleton'
 
 const items = [
   { src: gallery1 },
   { src: gallery2 },
   { src: gallery3 },
-  { src: aboutImg },
-  { src: visionImg },
-  { src: missionImg },
+  { src: gallery4 },
+  { src: gallery5 },
+  { src: gallery6 },
 ]
 
 function LightboxImage({ src, alt }) {
@@ -73,7 +74,7 @@ export default function Gallery() {
               style={{ transitionDelay: `${i * 0.08}s` }}
               onClick={() => setLightbox(i)}
             >
-              <img src={item.src} alt={`Gallery item ${i + 1}`} className="gallery__img" />
+              <ImageWithSkeleton src={item.src} alt={`Gallery item ${i + 1}`} className="gallery__img" />
               {/* Dark overlay on hover for subtle visual feedback */}
               <div className="gallery__overlay">
                 <div className="gallery__overlay-panel-clean" />

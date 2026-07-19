@@ -1,6 +1,6 @@
-import member1 from '../assets/CoreTeam/Haresh_Mandaliya.png'
-import member2 from '../assets/CoreTeam/Ashok_Pansuriya.png'
-import member3 from '../assets/CoreTeam/Mahesh_Patel.png'
+import member1 from '../assets/CoreTeam/Haresh_Mandaliya.avif'
+import member2 from '../assets/CoreTeam/Ashok_Pansuriya.avif'
+import member3 from '../assets/CoreTeam/Mahesh_Patel.avif'
 import sangam1 from '../assets/Sangam_Team/Darshak_Maru.avif'
 import sangam2 from '../assets/Sangam_Team/Keyur_Darji.avif'
 import sangam3 from '../assets/Sangam_Team/Pratik_Patel.avif'
@@ -17,6 +17,6 @@ export const sangamCoreTeam = [
 
 export const members = [
   { name: 'Haresh Mandaliya', role: 'PRESIDENT', batch: 'Batch of 2001', img: member1, gmail: '', linkedin: 'https://www.linkedin.com/in/haresh-mandalia-b83854242/' },
-  { name: 'Mahesh Patel', role: 'SECRETARY', batch: 'Batch of 2005', img: member3, gmail: '', linkedin: '' },
+  { name: 'Mahesh Patel', role: 'SECRETARY', batch: 'Batch of 2005', img: member3, gmail: 'pmaheshpatel@gmail.com', linkedin: 'https://www.linkedin.com/in/mahesh-patel-b34aa87/' },
   { name: 'Ashok Pansuriya', role: 'VICE PRESIDENT', batch: 'Batch of 2003', img: member2, gmail: '', linkedin: '' },
 ]

@@ -1,5 +1,6 @@
 import { FaLinkedin, FaAward } from 'react-icons/fa'
 import './AlumniSpotlight.css'
+import ImageWithSkeleton from './ImageWithSkeleton'
 
 import rajeshImg from '../assets/spotlight_rajesh.png'
 import snehaImg from '../assets/spotlight_sneha.png'
@@ -60,7 +61,7 @@ export default function AlumniSpotlight() {
             >
               {/* Image wrap with award ribbon */}
               <div className="spotlight__img-wrap">
-                <img src={alumnus.img} alt={alumnus.name} className="spotlight__img" />
+                <ImageWithSkeleton src={alumnus.img} alt={alumnus.name} className="spotlight__img" />
                 <div className="spotlight__award-tag">
                   <FaAward className="spotlight__award-icon" />
                   <span>{alumnus.award}</span>

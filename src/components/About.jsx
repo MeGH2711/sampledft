@@ -1,5 +1,6 @@
-import aboutImg from '../assets/About.jpg'
+import aboutImg from '../assets/About.avif'
 import './About.css'
+import ImageWithSkeleton from './ImageWithSkeleton'
 
 const highlights = [
   'Connecting alumni across India and the world',
@@ -16,7 +17,7 @@ export default function About() {
         {/* Image side */}
         <div className="about__image-wrap reveal-left">
           <div className="about__image-frame">
-            <img src={aboutImg} alt="DFT Alumni gathering" className="about__image" />
+            <ImageWithSkeleton src={aboutImg} alt="DFT Alumni gathering" className="about__image" />
             {/* Diagonal overlay accent */}
             <div className="about__image-accent" />
           </div>

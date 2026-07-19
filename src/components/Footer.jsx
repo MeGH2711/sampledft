@@ -1,7 +1,7 @@
 import { useLocation, Link as RouterLink } from 'react-router-dom'
 import { Link as ScrollLink } from 'react-scroll'
 import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
-import dftLogo from '../assets/Logo/dft-logo.png'
+import dftLogo from '../assets/Logo/dft-logo.avif'
 import './Footer.css'
 
 const footerLinks = [

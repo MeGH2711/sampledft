@@ -1,7 +1,8 @@
 import { FaEye, FaBullseye } from 'react-icons/fa'
-import visionImg from '../assets/VisionMission/vision.png'
-import missionImg from '../assets/VisionMission/mission.png'
+import visionImg from '../assets/VisionMission/vision.avif'
+import missionImg from '../assets/VisionMission/mission.avif'
 import './VisionMission.css'
+import ImageWithSkeleton from './ImageWithSkeleton'
 
 export default function VisionMission() {
   return (
@@ -22,7 +23,7 @@ export default function VisionMission() {
           {/* Vision card */}
           <div className="vm__card reveal-left">
             <div className="vm__card-img-wrap">
-              <img src={visionImg} alt="Our Vision" className="vm__card-img" />
+              <ImageWithSkeleton src={visionImg} alt="Our Vision" className="vm__card-img" />
               {/* Diagonal clip overlay */}
               <div className="vm__card-img-panel">
                 <FaEye className="vm__card-icon" />
@@ -43,7 +44,7 @@ export default function VisionMission() {
           {/* Mission card */}
           <div className="vm__card reveal-right">
             <div className="vm__card-img-wrap">
-              <img src={missionImg} alt="Our Mission" className="vm__card-img" />
+              <ImageWithSkeleton src={missionImg} alt="Our Mission" className="vm__card-img" />
               <div className="vm__card-img-panel vm__card-img-panel--mission">
                 <FaBullseye className="vm__card-icon" />
                 <span className="vm__card-label">OUR MISSION</span>

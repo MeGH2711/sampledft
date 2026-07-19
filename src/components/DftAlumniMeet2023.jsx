@@ -4,7 +4,7 @@ import { FaTimes, FaChevronLeft, FaChevronRight, FaArrowLeft, FaCalendarAlt, FaM
 import './DftAlumniMeet2023.css'
 
 // Dynamically import all images starting with 'img' inside Meet2023 folder
-const imageModules = import.meta.glob('../assets/Meet2023/img*.{png,jpg,jpeg,webp}', { eager: true })
+const imageModules = import.meta.glob('../assets/Meet2023/img*.{png,jpg,jpeg,webp,avif}', { eager: true })
 
 const items = Object.entries(imageModules)
   .map(([path, module]) => {

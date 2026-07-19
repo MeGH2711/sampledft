@@ -1,5 +1,6 @@
 import { FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import './Committee.css'
+import ImageWithSkeleton from './ImageWithSkeleton'
 
 import { sangamCoreTeam, members } from '../data/committeeData'
 
@@ -34,7 +35,7 @@ export default function Committee() {
               >
                 {/* Photo */}
                 <div className="committee__img-wrap">
-                  <img src={member.img} alt={member.name} className="committee__img" />
+                  <ImageWithSkeleton src={member.img} alt={member.name} className="committee__img" />
                 </div>
 
                 {/* Info */}
@@ -75,7 +76,7 @@ export default function Committee() {
               >
                 {/* Photo */}
                 <div className="committee__img-wrap">
-                  <img src={member.img} alt={member.name} className="committee__img" />
+                  <ImageWithSkeleton src={member.img} alt={member.name} className="committee__img" />
                 </div>
 
                 {/* Info */}

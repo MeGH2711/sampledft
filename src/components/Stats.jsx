@@ -3,10 +3,10 @@ import { FaUserGraduate, FaCalendarCheck, FaHandshake, FaTrophy } from 'react-ic
 import './Stats.css'
 
 const stats = [
-  { icon: <FaUserGraduate />, value: 5000, suffix: '+', label: 'ALUMNI MEMBERS',   sub: 'across the globe' },
-  { icon: <FaCalendarCheck />, value: 25,  suffix: '+', label: 'YEARS OF LEGACY',   sub: 'and counting' },
-  { icon: <FaHandshake />,     value: 120, suffix: '+', label: 'TRUSTED BY SPONSORS',  sub: 'across all events' },
-  { icon: <FaTrophy />,        value: 50,  suffix: '+', label: 'ACHIEVERS HONOURED', sub: 'every year' },
+  { icon: <FaUserGraduate />, value: 1700, suffix: '+', label: 'ALUMNI MEMBERS', sub: 'across the globe' },
+  { icon: <FaCalendarCheck />, value: 43, suffix: '+', label: 'YEARS OF LEGACY', sub: 'and counting' },
+  { icon: <FaHandshake />, value: 120, suffix: '+', label: 'TRUSTED BY SPONSORS', sub: 'across all events' },
+  { icon: <FaTrophy />, value: 500, suffix: '+', label: 'qualified alumni', sub: ' with superior qualification in fabrication domain' },
 ]
 
 function useCountUp(target, duration = 1800, active = false) {
@@ -38,7 +38,7 @@ function StatCol({ stat, active, index }) {
 }
 
 export default function Stats() {
-  const ref    = useRef(null)
+  const ref = useRef(null)
   const [active, setActive] = useState(false)
 
   useEffect(() => {

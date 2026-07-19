@@ -1,5 +1,6 @@
-import founderImg from '../assets/G_D_Acharya.jpg'
+import founderImg from '../assets/G_D_Acharya.avif'
 import './FounderDesk.css'
+import ImageWithSkeleton from './ImageWithSkeleton'
 
 export default function FounderDesk() {
   return (
@@ -52,7 +53,7 @@ export default function FounderDesk() {
         {/* Image side */}
         <div className="founder-desk__image-wrap reveal-right">
           <div className="founder-desk__image-frame">
-            <img src={founderImg} alt="Dr. G. D. Acharya" className="founder-desk__image" />
+            <ImageWithSkeleton src={founderImg} alt="Dr. G. D. Acharya" className="founder-desk__image" />
             {/* Diagonal confidence accent block matching the design system */}
             <div className="founder-desk__image-accent" />
           </div>

@@ -447,7 +447,7 @@
   .navbar__hamburger {
     display: flex;
   }
-  
+
   .navbar__container {
     height: 88px;
     padding: 0 24px;
@@ -496,4 +496,400 @@
   .navbar__mobile-link {
     font-size: 1.2rem;
   }
+}
+
+/* ── Secondary Portal Login Button ── */
+.navbar__login-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar__login-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--signal-red);
+  color: var(--paper-white);
+  transform: translateY(-1px);
+}
+
+.navbar--scrolled .navbar__login-btn {
+  padding: 8px 18px;
+}
+
+/* ── Desktop User Profile Dropdown Menu ── */
+.navbar__user-menu {
+  position: relative;
+}
+
+.navbar__user-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--paper-white);
+  outline: none;
+}
+
+.navbar__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--signal-red), var(--red-deep));
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(232, 48, 42, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.navbar__user-btn:hover .navbar__avatar {
+  transform: scale(1.05);
+}
+
+.navbar__user-name {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  transition: color 0.3s ease;
+}
+
+.navbar__user-btn:hover .navbar__user-name {
+  color: var(--paper-white);
+}
+
+.navbar__dropdown-arrow {
+  font-size: 0.65rem;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.navbar__dropdown-arrow.open {
+  transform: rotate(180deg);
+  color: var(--paper-white);
+}
+
+.navbar__user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  transform: translateY(15px);
+  background: rgba(11, 27, 63, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  width: 220px;
+  box-shadow: 0 12px 36px rgba(11, 27, 63, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 1020;
+}
+
+.navbar__user-dropdown--open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(10px);
+  pointer-events: auto;
+}
+
+.navbar__dropdown-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navbar__dropdown-name {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--paper-white);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.navbar__dropdown-sub {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  color: var(--slate);
+  font-weight: 500;
+}
+
+.navbar__user-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-body);
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  width: fit-content;
+  margin-top: 4px;
+  margin-bottom: 2px;
+  cursor: pointer;
+}
+
+.navbar__user-badge--verified {
+  background: rgba(46, 204, 113, 0.12);
+  color: #2ecc71;
+  border: 1px solid rgba(46, 204, 113, 0.2);
+}
+
+.navbar__user-badge--unverified {
+  background: rgba(241, 196, 15, 0.1);
+  color: #f1c40f;
+  border: 1px solid rgba(241, 196, 15, 0.2);
+}
+
+.navbar__user-badge-icon {
+  font-size: 0.65rem;
+}
+
+/* Tooltip container */
+.navbar__user-badge-tooltip {
+  visibility: hidden;
+  width: 190px;
+  background-color: rgba(11, 27, 63, 0.98);
+  color: var(--paper-white);
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 12px;
+  position: absolute;
+  z-index: 1050;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 500;
+  line-height: 1.35;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  text-transform: none;
+  letter-spacing: 0px;
+}
+
+/* Tooltip arrow */
+.navbar__user-badge-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(11, 27, 63, 0.98) transparent transparent transparent;
+}
+
+/* Show the tooltip on hover */
+.navbar__user-badge:hover .navbar__user-badge-tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+.navbar__dropdown-divider {
+  border: none;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 12px 0;
+}
+
+.navbar__user-dropdown-item {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  padding: 6px 8px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.navbar__user-dropdown-item:hover {
+  color: var(--paper-white);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.navbar__user-dropdown-logout {
+  background: none;
+  border: none;
+  padding: 6px 8px;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.navbar__user-dropdown-logout:hover {
+  color: var(--signal-red);
+  background: rgba(232, 48, 42, 0.08);
+}
+
+/* Hide desktop auth features at responsive breakpoint */
+@media (max-width: 1150px) {
+
+  .navbar__login-btn,
+  .navbar__user-menu {
+    display: none;
+  }
+}
+
+/* ── Mobile User session elements ── */
+.navbar__mobile-user {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.navbar__mobile-user-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.navbar__mobile-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--signal-red), var(--red-deep));
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(232, 48, 42, 0.3);
+}
+
+.navbar__mobile-user-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: var(--paper-white);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.navbar__mobile-user-class {
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  color: var(--slate);
+  margin-top: 2px;
+}
+
+.navbar__mobile-profile-btn {
+  display: block;
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.76rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+  margin-bottom: -4px;
+}
+
+.navbar__mobile-profile-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.navbar__mobile-logout-btn {
+  width: 100%;
+  padding: 10px;
+  background: rgba(232, 48, 42, 0.1);
+  border: 1px solid var(--signal-red);
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.76rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.navbar__mobile-logout-btn:hover {
+  background: var(--signal-red);
+}
+
+.navbar__mobile-login-btn {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+.navbar__mobile-login-btn:hover {
+  border-color: var(--signal-red);
+  background: rgba(255, 255, 255, 0.02);
 }

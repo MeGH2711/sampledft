@@ -7,7 +7,8 @@
 
 /* Image */
 .about__image-wrap {
-  position: relative;
+  position: sticky;
+  top: 110px;
 }
 
 .about__image-frame {
@@ -111,6 +112,12 @@
   .about__inner {
     grid-template-columns: 1fr;
     gap: 48px;
+  }
+
+  .about__image-wrap {
+    position: static;
+    max-width: 480px;
+    margin: 0 auto;
   }
 
   .about__image {

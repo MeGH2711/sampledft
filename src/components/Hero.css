@@ -357,7 +357,7 @@
   border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-.hero__showcase-img {
+.hero__showcase-frame .hero__showcase-img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -368,7 +368,7 @@
   transition: opacity 0.8s ease, transform 6s ease;
 }
 
-.hero__showcase-img--active {
+.hero__showcase-frame .hero__showcase-img--active {
   opacity: 1;
   transform: scale(1.0);
 }
