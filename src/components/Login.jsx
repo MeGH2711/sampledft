@@ -14,13 +14,71 @@ import {
   FaHome,
   FaCalendarAlt,
   FaPhone,
-  FaWhatsapp
+  FaWhatsapp,
+  FaSync,
+  FaHeart,
+  FaBuilding,
+  FaLinkedin,
+  FaPlus,
+  FaTrash,
+  FaCertificate,
+  FaGlobe,
+  FaBoxOpen
 } from 'react-icons/fa'
 import alumniLogo from '../assets/Logo/dft-logo-dark.avif'
 import './Login.css'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
 import { doc, setDoc, getDoc } from 'firebase/firestore'
+import {
+  countryCodes,
+  ACADEMIC_YEARS,
+  DEGREE_OPTIONS,
+  CERTIFICATION_OPTIONS,
+  PRODUCT_SERVICE_OPTIONS
+} from '../data/formdata'
+
+const parsePhoneNumber = (fullPhone) => {
+  if (!fullPhone) return { code: '+91', number: '' }
+  const clean = fullPhone.trim()
+  const match = clean.match(/^(\+\d+)\s*(.*)$/)
+  if (match) {
+    return { code: match[1], number: match[2] }
+  }
+  if (clean.length === 10 && /^\d+$/.test(clean)) {
+    return { code: '+91', number: clean }
+  }
+  if (clean.startsWith('+')) {
+    if (clean.startsWith('+91')) {
+      return { code: '+91', number: clean.slice(3) }
+    }
+    return { code: clean.slice(0, 3), number: clean.slice(3) }
+  }
+  return { code: '+91', number: clean }
+}
+
+const getCountryIso = (code) => {
+  const map = {
+    '+91': 'in',
+    '+1': 'us',
+    '+44': 'gb',
+    '+971': 'ae',
+    '+65': 'sg',
+    '+61': 'au',
+    '+49': 'de',
+    '+966': 'sa',
+    '+968': 'om',
+    '+974': 'qa',
+    '+965': 'kw',
+    '+973': 'bh',
+    '+27': 'za',
+    '+33': 'fr',
+    '+81': 'jp'
+  }
+  return map[code] || 'in'
+}
+
+// Form options imported from src/data/formdata.js
 
 export default function Login({ user, onLoginSuccess }) {
   const navigate = useNavigate()
@@ -49,18 +107,31 @@ export default function Login({ user, onLoginSuccess }) {
   // Registration form states
   const [registerForm, setRegisterForm] = useState({
     firstName: '',
+    middleName: '',
     lastName: '',
     email: '',
     dob: '',
+    phoneCode: '+91',
     phone: '',
+    secondaryPhoneCode: '+91',
     secondaryPhone: '',
+    whatsappCode: '+91',
     whatsapp: '',
+    userType: '',
+    bloodGroup: '',
     password: '',
     confirmPassword: '',
-    batch: '',
-    degree: 'B.Tech Textile',
+    admissionYear: '',
+    passoutYear: '',
     jobTitle: '',
-    company: ''
+    company: '',
+    linkedin: '',
+    dom: '',
+    degrees: [],
+    areaOfCertification: '',
+    profession: '',
+    productServices: '',
+    companyWebsite: ''
   })
 
   const [captchaCode, setCaptchaCode] = useState('')
@@ -83,15 +154,15 @@ export default function Login({ user, onLoginSuccess }) {
       const canvas = canvasRef.current
       const ctx = canvas.getContext('2d')
       ctx.clearRect(0, 0, canvas.width, canvas.height)
-      
+
       // Draw background noise
       ctx.fillStyle = '#f3f4f6'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
-      
+
       // Add text styling
       ctx.font = 'bold 24px monospace'
       ctx.textBaseline = 'middle'
-      
+
       // Draw random lines to distort
       for (let i = 0; i < 5; i++) {
         ctx.strokeStyle = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.3)`
@@ -117,7 +188,7 @@ export default function Login({ user, onLoginSuccess }) {
         const angle = (Math.random() * 30 - 15) * Math.PI / 180
         ctx.translate(x, y)
         ctx.rotate(angle)
-        
+
         ctx.fillStyle = `rgb(${Math.random() * 100}, ${Math.random() * 100}, ${Math.random() * 100})`
         ctx.fillText(captchaCode.charAt(i), 0, 0)
         ctx.restore()
@@ -156,13 +227,52 @@ export default function Login({ user, onLoginSuccess }) {
 
   const handleRegisterChange = (e) => {
     const { name, value } = e.target
-    const cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name) 
-      ? value.replace(/\D/g, '') 
+    const cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name)
+      ? value.replace(/\D/g, '')
       : value;
+    setRegisterForm(prev => {
+      const updated = {
+        ...prev,
+        [name]: cleanValue
+      }
+      if (name === 'admissionYear' && cleanValue) {
+        const parsedYear = parseInt(cleanValue, 10)
+        if (!isNaN(parsedYear)) {
+          const targetPassout = parsedYear + 3
+          if (targetPassout <= 2040) {
+            updated.passoutYear = String(targetPassout)
+          } else {
+            updated.passoutYear = '2040'
+          }
+        }
+      }
+      return updated
+    })
+  }
+
+  const handleAddDegree = () => {
     setRegisterForm(prev => ({
       ...prev,
-      [name]: cleanValue
+      degrees: [...(prev.degrees || []), { degree: '', domain: '' }]
     }))
+  }
+
+  const handleRemoveDegree = (index) => {
+    setRegisterForm(prev => ({
+      ...prev,
+      degrees: (prev.degrees || []).filter((_, i) => i !== index)
+    }))
+  }
+
+  const handleDegreeChange = (index, field, val) => {
+    setRegisterForm(prev => {
+      const updatedDegrees = [...(prev.degrees || [])]
+      updatedDegrees[index] = { ...updatedDegrees[index], [field]: val }
+      return {
+        ...prev,
+        degrees: updatedDegrees
+      }
+    })
   }
 
   // Login Submit Handler
@@ -183,15 +293,29 @@ export default function Login({ user, onLoginSuccess }) {
         let userToLogin = null
         if (userDocSnap.exists()) {
           const profileData = userDocSnap.data()
+          const parsedPhone = parsePhoneNumber(profileData.phone)
+          const parsedSecPhone = parsePhoneNumber(profileData.secondaryPhone)
+          const parsedWhatsapp = parsePhoneNumber(profileData.whatsapp)
+
           userToLogin = {
             uid: user.uid,
             name: profileData.name || user.displayName || 'Alumni Member',
             email: user.email,
             dob: profileData.dob || '',
+            middleName: profileData.middleName || '',
+            userType: profileData.userType || '',
+            bloodGroup: profileData.bloodGroup || '',
+            phoneCode: parsedPhone.code,
+            phone: parsedPhone.number,
+            secondaryPhoneCode: parsedSecPhone.code,
+            secondaryPhone: parsedSecPhone.number,
+            whatsappCode: parsedWhatsapp.code,
+            whatsapp: parsedWhatsapp.number,
             batch: profileData.batch || '',
             degree: profileData.degree || '',
             jobTitle: profileData.jobTitle || '',
             company: profileData.company || '',
+            linkedin: profileData.linkedin || '',
             verification_status: profileData.verification_status !== undefined ? profileData.verification_status : false,
             account_type: profileData.account_type || 'alumni'
           }
@@ -201,10 +325,20 @@ export default function Login({ user, onLoginSuccess }) {
             name: user.displayName || 'Alumni Member',
             email: user.email,
             dob: '',
+            middleName: '',
+            userType: '',
+            bloodGroup: '',
+            phoneCode: '+91',
+            phone: '',
+            secondaryPhoneCode: '+91',
+            secondaryPhone: '',
+            whatsappCode: '+91',
+            whatsapp: '',
             batch: '',
             degree: '',
             jobTitle: '',
             company: '',
+            linkedin: '',
             verification_status: false,
             account_type: 'alumni'
           }
@@ -258,12 +392,26 @@ export default function Login({ user, onLoginSuccess }) {
           setLoading(false)
 
           setTimeout(() => {
+            const parsedPhone = parsePhoneNumber(userToLogin.phone)
+            const parsedSecPhone = parsePhoneNumber(userToLogin.secondaryPhone)
+            const parsedWhatsapp = parsePhoneNumber(userToLogin.whatsapp)
+
             onLoginSuccess({
               uid: userToLogin.uid || 'mock-uid-unspecified',
               name: userToLogin.name,
               email: userToLogin.email,
+              middleName: userToLogin.middleName || '',
+              userType: userToLogin.userType || '',
+              bloodGroup: userToLogin.bloodGroup || '',
+              phoneCode: parsedPhone.code,
+              phone: parsedPhone.number,
+              secondaryPhoneCode: parsedSecPhone.code,
+              secondaryPhone: parsedSecPhone.number,
+              whatsappCode: parsedWhatsapp.code,
+              whatsapp: parsedWhatsapp.number,
               batch: userToLogin.batch,
               degree: userToLogin.degree,
+              linkedin: userToLogin.linkedin || '',
               verification_status: userToLogin.verification_status !== undefined ? userToLogin.verification_status : false,
               account_type: userToLogin.account_type || 'alumni'
             })
@@ -283,6 +431,11 @@ export default function Login({ user, onLoginSuccess }) {
     setError('')
 
     // Validations
+    if (!registerForm.middleName.trim()) {
+      setError('Middle name is compulsory.')
+      return
+    }
+
     if (registerForm.password !== registerForm.confirmPassword) {
       setError('Passwords do not match.')
       return
@@ -298,15 +451,37 @@ export default function Login({ user, onLoginSuccess }) {
       return
     }
 
+    if (!registerForm.whatsapp.trim()) {
+      setError('WhatsApp number is compulsory.')
+      return
+    }
+
+    if (!registerForm.userType) {
+      setError('Please select whether you are a DFT Alumni or Student.')
+      return
+    }
+
     if (captchaInput !== captchaCode) {
       setError('Incorrect security verification code. Please try again.')
       return
     }
 
-    const batchYear = parseInt(registerForm.batch, 10)
+    const admYear = parseInt(registerForm.admissionYear, 10)
+    const passYear = parseInt(registerForm.passoutYear, 10)
     const currentYear = new Date().getFullYear()
-    if (isNaN(batchYear) || batchYear < 1970 || batchYear > currentYear + 4) {
-      setError(`Please enter a valid graduation batch year (e.g. 1970 - ${currentYear + 4}).`)
+
+    if (isNaN(admYear) || admYear < 1970 || admYear > currentYear + 6) {
+      setError(`Please enter a valid DFT Admission Year (1970 - ${currentYear + 6}).`)
+      return
+    }
+
+    if (isNaN(passYear) || passYear < 1970 || passYear > currentYear + 6) {
+      setError(`Please enter a valid DFT Passout Year (1970 - ${currentYear + 6}).`)
+      return
+    }
+
+    if (admYear > passYear) {
+      setError('DFT Admission Year cannot be after DFT Passout Year.')
       return
     }
 
@@ -320,17 +495,26 @@ export default function Login({ user, onLoginSuccess }) {
         // Save additional profile details to Firestore
         await setDoc(doc(db, 'users', user.uid), {
           firstName: registerForm.firstName,
+          middleName: registerForm.middleName,
           lastName: registerForm.lastName,
-          name: `${registerForm.firstName} ${registerForm.lastName}`.trim(),
+          name: [registerForm.firstName.trim(), registerForm.middleName.trim(), registerForm.lastName.trim()].filter(Boolean).join(' '),
           email: registerForm.email,
           dob: registerForm.dob,
-          phone: registerForm.phone.trim(),
-          secondaryPhone: registerForm.secondaryPhone.trim(),
-          whatsapp: registerForm.whatsapp.trim(),
-          batch: registerForm.batch,
-          degree: registerForm.degree,
+          phone: `${registerForm.phoneCode} ${registerForm.phone}`.trim(),
+          secondaryPhone: registerForm.secondaryPhone ? `${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`.trim() : '',
+          whatsapp: `${registerForm.whatsappCode} ${registerForm.whatsapp}`.trim(),
+          userType: registerForm.userType,
+          bloodGroup: registerForm.bloodGroup,
+          admissionYear: registerForm.admissionYear,
+          passoutYear: registerForm.passoutYear,
+          degrees: registerForm.degrees || [],
           jobTitle: registerForm.jobTitle || '',
           company: registerForm.company || '',
+          linkedin: registerForm.linkedin || '',
+          areaOfCertification: registerForm.areaOfCertification || '',
+          profession: registerForm.profession || '',
+          productServices: registerForm.productServices || '',
+          companyWebsite: registerForm.companyWebsite || '',
           verification_status: false,
           account_type: 'alumni',
           createdAt: new Date().toISOString()
@@ -338,16 +522,25 @@ export default function Login({ user, onLoginSuccess }) {
 
         const newUser = {
           uid: user.uid,
-          name: `${registerForm.firstName} ${registerForm.lastName}`.trim(),
+          name: [registerForm.firstName.trim(), registerForm.middleName.trim(), registerForm.lastName.trim()].filter(Boolean).join(' '),
           email: registerForm.email,
           dob: registerForm.dob,
-          phone: registerForm.phone.trim(),
-          secondaryPhone: registerForm.secondaryPhone.trim(),
-          whatsapp: registerForm.whatsapp.trim(),
-          batch: registerForm.batch,
-          degree: registerForm.degree,
+          phone: `${registerForm.phoneCode} ${registerForm.phone}`.trim(),
+          secondaryPhone: registerForm.secondaryPhone ? `${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`.trim() : '',
+          whatsapp: `${registerForm.whatsappCode} ${registerForm.whatsapp}`.trim(),
+          userType: registerForm.userType,
+          bloodGroup: registerForm.bloodGroup,
+          admissionYear: registerForm.admissionYear,
+          passoutYear: registerForm.passoutYear,
+          degrees: registerForm.degrees || [],
           jobTitle: registerForm.jobTitle || '',
           company: registerForm.company || '',
+          linkedin: registerForm.linkedin || '',
+          dom: registerForm.dom || '',
+          areaOfCertification: registerForm.areaOfCertification || '',
+          profession: registerForm.profession || '',
+          productServices: registerForm.productServices || '',
+          companyWebsite: registerForm.companyWebsite || '',
           verification_status: false,
           account_type: 'alumni'
         }
@@ -376,17 +569,24 @@ export default function Login({ user, onLoginSuccess }) {
       setTimeout(() => {
         const newUser = {
           uid: 'mock-uid-registered',
-          name: `${registerForm.firstName} ${registerForm.lastName}`.trim(),
+          name: [registerForm.firstName.trim(), registerForm.middleName.trim(), registerForm.lastName.trim()].filter(Boolean).join(' '),
           email: registerForm.email,
           dob: registerForm.dob,
-          phone: registerForm.phone.trim(),
-          secondaryPhone: registerForm.secondaryPhone.trim(),
-          whatsapp: registerForm.whatsapp.trim(),
+          phone: `${registerForm.phoneCode} ${registerForm.phone}`.trim(),
+          secondaryPhone: registerForm.secondaryPhone ? `${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`.trim() : '',
+          whatsapp: `${registerForm.whatsappCode} ${registerForm.whatsapp}`.trim(),
           password: registerForm.password,
-          batch: registerForm.batch,
-          degree: registerForm.degree,
+          middleName: registerForm.middleName,
+          userType: registerForm.userType,
+          bloodGroup: registerForm.bloodGroup,
+          admissionYear: registerForm.admissionYear,
+          passoutYear: registerForm.passoutYear,
+          degrees: registerForm.degrees || [],
           jobTitle: registerForm.jobTitle || '',
           company: registerForm.company || '',
+          linkedin: registerForm.linkedin || '',
+          dom: registerForm.dom || '',
+          areaOfCertification: registerForm.areaOfCertification || '',
           verification_status: false,
           account_type: 'alumni'
         }
@@ -406,8 +606,18 @@ export default function Login({ user, onLoginSuccess }) {
             phone: newUser.phone,
             secondaryPhone: newUser.secondaryPhone,
             whatsapp: newUser.whatsapp,
-            batch: newUser.batch,
-            degree: newUser.degree,
+            middleName: newUser.middleName,
+            userType: newUser.userType,
+            bloodGroup: newUser.bloodGroup,
+            admissionYear: newUser.admissionYear,
+            passoutYear: newUser.passoutYear,
+            degrees: newUser.degrees || [],
+            linkedin: newUser.linkedin || '',
+            dom: newUser.dom || '',
+            areaOfCertification: newUser.areaOfCertification || '',
+            profession: newUser.profession || '',
+            productServices: newUser.productServices || '',
+            companyWebsite: newUser.companyWebsite || '',
             verification_status: false,
             account_type: 'alumni'
           })
@@ -620,13 +830,14 @@ export default function Login({ user, onLoginSuccess }) {
                         SIGN IN <FaArrowRight />
                       </>
                     )}
-                  </button>                  
+                  </button>
                 </form>
               ) : (
                 /* REGISTRATION VIEW */
                 <form className="login-form" onSubmit={handleRegisterSubmit}>
 
-                  <div className="login-form__grid">
+                  <h4 className="login-section-title">Personal Details</h4>
+                  <div className="login-form__grid-3">
                     <div className="login-field">
                       <label htmlFor="reg-first-name">First Name <span className="login-field__required">*</span></label>
                       <div className="login-field__input-wrap">
@@ -643,7 +854,22 @@ export default function Login({ user, onLoginSuccess }) {
                         />
                       </div>
                     </div>
-
+                    <div className="login-field">
+                      <label htmlFor="reg-middle-name">Middle Name <span className="login-field__required">*</span></label>
+                      <div className="login-field__input-wrap">
+                        <FaUser className="login-field__icon" />
+                        <input
+                          id="reg-middle-name"
+                          type="text"
+                          name="middleName"
+                          placeholder="Kumar"
+                          value={registerForm.middleName}
+                          onChange={handleRegisterChange}
+                          required
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
                     <div className="login-field">
                       <label htmlFor="reg-last-name">Last Name <span className="login-field__required">*</span></label>
                       <div className="login-field__input-wrap">
@@ -660,7 +886,9 @@ export default function Login({ user, onLoginSuccess }) {
                         />
                       </div>
                     </div>
+                  </div>
 
+                  <div className="login-form__grid">
                     <div className="login-field">
                       <label htmlFor="reg-email">Email Address <span className="login-field__required">*</span></label>
                       <div className="login-field__input-wrap">
@@ -679,6 +907,32 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
+                      <label htmlFor="reg-bloodgroup">Blood Group</label>
+                      <div className="login-field__input-wrap">
+                        <FaHeart className="login-field__icon" />
+                        <select
+                          id="reg-bloodgroup"
+                          name="bloodGroup"
+                          value={registerForm.bloodGroup}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        >
+                          <option value="">Select Blood Group</option>
+                          <option value="A+">A+</option>
+                          <option value="A-">A-</option>
+                          <option value="B+">B+</option>
+                          <option value="B-">B-</option>
+                          <option value="AB+">AB+</option>
+                          <option value="AB-">AB-</option>
+                          <option value="O+">O+</option>
+                          <option value="O-">O-</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="login-form__grid">
+                    <div className="login-field">
                       <label htmlFor="reg-dob">Date of Birth <span className="login-field__required">*</span></label>
                       <div className="login-field__input-wrap">
                         <FaCalendarAlt className="login-field__icon" />
@@ -695,52 +949,40 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-batch">Graduation Batch Year <span className="login-field__required">*</span></label>
+                      <label htmlFor="reg-dom">Date of Marriage</label>
                       <div className="login-field__input-wrap">
-                        <FaGraduationCap className="login-field__icon" />
+                        <FaCalendarAlt className="login-field__icon" />
                         <input
-                          id="reg-batch"
-                          type="text"
-                          name="batch"
-                          placeholder="e.g. 2018"
-                          value={registerForm.batch}
+                          id="reg-dom"
+                          type="date"
+                          name="dom"
+                          value={registerForm.dom}
                           onChange={handleRegisterChange}
-                          required
                           disabled={loading}
                         />
                       </div>
                     </div>
+                  </div>
 
-                    <div className="login-field">
-                      <label htmlFor="reg-degree">Degree / Branch <span className="login-field__required">*</span></label>
-                      <div className="login-field__input-wrap">
-                        <FaGraduationCap className="login-field__icon" />
-                        <select
-                          id="reg-degree"
-                          name="degree"
-                          value={registerForm.degree}
-                          onChange={handleRegisterChange}
-                          required
-                          disabled={loading}
-                        >
-                          <option value="B.Tech Textile">B.Tech Textile Technology</option>
-                          <option value="M.Tech Textile">M.Tech Textile Engineering</option>
-                          <option value="B.Tech Chemical">B.Tech Chemical Technology</option>
-                          <option value="Ph.D. Textile">Ph.D. Textile Science</option>
-                          <option value="Diploma Textile">Diploma Textile Design</option>
-                        </select>
-                      </div>
-                    </div>
-
+                  <div className="login-form__grid">
                     <div className="login-field">
                       <label htmlFor="reg-phone">Contact Number <span className="login-field__required">*</span></label>
-                      <div className="login-field__input-wrap">
-                        <FaPhone className="login-field__icon" style={{ transform: 'scaleX(-1)' }} />
+                      <div className="login-field__input-wrap phone-input-wrap">
+                        <span className={`fi fi-${getCountryIso(registerForm.phoneCode)} login-field__icon`}></span>
+                        <select
+                          className="phone-country-select"
+                          name="phoneCode"
+                          value={registerForm.phoneCode}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        >
+                          {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                        </select>
                         <input
                           id="reg-phone"
                           type="tel"
                           name="phone"
-                          placeholder="e.g. +91 98765 43210"
+                          placeholder="98765 43210"
                           value={registerForm.phone}
                           onChange={handleRegisterChange}
                           required
@@ -751,8 +993,17 @@ export default function Login({ user, onLoginSuccess }) {
 
                     <div className="login-field">
                       <label htmlFor="reg-sec-phone">Secondary Contact Number</label>
-                      <div className="login-field__input-wrap">
-                        <FaPhone className="login-field__icon" style={{ transform: 'scaleX(-1)' }} />
+                      <div className="login-field__input-wrap phone-input-wrap">
+                        <span className={`fi fi-${getCountryIso(registerForm.secondaryPhoneCode)} login-field__icon`}></span>
+                        <select
+                          className="phone-country-select"
+                          name="secondaryPhoneCode"
+                          value={registerForm.secondaryPhoneCode}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        >
+                          {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                        </select>
                         <input
                           id="reg-sec-phone"
                           type="tel"
@@ -766,18 +1017,188 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-whatsapp">WhatsApp Number</label>
-                      <div className="login-field__input-wrap">
-                        <FaWhatsapp className="login-field__icon" />
+                      <label htmlFor="reg-whatsapp">WhatsApp Number <span className="login-field__required">*</span></label>
+                      <div className="login-field__input-wrap phone-input-wrap">
+                        <span className={`fi fi-${getCountryIso(registerForm.whatsappCode)} login-field__icon`}></span>
+                        <select
+                          className="phone-country-select"
+                          name="whatsappCode"
+                          value={registerForm.whatsappCode}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        >
+                          {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                        </select>
                         <input
                           id="reg-whatsapp"
                           type="tel"
                           name="whatsapp"
-                          placeholder="Optional"
+                          placeholder="98765 43210"
                           value={registerForm.whatsapp}
                           onChange={handleRegisterChange}
+                          required
                           disabled={loading}
                         />
+                      </div>
+                    </div>
+
+                    <div className="login-field" style={{ visibility: 'hidden' }}></div>
+                  </div>
+
+                  <h4 className="login-section-title" style={{ marginTop: '20px' }}>Academic Details</h4>
+                  <div className="login-form__grid">
+                    <div className="login-field login-field--full">
+                      <label htmlFor="reg-usertype">Are you DFT Alumni or Student <span className="login-field__required">*</span></label>
+                      <div className="login-field__input-wrap">
+                        <FaUser className="login-field__icon" />
+                        <select
+                          id="reg-usertype"
+                          name="userType"
+                          value={registerForm.userType}
+                          onChange={handleRegisterChange}
+                          required
+                          disabled={loading}
+                        >
+                          <option value="">Select Option</option>
+                          <option value="Alumni">DFT Alumni</option>
+                          <option value="Student">Student</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="login-field">
+                      <label htmlFor="reg-admission">DFT Admission Year <span className="login-field__required">*</span></label>
+                      <div className="login-field__input-wrap">
+                        <FaCalendarAlt className="login-field__icon" />
+                        <select
+                          id="reg-admission"
+                          name="admissionYear"
+                          value={registerForm.admissionYear}
+                          onChange={handleRegisterChange}
+                          required
+                          disabled={loading}
+                        >
+                          <option value="">Select Year</option>
+                          {ACADEMIC_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="login-field">
+                      <label htmlFor="reg-passout">DFT Passout Year <span className="login-field__required">*</span></label>
+                      <div className="login-field__input-wrap">
+                        <FaCalendarAlt className="login-field__icon" />
+                        <select
+                          id="reg-passout"
+                          name="passoutYear"
+                          value={registerForm.passoutYear}
+                          onChange={handleRegisterChange}
+                          required
+                          disabled={loading}
+                        >
+                          <option value="">Select Year</option>
+                          {ACADEMIC_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Previous Academic Details list */}
+                  {((registerForm.degrees || []).length > 0) && (
+                    <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                      <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
+                        Previous Academic Details
+                      </label>
+                      {(registerForm.degrees || []).map((deg, index) => (
+                        <div key={index} className="previous-degree-row">
+                          <div className="login-field">
+                            <label htmlFor={`reg-deg-title-${index}`}>Degree <span className="login-field__required">*</span></label>
+                            <div className="login-field__input-wrap">
+                              <FaGraduationCap className="login-field__icon" />
+                              <select
+                                id={`reg-deg-title-${index}`}
+                                name="degree"
+                                value={deg.degree}
+                                onChange={(e) => handleDegreeChange(index, 'degree', e.target.value)}
+                                required
+                                disabled={loading}
+                              >
+                                <option value="">Select Degree</option>
+                                {DEGREE_OPTIONS.map(d => <option key={d} value={d}>{d}</option>)}
+                              </select>
+                            </div>
+                          </div>
+
+                          <div className="login-field">
+                            <label htmlFor={`reg-deg-domain-${index}`}>Domain <span className="login-field__required">*</span></label>
+                            <div className="login-field__input-wrap">
+                              <FaGraduationCap className="login-field__icon" />
+                              <input
+                                id={`reg-deg-domain-${index}`}
+                                type="text"
+                                placeholder="Domain (e.g. Textile Technology)"
+                                value={deg.domain}
+                                onChange={(e) => handleDegreeChange(index, 'domain', e.target.value)}
+                                required
+                                disabled={loading}
+                              />
+                            </div>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveDegree(index)}
+                            className="profile-btn profile-btn--secondary"
+                            style={{
+                              width: '100%',
+                              height: '44px',
+                              padding: 0,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'var(--signal-red)',
+                              backgroundColor: 'rgba(232, 48, 42, 0.05)',
+                              borderColor: 'var(--line-grey)'
+                            }}
+                            title="Remove Degree"
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Add Degree Button */}
+                  <div style={{ marginTop: '15px', display: 'flex', justifyContent: 'flex-start' }}>
+                    <button
+                      type="button"
+                      onClick={handleAddDegree}
+                      className="profile-btn profile-btn--secondary"
+                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
+                      disabled={loading}
+                    >
+                      <FaPlus /> Add Degree
+                    </button>
+                  </div>
+
+                  <h4 className="login-section-title" style={{ marginTop: '20px' }}>Professional Details</h4>
+                  <div className="login-form__grid">
+                    <div className="login-field login-field--full">
+                      <label htmlFor="reg-profession">Profession</label>
+                      <div className="login-field__input-wrap">
+                        <FaBriefcase className="login-field__icon" />
+                        <select
+                          id="reg-profession"
+                          name="profession"
+                          value={registerForm.profession}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        >
+                          <option value="">Select Profession</option>
+                          <option value="Business">Business</option>
+                          <option value="Job">Job</option>
+                        </select>
                       </div>
                     </div>
 
@@ -789,7 +1210,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-job"
                           type="text"
                           name="jobTitle"
-                          placeholder="e.g. Senior Merchandiser"
+                          placeholder="Senior Merchandiser"
                           value={registerForm.jobTitle}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -800,13 +1221,79 @@ export default function Login({ user, onLoginSuccess }) {
                     <div className="login-field">
                       <label htmlFor="reg-company">Current Organization</label>
                       <div className="login-field__input-wrap">
-                        <FaBriefcase className="login-field__icon" />
+                        <FaBuilding className="login-field__icon" />
                         <input
                           id="reg-company"
                           type="text"
                           name="company"
-                          placeholder="e.g. Arvind Mills"
+                          placeholder="Arvind Mills"
                           value={registerForm.company}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="login-field login-field--full">
+                      <label htmlFor="reg-product-services">Detail of Product / Services offered by your Company</label>
+                      <div className="login-field__input-wrap">
+                        <FaBoxOpen className="login-field__icon" />
+                        <select
+                          id="reg-product-services"
+                          name="productServices"
+                          value={registerForm.productServices}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        >
+                          <option value="">Select Offerings</option>
+                          {PRODUCT_SERVICE_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="login-field login-field--full">
+                      <label htmlFor="reg-company-website">Company Website (Optional)</label>
+                      <div className="login-field__input-wrap">
+                        <FaGlobe className="login-field__icon" />
+                        <input
+                          id="reg-company-website"
+                          type="url"
+                          name="companyWebsite"
+                          placeholder="https://example.com"
+                          value={registerForm.companyWebsite}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="login-field login-field--full">
+                      <label htmlFor="reg-certification">Area of Certification</label>
+                      <div className="login-field__input-wrap">
+                        <FaCertificate className="login-field__icon" style={{ color: 'var(--slate)' }} />
+                        <select
+                          id="reg-certification"
+                          name="areaOfCertification"
+                          value={registerForm.areaOfCertification}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        >
+                          <option value="">Select Certification Area</option>
+                          {CERTIFICATION_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="login-field login-field--full">
+                      <label htmlFor="reg-linkedin">LinkedIn Profile Link</label>
+                      <div className="login-field__input-wrap">
+                        <FaLinkedin className="login-field__icon" style={{ color: '#0077b5' }} />
+                        <input
+                          id="reg-linkedin"
+                          type="url"
+                          name="linkedin"
+                          placeholder="https://linkedin.com/in/username"
+                          value={registerForm.linkedin}
                           onChange={handleRegisterChange}
                           disabled={loading}
                         />
@@ -868,21 +1355,22 @@ export default function Login({ user, onLoginSuccess }) {
 
                   <div className="login-form__row" style={{ gridTemplateColumns: '1fr', marginTop: '15px', marginBottom: '15px' }}>
                     <div className="login-field">
-                      <label htmlFor="reg-captcha">Security Verification <span className="login-field__required">*</span></label>
+                      <label htmlFor="reg-captcha">Captcha Verification <span className="login-field__required">*</span></label>
                       <div className="login-captcha-container" style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '10px' }}>
-                        <canvas 
-                          ref={canvasRef} 
-                          width="160" 
-                          height="44" 
+                        <canvas
+                          ref={canvasRef}
+                          width="160"
+                          height="44"
                           style={{ border: '1px solid #e5e7eb', borderRadius: '6px', backgroundColor: '#f3f4f6' }}
                         />
-                        <button 
-                          type="button" 
-                          onClick={generateCaptcha} 
+                        <button
+                          type="button"
+                          onClick={generateCaptcha}
                           className="profile-btn profile-btn--secondary"
                           style={{ padding: '8px 16px', fontSize: '0.85rem', height: '44px', margin: 0 }}
+                          title="Refresh Code"
                         >
-                          Refresh Code
+                          <FaSync />
                         </button>
                       </div>
                       <div className="login-field__input-wrap">

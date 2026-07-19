@@ -84,7 +84,7 @@
   border-radius: 12px;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 1.05fr 1.25fr;
+  grid-template-columns: 25% 75%;
   width: 100%;
   height: 640px;
   max-height: 100%;
@@ -94,7 +94,7 @@
 .login-card__brand-panel {
   position: relative;
   background: linear-gradient(135deg, var(--navy-deep), var(--navy-mid));
-  padding: 48px 36px;
+  padding: 40px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -120,16 +120,16 @@
 }
 
 .login-card__brand-logo-wrap {
-  width: 130px;
-  height: 130px;
+  width: 100px;
+  height: 100px;
   background: var(--paper-white);
   border-radius: 50%;
-  padding: 12px;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  margin-bottom: 28px;
+  margin-bottom: 24px;
   animation: logoFloat 6s ease-in-out infinite;
 }
 
@@ -153,10 +153,10 @@
 
 .login-card__brand-title {
   color: var(--paper-white);
-  font-size: 2.2rem;
+  font-size: 1.6rem;
   font-weight: 800;
   letter-spacing: 0.5px;
-  line-height: 1.1;
+  line-height: 1.2;
   text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -292,6 +292,22 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px 20px;
+}
+
+.login-form__grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px 20px;
+}
+
+.previous-degree-row {
+  display: grid;
+  grid-template-columns: 45fr 45fr 10fr;
+  gap: 16px 20px;
+}
+
+.login-field--full {
+  grid-column: span 2;
 }
 
 .login-form__row {
@@ -660,23 +676,23 @@
 /* Medium Devices (Tablets, landscape phones) */
 @media (max-width: 900px) {
   .login-card {
-    grid-template-columns: 1fr 1.2fr;
+    grid-template-columns: 25% 75%;
     height: 580px;
   }
 
   .login-card__brand-panel {
-    padding: 36px 24px;
+    padding: 30px 15px;
   }
 
   .login-card__brand-logo-wrap {
-    width: 100px;
-    height: 100px;
-    padding: 10px;
-    margin-bottom: 20px;
+    width: 80px;
+    height: 80px;
+    padding: 8px;
+    margin-bottom: 16px;
   }
 
   .login-card__brand-title {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
   }
 }
 
@@ -745,9 +761,15 @@
   }
 
   .login-form__grid,
-  .login-form__row {
+  .login-form__grid-3,
+  .login-form__row,
+  .previous-degree-row {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .login-field--full {
+    grid-column: span 1;
   }
 }
 
@@ -760,4 +782,90 @@
     display: none;
     /* conserve vertical space */
   }
+}
+
+/* Composite Phone Input Wrap as a unified Input Group */
+.phone-input-wrap {
+  display: grid !important;
+  grid-template-columns: 110px 1fr !important;
+  width: 100% !important;
+  background: var(--fog-grey) !important;
+  border: 1px solid var(--line-grey) !important;
+  border-radius: 4px !important;
+  position: relative !important;
+  transition: all 0.3s ease !important;
+  align-items: center !important;
+  overflow: hidden !important;
+}
+
+.phone-input-wrap:focus-within {
+  border-color: var(--navy-deep) !important;
+  background: var(--paper-white) !important;
+  box-shadow: 0 0 0 4px rgba(11, 27, 63, 0.08) !important;
+}
+
+.phone-country-select {
+  padding: 12px 20px 12px 38px !important;
+  /* space on left for flag icon */
+  border: none !important;
+  border-right: 1px solid var(--line-grey) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-position: right 4px center !important;
+  /* shift arrow slightly left */
+  background-size: 12px !important;
+  height: 100% !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: border-color 0.3s ease !important;
+}
+
+.phone-input-wrap:focus-within .phone-country-select {
+  border-color: var(--navy-deep) !important;
+}
+
+.phone-input-wrap input {
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  padding: 12px 14px !important;
+  width: 100% !important;
+  outline: none !important;
+  box-shadow: none !important;
+  height: 100% !important;
+}
+
+/* Flag Icon position adjustments for unified container */
+.phone-input-wrap .login-field__icon.fi,
+.phone-input-wrap .profile-field__icon.fi {
+  position: absolute !important;
+  left: 14px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 3 !important;
+}
+
+/* Form Section Titles */
+.login-section-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--navy-deep);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid var(--signal-red);
+  padding-bottom: 4px;
+  width: fit-content;
+}
+
+/* Flag Icon sizes */
+.login-field__icon.fi {
+  width: 18px !important;
+  height: 14px !important;
+  font-size: 1rem !important;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  background-size: cover !important;
 }

@@ -7,7 +7,8 @@
   position: relative;
   min-height: 100vh;
   background: var(--navy-deep);
-  padding: 140px 4% 80px; /* offset scrolled navbar */
+  padding: 140px 4% 80px;
+  /* offset scrolled navbar */
   overflow: hidden;
 }
 
@@ -61,6 +62,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -109,14 +111,17 @@
     opacity: 0;
     transform: translateY(-8px);
   }
+
   8% {
     opacity: 1;
     transform: translateY(0);
   }
+
   92% {
     opacity: 1;
     transform: translateY(0);
   }
+
   100% {
     opacity: 0;
     transform: translateY(-8px);
@@ -280,9 +285,34 @@
   gap: 20px;
 }
 
-@media (max-width: 600px) {
-  .profile-form__grid {
+.profile-form__grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.previous-degree-row {
+  display: grid;
+  grid-template-columns: 45fr 45fr 10fr;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.profile-field--full {
+  grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+
+  .profile-form__grid,
+  .profile-form__grid-3,
+  .previous-degree-row {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .profile-field--full {
+    grid-column: span 1;
   }
 }
 
@@ -320,7 +350,8 @@
   pointer-events: none;
 }
 
-.profile-field__input-wrap input {
+.profile-field__input-wrap input,
+.profile-field__input-wrap select {
   width: 100%;
   padding: 12px 14px 12px 42px;
   background: var(--fog-grey);
@@ -334,13 +365,25 @@
   border-radius: 4px;
 }
 
-.profile-field__input-wrap input:focus {
+.profile-field__input-wrap select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235B6478'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 18px;
+}
+
+.profile-field__input-wrap input:focus,
+.profile-field__input-wrap select:focus {
   border-color: var(--navy-deep);
   background: var(--paper-white);
   box-shadow: 0 0 0 4px rgba(11, 27, 63, 0.08);
 }
 
-.profile-field__input-wrap input:disabled {
+.profile-field__input-wrap input:disabled,
+.profile-field__input-wrap select:disabled {
   background: var(--fog-grey);
   color: rgba(11, 27, 63, 0.5);
   cursor: not-allowed;
@@ -439,4 +482,92 @@
   font-size: 0.85rem;
   color: var(--slate);
   margin-bottom: 24px;
+}
+
+/* Composite Phone Input Wrap as a unified Input Group */
+.phone-input-wrap {
+  display: grid !important;
+  grid-template-columns: 110px 1fr !important;
+  width: 100% !important;
+  background: var(--fog-grey) !important;
+  border: 1px solid var(--line-grey) !important;
+  border-radius: 4px !important;
+  position: relative !important;
+  transition: all 0.3s ease !important;
+  align-items: center !important;
+  overflow: hidden !important;
+}
+
+.phone-input-wrap:focus-within {
+  border-color: var(--navy-deep) !important;
+  background: var(--paper-white) !important;
+  box-shadow: 0 0 0 4px rgba(11, 27, 63, 0.08) !important;
+}
+
+.phone-country-select {
+  padding: 12px 20px 12px 38px !important;
+  /* space on left for flag icon */
+  border: none !important;
+  border-right: 1px solid var(--line-grey) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-position: right 4px center !important;
+  /* shift arrow slightly left */
+  background-size: 12px !important;
+  height: 100% !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: border-color 0.3s ease !important;
+  z-index: 1;
+}
+
+.phone-input-wrap:focus-within .phone-country-select {
+  border-color: var(--navy-deep) !important;
+}
+
+.phone-input-wrap input {
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  padding: 12px 14px !important;
+  width: 100% !important;
+  outline: none !important;
+  box-shadow: none !important;
+  height: 100% !important;
+  z-index: 1;
+}
+
+/* Flag Icon position adjustments for unified container */
+.phone-input-wrap .login-field__icon.fi,
+.phone-input-wrap .profile-field__icon.fi {
+  position: absolute !important;
+  left: 14px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 3 !important;
+}
+
+/* Form Section Titles */
+.profile-form__section-title {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--navy-deep);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid var(--signal-red);
+  padding-bottom: 4px;
+  width: fit-content;
+}
+
+/* Flag Icon sizes */
+.profile-field__icon.fi {
+  width: 18px !important;
+  height: 14px !important;
+  font-size: 1rem !important;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  background-size: cover !important;
 }

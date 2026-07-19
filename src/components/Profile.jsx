@@ -1,25 +1,76 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { 
-  FaArrowLeft, 
-  FaUser, 
-  FaEnvelope, 
-  FaCalendarAlt, 
-  FaGraduationCap, 
-  FaBuilding, 
-  FaBriefcase, 
-  FaSave, 
-  FaEdit, 
-  FaTimes, 
+import {
+  FaArrowLeft,
+  FaUser,
+  FaEnvelope,
+  FaCalendarAlt,
+  FaGraduationCap,
+  FaBuilding,
+  FaBriefcase,
   FaTimesCircle,
-  FaCheckCircle, 
+  FaCheckCircle,
   FaClock,
   FaPhone,
-  FaWhatsapp
+  FaWhatsapp,
+  FaHeart,
+  FaLinkedin,
+  FaPlus,
+  FaTrash,
+  FaCertificate,
+  FaGlobe,
+  FaBoxOpen
 } from 'react-icons/fa'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import './Profile.css'
+import {
+  countryCodes,
+  ACADEMIC_YEARS,
+  DEGREE_OPTIONS,
+  CERTIFICATION_OPTIONS,
+  PRODUCT_SERVICE_OPTIONS
+} from '../data/formdata'
+
+const parsePhoneNumber = (fullPhone) => {
+  if (!fullPhone) return { code: '+91', number: '' }
+  const clean = fullPhone.trim()
+  const match = clean.match(/^(\+\d+)\s*(.*)$/)
+  if (match) {
+    return { code: match[1], number: match[2] }
+  }
+  if (clean.length === 10 && /^\d+$/.test(clean)) {
+    return { code: '+91', number: clean }
+  }
+  if (clean.startsWith('+')) {
+    if (clean.startsWith('+91')) {
+      return { code: '+91', number: clean.slice(3) }
+    }
+    return { code: clean.slice(0, 3), number: clean.slice(3) }
+  }
+  return { code: '+91', number: clean }
+}
+
+const getCountryIso = (code) => {
+  const map = {
+    '+91': 'in',
+    '+1': 'us',
+    '+44': 'gb',
+    '+971': 'ae',
+    '+65': 'sg',
+    '+61': 'au',
+    '+49': 'de',
+    '+966': 'sa',
+    '+968': 'om',
+    '+974': 'qa',
+    '+965': 'kw',
+    '+973': 'bh',
+    '+27': 'za',
+    '+33': 'fr',
+    '+81': 'jp'
+  }
+  return map[code] || 'in'
+}
 
 const formatDob = (dobField) => {
   if (!dobField) return ''
@@ -46,46 +97,74 @@ const formatDob = (dobField) => {
   return ''
 }
 
+// Form options imported from src/data/formdata.js
+
 export default function Profile({ user, onUpdateUser }) {
   const navigate = useNavigate()
-  
+
   const [loading, setLoading] = useState(false)
   const [fetching, setFetching] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  
+
   // Local state holding the profile values
   const [profileForm, setProfileForm] = useState({
     firstName: '',
+    middleName: '',
     lastName: '',
     email: '',
     dob: '',
+    phoneCode: '+91',
     phone: '',
+    secondaryPhoneCode: '+91',
     secondaryPhone: '',
+    whatsappCode: '+91',
     whatsapp: '',
-    batch: '',
-    degree: '',
+    userType: '',
+    bloodGroup: '',
+    admissionYear: '',
+    passoutYear: '',
     jobTitle: '',
     company: '',
+    linkedin: '',
+    dom: '',
     verification_status: false,
-    account_type: 'alumni'
+    account_type: 'alumni',
+    degrees: [],
+    areaOfCertification: '',
+    profession: '',
+    productServices: '',
+    companyWebsite: ''
   })
 
   const [originalForm, setOriginalForm] = useState({
     firstName: '',
+    middleName: '',
     lastName: '',
     email: '',
     dob: '',
+    phoneCode: '+91',
     phone: '',
+    secondaryPhoneCode: '+91',
     secondaryPhone: '',
+    whatsappCode: '+91',
     whatsapp: '',
-    batch: '',
-    degree: '',
+    userType: '',
+    bloodGroup: '',
+    admissionYear: '',
+    passoutYear: '',
     jobTitle: '',
     company: '',
+    linkedin: '',
+    dom: '',
     verification_status: false,
-    account_type: 'alumni'
+    account_type: 'alumni',
+    degrees: [],
+    areaOfCertification: '',
+    profession: '',
+    productServices: '',
+    companyWebsite: ''
   })
 
   // Load user data on mount
@@ -102,7 +181,7 @@ export default function Profile({ user, onUpdateUser }) {
         try {
           const userDocRef = doc(db, 'users', uid)
           const userDocSnap = await getDoc(userDocRef)
-          
+
           if (userDocSnap.exists()) {
             const data = userDocSnap.data()
             // Retrieve first and last name from saved values, or split display name if missing
@@ -110,40 +189,74 @@ export default function Profile({ user, onUpdateUser }) {
             const defaultFirstName = data.firstName || nameSplit[0] || ''
             const defaultLastName = data.lastName || nameSplit.slice(1).join(' ') || ''
 
+            const parsedPhone = parsePhoneNumber(data.phone)
+            const parsedSecPhone = parsePhoneNumber(data.secondaryPhone)
+            const parsedWhatsapp = parsePhoneNumber(data.whatsapp)
+
             const loadedData = {
               firstName: defaultFirstName,
+              middleName: data.middleName || user.middleName || '',
               lastName: defaultLastName,
               email: data.email || user.email || '',
               dob: formatDob(data.dob),
-              phone: data.phone || '',
-              secondaryPhone: data.secondaryPhone || '',
-              whatsapp: data.whatsapp || '',
-              batch: data.batch || '',
-              degree: data.degree || '',
+              phoneCode: parsedPhone.code,
+              phone: parsedPhone.number,
+              secondaryPhoneCode: parsedSecPhone.code,
+              secondaryPhone: parsedSecPhone.number,
+              whatsappCode: parsedWhatsapp.code,
+              whatsapp: parsedWhatsapp.number,
+              userType: data.userType || user.userType || '',
+              bloodGroup: data.bloodGroup || user.bloodGroup || '',
+              admissionYear: data.admissionYear || '',
+              passoutYear: data.passoutYear || data.batch || '',
               jobTitle: data.jobTitle || '',
               company: data.company || '',
+              linkedin: data.linkedin || '',
+              dom: formatDob(data.dom),
               verification_status: data.verification_status !== undefined ? data.verification_status : false,
-              account_type: data.account_type || 'alumni'
+              account_type: data.account_type || 'alumni',
+              degrees: data.degrees || [],
+              areaOfCertification: data.areaOfCertification || user.areaOfCertification || '',
+              profession: data.profession || user.profession || '',
+              productServices: data.productServices || user.productServices || '',
+              companyWebsite: data.companyWebsite || user.companyWebsite || ''
             }
             setProfileForm(loadedData)
             setOriginalForm(loadedData)
           } else {
             // Document doesn't exist yet, seed with basic login info
             const nameSplit = (user.name || '').split(' ')
+            const parsedPhone = parsePhoneNumber(user.phone)
+            const parsedSecPhone = parsePhoneNumber(user.secondaryPhone)
+            const parsedWhatsapp = parsePhoneNumber(user.whatsapp)
+
             const seedData = {
               firstName: nameSplit[0] || '',
+              middleName: user.middleName || '',
               lastName: nameSplit.slice(1).join(' ') || '',
               email: user.email || '',
               dob: '',
-              phone: '',
-              secondaryPhone: '',
-              whatsapp: '',
-              batch: user.batch || '',
-              degree: user.degree || '',
+              phoneCode: parsedPhone.code,
+              phone: parsedPhone.number,
+              secondaryPhoneCode: parsedSecPhone.code,
+              secondaryPhone: parsedSecPhone.number,
+              whatsappCode: parsedWhatsapp.code,
+              whatsapp: parsedWhatsapp.number,
+              userType: user.userType || '',
+              bloodGroup: user.bloodGroup || '',
+              admissionYear: user.admissionYear || '',
+              passoutYear: user.passoutYear || user.batch || '',
               jobTitle: '',
               company: '',
+              linkedin: '',
+              dom: '',
               verification_status: false,
-              account_type: 'alumni'
+              account_type: 'alumni',
+              degrees: user.degrees || [],
+              areaOfCertification: user.areaOfCertification || '',
+              profession: user.profession || '',
+              productServices: user.productServices || '',
+              companyWebsite: user.companyWebsite || ''
             }
             setProfileForm(seedData)
             setOriginalForm(seedData)
@@ -161,20 +274,37 @@ export default function Profile({ user, onUpdateUser }) {
           const parsed = JSON.parse(mockRegistered)
           if (parsed.email === user.email) {
             const nameSplit = (parsed.name || '').split(' ')
+            const parsedPhone = parsePhoneNumber(parsed.phone)
+            const parsedSecPhone = parsePhoneNumber(parsed.secondaryPhone)
+            const parsedWhatsapp = parsePhoneNumber(parsed.whatsapp)
+
             const mockData = {
               firstName: parsed.firstName || nameSplit[0] || '',
+              middleName: parsed.middleName || '',
               lastName: parsed.lastName || nameSplit.slice(1).join(' ') || '',
               email: parsed.email || '',
               dob: formatDob(parsed.dob),
-              phone: parsed.phone || '',
-              secondaryPhone: parsed.secondaryPhone || '',
-              whatsapp: parsed.whatsapp || '',
-              batch: parsed.batch || '',
-              degree: parsed.degree || '',
+              phoneCode: parsedPhone.code,
+              phone: parsedPhone.number,
+              secondaryPhoneCode: parsedSecPhone.code,
+              secondaryPhone: parsedSecPhone.number,
+              whatsappCode: parsedWhatsapp.code,
+              whatsapp: parsedWhatsapp.number,
+              userType: parsed.userType || '',
+              bloodGroup: parsed.bloodGroup || '',
+              admissionYear: parsed.admissionYear || '',
+              passoutYear: parsed.passoutYear || parsed.batch || '',
               jobTitle: parsed.jobTitle || '',
               company: parsed.company || '',
+              linkedin: parsed.linkedin || '',
+              dom: formatDob(parsed.dom),
               verification_status: parsed.verification_status !== undefined ? parsed.verification_status : false,
-              account_type: parsed.account_type || 'alumni'
+              account_type: parsed.account_type || 'alumni',
+              degrees: parsed.degrees || [],
+              areaOfCertification: parsed.areaOfCertification || '',
+              profession: parsed.profession || '',
+              productServices: parsed.productServices || '',
+              companyWebsite: parsed.companyWebsite || ''
             }
             setProfileForm(mockData)
             setOriginalForm(mockData)
@@ -185,20 +315,37 @@ export default function Profile({ user, onUpdateUser }) {
 
         // Default layout load fallback
         const nameSplit = (user.name || '').split(' ')
+        const parsedPhone = parsePhoneNumber(user.phone)
+        const parsedSecPhone = parsePhoneNumber(user.secondaryPhone)
+        const parsedWhatsapp = parsePhoneNumber(user.whatsapp)
+
         const fallbackData = {
           firstName: nameSplit[0] || '',
+          middleName: user.middleName || '',
           lastName: nameSplit.slice(1).join(' ') || '',
           email: user.email || '',
           dob: formatDob(user.dob),
-          phone: user.phone || '',
-          secondaryPhone: user.secondaryPhone || '',
-          whatsapp: user.whatsapp || '',
-          batch: user.batch || '',
-          degree: user.degree || '',
+          phoneCode: parsedPhone.code,
+          phone: parsedPhone.number,
+          secondaryPhoneCode: parsedSecPhone.code,
+          secondaryPhone: parsedSecPhone.number,
+          whatsappCode: parsedWhatsapp.code,
+          whatsapp: parsedWhatsapp.number,
+          userType: user.userType || '',
+          bloodGroup: user.bloodGroup || '',
+          admissionYear: user.admissionYear || '',
+          passoutYear: user.passoutYear || user.batch || '',
           jobTitle: user.jobTitle || '',
           company: user.company || '',
+          linkedin: user.linkedin || '',
+          dom: formatDob(user.dom),
           verification_status: user.verification_status || false,
-          account_type: user.account_type || 'alumni'
+          account_type: user.account_type || 'alumni',
+          degrees: user.degrees || [],
+          areaOfCertification: user.areaOfCertification || '',
+          profession: user.profession || '',
+          productServices: user.productServices || '',
+          companyWebsite: user.companyWebsite || ''
         }
         setProfileForm(fallbackData)
         setOriginalForm(fallbackData)
@@ -221,13 +368,52 @@ export default function Profile({ user, onUpdateUser }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    const cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name) 
-      ? value.replace(/\D/g, '') 
+    const cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name)
+      ? value.replace(/\D/g, '')
       : value;
+    setProfileForm(prev => {
+      const updated = {
+        ...prev,
+        [name]: cleanValue
+      }
+      if (name === 'admissionYear' && cleanValue) {
+        const parsedYear = parseInt(cleanValue, 10)
+        if (!isNaN(parsedYear)) {
+          const targetPassout = parsedYear + 3
+          if (targetPassout <= 2040) {
+            updated.passoutYear = String(targetPassout)
+          } else {
+            updated.passoutYear = '2040'
+          }
+        }
+      }
+      return updated
+    })
+  }
+
+  const handleAddDegree = () => {
     setProfileForm(prev => ({
       ...prev,
-      [name]: cleanValue
+      degrees: [...(prev.degrees || []), { degree: '', domain: '' }]
     }))
+  }
+
+  const handleRemoveDegree = (index) => {
+    setProfileForm(prev => ({
+      ...prev,
+      degrees: (prev.degrees || []).filter((_, i) => i !== index)
+    }))
+  }
+
+  const handleDegreeChange = (index, field, val) => {
+    setProfileForm(prev => {
+      const updatedDegrees = [...(prev.degrees || [])]
+      updatedDegrees[index] = { ...updatedDegrees[index], [field]: val }
+      return {
+        ...prev,
+        degrees: updatedDegrees
+      }
+    })
   }
 
   const handleEditToggle = () => {
@@ -245,8 +431,8 @@ export default function Profile({ user, onUpdateUser }) {
     setSuccess('')
 
     // Basic Validations
-    if (!profileForm.firstName.trim() || !profileForm.lastName.trim()) {
-      setError('First name and last name fields are required.')
+    if (!profileForm.firstName.trim() || !profileForm.middleName.trim() || !profileForm.lastName.trim()) {
+      setError('First name, middle name, and last name fields are compulsory.')
       return
     }
 
@@ -255,10 +441,32 @@ export default function Profile({ user, onUpdateUser }) {
       return
     }
 
-    const batchYear = parseInt(profileForm.batch)
+    if (!profileForm.whatsapp.trim()) {
+      setError('WhatsApp number is compulsory.')
+      return
+    }
+
+    if (!profileForm.userType) {
+      setError('Please select whether you are a DFT Alumni or Student.')
+      return
+    }
+
+    const admYear = parseInt(profileForm.admissionYear, 10)
+    const passYear = parseInt(profileForm.passoutYear, 10)
     const currentYear = new Date().getFullYear()
-    if (profileForm.batch && (isNaN(batchYear) || batchYear < 1970 || batchYear > currentYear + 4)) {
-      setError(`Please enter a valid graduation batch year (e.g. 1970 - ${currentYear + 4}).`)
+
+    if (isNaN(admYear) || admYear < 1970 || admYear > currentYear + 6) {
+      setError(`Please enter a valid DFT Admission Year (e.g. 1970 - ${currentYear + 6}).`)
+      return
+    }
+
+    if (isNaN(passYear) || passYear < 1970 || passYear > currentYear + 6) {
+      setError(`Please enter a valid DFT Passout Year (e.g. 1970 - ${currentYear + 6}).`)
+      return
+    }
+
+    if (admYear > passYear) {
+      setError('DFT Admission Year cannot be after DFT Passout Year.')
       return
     }
 
@@ -266,16 +474,26 @@ export default function Profile({ user, onUpdateUser }) {
 
     const updatedProfile = {
       firstName: profileForm.firstName.trim(),
+      middleName: profileForm.middleName.trim(),
       lastName: profileForm.lastName.trim(),
-      name: `${profileForm.firstName.trim()} ${profileForm.lastName.trim()}`,
+      name: [profileForm.firstName.trim(), profileForm.middleName.trim(), profileForm.lastName.trim()].filter(Boolean).join(' '),
       dob: profileForm.dob,
-      phone: profileForm.phone.trim(),
-      secondaryPhone: profileForm.secondaryPhone.trim(),
-      whatsapp: profileForm.whatsapp.trim(),
-      batch: profileForm.batch,
-      degree: profileForm.degree,
+      phone: `${profileForm.phoneCode} ${profileForm.phone}`.trim(),
+      secondaryPhone: profileForm.secondaryPhone ? `${profileForm.secondaryPhoneCode} ${profileForm.secondaryPhone}`.trim() : '',
+      whatsapp: `${profileForm.whatsappCode} ${profileForm.whatsapp}`.trim(),
+      userType: profileForm.userType,
+      bloodGroup: profileForm.bloodGroup,
+      admissionYear: profileForm.admissionYear,
+      passoutYear: profileForm.passoutYear,
+      degrees: profileForm.degrees || [],
       jobTitle: profileForm.jobTitle.trim(),
-      company: profileForm.company.trim()
+      company: profileForm.company.trim(),
+      linkedin: profileForm.linkedin.trim(),
+      dom: profileForm.dom,
+      areaOfCertification: profileForm.areaOfCertification || '',
+      profession: profileForm.profession || '',
+      productServices: profileForm.productServices || '',
+      companyWebsite: profileForm.companyWebsite || ''
     }
 
     const uid = user.uid || (auth.currentUser ? auth.currentUser.uid : null)
@@ -284,11 +502,11 @@ export default function Profile({ user, onUpdateUser }) {
       try {
         const userDocRef = doc(db, 'users', uid)
         await setDoc(userDocRef, updatedProfile, { merge: true })
-        
+
         // Propagate updates up to the App session state
         onUpdateUser(updatedProfile)
         setOriginalForm(prev => ({ ...prev, ...updatedProfile }))
-        
+
         setSuccess('Profile updated successfully!')
         setIsEditing(false)
       } catch (err) {
@@ -309,25 +527,35 @@ export default function Profile({ user, onUpdateUser }) {
               ...updatedProfile,
               // sync individual fields in root
               firstName: updatedProfile.firstName,
+              middleName: updatedProfile.middleName,
               lastName: updatedProfile.lastName,
               name: updatedProfile.name,
               dob: updatedProfile.dob,
               phone: updatedProfile.phone,
               secondaryPhone: updatedProfile.secondaryPhone,
               whatsapp: updatedProfile.whatsapp,
-              batch: updatedProfile.batch,
-              degree: updatedProfile.degree,
+              userType: updatedProfile.userType,
+              bloodGroup: updatedProfile.bloodGroup,
+              admissionYear: updatedProfile.admissionYear,
+              passoutYear: updatedProfile.passoutYear,
+              degrees: updatedProfile.degrees,
               jobTitle: updatedProfile.jobTitle,
-              company: updatedProfile.company
+              company: updatedProfile.company,
+              linkedin: updatedProfile.linkedin,
+              dom: updatedProfile.dom,
+              areaOfCertification: updatedProfile.areaOfCertification || '',
+              profession: updatedProfile.profession || '',
+              productServices: updatedProfile.productServices || '',
+              companyWebsite: updatedProfile.companyWebsite || ''
             }
             localStorage.setItem('mockRegisteredAlumni', JSON.stringify(updatedMock))
           }
         }
-        
+
         // Propagate updates
         onUpdateUser(updatedProfile)
         setOriginalForm(prev => ({ ...prev, ...updatedProfile }))
-        
+
         setSuccess('Profile updated successfully! (Mock Mode)')
         setIsEditing(false)
         setLoading(false)
@@ -337,15 +565,28 @@ export default function Profile({ user, onUpdateUser }) {
 
   const hasChanges = originalForm ? (
     profileForm.firstName !== originalForm.firstName ||
+    profileForm.middleName !== originalForm.middleName ||
     profileForm.lastName !== originalForm.lastName ||
     profileForm.dob !== originalForm.dob ||
+    profileForm.phoneCode !== originalForm.phoneCode ||
     profileForm.phone !== originalForm.phone ||
+    profileForm.secondaryPhoneCode !== originalForm.secondaryPhoneCode ||
     profileForm.secondaryPhone !== originalForm.secondaryPhone ||
+    profileForm.whatsappCode !== originalForm.whatsappCode ||
     profileForm.whatsapp !== originalForm.whatsapp ||
-    profileForm.batch !== originalForm.batch ||
-    profileForm.degree !== originalForm.degree ||
+    profileForm.userType !== originalForm.userType ||
+    profileForm.bloodGroup !== originalForm.bloodGroup ||
+    profileForm.admissionYear !== originalForm.admissionYear ||
+    profileForm.passoutYear !== originalForm.passoutYear ||
     profileForm.jobTitle !== originalForm.jobTitle ||
-    profileForm.company !== originalForm.company
+    profileForm.company !== originalForm.company ||
+    profileForm.linkedin !== originalForm.linkedin ||
+    profileForm.dom !== originalForm.dom ||
+    profileForm.areaOfCertification !== originalForm.areaOfCertification ||
+    profileForm.profession !== originalForm.profession ||
+    profileForm.productServices !== originalForm.productServices ||
+    profileForm.companyWebsite !== originalForm.companyWebsite ||
+    JSON.stringify(profileForm.degrees || []) !== JSON.stringify(originalForm.degrees || [])
   ) : false
 
   // Signed out check
@@ -360,7 +601,7 @@ export default function Profile({ user, onUpdateUser }) {
             <p className="profile-empty-state__desc">
               Please sign in to the DFT Alumni Portal to view and update your profile details.
             </p>
-            <button 
+            <button
               className="profile-btn profile-btn--primary"
               onClick={() => navigate('/login')}
             >
@@ -404,12 +645,12 @@ export default function Profile({ user, onUpdateUser }) {
               {((profileForm.firstName || user.name || 'U').charAt(0)).toUpperCase()}
             </div>
             <h2 className="profile-name">
-              {profileForm.firstName || profileForm.lastName 
-                ? `${profileForm.firstName} ${profileForm.lastName}` 
+              {profileForm.firstName || profileForm.lastName
+                ? `${profileForm.firstName} ${profileForm.lastName}`
                 : user.name
               }
             </h2>
-            
+
             <div className="profile-badge-row">
               <span className={`navbar__user-badge ${profileForm.verification_status ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`} style={{ margin: '0 auto', display: 'inline-flex' }}>
                 {profileForm.verification_status ? (
@@ -457,13 +698,13 @@ export default function Profile({ user, onUpdateUser }) {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h3 className="profile-section-title" style={{ marginBottom: 0 }}>Profile Details</h3>
               {!isEditing && (
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="profile-btn profile-btn--secondary"
                   onClick={handleEditToggle}
                   disabled={fetching}
                 >
-                  <FaEdit /> Edit Profile
+                  Edit Profile
                 </button>
               )}
             </div>
@@ -474,16 +715,34 @@ export default function Profile({ user, onUpdateUser }) {
               </div>
             ) : (
               <form className="profile-form" onSubmit={handleSubmit}>
-                <div className="profile-form__grid">
+                <h4 className="profile-form__section-title">Personal Details</h4>
+                <div className="profile-form__grid-3">
                   <div className="profile-field">
                     <label htmlFor="prof-first-name">First Name <span className="profile-field__required">*</span></label>
                     <div className="profile-field__input-wrap">
                       <FaUser className="profile-field__icon" />
-                      <input 
+                      <input
                         id="prof-first-name"
-                        type="text" 
+                        type="text"
                         name="firstName"
                         value={profileForm.firstName}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        required
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="profile-field">
+                    <label htmlFor="prof-middle-name">Middle Name <span className="profile-field__required">*</span></label>
+                    <div className="profile-field__input-wrap">
+                      <FaUser className="profile-field__icon" />
+                      <input
+                        id="prof-middle-name"
+                        type="text"
+                        name="middleName"
+                        value={profileForm.middleName}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                         required
@@ -496,9 +755,9 @@ export default function Profile({ user, onUpdateUser }) {
                     <label htmlFor="prof-last-name">Last Name <span className="profile-field__required">*</span></label>
                     <div className="profile-field__input-wrap">
                       <FaUser className="profile-field__icon" />
-                      <input 
+                      <input
                         id="prof-last-name"
-                        type="text" 
+                        type="text"
                         name="lastName"
                         value={profileForm.lastName}
                         onChange={handleInputChange}
@@ -512,12 +771,53 @@ export default function Profile({ user, onUpdateUser }) {
 
                 <div className="profile-form__grid">
                   <div className="profile-field">
+                    <label htmlFor="prof-email">Email Address</label>
+                    <div className="profile-field__input-wrap">
+                      <FaEnvelope className="profile-field__icon" />
+                      <input
+                        id="prof-email"
+                        type="email"
+                        name="email"
+                        value={profileForm.email}
+                        disabled // email cannot be modified directly
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="profile-field">
+                    <label htmlFor="prof-bloodgroup">Blood Group</label>
+                    <div className="profile-field__input-wrap">
+                      <FaHeart className="profile-field__icon" />
+                      <select
+                        id="prof-bloodgroup"
+                        name="bloodGroup"
+                        value={profileForm.bloodGroup}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      >
+                        <option value="">Select Blood Group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="profile-form__grid">
+                  <div className="profile-field">
                     <label htmlFor="prof-dob">Date of Birth</label>
                     <div className="profile-field__input-wrap">
                       <FaCalendarAlt className="profile-field__icon" />
-                      <input 
+                      <input
                         id="prof-dob"
-                        type="date" 
+                        type="date"
                         name="dob"
                         value={profileForm.dob}
                         onChange={handleInputChange}
@@ -528,52 +828,17 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-email">Email Address</label>
-                    <div className="profile-field__input-wrap">
-                      <FaEnvelope className="profile-field__icon" />
-                      <input 
-                        id="prof-email"
-                        type="email" 
-                        name="email"
-                        value={profileForm.email}
-                        disabled // email cannot be modified directly
-                        placeholder="No Data Provided"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="profile-form__grid">
-                  <div className="profile-field">
-                    <label htmlFor="prof-batch">Graduation Batch <span className="profile-field__required">*</span></label>
+                    <label htmlFor="prof-dom">Date of Marriage</label>
                     <div className="profile-field__input-wrap">
                       <FaCalendarAlt className="profile-field__icon" />
-                      <input 
-                        id="prof-batch"
-                        type="number" 
-                        name="batch"
-                        value={profileForm.batch}
+                      <input
+                        id="prof-dom"
+                        type="date"
+                        name="dom"
+                        value={profileForm.dom}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                         placeholder="No Data Provided"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="profile-field">
-                    <label htmlFor="prof-degree">Degree <span className="profile-field__required">*</span></label>
-                    <div className="profile-field__input-wrap">
-                      <FaGraduationCap className="profile-field__icon" />
-                      <input 
-                        id="prof-degree"
-                        type="text" 
-                        name="degree"
-                        value={profileForm.degree}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                        required
                       />
                     </div>
                   </div>
@@ -582,11 +847,20 @@ export default function Profile({ user, onUpdateUser }) {
                 <div className="profile-form__grid">
                   <div className="profile-field">
                     <label htmlFor="prof-phone">Contact Number <span className="profile-field__required">*</span></label>
-                    <div className="profile-field__input-wrap">
-                      <FaPhone className="profile-field__icon" style={{ transform: 'scaleX(-1)' }} />
-                      <input 
+                    <div className="profile-field__input-wrap phone-input-wrap">
+                      <span className={`fi fi-${getCountryIso(profileForm.phoneCode)} profile-field__icon`}></span>
+                      <select
+                        className="phone-country-select"
+                        name="phoneCode"
+                        value={profileForm.phoneCode}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      >
+                        {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                      </select>
+                      <input
                         id="prof-phone"
-                        type="tel" 
+                        type="tel"
                         name="phone"
                         value={profileForm.phone}
                         onChange={handleInputChange}
@@ -599,11 +873,20 @@ export default function Profile({ user, onUpdateUser }) {
 
                   <div className="profile-field">
                     <label htmlFor="prof-sec-phone">Secondary Contact Number</label>
-                    <div className="profile-field__input-wrap">
-                      <FaPhone className="profile-field__icon" style={{ transform: 'scaleX(-1)' }} />
-                      <input 
+                    <div className="profile-field__input-wrap phone-input-wrap">
+                      <span className={`fi fi-${getCountryIso(profileForm.secondaryPhoneCode)} profile-field__icon`}></span>
+                      <select
+                        className="phone-country-select"
+                        name="secondaryPhoneCode"
+                        value={profileForm.secondaryPhoneCode}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      >
+                        {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                      </select>
+                      <input
                         id="prof-sec-phone"
-                        type="tel" 
+                        type="tel"
                         name="secondaryPhone"
                         value={profileForm.secondaryPhone}
                         onChange={handleInputChange}
@@ -616,31 +899,203 @@ export default function Profile({ user, onUpdateUser }) {
 
                 <div className="profile-form__grid">
                   <div className="profile-field">
-                    <label htmlFor="prof-whatsapp">WhatsApp Number</label>
-                    <div className="profile-field__input-wrap">
-                      <FaWhatsapp className="profile-field__icon" />
-                      <input 
+                    <label htmlFor="prof-whatsapp">WhatsApp Number <span className="profile-field__required">*</span></label>
+                    <div className="profile-field__input-wrap phone-input-wrap">
+                      <span className={`fi fi-${getCountryIso(profileForm.whatsappCode)} profile-field__icon`}></span>
+                      <select
+                        className="phone-country-select"
+                        name="whatsappCode"
+                        value={profileForm.whatsappCode}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      >
+                        {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                      </select>
+                      <input
                         id="prof-whatsapp"
-                        type="tel" 
+                        type="tel"
                         name="whatsapp"
                         value={profileForm.whatsapp}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
+                        required
                         placeholder="No Data Provided"
                       />
                     </div>
                   </div>
+
                   <div className="profile-field" style={{ visibility: 'hidden' }}></div>
                 </div>
 
+                <h4 className="profile-form__section-title" style={{ marginTop: '20px' }}>Academic Details</h4>
                 <div className="profile-form__grid">
+                  <div className="profile-field profile-field--full">
+                    <label htmlFor="prof-usertype">Are you DFT Alumni or Student <span className="profile-field__required">*</span></label>
+                    <div className="profile-field__input-wrap">
+                      <FaUser className="profile-field__icon" />
+                      <select
+                        id="prof-usertype"
+                        name="userType"
+                        value={profileForm.userType}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        required
+                      >
+                        <option value="">Select Option</option>
+                        <option value="Alumni">DFT Alumni</option>
+                        <option value="Student">Student</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="profile-field">
+                    <label htmlFor="prof-admission">DFT Admission Year <span className="profile-field__required">*</span></label>
+                    <div className="profile-field__input-wrap">
+                      <FaCalendarAlt className="profile-field__icon" />
+                      <select
+                        id="prof-admission"
+                        name="admissionYear"
+                        value={profileForm.admissionYear}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        required
+                      >
+                        <option value="">Select Year</option>
+                        {ACADEMIC_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="profile-field">
+                    <label htmlFor="prof-passout">DFT Passout Year <span className="profile-field__required">*</span></label>
+                    <div className="profile-field__input-wrap">
+                      <FaCalendarAlt className="profile-field__icon" />
+                      <select
+                        id="prof-passout"
+                        name="passoutYear"
+                        value={profileForm.passoutYear}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        required
+                      >
+                        <option value="">Select Year</option>
+                        {ACADEMIC_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Previous Academic Details list */}
+                {((profileForm.degrees || []).length > 0) && (
+                  <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                    <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
+                      Previous Academic Details
+                    </label>
+                    {(profileForm.degrees || []).map((deg, index) => (
+                      <div key={index} className={isEditing ? "previous-degree-row" : "profile-form__grid"}>
+                        <div className="profile-field">
+                          <label htmlFor={`prof-deg-title-${index}`}>Degree <span className="profile-field__required">*</span></label>
+                          <div className="profile-field__input-wrap">
+                            <FaGraduationCap className="profile-field__icon" />
+                            <select
+                              id={`prof-deg-title-${index}`}
+                              name="degree"
+                              value={deg.degree}
+                              onChange={(e) => handleDegreeChange(index, 'degree', e.target.value)}
+                              required
+                              disabled={!isEditing || loading}
+                            >
+                              <option value="">Select Degree</option>
+                              {DEGREE_OPTIONS.map(d => <option key={d} value={d}>{d}</option>)}
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="profile-field">
+                          <label htmlFor={`prof-deg-domain-${index}`}>Domain <span className="profile-field__required">*</span></label>
+                          <div className="profile-field__input-wrap">
+                            <FaGraduationCap className="profile-field__icon" />
+                            <input
+                              id={`prof-deg-domain-${index}`}
+                              type="text"
+                              placeholder="Domain (e.g. Textile Technology)"
+                              value={deg.domain}
+                              onChange={(e) => handleDegreeChange(index, 'domain', e.target.value)}
+                              required
+                              disabled={!isEditing || loading}
+                            />
+                          </div>
+                        </div>
+
+                        {isEditing && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveDegree(index)}
+                            className="profile-btn profile-btn--secondary"
+                            style={{
+                              width: '100%',
+                              height: '44px',
+                              padding: 0,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'var(--signal-red)',
+                              backgroundColor: 'rgba(232, 48, 42, 0.05)',
+                              borderColor: 'var(--line-grey)'
+                            }}
+                            title="Remove Degree"
+                          >
+                            <FaTrash />
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Add Degree Button */}
+                {isEditing && (
+                  <div style={{ marginTop: '15px', display: 'flex', justifyContent: 'flex-start' }}>
+                    <button
+                      type="button"
+                      onClick={handleAddDegree}
+                      className="profile-btn profile-btn--secondary"
+                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
+                      disabled={loading}
+                    >
+                      <FaPlus /> Add Degree
+                    </button>
+                  </div>
+                )}
+
+                <h4 className="profile-form__section-title" style={{ marginTop: '20px' }}>Professional Details</h4>
+                <div className="profile-form__grid">
+                  {/* Profession dropdown [Two-col] */}
+                  <div className="profile-field profile-field--full">
+                    <label htmlFor="prof-profession">Profession</label>
+                    <div className="profile-field__input-wrap">
+                      <FaBriefcase className="profile-field__icon" />
+                      <select
+                        id="prof-profession"
+                        name="profession"
+                        value={profileForm.profession}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      >
+                        <option value="">Select Profession</option>
+                        <option value="Business">Business</option>
+                        <option value="Job">Job</option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div className="profile-field">
                     <label htmlFor="prof-job-title">Job Title</label>
                     <div className="profile-field__input-wrap">
                       <FaBriefcase className="profile-field__icon" />
-                      <input 
+                      <input
                         id="prof-job-title"
-                        type="text" 
+                        type="text"
                         name="jobTitle"
                         value={profileForm.jobTitle}
                         onChange={handleInputChange}
@@ -654,9 +1109,9 @@ export default function Profile({ user, onUpdateUser }) {
                     <label htmlFor="prof-company">Company</label>
                     <div className="profile-field__input-wrap">
                       <FaBuilding className="profile-field__icon" />
-                      <input 
+                      <input
                         id="prof-company"
-                        type="text" 
+                        type="text"
                         name="company"
                         value={profileForm.company}
                         onChange={handleInputChange}
@@ -667,18 +1122,86 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
                 </div>
 
+                <div className="profile-form__grid">
+                  <div className="profile-field profile-field--full">
+                    <label htmlFor="prof-product-services">Detail of Product / Services offered by your Company</label>
+                    <div className="profile-field__input-wrap">
+                      <FaBoxOpen className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
+                      <select
+                        id="prof-product-services"
+                        name="productServices"
+                        value={profileForm.productServices}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      >
+                        <option value="">Select Offerings</option>
+                        {PRODUCT_SERVICE_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="profile-field profile-field--full">
+                    <label htmlFor="prof-company-website">Company Website (Optional)</label>
+                    <div className="profile-field__input-wrap">
+                      <FaGlobe className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
+                      <input
+                        id="prof-company-website"
+                        type="url"
+                        name="companyWebsite"
+                        value={profileForm.companyWebsite}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="profile-field profile-field--full">
+                    <label htmlFor="prof-linkedin">LinkedIn Profile Link</label>
+                    <div className="profile-field__input-wrap">
+                      <FaLinkedin className="profile-field__icon" style={{ color: isEditing ? '#0077b5' : 'var(--slate)' }} />
+                      <input
+                        id="prof-linkedin"
+                        type="url"
+                        name="linkedin"
+                        value={profileForm.linkedin}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="profile-field profile-field--full">
+                    <label htmlFor="prof-certification">Area of Certification</label>
+                    <div className="profile-field__input-wrap">
+                      <FaCertificate className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
+                      <select
+                        id="prof-certification"
+                        name="areaOfCertification"
+                        value={profileForm.areaOfCertification}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      >
+                        <option value="">Select Certification Area</option>
+                        {CERTIFICATION_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
                 {isEditing && (
                   <div className="profile-actions">
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       className="profile-btn profile-btn--secondary"
                       onClick={handleEditToggle}
                       disabled={loading}
                     >
-                      <FaTimes /> Cancel
+                      Cancel
                     </button>
-                    <button 
-                      type="submit" 
+                    <button
+                      type="submit"
                       className="profile-btn profile-btn--primary"
                       disabled={loading || !hasChanges}
                     >
@@ -686,7 +1209,7 @@ export default function Profile({ user, onUpdateUser }) {
                         <span className="profile-spinner"></span>
                       ) : (
                         <>
-                          <FaSave /> Save Changes
+                          Save Changes
                         </>
                       )}
                     </button>
