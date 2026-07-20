@@ -1,12 +1,20 @@
 import { useState, useRef } from 'react'
 import emailjs from '@emailjs/browser'
-import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaArrowRight, FaCheckCircle } from 'react-icons/fa'
+import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaArrowRight, FaCheckCircle, FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
+import { IoShareSocial } from "react-icons/io5"
 import './Contact.css'
 
 const contactInfo = [
   { icon: <FaMapMarkerAlt />, label: 'ADDRESS', value: 'Sir Bhavsinhji Polytechnic Institute, Waghawadi Road, Bhavnagar, Gujarat — 364001' },
-  { icon: <FaPhone />, label: 'PHONE', value: '+91 98765 43210' },
-  { icon: <FaEnvelope />, label: 'EMAIL', value: 'dftalumnifamily@gmail.com' },
+  { icon: <FaPhone />, label: 'PHONE', value: 'To Be Added!', flip: true },
+  { icon: <FaEnvelope />, label: 'EMAIL', value: 'dftalumnifamily@gmail.com', href: 'mailto:dftalumnifamily@gmail.com' },
+]
+
+const socialLinks = [
+  { icon: <FaFacebook />, label: 'Facebook', href: 'https://www.facebook.com/dftalumnifamily' },
+  { icon: <FaInstagram />, label: 'Instagram', href: 'https://www.instagram.com/dftalumnifamily/' },
+  { icon: <FaLinkedin />, label: 'LinkedIn', href: 'https://www.linkedin.com/company/dft-alumni/posts/?feedView=all' },
+  { icon: <FaYoutube />, label: 'YouTube', href: 'https://www.youtube.com/@DFTAlumniFamily' },
 ]
 
 export default function Contact() {
@@ -41,15 +49,15 @@ export default function Contact() {
       formRef.current,
       publicKey
     )
-    .then((result) => {
-      console.log(result.text)
-      setLoading(false)
-      setSubmitted(true)
-    }, (err) => {
-      console.error(err.text)
-      setLoading(false)
-      setError('An error occurred while sending the message. Please try again later.')
-    })
+      .then((result) => {
+        console.log(result.text)
+        setLoading(false)
+        setSubmitted(true)
+      }, (err) => {
+        console.error(err.text)
+        setLoading(false)
+        setError('An error occurred while sending the message. Please try again later.')
+      })
   }
 
   return (
@@ -71,13 +79,41 @@ export default function Contact() {
           <div className="contact__info">
             {contactInfo.map((info, i) => (
               <div key={i} className="contact__info-item reveal" style={{ transitionDelay: `${i * 0.1}s` }}>
-                <div className="contact__info-icon">{info.icon}</div>
+                <div className={`contact__info-icon${info.flip ? ' contact__info-icon--flip' : ''}`}>{info.icon}</div>
                 <div>
                   <div className="contact__info-label">{info.label}</div>
-                  <div className="contact__info-value">{info.value}</div>
+                  {info.href ? (
+                    <a href={info.href} className="contact__info-value contact__info-link">{info.value}</a>
+                  ) : (
+                    <div className="contact__info-value">{info.value}</div>
+                  )}
                 </div>
               </div>
             ))}
+
+            {/* Social media handles */}
+            <div className="contact__info-item contact__socials-item reveal" style={{ transitionDelay: `${contactInfo.length * 0.1}s` }}>
+              <div className="contact__info-icon">
+                <IoShareSocial />
+              </div>
+              <div>
+                <div className="contact__info-label">FOLLOW US</div>
+                <div className="contact__socials">
+                  {socialLinks.map((s) => (
+
+                    <a key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contact__social"
+                      aria-label={s.label}
+                    >
+                      {s.icon}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
 
             {/* Ticket CTA component from design-system */}
             <div className="ticket contact__ticket reveal" style={{ transitionDelay: '0.35s' }}>

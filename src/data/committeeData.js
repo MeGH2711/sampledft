@@ -8,11 +8,11 @@ import sangam4 from '../assets/Sangam_Team/Ramdevsinh_Gohil.avif'
 import sangam5 from '../assets/Sangam_Team/Tarak_Pandya.avif'
 
 export const sangamCoreTeam = [
-  { name: 'Darshak Maru', role: 'Core Team', batch: 'Batch of 2005', img: sangam1, gmail: '', linkedin: 'https://www.linkedin.com/in/darshak-maru-b588b878' },
-  { name: 'Keyur Darji', role: 'Core Team', batch: 'Batch of 2008', img: sangam2, gmail: '', linkedin: 'https://www.linkedin.com/in/keyur-darji-23255973/' },
-  { name: 'Pratik Patel', role: 'Core Team', batch: 'Batch of 2007', img: sangam3, gmail: '', linkedin: 'https://www.linkedin.com/in/pratik-patel-32957317/' },
-  { name: 'Ramdevsinh Gohil', role: 'Core Team', batch: 'Batch of 2007', img: sangam4, gmail: '', linkedin: 'https://www.linkedin.com/in/ramdevsinh-gohil-9b7b63105/' },
-  { name: 'Tarak Pandya', role: 'Core Team', batch: 'Batch of 2007', img: sangam5, gmail: '', linkedin: 'https://www.linkedin.com/in/tarak-pandya-14a50419a/' },
+  { name: 'Darshak Maru', role: 'Core Team', batch: 'Batch of 2002', img: sangam1, gmail: '', linkedin: 'https://www.linkedin.com/in/darshak-maru-b588b878' },
+  { name: 'Keyur Darji', role: 'Core Team', batch: 'Batch of', img: sangam2, gmail: '', linkedin: 'https://www.linkedin.com/in/keyur-darji-23255973/' },
+  { name: 'Pratik Patel', role: 'Core Team', batch: 'Batch of', img: sangam3, gmail: '', linkedin: 'https://www.linkedin.com/in/pratik-patel-32957317/' },
+  { name: 'Ramdevsinh Gohil', role: 'Core Team', batch: 'Batch of', img: sangam4, gmail: '', linkedin: 'https://www.linkedin.com/in/ramdevsinh-gohil-9b7b63105/' },
+  { name: 'Tarak Pandya', role: 'Core Team', batch: 'Batch of', img: sangam5, gmail: '', linkedin: 'https://www.linkedin.com/in/tarak-pandya-14a50419a/' },
 ]
 
 export const members = [

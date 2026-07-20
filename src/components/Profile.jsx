@@ -32,7 +32,8 @@ import {
   ACADEMIC_YEARS,
   DEGREE_OPTIONS,
   CERTIFICATION_OPTIONS,
-  PRODUCT_SERVICE_OPTIONS
+  PRODUCT_SERVICE_OPTIONS,
+  HOBBY_OPTIONS
 } from '../data/formdata'
 
 const MONTH_OPTIONS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -643,31 +644,6 @@ export default function Profile({ user, onUpdateUser }) {
       return {
         ...prev,
         awards: updated
-      }
-    })
-  }
-
-  const handleAddHobby = () => {
-    setProfileForm(prev => ({
-      ...prev,
-      hobbies: [...(prev.hobbies || []), '']
-    }))
-  }
-
-  const handleRemoveHobby = (index) => {
-    setProfileForm(prev => ({
-      ...prev,
-      hobbies: (prev.hobbies || []).filter((_, i) => i !== index)
-    }))
-  }
-
-  const handleHobbyChange = (index, val) => {
-    setProfileForm(prev => {
-      const updated = [...(prev.hobbies || [])]
-      updated[index] = val
-      return {
-        ...prev,
-        hobbies: updated
       }
     })
   }
@@ -1845,69 +1821,38 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
                 )}
 
-                {/* Hobbies list */}
-                <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
-                    Interest / Hobby
-                  </label>
-                  {((profileForm.hobbies || []).length > 0) ? (
-                    (profileForm.hobbies || []).map((hobby, index) => (
-                      <div key={index} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                        <div className="profile-field" style={{ flex: 1 }}>
-                          <div className="profile-field__input-wrap">
-                            <FaHeart className="profile-field__icon" />
-                            <input
-                              type="text"
-                              value={hobby}
-                              onChange={(e) => handleHobbyChange(index, e.target.value)}
-                              disabled={!isEditing || loading}
-                              placeholder="No Data Provided"
-                            />
-                          </div>
-                        </div>
-                        {isEditing && (
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveHobby(index)}
-                            className="profile-btn profile-btn--secondary"
-                            style={{
-                              width: '44px',
-                              height: '44px',
-                              padding: 0,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              color: 'var(--signal-red)',
-                              backgroundColor: 'rgba(232, 48, 42, 0.05)',
-                              borderColor: 'var(--line-grey)',
-                              margin: 0
-                            }}
-                            title="Remove Hobby"
-                          >
-                            <FaTrash />
-                          </button>
+                {/* Interest / Hobby checkbox grid */}
+                <div className="profile-field profile-field--full" style={{ marginTop: '15px', marginBottom: '20px' }}>
+                  <label>Interest / Hobby</label>
+                  <div className="profile-field__input-wrap">
+                    {isEditing ? (
+                      <div className="product-services-checkbox-group">
+                        {HOBBY_OPTIONS.map(opt => {
+                          const isChecked = (profileForm.hobbies || []).includes(opt)
+                          return (
+                            <label key={opt} className="checkbox-option">
+                              <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={() => handleMultiSelectChange('hobbies', opt)}
+                                disabled={loading}
+                              />
+                              <span>{opt}</span>
+                            </label>
+                          )
+                        })}
+                      </div>
+                    ) : (
+                      <div className="profile-field__view-value" style={{ minHeight: '44px', display: 'flex', alignItems: 'center', background: 'var(--fog-grey)', border: '1px solid var(--line-grey)', borderRadius: '4px', padding: '10px 14px', fontSize: '0.85rem', fontWeight: '600', color: 'var(--navy-deep)', width: '100%', boxSizing: 'border-box' }}>
+                        {profileForm.hobbies && profileForm.hobbies.length > 0 ? (
+                          profileForm.hobbies.join(', ')
+                        ) : (
+                          'No Data Provided'
                         )}
                       </div>
-                    ))
-                  ) : (
-                    <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Interests or Hobbies added.</div>
-                  )}
-                </div>
-
-                {/* Add Hobby Button */}
-                {isEditing && (
-                  <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-start', marginBottom: '20px' }}>
-                    <button
-                      type="button"
-                      onClick={handleAddHobby}
-                      className="profile-btn profile-btn--secondary"
-                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
-                      disabled={loading}
-                    >
-                      <FaPlus /> Add Interest / Hobby
-                    </button>
+                    )}
                   </div>
-                )}
+                </div>
 
                 {isEditing && (
                   <div className="profile-actions">

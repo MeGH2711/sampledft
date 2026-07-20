@@ -31,9 +31,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--signal-red);
+  color: var(--paper-white);
   font-size: 0.95rem;
   flex-shrink: 0;
+}
+
+.contact__info-icon--flip {
   transform: scaleX(-1);
 }
 
@@ -42,7 +45,7 @@
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 2px;
-  color: var(--slate);
+  color: var(--signal-red);
   text-transform: uppercase;
   margin-bottom: 4px;
 }
@@ -52,6 +55,41 @@
   color: var(--navy-deep);
   font-weight: 500;
   line-height: 1.5;
+}
+
+.contact__socials {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.contact__info-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.contact__info-link:hover {
+  color: var(--signal-red);
+  text-decoration: underline;
+}
+
+.contact__social {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--fog-grey);
+  border: 1px solid var(--line-grey);
+  color: var(--navy-deep);
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.contact__social:hover {
+  background: var(--signal-red);
+  border-color: var(--signal-red);
+  color: var(--paper-white);
 }
 
 /* Ticket CTA (from design-system) */
@@ -179,14 +217,19 @@
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .contact__spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(255,255,255,0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-top-color: #fff;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
@@ -218,10 +261,18 @@
 }
 
 @media (max-width: 900px) {
-  .contact__grid { grid-template-columns: 1fr; }
+  .contact__grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 540px) {
-  .contact__form { padding: 20px; }
-  .contact__form-row { grid-template-columns: 1fr; gap: 14px; }
+  .contact__form {
+    padding: 20px;
+  }
+
+  .contact__form-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
 }

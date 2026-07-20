@@ -38,7 +38,8 @@ import {
   ACADEMIC_YEARS,
   DEGREE_OPTIONS,
   CERTIFICATION_OPTIONS,
-  PRODUCT_SERVICE_OPTIONS
+  PRODUCT_SERVICE_OPTIONS,
+  HOBBY_OPTIONS
 } from '../data/formdata'
 
 const MONTH_OPTIONS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -372,31 +373,6 @@ export default function Login({ user, onLoginSuccess }) {
       return {
         ...prev,
         awards: updated
-      }
-    })
-  }
-
-  const handleAddHobby = () => {
-    setRegisterForm(prev => ({
-      ...prev,
-      hobbies: [...(prev.hobbies || []), '']
-    }))
-  }
-
-  const handleRemoveHobby = (index) => {
-    setRegisterForm(prev => ({
-      ...prev,
-      hobbies: (prev.hobbies || []).filter((_, i) => i !== index)
-    }))
-  }
-
-  const handleHobbyChange = (index, val) => {
-    setRegisterForm(prev => {
-      const updated = [...(prev.hobbies || [])]
-      updated[index] = val
-      return {
-        ...prev,
-        hobbies: updated
       }
     })
   }
@@ -1808,13 +1784,13 @@ export default function Login({ user, onLoginSuccess }) {
                   {/* Certifications list */}
                   <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
                     <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
-                      Certifications
+                      Certifications / Qualifications
                     </label>
                     {((registerForm.certifications || []).length > 0) ? (
                       (registerForm.certifications || []).map((cert, index) => (
                         <div key={index} className="previous-degree-row">
                           <div className="login-field">
-                            <label htmlFor={`reg-cert-area-${index}`}>Area of Certification</label>
+                            <label htmlFor={`reg-cert-area-${index}`}>Area of Certification / Qualification</label>
                             <div className="login-field__input-wrap">
                               <FaCertificate className="login-field__icon" style={{ color: 'var(--slate)' }} />
                               <select
@@ -1831,7 +1807,7 @@ export default function Login({ user, onLoginSuccess }) {
                           </div>
 
                           <div className="login-field">
-                            <label htmlFor={`reg-cert-detail-${index}`}>About the Certification Detail</label>
+                            <label htmlFor={`reg-cert-detail-${index}`}>About the Certification / Qualification Detail</label>
                             <div className="login-field__input-wrap">
                               <FaBriefcase className="login-field__icon" />
                               <input
@@ -1860,14 +1836,14 @@ export default function Login({ user, onLoginSuccess }) {
                               backgroundColor: 'rgba(232, 48, 42, 0.05)',
                               borderColor: 'var(--line-grey)'
                             }}
-                            title="Remove Certification"
+                            title="Remove Certification / Qualification"
                           >
                             <FaTrash />
                           </button>
                         </div>
                       ))
                     ) : (
-                      <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Certifications added.</div>
+                      <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Certifications / Qualifications added.</div>
                     )}
                   </div>
 
@@ -1880,7 +1856,7 @@ export default function Login({ user, onLoginSuccess }) {
                       style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
                       disabled={loading}
                     >
-                      <FaPlus /> Add Certification
+                      <FaPlus /> Add Certification / Qualification
                     </button>
                   </div>
 
@@ -1944,64 +1920,25 @@ export default function Login({ user, onLoginSuccess }) {
                     </button>
                   </div>
 
-                  {/* Hobbies list */}
-                  <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
-                      Interest / Hobby
-                    </label>
-                    {((registerForm.hobbies || []).length > 0) ? (
-                      (registerForm.hobbies || []).map((hobby, index) => (
-                        <div key={index} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                          <div className="login-field" style={{ flex: 1 }}>
-                            <div className="login-field__input-wrap">
-                              <FaHeart className="login-field__icon" />
-                              <input
-                                type="text"
-                                placeholder="Hobby (e.g. Reading, Photography)"
-                                value={hobby}
-                                onChange={(e) => handleHobbyChange(index, e.target.value)}
-                                disabled={loading}
-                              />
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveHobby(index)}
-                            className="profile-btn profile-btn--secondary"
-                            style={{
-                              width: '44px',
-                              height: '44px',
-                              padding: 0,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              color: 'var(--signal-red)',
-                              backgroundColor: 'rgba(232, 48, 42, 0.05)',
-                              borderColor: 'var(--line-grey)',
-                              margin: 0
-                            }}
-                            title="Remove Hobby"
-                          >
-                            <FaTrash />
-                          </button>
-                        </div>
-                      ))
-                    ) : (
-                      <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Interests or Hobbies added.</div>
-                    )}
-                  </div>
-
-                  {/* Add Hobby Button */}
-                  <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-start', marginBottom: '20px' }}>
-                    <button
-                      type="button"
-                      onClick={handleAddHobby}
-                      className="profile-btn profile-btn--secondary"
-                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
-                      disabled={loading}
-                    >
-                      <FaPlus /> Add Interest / Hobby
-                    </button>
+                  {/* Interest / Hobby checkbox grid */}
+                  <div className="login-field login-field--full" style={{ marginTop: '15px', marginBottom: '20px' }}>
+                    <label>Interest / Hobby</label>
+                    <div className="product-services-checkbox-group">
+                      {HOBBY_OPTIONS.map(opt => {
+                        const isChecked = (registerForm.hobbies || []).includes(opt)
+                        return (
+                          <label key={opt} className="checkbox-option">
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={() => handleMultiSelectChange('hobbies', opt)}
+                              disabled={loading}
+                            />
+                            <span>{opt}</span>
+                          </label>
+                        )
+                      })}
+                    </div>
                   </div>
 
                   <div className="login-form__row">

@@ -54,3 +54,19 @@ export const PRODUCT_SERVICE_OPTIONS = [
   "NDT Services",
   "Others",
 ]
+
+export const HOBBY_OPTIONS = [
+  "Playing Sports",
+  "Reading",
+  "Music Instrument",
+  "Singing",
+  "Dancing",
+  "Poetry",
+  "Photography & Videography",
+  "Social Media Content Creation",
+  "Art & Craft",
+  "Cooking",
+  "Social Work",
+  "Yoga / Fitness",
+  "Camping / Trekking",
+]
