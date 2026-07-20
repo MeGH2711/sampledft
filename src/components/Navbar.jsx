@@ -264,6 +264,7 @@ export default function Navbar({ user, onLogout }) {
                     </div>
                     <span className="navbar__dropdown-sub">Class of {user.degree ? `${user.degree} · ` : ''}{user.passoutYear || user.batch}</span>
                   </div>
+                  <hr className="navbar__dropdown-divider" />
                   <RouterLink
                     to="/profile"
                     className="navbar__user-dropdown-item"
@@ -271,7 +272,7 @@ export default function Navbar({ user, onLogout }) {
                   >
                     My Profile
                   </RouterLink>
-                  <hr className="navbar__dropdown-divider" />
+                  {/* <hr className="navbar__dropdown-divider" /> */}
                   {(user.account_type === 'admin' || user.account_type === 'developer') && (
                     <>
                       <RouterLink
@@ -282,7 +283,7 @@ export default function Navbar({ user, onLogout }) {
                       >
                         Admin Dashboard
                       </RouterLink>
-                      <hr className="navbar__dropdown-divider" />
+                      {/* <hr className="navbar__dropdown-divider" /> */}
                     </>
                   )}
                   <button
