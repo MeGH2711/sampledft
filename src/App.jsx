@@ -22,6 +22,7 @@ import Newsroom from './components/Newsroom'
 import Login from './components/Login'
 import Profile from './components/Profile'
 import Admin from './components/Admin'
+import TermsAndConditions from './components/TermsAndConditions'
 import { auth, isFirebaseConfigured } from './firebase'
 import { signOut } from 'firebase/auth'
 
@@ -143,6 +144,7 @@ function App() {
           <Route path="/login" element={<Login user={user} onLoginSuccess={handleLoginSuccess} />} />
           <Route path="/profile" element={<Profile user={user} onUpdateUser={handleUpdateUser} />} />
           <Route path="/admin" element={<Admin user={user} onUpdateUser={handleUpdateUser} />} />
+          <Route path="/terms" element={<TermsAndConditions />} />
         </Routes>
       </main>
       {showHeaderFooter && <Footer />}

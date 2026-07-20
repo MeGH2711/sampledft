@@ -121,7 +121,7 @@ export default function Footer() {
       <div className="footer__bottom">
         <div className="container footer__bottom-inner">
           <p className="footer__copy">
-            &copy; {new Date().getFullYear()} DFT Alumni Association · Bhavnagar · Gujarat
+            &copy; {new Date().getFullYear()} DFT Alumni Association · Bhavnagar · Gujarat · <RouterLink to="/terms" style={{ color: 'rgba(255, 255, 255, 0.5)', textDecoration: 'none', transition: 'color 0.2s', marginLeft: '6px' }} onMouseOver={(e) => e.target.style.color = '#fff'} onMouseOut={(e) => e.target.style.color = 'rgba(255, 255, 255, 0.5)'}>Terms & Conditions</RouterLink>
           </p>
           <p className="footer__design">
             Designed and Developed with 💙 by <a href="https://meghpatel.vercel.app" target="_blank" rel="noopener noreferrer">Megh Patel</a>
