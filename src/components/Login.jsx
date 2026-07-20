@@ -143,6 +143,7 @@ export default function Login({ user, onLoginSuccess }) {
     country: '',
     certifications: [],
     productServices: [],
+    otherProductServices: '',
     department: '',
     workingSince: '',
     companyCity: '',
@@ -154,21 +155,6 @@ export default function Login({ user, onLoginSuccess }) {
     awards: [],
     hobbies: []
   })
-
-  const [isProductServicesOpen, setIsProductServicesOpen] = useState(false)
-  const productServicesRef = useRef(null)
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (productServicesRef.current && !productServicesRef.current.contains(event.target)) {
-        setIsProductServicesOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
 
   const [showPhoneModal, setShowPhoneModal] = useState(false)
   const [verifyPhoneInput, setVerifyPhoneInput] = useState('')
@@ -481,6 +467,7 @@ export default function Login({ user, onLoginSuccess }) {
             country: profileData.country || '',
             certifications: loadedCertifications,
             productServices: loadedProductServices,
+            otherProductServices: profileData.otherProductServices || '',
             department: profileData.department || '',
             workingSince: profileData.workingSince || '',
             companyCity: profileData.companyCity || '',
@@ -603,7 +590,8 @@ export default function Login({ user, onLoginSuccess }) {
               degree: userToLogin.degree,
               linkedin: userToLogin.linkedin || '',
               verification_status: userToLogin.verification_status !== undefined ? userToLogin.verification_status : false,
-              account_type: userToLogin.account_type || 'alumni'
+              account_type: userToLogin.account_type || 'alumni',
+              otherProductServices: userToLogin.otherProductServices || ''
             })
             navigate('/')
           }, 1500)
@@ -713,6 +701,7 @@ export default function Login({ user, onLoginSuccess }) {
           country: registerForm.country || '',
           certifications: registerForm.certifications || [],
           productServices: registerForm.productServices || [],
+          otherProductServices: registerForm.productServices.includes('Others') ? registerForm.otherProductServices || '' : '',
           department: registerForm.department || '',
           workingSince: registerForm.workingSince || '',
           companyCity: registerForm.companyCity || '',
@@ -754,6 +743,7 @@ export default function Login({ user, onLoginSuccess }) {
           country: registerForm.country || '',
           certifications: registerForm.certifications || [],
           productServices: registerForm.productServices || [],
+          otherProductServices: registerForm.productServices.includes('Others') ? registerForm.otherProductServices || '' : '',
           department: registerForm.department || '',
           workingSince: registerForm.workingSince || '',
           companyCity: registerForm.companyCity || '',
@@ -813,6 +803,7 @@ export default function Login({ user, onLoginSuccess }) {
           country: registerForm.country || '',
           certifications: registerForm.certifications || [],
           productServices: registerForm.productServices || [],
+          otherProductServices: registerForm.productServices.includes('Others') ? registerForm.otherProductServices || '' : '',
           department: registerForm.department || '',
           workingSince: registerForm.workingSince || '',
           companyCity: registerForm.companyCity || '',
@@ -855,6 +846,7 @@ export default function Login({ user, onLoginSuccess }) {
           country: newUser.country || '',
           certifications: newUser.certifications || [],
           productServices: newUser.productServices || [],
+          otherProductServices: newUser.otherProductServices || '',
           department: newUser.department || '',
           workingSince: newUser.workingSince || '',
           companyCity: newUser.companyCity || '',
@@ -1727,50 +1719,42 @@ export default function Login({ user, onLoginSuccess }) {
                   <div className="login-form__grid" style={{ marginTop: '10px' }}>
                     <div className="login-field login-field--full">
                       <label>Detail of Product / Services offered by your Company</label>
-                      <div className="login-field__input-wrap product-services-multiselect" ref={productServicesRef}>
-                        <FaBoxOpen className="login-field__icon" style={{ color: 'var(--slate)' }} />
-                        <div
-                          className={`multiselect-control ${isProductServicesOpen ? 'open' : ''} ${loading ? 'disabled' : ''}`}
-                          onClick={() => !loading && setIsProductServicesOpen(!isProductServicesOpen)}
-                        >
-                          <div className="multiselect-values">
-                            {registerForm.productServices && registerForm.productServices.length > 0 ? (
-                              registerForm.productServices.map(val => (
-                                <span key={val} className="multiselect-tag">
-                                  {val}
-                                  <span className="multiselect-tag-remove" onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleMultiSelectChange('productServices', val);
-                                  }}>&times;</span>
-                                </span>
-                              ))
-                            ) : (
-                              <span className="multiselect-placeholder">Select Offerings</span>
-                            )}
-                          </div>
-                          <div className="multiselect-arrow"></div>
-                        </div>
-
-                        {isProductServicesOpen && (
-                          <div className="multiselect-dropdown">
-                            {PRODUCT_SERVICE_OPTIONS.map(opt => {
-                              const isChecked = (registerForm.productServices || []).includes(opt);
-                              return (
-                                <label key={opt} className="multiselect-option" onClick={(e) => e.stopPropagation()}>
-                                  <input
-                                    type="checkbox"
-                                    checked={isChecked}
-                                    onChange={() => handleMultiSelectChange('productServices', opt)}
-                                    disabled={loading}
-                                  />
-                                  <span>{opt}</span>
-                                </label>
-                              );
-                            })}
-                          </div>
-                        )}
+                      <div className="product-services-checkbox-group">
+                        {PRODUCT_SERVICE_OPTIONS.map(opt => {
+                          const isChecked = (registerForm.productServices || []).includes(opt)
+                          return (
+                            <label key={opt} className="checkbox-option">
+                              <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={() => handleMultiSelectChange('productServices', opt)}
+                                disabled={loading}
+                              />
+                              <span>{opt}</span>
+                            </label>
+                          )
+                        })}
                       </div>
                     </div>
+
+                    {registerForm.productServices.includes('Others') && (
+                      <div className="login-field login-field--full" style={{ marginTop: '5px' }}>
+                        <label htmlFor="reg-other-product-services">Please specify other products/services <span className="login-field__required">*</span></label>
+                        <div className="login-field__input-wrap">
+                          <FaBoxOpen className="login-field__icon" />
+                          <input
+                            id="reg-other-product-services"
+                            type="text"
+                            name="otherProductServices"
+                            placeholder="Enter details of other products/services offered"
+                            value={registerForm.otherProductServices}
+                            onChange={handleRegisterChange}
+                            required
+                            disabled={loading}
+                          />
+                        </div>
+                      </div>
+                    )}
 
                     <div className="login-field">
                       <label htmlFor="reg-last-promotion">Last Received Promotion (Designation)</label>
@@ -2135,13 +2119,13 @@ export default function Login({ user, onLoginSuccess }) {
             <p className="login-modal-description">
               Please enter the Primary, Secondary, or WhatsApp phone number associated with the account <strong>{loginForm.email}</strong> to verify your identity.
             </p>
-            
+
             {verifyPhoneError && (
               <div className="login-error" style={{ marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 14px', borderRadius: '6px', fontSize: '0.85rem' }}>
                 <FaTimesCircle /> {verifyPhoneError}
               </div>
             )}
-            
+
             <form onSubmit={handleVerifyAndResetPassword}>
               <div className="login-field" style={{ margin: '15px 0' }}>
                 <label htmlFor="verify-phone">Associated Phone Number</label>

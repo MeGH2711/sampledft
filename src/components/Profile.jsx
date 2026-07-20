@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   FaArrowLeft,
@@ -147,6 +147,7 @@ export default function Profile({ user, onUpdateUser }) {
     country: '',
     certifications: [],
     productServices: [],
+    otherProductServices: '',
     department: '',
     workingSince: '',
     companyCity: '',
@@ -191,6 +192,7 @@ export default function Profile({ user, onUpdateUser }) {
     country: '',
     certifications: [],
     productServices: [],
+    otherProductServices: '',
     department: '',
     workingSince: '',
     companyCity: '',
@@ -202,21 +204,6 @@ export default function Profile({ user, onUpdateUser }) {
     awards: [],
     hobbies: []
   })
-
-  const [isProductServicesOpen, setIsProductServicesOpen] = useState(false)
-  const productServicesRef = useRef(null)
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (productServicesRef.current && !productServicesRef.current.contains(event.target)) {
-        setIsProductServicesOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
 
   // Load user data on mount
   useEffect(() => {
@@ -294,6 +281,7 @@ export default function Profile({ user, onUpdateUser }) {
               country: data.country || user.country || '',
               certifications: loadedCertifications,
               productServices: loadedProductServices,
+              otherProductServices: data.otherProductServices || user.otherProductServices || '',
               department: data.department || user.department || '',
               workingSince: formatDob(data.workingSince || user.workingSince || ''),
               companyCity: data.companyCity || user.companyCity || '',
@@ -362,6 +350,7 @@ export default function Profile({ user, onUpdateUser }) {
               country: user.country || '',
               certifications: loadedCertifications,
               productServices: loadedProductServices,
+              otherProductServices: user.otherProductServices || '',
               department: user.department || '',
               workingSince: formatDob(user.workingSince || ''),
               companyCity: user.companyCity || '',
@@ -441,6 +430,7 @@ export default function Profile({ user, onUpdateUser }) {
               country: parsed.country || '',
               certifications: loadedCertifications,
               productServices: loadedProductServices,
+              otherProductServices: parsed.otherProductServices || '',
               department: parsed.department || '',
               workingSince: formatDob(parsed.workingSince || ''),
               companyCity: parsed.companyCity || '',
@@ -513,6 +503,7 @@ export default function Profile({ user, onUpdateUser }) {
           country: user.country || '',
           certifications: loadedCertifications,
           productServices: loadedProductServices,
+          otherProductServices: user.otherProductServices || '',
           department: user.department || '',
           workingSince: formatDob(user.workingSince || ''),
           companyCity: user.companyCity || '',
@@ -765,6 +756,7 @@ export default function Profile({ user, onUpdateUser }) {
       country: profileForm.country.trim(),
       certifications: profileForm.certifications || [],
       productServices: profileForm.productServices || [],
+      otherProductServices: profileForm.productServices.includes('Others') ? profileForm.otherProductServices || '' : '',
       department: profileForm.department.trim(),
       workingSince: profileForm.workingSince,
       companyCity: profileForm.companyCity.trim(),
@@ -833,6 +825,7 @@ export default function Profile({ user, onUpdateUser }) {
               country: updatedProfile.country,
               certifications: updatedProfile.certifications,
               productServices: updatedProfile.productServices,
+              otherProductServices: updatedProfile.otherProductServices,
               department: updatedProfile.department,
               workingSince: updatedProfile.workingSince,
               companyCity: updatedProfile.companyCity,
@@ -894,6 +887,7 @@ export default function Profile({ user, onUpdateUser }) {
     JSON.stringify(profileForm.degrees || []) !== JSON.stringify(originalForm.degrees || []) ||
     JSON.stringify(profileForm.certifications || []) !== JSON.stringify(originalForm.certifications || []) ||
     JSON.stringify(profileForm.productServices || []) !== JSON.stringify(originalForm.productServices || []) ||
+    profileForm.otherProductServices !== originalForm.otherProductServices ||
     JSON.stringify(profileForm.awards || []) !== JSON.stringify(originalForm.awards || []) ||
     JSON.stringify(profileForm.hobbies || []) !== JSON.stringify(originalForm.hobbies || [])
   ) : false
@@ -1594,38 +1588,13 @@ export default function Profile({ user, onUpdateUser }) {
                 <div className="profile-form__grid" style={{ marginTop: '10px' }}>
                   <div className="profile-field profile-field--full">
                     <label>Detail of Product / Services offered by your Company</label>
-                    <div className="profile-field__input-wrap product-services-multiselect" ref={productServicesRef}>
-                      <FaBoxOpen className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
-                      <div
-                        className={`multiselect-control ${isProductServicesOpen ? 'open' : ''} ${(!isEditing || loading) ? 'disabled' : ''}`}
-                        onClick={() => isEditing && !loading && setIsProductServicesOpen(!isProductServicesOpen)}
-                      >
-                        <div className="multiselect-values">
-                          {profileForm.productServices && profileForm.productServices.length > 0 ? (
-                            profileForm.productServices.map(val => (
-                              <span key={val} className="multiselect-tag">
-                                {val}
-                                {isEditing && (
-                                  <span className="multiselect-tag-remove" onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleMultiSelectChange('productServices', val);
-                                  }}>&times;</span>
-                                )}
-                              </span>
-                            ))
-                          ) : (
-                            <span className="multiselect-placeholder">Select Offerings</span>
-                          )}
-                        </div>
-                        <div className="multiselect-arrow"></div>
-                      </div>
-
-                      {isProductServicesOpen && isEditing && (
-                        <div className="multiselect-dropdown">
+                    <div className="profile-field__input-wrap">
+                      {isEditing ? (
+                        <div className="product-services-checkbox-group">
                           {PRODUCT_SERVICE_OPTIONS.map(opt => {
-                            const isChecked = (profileForm.productServices || []).includes(opt);
+                            const isChecked = (profileForm.productServices || []).includes(opt)
                             return (
-                              <label key={opt} className="multiselect-option" onClick={(e) => e.stopPropagation()}>
+                              <label key={opt} className="checkbox-option">
                                 <input
                                   type="checkbox"
                                   checked={isChecked}
@@ -1634,12 +1603,51 @@ export default function Profile({ user, onUpdateUser }) {
                                 />
                                 <span>{opt}</span>
                               </label>
-                            );
+                            )
                           })}
+                        </div>
+                      ) : (
+                        <div className="profile-field__view-value" style={{ minHeight: '44px', display: 'flex', alignItems: 'center', background: 'var(--fog-grey)', border: '1px solid var(--line-grey)', borderRadius: '4px', padding: '10px 14px', fontSize: '0.85rem', fontWeight: '600', color: 'var(--navy-deep)', width: '100%', boxSizing: 'border-box' }}>
+                          {profileForm.productServices && profileForm.productServices.length > 0 ? (
+                            profileForm.productServices.map((val) => val === 'Others' && profileForm.otherProductServices ? `Others (${profileForm.otherProductServices})` : val).join(', ')
+                          ) : (
+                            'No Data Provided'
+                          )}
                         </div>
                       )}
                     </div>
                   </div>
+
+                  {profileForm.productServices.includes('Others') && (
+                    <div className="profile-field profile-field--full" style={{ marginTop: '10px' }}>
+                      <label htmlFor="prof-other-product-services">Please specify other products/services {isEditing && <span className="profile-field__required">*</span>}</label>
+                      <div className="profile-field__input-wrap">
+                        <FaBoxOpen className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
+                        <input
+                          id="prof-other-product-services"
+                          type="text"
+                          name="otherProductServices"
+                          placeholder="Enter details of other products/services offered"
+                          value={profileForm.otherProductServices}
+                          onChange={handleInputChange}
+                          disabled={!isEditing || loading}
+                          required={isEditing}
+                          style={{
+                            width: '100%',
+                            padding: '10px 14px 10px 42px',
+                            background: isEditing ? 'var(--paper-white)' : 'var(--fog-grey)',
+                            border: '1px solid var(--line-grey)',
+                            borderRadius: '4px',
+                            fontFamily: 'var(--font-body)',
+                            fontSize: '0.82rem',
+                            fontWeight: '600',
+                            color: 'var(--navy-deep)',
+                            boxSizing: 'border-box'
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
 
                   <div className="profile-field">
                     <label htmlFor="prof-last-promotion">Last Received Promotion (Designation)</label>

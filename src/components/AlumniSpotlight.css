@@ -32,7 +32,7 @@
 /* Image section */
 .spotlight__img-wrap {
   position: relative;
-  height: 250px;
+  height: 350px;
   overflow: hidden;
   background: var(--fog-grey);
 }
@@ -141,7 +141,8 @@
 }
 
 .spotlight__social svg {
-  color: #0077b5; /* LinkedIn brand blue */
+  color: #0077b5;
+  /* LinkedIn brand blue */
   font-size: 1.1rem;
   transition: transform 0.2s ease;
 }
@@ -167,7 +168,7 @@
     grid-template-columns: 1fr;
     gap: 24px;
   }
-  
+
   .spotlight__intro {
     font-size: 1rem;
   }
