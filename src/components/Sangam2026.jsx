@@ -4,6 +4,7 @@ import eventImg from '../assets/event-vadodara.avif'
 import sangamLogo from '../assets/Logo/sangam-logo.avif'
 import './Sangam2026.css'
 import ImageWithSkeleton from './ImageWithSkeleton'
+import { sponsorTiers } from '../data/SponserData'
 
 export default function Sangam2026() {
   // Countdown timer calculations
@@ -247,7 +248,6 @@ export default function Sangam2026() {
       {/* ── Sponsors Section ── */}
       <section className="sponsors-section">
         <div className="container">
-          {/* Sponsors listing commented out as there are no active sponsors yet
           <div className="sponsors-header">
             <span className="sponsors-eyebrow">PARTNERS & SPONSORS</span>
             <h2 className="sponsors-title">Supporting Sangam 2026</h2>
@@ -259,89 +259,26 @@ export default function Sangam2026() {
           </div>
 
           <div className="sponsors-container">
-            <div className="sponsor-tier diamond-tier">
-              <div className="tier-badge diamond">DIAMOND SPONSOR</div>
-              <div className="sponsors-grid">
-                <div className="sponsor-card diamond">
-                  <div className="sponsor-logo">
-                    <svg viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <defs>
-                        <linearGradient id="diamondGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#1E3C72" />
-                          <stop offset="100%" stopColor="#2A5298" />
-                        </linearGradient>
-                      </defs>
-                      <path d="M30 40 L50 20 L70 40 L50 60 Z" fill="url(#diamondGrad)" />
-                      <path d="M50 20 L50 60" stroke="#FFFFFF" strokeWidth="2" />
-                      <path d="M30 40 L70 40" stroke="#FFFFFF" strokeWidth="2" />
-                      <text x="90" y="46" fontFamily="Montserrat" fontWeight="800" fontSize="18" fill="var(--navy-deep)">APEX FAB</text>
-                      <text x="90" y="58" fontFamily="Poppins" fontWeight="600" fontSize="10" fill="var(--slate)" letterSpacing="1.5">INDUSTRIES</text>
-                    </svg>
-                  </div>
+            {sponsorTiers.map((tier) => (
+              <div key={tier.id} className={`sponsor-tier ${tier.className}`}>
+                <div className={`tier-badge ${tier.badgeClass}`}>{tier.name}</div>
+                <div className="sponsors-grid">
+                  {tier.sponsors.map((sponsor) => (
+                    <div key={sponsor.id} className={`sponsor-card ${sponsor.cardClass}`}>
+                      <div className="sponsor-logo">
+                        <img 
+                          src={sponsor.logo} 
+                          alt={sponsor.name} 
+                          style={{ maxWidth: '100%', maxHeight: '52px', objectFit: 'contain' }}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
-
-            <div className="sponsor-tier gold-tier">
-              <div className="tier-badge gold">GOLD SPONSORS</div>
-              <div className="sponsors-grid">
-                <div className="sponsor-card gold">
-                  <div className="sponsor-logo">
-                    <svg viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="50" cy="40" r="20" stroke="var(--navy-deep)" strokeWidth="4" />
-                      <rect x="42" y="32" width="16" height="16" fill="var(--signal-red)" />
-                      <text x="85" y="46" fontFamily="Montserrat" fontWeight="800" fontSize="16" fill="var(--navy-deep)">MATRIX</text>
-                      <text x="85" y="58" fontFamily="Poppins" fontWeight="600" fontSize="10" fill="var(--slate)" letterSpacing="1.5">INFRASTRUCTURE</text>
-                    </svg>
-                  </div>
-                </div>
-                <div className="sponsor-card gold">
-                  <div className="sponsor-logo">
-                    <svg viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M30 55 L50 25 L70 55 Z" fill="none" stroke="var(--navy-deep)" strokeWidth="4" />
-                      <path d="M42 45 L50 33 L58 45 Z" fill="var(--signal-red)" />
-                      <text x="85" y="46" fontFamily="Montserrat" fontWeight="800" fontSize="16" fill="var(--navy-deep)">SUMMIT</text>
-                      <text x="85" y="58" fontFamily="Poppins" fontWeight="600" fontSize="10" fill="var(--slate)" letterSpacing="1.5">HEAVY ENGG</text>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="sponsor-tier silver-tier">
-              <div className="tier-badge silver">SILVER SPONSORS</div>
-              <div className="sponsors-grid">
-                <div className="sponsor-card silver">
-                  <div className="sponsor-logo">
-                    <svg viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M20 30 C20 20, 40 20, 40 30 C40 40, 20 40, 20 30 Z" stroke="var(--navy-deep)" strokeWidth="3" />
-                      <circle cx="30" cy="30" r="5" fill="var(--signal-red)" />
-                      <text x="55" y="36" fontFamily="Montserrat" fontWeight="800" fontSize="13" fill="var(--navy-deep)">DELTA ALLOYS</text>
-                    </svg>
-                  </div>
-                </div>
-                <div className="sponsor-card silver">
-                  <div className="sponsor-logo">
-                    <svg viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect x="20" y="20" width="20" height="20" rx="3" stroke="var(--navy-deep)" strokeWidth="3" />
-                      <path d="M25 25 L35 35 M35 25 L25 35" stroke="var(--signal-red)" strokeWidth="2" />
-                      <text x="55" y="36" fontFamily="Montserrat" fontWeight="800" fontSize="13" fill="var(--navy-deep)">NOVA WELD</text>
-                    </svg>
-                  </div>
-                </div>
-                <div className="sponsor-card silver">
-                  <div className="sponsor-logo">
-                    <svg viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M20 22 H40 M20 30 H40 M20 38 H40" stroke="var(--navy-deep)" strokeWidth="3" strokeLinecap="round" />
-                      <circle cx="30" cy="30" r="4" fill="var(--signal-red)" />
-                      <text x="55" y="36" fontFamily="Montserrat" fontWeight="800" fontSize="13" fill="var(--navy-deep)">PRISM PIPES</text>
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
-          */}
+
 
           {/* Call for Sponsors CTA */}
           <div className="sponsors-cta">

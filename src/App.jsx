@@ -124,8 +124,8 @@ function App() {
             <>
               <Hero />
               <About />
-              <FounderDesk />
               <VisionMission />
+              <FounderDesk />
               <Stats />
               <AlumniSpotlight />
               <Committee />

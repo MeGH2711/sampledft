@@ -7,8 +7,7 @@ import './Navbar.css'
 
 const navLinks = [
   { label: 'Home', to: 'home' },
-  { label: 'About', to: 'about' },
-  { label: 'Vision', to: 'vision' },
+  { label: 'About Us', to: 'about' },
   { label: 'Alumni Spotlight', to: 'spotlight' },
   { label: 'Committee', to: 'committee' },
   { label: 'Gallery', to: 'gallery' },
@@ -83,6 +82,80 @@ export default function Navbar({ user, onLogout }) {
           {/* Center: Desktop nav */}
           <nav className="navbar__nav">
             {navLinks.map((link) => {
+              const isAbout = link.label === 'About Us';
+              if (isAbout) {
+                return (
+                  <div key={link.to} className="navbar__dropdown-container">
+                    {isHome ? (
+                      <ScrollLink
+                        to="about"
+                        smooth
+                        duration={600}
+                        offset={-90}
+                        spy
+                        activeClass="active"
+                        className="navbar__link navbar__link--dropdown"
+                      >
+                        About Us <FaChevronDown className="navbar__dropdown-icon" />
+                      </ScrollLink>
+                    ) : (
+                      <RouterLink
+                        to="/"
+                        state={{ scrollTo: 'about' }}
+                        className="navbar__link navbar__link--dropdown"
+                      >
+                        About Us <FaChevronDown className="navbar__dropdown-icon" />
+                      </RouterLink>
+                    )}
+                    <div className="navbar__dropdown-menu">
+                      {isHome ? (
+                        <ScrollLink
+                          to="about"
+                          smooth
+                          duration={600}
+                          offset={-90}
+                          className="navbar__dropdown-item"
+                        >
+                          <span className="navbar__dropdown-item-title">About DFT</span>
+                          <span className="navbar__dropdown-item-desc">Learn about our association</span>
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink
+                          to="/"
+                          state={{ scrollTo: 'about' }}
+                          className="navbar__dropdown-item"
+                        >
+                          <span className="navbar__dropdown-item-title">About DFT</span>
+                          <span className="navbar__dropdown-item-desc">Learn about our association</span>
+                        </RouterLink>
+                      )}
+
+                      {isHome ? (
+                        <ScrollLink
+                          to="vision"
+                          smooth
+                          duration={600}
+                          offset={-90}
+                          className="navbar__dropdown-item"
+                        >
+                          <span className="navbar__dropdown-item-title">Vision & Mission</span>
+                          <span className="navbar__dropdown-item-desc">Our goals & vision statements</span>
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink
+                          to="/"
+                          state={{ scrollTo: 'vision' }}
+                          className="navbar__dropdown-item"
+                        >
+                          <span className="navbar__dropdown-item-title">Vision & Mission</span>
+                          <span className="navbar__dropdown-item-desc">Our goals & vision statements</span>
+                        </RouterLink>
+                      )}
+                    </div>
+                  </div>
+                );
+              }
+
               const isEvents = link.label === 'Events';
               if (isEvents) {
                 return (
@@ -257,7 +330,78 @@ export default function Navbar({ user, onLogout }) {
                 className="navbar__mobile-item"
                 style={{ transitionDelay: `${0.05 + (index * 0.05)}s` }}
               >
-                {link.label === 'Events' ? (
+                {link.label === 'About Us' ? (
+                  <>
+                    {isHome ? (
+                      <ScrollLink
+                        to="about"
+                        smooth
+                        duration={600}
+                        offset={-90}
+                        className="navbar__mobile-link"
+                        activeClass="active"
+                        spy
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        About Us
+                      </ScrollLink>
+                    ) : (
+                      <RouterLink
+                        to="/"
+                        state={{ scrollTo: 'about' }}
+                        className="navbar__mobile-link"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        About Us
+                      </RouterLink>
+                    )}
+                    <div className="navbar__mobile-submenu">
+                      {isHome ? (
+                        <ScrollLink
+                          to="about"
+                          smooth
+                          duration={600}
+                          offset={-90}
+                          className="navbar__mobile-sublink"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          About DFT
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink
+                          to="/"
+                          state={{ scrollTo: 'about' }}
+                          className="navbar__mobile-sublink"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          About DFT
+                        </RouterLink>
+                      )}
+
+                      {isHome ? (
+                        <ScrollLink
+                          to="vision"
+                          smooth
+                          duration={600}
+                          offset={-90}
+                          className="navbar__mobile-sublink"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          Vision & Mission
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink
+                          to="/"
+                          state={{ scrollTo: 'vision' }}
+                          className="navbar__mobile-sublink"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          Vision & Mission
+                        </RouterLink>
+                      )}
+                    </div>
+                  </>
+                ) : link.label === 'Events' ? (
                   <>
                     {isHome ? (
                       <ScrollLink
