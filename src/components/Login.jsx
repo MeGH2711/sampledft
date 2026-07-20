@@ -130,6 +130,7 @@ export default function Login({ user, onLoginSuccess }) {
     confirmPassword: '',
     admissionYear: '',
     passoutYear: '',
+    diplomaNotCompleted: false,
     jobTitle: '',
     company: '',
     linkedin: '',
@@ -154,7 +155,8 @@ export default function Login({ user, onLoginSuccess }) {
     lastPromotionMonth: '',
     lastPromotionYear: '',
     awards: [],
-    hobbies: []
+    hobbies: [],
+    consentAlumniSearch: false
   })
 
   const [showPhoneModal, setShowPhoneModal] = useState(false)
@@ -265,16 +267,16 @@ export default function Login({ user, onLoginSuccess }) {
   }
 
   const handleRegisterChange = (e) => {
-    const { name, value } = e.target
+    const { name, value, type, checked } = e.target
     const cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name)
       ? value.replace(/\D/g, '')
       : value;
     setRegisterForm(prev => {
       const updated = {
         ...prev,
-        [name]: cleanValue
+        [name]: type === 'checkbox' ? checked : cleanValue
       }
-      if (name === 'admissionYear' && cleanValue) {
+      if (name === 'admissionYear' && cleanValue && !prev.diplomaNotCompleted) {
         const parsedYear = parseInt(cleanValue, 10)
         if (!isNaN(parsedYear)) {
           const targetPassout = parsedYear + 3
@@ -284,6 +286,9 @@ export default function Login({ user, onLoginSuccess }) {
             updated.passoutYear = '2040'
           }
         }
+      }
+      if (name === 'diplomaNotCompleted' && checked) {
+        updated.passoutYear = ''
       }
       return updated
     })
@@ -629,6 +634,18 @@ export default function Login({ user, onLoginSuccess }) {
       return
     }
 
+    if (!registerForm.diplomaNotCompleted) {
+      if (isNaN(passYear) || passYear < 1970 || passYear > currentYear + 6) {
+        setError(`Please enter a valid DFT Passout Year (1970 - ${currentYear + 6}).`)
+        return
+      }
+
+      if (admYear > passYear) {
+        setError('DFT Admission Year cannot be after DFT Passout Year.')
+        return
+      }
+    }
+
     if (isNaN(passYear) || passYear < 1970 || passYear > currentYear + 6) {
       setError(`Please enter a valid DFT Passout Year (1970 - ${currentYear + 6}).`)
       return
@@ -661,6 +678,7 @@ export default function Login({ user, onLoginSuccess }) {
           bloodGroup: registerForm.bloodGroup,
           admissionYear: registerForm.admissionYear,
           passoutYear: registerForm.passoutYear,
+          diplomaNotCompleted: registerForm.diplomaNotCompleted || false,
           degrees: registerForm.degrees || [],
           jobTitle: registerForm.jobTitle || '',
           company: registerForm.company || '',
@@ -687,7 +705,8 @@ export default function Login({ user, onLoginSuccess }) {
           lastPromotionMonth: registerForm.lastPromotionMonth || '',
           lastPromotionYear: registerForm.lastPromotionYear || '',
           awards: registerForm.awards || [],
-          hobbies: registerForm.hobbies || []
+          hobbies: registerForm.hobbies || [],
+          consentAlumniSearch: registerForm.consentAlumniSearch || false
         })
 
         const newUser = {
@@ -702,6 +721,7 @@ export default function Login({ user, onLoginSuccess }) {
           bloodGroup: registerForm.bloodGroup,
           admissionYear: registerForm.admissionYear,
           passoutYear: registerForm.passoutYear,
+          diplomaNotCompleted: registerForm.diplomaNotCompleted || false,
           batch: registerForm.passoutYear,
           degrees: registerForm.degrees || [],
           jobTitle: registerForm.jobTitle || '',
@@ -729,7 +749,8 @@ export default function Login({ user, onLoginSuccess }) {
           lastPromotionMonth: registerForm.lastPromotionMonth || '',
           lastPromotionYear: registerForm.lastPromotionYear || '',
           awards: registerForm.awards || [],
-          hobbies: registerForm.hobbies || []
+          hobbies: registerForm.hobbies || [],
+          consentAlumniSearch: registerForm.consentAlumniSearch || false
         }
 
         setRegisteredUserObj(newUser)
@@ -763,6 +784,7 @@ export default function Login({ user, onLoginSuccess }) {
           bloodGroup: registerForm.bloodGroup,
           admissionYear: registerForm.admissionYear,
           passoutYear: registerForm.passoutYear,
+          diplomaNotCompleted: registerForm.diplomaNotCompleted || false,
           degrees: registerForm.degrees || [],
           jobTitle: registerForm.jobTitle || '',
           company: registerForm.company || '',
@@ -789,7 +811,8 @@ export default function Login({ user, onLoginSuccess }) {
           lastPromotionMonth: registerForm.lastPromotionMonth || '',
           lastPromotionYear: registerForm.lastPromotionYear || '',
           awards: registerForm.awards || [],
-          hobbies: registerForm.hobbies || []
+          hobbies: registerForm.hobbies || [],
+          consentAlumniSearch: registerForm.consentAlumniSearch || false
         }
 
         localStorage.setItem('mockRegisteredAlumni', JSON.stringify(newUser))
@@ -1431,7 +1454,10 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-passout">DFT Passout Year <span className="login-field__required">*</span></label>
+                      <label htmlFor="reg-passout">
+                        DFT Passout Year
+                        {!registerForm.diplomaNotCompleted && <span className="login-field__required"> *</span>}
+                      </label>
                       <div className="login-field__input-wrap">
                         <FaCalendarAlt className="login-field__icon" />
                         <select
@@ -1439,13 +1465,27 @@ export default function Login({ user, onLoginSuccess }) {
                           name="passoutYear"
                           value={registerForm.passoutYear}
                           onChange={handleRegisterChange}
-                          required
-                          disabled={loading}
+                          required={!registerForm.diplomaNotCompleted}
+                          disabled={loading || registerForm.diplomaNotCompleted}
                         >
                           <option value="">Select Year</option>
                           {ACADEMIC_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
                         </select>
                       </div>
+
+                      <label className="login-checkbox" style={{ marginTop: '10px' }}>
+                        <input
+                          type="checkbox"
+                          name="diplomaNotCompleted"
+                          checked={registerForm.diplomaNotCompleted}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                        <span className="login-checkbox__box"></span>
+                        <span className="login-checkbox__label">
+                          I have not yet completed my diploma / Passout Year is not applicable
+                        </span>
+                      </label>
                     </div>
                   </div>
 
@@ -1581,7 +1621,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-job">Current Job Title</label>
+                      <label htmlFor="reg-job">Current Job Title (Designation)</label>
                       <div className="login-field__input-wrap">
                         <FaBriefcase className="login-field__icon" />
                         <input
@@ -2027,6 +2067,22 @@ export default function Login({ user, onLoginSuccess }) {
                         />
                       </div>
                     </div>
+                  </div>
+
+                  <div className="login-field" style={{ margin: '10px 0 20px' }}>
+                    <label className="login-checkbox">
+                      <input
+                        type="checkbox"
+                        name="consentAlumniSearch"
+                        checked={registerForm.consentAlumniSearch}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                      />
+                      <span className="login-checkbox__box"></span>
+                      <span className="login-checkbox__label">
+                        I have given consent to show my details below on the alumni search section: mobile number, email id, & WhatsApp number
+                      </span>
+                    </label>
                   </div>
 
                   <button

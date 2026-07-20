@@ -1,6 +1,6 @@
 # 📁 dft-alumni — Codebase Export
 
-> Generated on: 7/20/2026, 7:42:55 PM
+> Generated on: 7/20/2026, 11:53:33 PM
 
 > Root: `c:\Users\meghp\Desktop\DFT Alumni\DFTWebsite\New_Website\dft-alumni`
 
@@ -9847,8 +9847,8 @@ export default function ImageWithSkeleton({
 /* Custom Checkbox */
 .login-checkbox {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 10px;
   cursor: pointer;
   user-select: none;
 }
@@ -9864,6 +9864,8 @@ export default function ImageWithSkeleton({
 .login-checkbox__box {
   width: 16px;
   height: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
   background: var(--fog-grey);
   border: 1px solid var(--line-grey);
   display: inline-block;
@@ -9898,6 +9900,8 @@ export default function ImageWithSkeleton({
   font-size: 0.75rem;
   color: var(--slate);
   font-weight: 500;
+  line-height: 1.5;
+  flex: 1;
 }
 
 .login-forgot-link {
@@ -10458,7 +10462,8 @@ import {
   ACADEMIC_YEARS,
   DEGREE_OPTIONS,
   CERTIFICATION_OPTIONS,
-  PRODUCT_SERVICE_OPTIONS
+  PRODUCT_SERVICE_OPTIONS,
+  HOBBY_OPTIONS
 } from '../data/formdata'
 
 const MONTH_OPTIONS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -10549,6 +10554,7 @@ export default function Login({ user, onLoginSuccess }) {
     confirmPassword: '',
     admissionYear: '',
     passoutYear: '',
+    diplomaNotCompleted: false,
     jobTitle: '',
     company: '',
     linkedin: '',
@@ -10573,7 +10579,8 @@ export default function Login({ user, onLoginSuccess }) {
     lastPromotionMonth: '',
     lastPromotionYear: '',
     awards: [],
-    hobbies: []
+    hobbies: [],
+    consentAlumniSearch: false
   })
 
   const [showPhoneModal, setShowPhoneModal] = useState(false)
@@ -10684,16 +10691,16 @@ export default function Login({ user, onLoginSuccess }) {
   }
 
   const handleRegisterChange = (e) => {
-    const { name, value } = e.target
+    const { name, value, type, checked } = e.target
     const cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name)
       ? value.replace(/\D/g, '')
       : value;
     setRegisterForm(prev => {
       const updated = {
         ...prev,
-        [name]: cleanValue
+        [name]: type === 'checkbox' ? checked : cleanValue
       }
-      if (name === 'admissionYear' && cleanValue) {
+      if (name === 'admissionYear' && cleanValue && !prev.diplomaNotCompleted) {
         const parsedYear = parseInt(cleanValue, 10)
         if (!isNaN(parsedYear)) {
           const targetPassout = parsedYear + 3
@@ -10703,6 +10710,9 @@ export default function Login({ user, onLoginSuccess }) {
             updated.passoutYear = '2040'
           }
         }
+      }
+      if (name === 'diplomaNotCompleted' && checked) {
+        updated.passoutYear = ''
       }
       return updated
     })
@@ -10792,31 +10802,6 @@ export default function Login({ user, onLoginSuccess }) {
       return {
         ...prev,
         awards: updated
-      }
-    })
-  }
-
-  const handleAddHobby = () => {
-    setRegisterForm(prev => ({
-      ...prev,
-      hobbies: [...(prev.hobbies || []), '']
-    }))
-  }
-
-  const handleRemoveHobby = (index) => {
-    setRegisterForm(prev => ({
-      ...prev,
-      hobbies: (prev.hobbies || []).filter((_, i) => i !== index)
-    }))
-  }
-
-  const handleHobbyChange = (index, val) => {
-    setRegisterForm(prev => {
-      const updated = [...(prev.hobbies || [])]
-      updated[index] = val
-      return {
-        ...prev,
-        hobbies: updated
       }
     })
   }
@@ -11073,6 +11058,18 @@ export default function Login({ user, onLoginSuccess }) {
       return
     }
 
+    if (!registerForm.diplomaNotCompleted) {
+      if (isNaN(passYear) || passYear < 1970 || passYear > currentYear + 6) {
+        setError(`Please enter a valid DFT Passout Year (1970 - ${currentYear + 6}).`)
+        return
+      }
+
+      if (admYear > passYear) {
+        setError('DFT Admission Year cannot be after DFT Passout Year.')
+        return
+      }
+    }
+
     if (isNaN(passYear) || passYear < 1970 || passYear > currentYear + 6) {
       setError(`Please enter a valid DFT Passout Year (1970 - ${currentYear + 6}).`)
       return
@@ -11105,6 +11102,7 @@ export default function Login({ user, onLoginSuccess }) {
           bloodGroup: registerForm.bloodGroup,
           admissionYear: registerForm.admissionYear,
           passoutYear: registerForm.passoutYear,
+          diplomaNotCompleted: registerForm.diplomaNotCompleted || false,
           degrees: registerForm.degrees || [],
           jobTitle: registerForm.jobTitle || '',
           company: registerForm.company || '',
@@ -11131,7 +11129,8 @@ export default function Login({ user, onLoginSuccess }) {
           lastPromotionMonth: registerForm.lastPromotionMonth || '',
           lastPromotionYear: registerForm.lastPromotionYear || '',
           awards: registerForm.awards || [],
-          hobbies: registerForm.hobbies || []
+          hobbies: registerForm.hobbies || [],
+          consentAlumniSearch: registerForm.consentAlumniSearch || false
         })
 
         const newUser = {
@@ -11146,6 +11145,7 @@ export default function Login({ user, onLoginSuccess }) {
           bloodGroup: registerForm.bloodGroup,
           admissionYear: registerForm.admissionYear,
           passoutYear: registerForm.passoutYear,
+          diplomaNotCompleted: registerForm.diplomaNotCompleted || false,
           batch: registerForm.passoutYear,
           degrees: registerForm.degrees || [],
           jobTitle: registerForm.jobTitle || '',
@@ -11173,7 +11173,8 @@ export default function Login({ user, onLoginSuccess }) {
           lastPromotionMonth: registerForm.lastPromotionMonth || '',
           lastPromotionYear: registerForm.lastPromotionYear || '',
           awards: registerForm.awards || [],
-          hobbies: registerForm.hobbies || []
+          hobbies: registerForm.hobbies || [],
+          consentAlumniSearch: registerForm.consentAlumniSearch || false
         }
 
         setRegisteredUserObj(newUser)
@@ -11207,6 +11208,7 @@ export default function Login({ user, onLoginSuccess }) {
           bloodGroup: registerForm.bloodGroup,
           admissionYear: registerForm.admissionYear,
           passoutYear: registerForm.passoutYear,
+          diplomaNotCompleted: registerForm.diplomaNotCompleted || false,
           degrees: registerForm.degrees || [],
           jobTitle: registerForm.jobTitle || '',
           company: registerForm.company || '',
@@ -11233,7 +11235,8 @@ export default function Login({ user, onLoginSuccess }) {
           lastPromotionMonth: registerForm.lastPromotionMonth || '',
           lastPromotionYear: registerForm.lastPromotionYear || '',
           awards: registerForm.awards || [],
-          hobbies: registerForm.hobbies || []
+          hobbies: registerForm.hobbies || [],
+          consentAlumniSearch: registerForm.consentAlumniSearch || false
         }
 
         localStorage.setItem('mockRegisteredAlumni', JSON.stringify(newUser))
@@ -11875,7 +11878,10 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-passout">DFT Passout Year <span className="login-field__required">*</span></label>
+                      <label htmlFor="reg-passout">
+                        DFT Passout Year
+                        {!registerForm.diplomaNotCompleted && <span className="login-field__required"> *</span>}
+                      </label>
                       <div className="login-field__input-wrap">
                         <FaCalendarAlt className="login-field__icon" />
                         <select
@@ -11883,13 +11889,27 @@ export default function Login({ user, onLoginSuccess }) {
                           name="passoutYear"
                           value={registerForm.passoutYear}
                           onChange={handleRegisterChange}
-                          required
-                          disabled={loading}
+                          required={!registerForm.diplomaNotCompleted}
+                          disabled={loading || registerForm.diplomaNotCompleted}
                         >
                           <option value="">Select Year</option>
                           {ACADEMIC_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
                         </select>
                       </div>
+
+                      <label className="login-checkbox" style={{ marginTop: '10px' }}>
+                        <input
+                          type="checkbox"
+                          name="diplomaNotCompleted"
+                          checked={registerForm.diplomaNotCompleted}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                        <span className="login-checkbox__box"></span>
+                        <span className="login-checkbox__label">
+                          I have not yet completed my diploma / Passout Year is not applicable
+                        </span>
+                      </label>
                     </div>
                   </div>
 
@@ -12025,7 +12045,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-job">Current Job Title</label>
+                      <label htmlFor="reg-job">Current Job Title (Designation)</label>
                       <div className="login-field__input-wrap">
                         <FaBriefcase className="login-field__icon" />
                         <input
@@ -12228,13 +12248,13 @@ export default function Login({ user, onLoginSuccess }) {
                   {/* Certifications list */}
                   <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
                     <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
-                      Certifications
+                      Certifications / Qualifications
                     </label>
                     {((registerForm.certifications || []).length > 0) ? (
                       (registerForm.certifications || []).map((cert, index) => (
                         <div key={index} className="previous-degree-row">
                           <div className="login-field">
-                            <label htmlFor={`reg-cert-area-${index}`}>Area of Certification</label>
+                            <label htmlFor={`reg-cert-area-${index}`}>Area of Certification / Qualification</label>
                             <div className="login-field__input-wrap">
                               <FaCertificate className="login-field__icon" style={{ color: 'var(--slate)' }} />
                               <select
@@ -12251,7 +12271,7 @@ export default function Login({ user, onLoginSuccess }) {
                           </div>
 
                           <div className="login-field">
-                            <label htmlFor={`reg-cert-detail-${index}`}>About the Certification Detail</label>
+                            <label htmlFor={`reg-cert-detail-${index}`}>About the Certification / Qualification Detail</label>
                             <div className="login-field__input-wrap">
                               <FaBriefcase className="login-field__icon" />
                               <input
@@ -12280,14 +12300,14 @@ export default function Login({ user, onLoginSuccess }) {
                               backgroundColor: 'rgba(232, 48, 42, 0.05)',
                               borderColor: 'var(--line-grey)'
                             }}
-                            title="Remove Certification"
+                            title="Remove Certification / Qualification"
                           >
                             <FaTrash />
                           </button>
                         </div>
                       ))
                     ) : (
-                      <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Certifications added.</div>
+                      <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Certifications / Qualifications added.</div>
                     )}
                   </div>
 
@@ -12300,7 +12320,7 @@ export default function Login({ user, onLoginSuccess }) {
                       style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
                       disabled={loading}
                     >
-                      <FaPlus /> Add Certification
+                      <FaPlus /> Add Certification / Qualification
                     </button>
                   </div>
 
@@ -12364,64 +12384,25 @@ export default function Login({ user, onLoginSuccess }) {
                     </button>
                   </div>
 
-                  {/* Hobbies list */}
-                  <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
-                      Interest / Hobby
-                    </label>
-                    {((registerForm.hobbies || []).length > 0) ? (
-                      (registerForm.hobbies || []).map((hobby, index) => (
-                        <div key={index} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                          <div className="login-field" style={{ flex: 1 }}>
-                            <div className="login-field__input-wrap">
-                              <FaHeart className="login-field__icon" />
-                              <input
-                                type="text"
-                                placeholder="Hobby (e.g. Reading, Photography)"
-                                value={hobby}
-                                onChange={(e) => handleHobbyChange(index, e.target.value)}
-                                disabled={loading}
-                              />
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveHobby(index)}
-                            className="profile-btn profile-btn--secondary"
-                            style={{
-                              width: '44px',
-                              height: '44px',
-                              padding: 0,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              color: 'var(--signal-red)',
-                              backgroundColor: 'rgba(232, 48, 42, 0.05)',
-                              borderColor: 'var(--line-grey)',
-                              margin: 0
-                            }}
-                            title="Remove Hobby"
-                          >
-                            <FaTrash />
-                          </button>
-                        </div>
-                      ))
-                    ) : (
-                      <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Interests or Hobbies added.</div>
-                    )}
-                  </div>
-
-                  {/* Add Hobby Button */}
-                  <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-start', marginBottom: '20px' }}>
-                    <button
-                      type="button"
-                      onClick={handleAddHobby}
-                      className="profile-btn profile-btn--secondary"
-                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
-                      disabled={loading}
-                    >
-                      <FaPlus /> Add Interest / Hobby
-                    </button>
+                  {/* Interest / Hobby checkbox grid */}
+                  <div className="login-field login-field--full" style={{ marginTop: '15px', marginBottom: '20px' }}>
+                    <label>Interest / Hobby</label>
+                    <div className="product-services-checkbox-group">
+                      {HOBBY_OPTIONS.map(opt => {
+                        const isChecked = (registerForm.hobbies || []).includes(opt)
+                        return (
+                          <label key={opt} className="checkbox-option">
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={() => handleMultiSelectChange('hobbies', opt)}
+                              disabled={loading}
+                            />
+                            <span>{opt}</span>
+                          </label>
+                        )
+                      })}
+                    </div>
                   </div>
 
                   <div className="login-form__row">
@@ -12510,6 +12491,22 @@ export default function Login({ user, onLoginSuccess }) {
                         />
                       </div>
                     </div>
+                  </div>
+
+                  <div className="login-field" style={{ margin: '10px 0 20px' }}>
+                    <label className="login-checkbox">
+                      <input
+                        type="checkbox"
+                        name="consentAlumniSearch"
+                        checked={registerForm.consentAlumniSearch}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                      />
+                      <span className="login-checkbox__box"></span>
+                      <span className="login-checkbox__label">
+                        I have given consent to show my details below on the alumni search section: mobile number, email id, & WhatsApp number
+                      </span>
+                    </label>
                   </div>
 
                   <button
@@ -12615,7 +12612,6 @@ export default function Login({ user, onLoginSuccess }) {
     </div>
   )
 }
-
 ```
 
 ---
@@ -15333,7 +15329,8 @@ import {
   ACADEMIC_YEARS,
   DEGREE_OPTIONS,
   CERTIFICATION_OPTIONS,
-  PRODUCT_SERVICE_OPTIONS
+  PRODUCT_SERVICE_OPTIONS,
+  HOBBY_OPTIONS
 } from '../data/formdata'
 
 const MONTH_OPTIONS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -15944,31 +15941,6 @@ export default function Profile({ user, onUpdateUser }) {
       return {
         ...prev,
         awards: updated
-      }
-    })
-  }
-
-  const handleAddHobby = () => {
-    setProfileForm(prev => ({
-      ...prev,
-      hobbies: [...(prev.hobbies || []), '']
-    }))
-  }
-
-  const handleRemoveHobby = (index) => {
-    setProfileForm(prev => ({
-      ...prev,
-      hobbies: (prev.hobbies || []).filter((_, i) => i !== index)
-    }))
-  }
-
-  const handleHobbyChange = (index, val) => {
-    setProfileForm(prev => {
-      const updated = [...(prev.hobbies || [])]
-      updated[index] = val
-      return {
-        ...prev,
-        hobbies: updated
       }
     })
   }
@@ -17002,13 +16974,13 @@ export default function Profile({ user, onUpdateUser }) {
                 {/* Certifications list */}
                 <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
                   <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
-                    Certifications
+                    Certifications / Qualifications
                   </label>
                   {((profileForm.certifications || []).length > 0) ? (
                     (profileForm.certifications || []).map((cert, index) => (
                       <div key={index} className={isEditing ? "previous-degree-row" : "profile-form__grid"}>
                         <div className="profile-field">
-                          <label htmlFor={`prof-cert-area-${index}`}>Area of Certification</label>
+                          <label htmlFor={`prof-cert-area-${index}`}>Area of Certification / Qualification</label>
                           <div className="profile-field__input-wrap">
                             <FaCertificate className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
                             <select
@@ -17025,7 +16997,7 @@ export default function Profile({ user, onUpdateUser }) {
                         </div>
 
                         <div className="profile-field">
-                          <label htmlFor={`prof-cert-detail-${index}`}>About the Certification Detail</label>
+                          <label htmlFor={`prof-cert-detail-${index}`}>About the Certification / Qualification Detail</label>
                           <div className="profile-field__input-wrap">
                             <FaBriefcase className="profile-field__icon" />
                             <input
@@ -17063,7 +17035,7 @@ export default function Profile({ user, onUpdateUser }) {
                       </div>
                     ))
                   ) : (
-                    <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Certifications added.</div>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Certifications / Qualifications added.</div>
                   )}
                 </div>
 
@@ -17077,7 +17049,7 @@ export default function Profile({ user, onUpdateUser }) {
                       style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
                       disabled={loading}
                     >
-                      <FaPlus /> Add Certification
+                      <FaPlus /> Add Certification / Qualification
                     </button>
                   </div>
                 )}
@@ -17146,69 +17118,38 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
                 )}
 
-                {/* Hobbies list */}
-                <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
-                    Interest / Hobby
-                  </label>
-                  {((profileForm.hobbies || []).length > 0) ? (
-                    (profileForm.hobbies || []).map((hobby, index) => (
-                      <div key={index} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                        <div className="profile-field" style={{ flex: 1 }}>
-                          <div className="profile-field__input-wrap">
-                            <FaHeart className="profile-field__icon" />
-                            <input
-                              type="text"
-                              value={hobby}
-                              onChange={(e) => handleHobbyChange(index, e.target.value)}
-                              disabled={!isEditing || loading}
-                              placeholder="No Data Provided"
-                            />
-                          </div>
-                        </div>
-                        {isEditing && (
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveHobby(index)}
-                            className="profile-btn profile-btn--secondary"
-                            style={{
-                              width: '44px',
-                              height: '44px',
-                              padding: 0,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              color: 'var(--signal-red)',
-                              backgroundColor: 'rgba(232, 48, 42, 0.05)',
-                              borderColor: 'var(--line-grey)',
-                              margin: 0
-                            }}
-                            title="Remove Hobby"
-                          >
-                            <FaTrash />
-                          </button>
+                {/* Interest / Hobby checkbox grid */}
+                <div className="profile-field profile-field--full" style={{ marginTop: '15px', marginBottom: '20px' }}>
+                  <label>Interest / Hobby</label>
+                  <div className="profile-field__input-wrap">
+                    {isEditing ? (
+                      <div className="product-services-checkbox-group">
+                        {HOBBY_OPTIONS.map(opt => {
+                          const isChecked = (profileForm.hobbies || []).includes(opt)
+                          return (
+                            <label key={opt} className="checkbox-option">
+                              <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={() => handleMultiSelectChange('hobbies', opt)}
+                                disabled={loading}
+                              />
+                              <span>{opt}</span>
+                            </label>
+                          )
+                        })}
+                      </div>
+                    ) : (
+                      <div className="profile-field__view-value" style={{ minHeight: '44px', display: 'flex', alignItems: 'center', background: 'var(--fog-grey)', border: '1px solid var(--line-grey)', borderRadius: '4px', padding: '10px 14px', fontSize: '0.85rem', fontWeight: '600', color: 'var(--navy-deep)', width: '100%', boxSizing: 'border-box' }}>
+                        {profileForm.hobbies && profileForm.hobbies.length > 0 ? (
+                          profileForm.hobbies.join(', ')
+                        ) : (
+                          'No Data Provided'
                         )}
                       </div>
-                    ))
-                  ) : (
-                    <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Interests or Hobbies added.</div>
-                  )}
-                </div>
-
-                {/* Add Hobby Button */}
-                {isEditing && (
-                  <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-start', marginBottom: '20px' }}>
-                    <button
-                      type="button"
-                      onClick={handleAddHobby}
-                      className="profile-btn profile-btn--secondary"
-                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
-                      disabled={loading}
-                    >
-                      <FaPlus /> Add Interest / Hobby
-                    </button>
+                    )}
                   </div>
-                )}
+                </div>
 
                 {isEditing && (
                   <div className="profile-actions">
@@ -19298,6 +19239,21 @@ export const PRODUCT_SERVICE_OPTIONS = [
   "Others",
 ]
 
+export const HOBBY_OPTIONS = [
+  "Playing Sports",
+  "Reading",
+  "Music Instrument",
+  "Singing",
+  "Dancing",
+  "Poetry",
+  "Photography & Videography",
+  "Social Media Content Creation",
+  "Art & Craft",
+  "Cooking",
+  "Social Work",
+  "Yoga / Fitness",
+  "Camping / Trekking",
+]
 ```
 
 ---

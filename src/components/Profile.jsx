@@ -1677,13 +1677,13 @@ export default function Profile({ user, onUpdateUser }) {
                 {/* Certifications list */}
                 <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
                   <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
-                    Certifications
+                    Certifications / Qualifications
                   </label>
                   {((profileForm.certifications || []).length > 0) ? (
                     (profileForm.certifications || []).map((cert, index) => (
                       <div key={index} className={isEditing ? "previous-degree-row" : "profile-form__grid"}>
                         <div className="profile-field">
-                          <label htmlFor={`prof-cert-area-${index}`}>Area of Certification</label>
+                          <label htmlFor={`prof-cert-area-${index}`}>Area of Certification / Qualification</label>
                           <div className="profile-field__input-wrap">
                             <FaCertificate className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
                             <select
@@ -1700,7 +1700,7 @@ export default function Profile({ user, onUpdateUser }) {
                         </div>
 
                         <div className="profile-field">
-                          <label htmlFor={`prof-cert-detail-${index}`}>About the Certification Detail</label>
+                          <label htmlFor={`prof-cert-detail-${index}`}>About the Certification / Qualification Detail</label>
                           <div className="profile-field__input-wrap">
                             <FaBriefcase className="profile-field__icon" />
                             <input
@@ -1738,7 +1738,7 @@ export default function Profile({ user, onUpdateUser }) {
                       </div>
                     ))
                   ) : (
-                    <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Certifications added.</div>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Certifications / Qualifications added.</div>
                   )}
                 </div>
 
@@ -1752,7 +1752,7 @@ export default function Profile({ user, onUpdateUser }) {
                       style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
                       disabled={loading}
                     >
-                      <FaPlus /> Add Certification
+                      <FaPlus /> Add Certification / Qualification
                     </button>
                   </div>
                 )}

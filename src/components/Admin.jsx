@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { 
-  FaUserShield, 
-  FaUsers, 
-  FaCheckCircle, 
-  FaBriefcase, 
-  FaTrash, 
-  FaExclamationTriangle, 
-  FaClock, 
-  FaSearch, 
-  FaArrowLeft, 
-  FaPlus, 
-  FaMapMarkerAlt, 
+import {
+  FaUserShield,
+  FaUsers,
+  FaCheckCircle,
+  FaBriefcase,
+  FaTrash,
+  FaExclamationTriangle,
+  FaClock,
+  FaSearch,
+  FaArrowLeft,
+  FaPlus,
+  FaMapMarkerAlt,
   FaInfoCircle,
   FaCopy
 } from 'react-icons/fa'
@@ -223,7 +223,7 @@ export default function Admin({ user, onUpdateUser }) {
           <FaExclamationTriangle className="admin-denied-icon" />
           <h2>Access Restricted</h2>
           <p>
-            This portal is strictly reserved for DFT website Administrators and Developers. 
+            This portal is strictly reserved for DFT website Administrators and Developers.
             If you believe this is an error, please contact support or re-authenticate.
           </p>
           <button className="admin-btn-primary" onClick={() => navigate('/')}>
@@ -252,16 +252,16 @@ export default function Admin({ user, onUpdateUser }) {
     const nameMatch = String(u.name || '').toLowerCase().includes(query)
     const emailMatch = String(u.email || '').toLowerCase().includes(query)
     const batchMatch = String(u.batch || u.passoutYear || '').toLowerCase().includes(query)
-    
+
     // Check degrees array safely or fallback to degree string comparison
     const degreeMatch = Array.isArray(u.degrees)
       ? u.degrees.some(d => {
-          if (d && typeof d === 'object') {
-            return String(d.degree || '').toLowerCase().includes(query) || 
-                   String(d.domain || '').toLowerCase().includes(query);
-          }
-          return String(d || '').toLowerCase().includes(query);
-        })
+        if (d && typeof d === 'object') {
+          return String(d.degree || '').toLowerCase().includes(query) ||
+            String(d.domain || '').toLowerCase().includes(query);
+        }
+        return String(d || '').toLowerCase().includes(query);
+      })
       : String(u.degree || '').toLowerCase().includes(query)
 
     const searchMatch = !query || nameMatch || emailMatch || batchMatch || degreeMatch
@@ -282,7 +282,7 @@ export default function Admin({ user, onUpdateUser }) {
   return (
     <div className="admin-page">
       <div className="admin-container">
-        
+
         {/* Toast notification banner */}
         {toast.show && (
           <div className={`admin-toast-message ${toast.type}`}>
@@ -293,9 +293,9 @@ export default function Admin({ user, onUpdateUser }) {
         {/* Dashboard Title & Meta */}
         <div className="admin-header">
           <div style={{ marginBottom: '20px' }}>
-            <button 
+            <button
               type="button"
-              className="admin-btn-view" 
+              className="admin-btn-view"
               style={{ padding: '8px 16px', display: 'inline-flex', alignItems: 'center', gap: '6px', border: '1px solid var(--line-grey)' }}
               onClick={() => navigate('/')}
             >
@@ -336,10 +336,10 @@ export default function Admin({ user, onUpdateUser }) {
               <FaExclamationTriangle /> Database Permission Denied (Missing Firestore Rules)
             </h4>
             <p style={{ fontSize: '14px', color: 'var(--slate)', marginBottom: '16px', lineHeight: '1.6' }}>
-              Firestore rejected the load request because your current security rules restrict administrative queries on collections. 
+              Firestore rejected the load request because your current security rules restrict administrative queries on collections.
               To authorize admins to verify alumni profiles and post jobs, configure the following rules in your **Firebase Console &gt; Firestore Database &gt; Rules** tab:
             </p>
-            
+
             <pre style={{
               background: '#0B1B3F',
               color: '#F3F4F7',
@@ -351,7 +351,7 @@ export default function Admin({ user, onUpdateUser }) {
               marginBottom: '16px',
               lineHeight: '1.5'
             }}>
-{`rules_version = '2';
+              {`rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function isLoggedIn() {
@@ -377,8 +377,8 @@ service cloud.firestore {
 }`}
             </pre>
 
-            <button 
-              className="admin-btn-primary" 
+            <button
+              className="admin-btn-primary"
               style={{ marginTop: 0, padding: '8px 16px', fontSize: '13px' }}
               onClick={copyRulesToClipboard}
             >
@@ -420,14 +420,14 @@ service cloud.firestore {
 
         {/* Navigation Tabs */}
         <div className="admin-tabs">
-          <button 
+          <button
             className={`admin-tab-btn ${activeTab === 'verification' ? 'active' : ''}`}
             onClick={() => setActiveTab('verification')}
           >
             <FaCheckCircle className="admin-tab-btn-icon" /> Account Verification
           </button>
-          
-          <button 
+
+          <button
             className={`admin-tab-btn ${activeTab === 'jobs' ? 'active' : ''}`}
             onClick={() => setActiveTab('jobs')}
           >
@@ -436,7 +436,7 @@ service cloud.firestore {
 
           {/* Strictly Gated: Access Management is Developer Only */}
           {user.account_type === 'developer' && (
-            <button 
+            <button
               className={`admin-tab-btn ${activeTab === 'access' ? 'active' : ''}`}
               onClick={() => setActiveTab('access')}
             >
@@ -448,14 +448,14 @@ service cloud.firestore {
         {/* --- TAB CONTENT: ACCOUNT VERIFICATION --- */}
         {activeTab === 'verification' && (
           <div className="admin-tab-content">
-            
+
             {/* Search & Filter Controls */}
             <div className="admin-controls-row">
               <div className="admin-search-wrapper">
                 <FaSearch className="admin-search-icon" />
-                <input 
-                  type="text" 
-                  placeholder="Search by name, email, degree or batch..." 
+                <input
+                  type="text"
+                  placeholder="Search by name, email, degree or batch..."
                   className="admin-search-input"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -463,19 +463,19 @@ service cloud.firestore {
               </div>
 
               <div className="admin-filters">
-                <button 
+                <button
                   className={`admin-filter-btn ${filterStatus === 'all' ? 'active' : ''}`}
                   onClick={() => setFilterStatus('all')}
                 >
                   All ({totalUsers})
                 </button>
-                <button 
+                <button
                   className={`admin-filter-btn ${filterStatus === 'pending' ? 'active' : ''}`}
                   onClick={() => setFilterStatus('pending')}
                 >
                   Pending ({pendingCount})
                 </button>
-                <button 
+                <button
                   className={`admin-filter-btn ${filterStatus === 'verified' ? 'active' : ''}`}
                   onClick={() => setFilterStatus('verified')}
                 >
@@ -523,7 +523,7 @@ service cloud.firestore {
                           </span>
                         </td>
                         <td style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'nowrap' }}>
-                          <button 
+                          <button
                             type="button"
                             className="admin-btn-view"
                             onClick={() => setSelectedUser(item)}
@@ -531,7 +531,7 @@ service cloud.firestore {
                             View Profile
                           </button>
                           {item.verification_status ? (
-                            <button 
+                            <button
                               type="button"
                               className="admin-btn-revoke"
                               onClick={() => handleToggleVerification(item.uid, true)}
@@ -539,7 +539,7 @@ service cloud.firestore {
                               Revoke Approval
                             </button>
                           ) : (
-                            <button 
+                            <button
                               type="button"
                               className="admin-btn-verify"
                               onClick={() => handleToggleVerification(item.uid, false)}
@@ -568,22 +568,22 @@ service cloud.firestore {
         {activeTab === 'jobs' && (
           <div className="admin-tab-content">
             <div className="admin-jobs-layout">
-              
+
               {/* Job Posting Form */}
               <div className="admin-job-form-card">
                 <h3 className="admin-card-title">
                   <FaPlus /> Post a Job Vacancy
                 </h3>
-                
+
                 <form onSubmit={handlePostJob}>
                   <div className="admin-form-grid">
                     <div className="admin-form-group">
                       <label htmlFor="job-title">Job Title *</label>
-                      <input 
-                        type="text" 
-                        id="job-title" 
-                        name="title" 
-                        className="admin-form-input" 
+                      <input
+                        type="text"
+                        id="job-title"
+                        name="title"
+                        className="admin-form-input"
                         placeholder="e.g. Lead Textile Merchandiser"
                         value={jobForm.title}
                         onChange={handleJobFormChange}
@@ -594,11 +594,11 @@ service cloud.firestore {
                     <div className="admin-form-grid-2">
                       <div className="admin-form-group">
                         <label htmlFor="job-company">Company *</label>
-                        <input 
-                          type="text" 
-                          id="job-company" 
-                          name="company" 
-                          className="admin-form-input" 
+                        <input
+                          type="text"
+                          id="job-company"
+                          name="company"
+                          className="admin-form-input"
                           placeholder="e.g. Reliance Retail"
                           value={jobForm.company}
                           onChange={handleJobFormChange}
@@ -608,11 +608,11 @@ service cloud.firestore {
 
                       <div className="admin-form-group">
                         <label htmlFor="job-location">Location *</label>
-                        <input 
-                          type="text" 
-                          id="job-location" 
-                          name="location" 
-                          className="admin-form-input" 
+                        <input
+                          type="text"
+                          id="job-location"
+                          name="location"
+                          className="admin-form-input"
                           placeholder="e.g. Mumbai, India"
                           value={jobForm.location}
                           onChange={handleJobFormChange}
@@ -624,11 +624,11 @@ service cloud.firestore {
                     <div className="admin-form-grid-2">
                       <div className="admin-form-group">
                         <label htmlFor="job-exp">Experience Required</label>
-                        <input 
-                          type="text" 
-                          id="job-exp" 
-                          name="experience" 
-                          className="admin-form-input" 
+                        <input
+                          type="text"
+                          id="job-exp"
+                          name="experience"
+                          className="admin-form-input"
                           placeholder="e.g. 3-5 years"
                           value={jobForm.experience}
                           onChange={handleJobFormChange}
@@ -637,11 +637,11 @@ service cloud.firestore {
 
                       <div className="admin-form-group">
                         <label htmlFor="job-skills">Key Skills (comma separated)</label>
-                        <input 
-                          type="text" 
-                          id="job-skills" 
-                          name="skills" 
-                          className="admin-form-input" 
+                        <input
+                          type="text"
+                          id="job-skills"
+                          name="skills"
+                          className="admin-form-input"
                           placeholder="e.g. Merchandising, Sourcing, Excel"
                           value={jobForm.skills}
                           onChange={handleJobFormChange}
@@ -651,10 +651,10 @@ service cloud.firestore {
 
                     <div className="admin-form-group">
                       <label htmlFor="job-desc">Job Description</label>
-                      <textarea 
-                        id="job-desc" 
-                        name="description" 
-                        className="admin-form-textarea" 
+                      <textarea
+                        id="job-desc"
+                        name="description"
+                        className="admin-form-textarea"
                         placeholder="Enter key details about the role, duties, salary details..."
                         value={jobForm.description}
                         onChange={handleJobFormChange}
@@ -663,20 +663,20 @@ service cloud.firestore {
 
                     <div className="admin-form-group">
                       <label htmlFor="job-apply">Apply Link or Email Address</label>
-                      <input 
-                        type="text" 
-                        id="job-apply" 
-                        name="applyUrl" 
-                        className="admin-form-input" 
+                      <input
+                        type="text"
+                        id="job-apply"
+                        name="applyUrl"
+                        className="admin-form-input"
                         placeholder="e.g. careers@reliance.com or http://company.com/apply"
                         value={jobForm.applyUrl}
                         onChange={handleJobFormChange}
                       />
                     </div>
 
-                    <button 
-                      type="submit" 
-                      className="admin-btn-primary" 
+                    <button
+                      type="submit"
+                      className="admin-btn-primary"
                       disabled={submittingJob}
                     >
                       {submittingJob ? "Posting Opportunity..." : "Publish Job Post"}
@@ -704,21 +704,21 @@ service cloud.firestore {
                           </div>
                           <p className="admin-job-desc">{job.description || "No description provided."}</p>
                           <div style={{ marginTop: '8px', fontSize: '12px' }}>
-                            <strong style={{ color: 'var(--navy-deep)' }}>Key Skills:</strong> 
+                            <strong style={{ color: 'var(--navy-deep)' }}>Key Skills:</strong>
                             <span style={{ marginLeft: '6px', color: 'var(--slate)' }}>{job.skills}</span>
                           </div>
                           {job.applyUrl && job.applyUrl !== '#' && (
-                            <a 
-                              href={job.applyUrl.startsWith('http') || job.applyUrl.startsWith('mailto') ? job.applyUrl : `http://${job.applyUrl}`} 
-                              target="_blank" 
+                            <a
+                              href={job.applyUrl.startsWith('http') || job.applyUrl.startsWith('mailto') ? job.applyUrl : `http://${job.applyUrl}`}
+                              target="_blank"
                               rel="noopener noreferrer"
-                              style={{ 
-                                display: 'inline-flex', 
-                                marginTop: '12px', 
-                                fontSize: '13px', 
-                                fontWeight: '600', 
-                                color: 'var(--signal-red)', 
-                                textDecoration: 'underline' 
+                              style={{
+                                display: 'inline-flex',
+                                marginTop: '12px',
+                                fontSize: '13px',
+                                fontWeight: '600',
+                                color: 'var(--signal-red)',
+                                textDecoration: 'underline'
                               }}
                             >
                               Application Link
@@ -726,7 +726,7 @@ service cloud.firestore {
                           )}
                         </div>
                         <div className="admin-job-actions">
-                          <button 
+                          <button
                             className="admin-btn-delete-job"
                             onClick={() => setDeletingJobId(job.id)}
                             title="Delete vacancy post"
@@ -755,9 +755,9 @@ service cloud.firestore {
             <div className="admin-controls-row">
               <div className="admin-search-wrapper" style={{ maxWidth: '100%' }}>
                 <FaSearch className="admin-search-icon" />
-                <input 
-                  type="text" 
-                  placeholder="Search users to modify database access roles..." 
+                <input
+                  type="text"
+                  placeholder="Search users to modify database access roles..."
                   className="admin-search-input"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -796,8 +796,8 @@ service cloud.firestore {
                           </span>
                         </td>
                         <td>
-                          <select 
-                            value={item.account_type || 'alumni'} 
+                          <select
+                            value={item.account_type || 'alumni'}
                             onChange={(e) => handleRoleChange(item.uid, e.target.value)}
                             className={`admin-role-select ${item.account_type || 'alumni'}`}
                             disabled={String(item.email || '').toLowerCase() === 'patelmeghmahesh2701@gmail.com'}
@@ -823,29 +823,29 @@ service cloud.firestore {
               </table>
             </div>
 
-            <div style={{ 
-              backgroundColor: 'rgba(99, 102, 241, 0.05)', 
-              borderLeft: '4px solid var(--admin-color-dev)', 
-              padding: '16px', 
-              borderRadius: '6px', 
-              fontSize: '13px', 
-              color: 'var(--navy-mid)', 
-              display: 'flex', 
-              alignItems: 'center', 
+            <div style={{
+              backgroundColor: 'rgba(99, 102, 241, 0.05)',
+              borderLeft: '4px solid var(--admin-color-dev)',
+              padding: '16px',
+              borderRadius: '6px',
+              fontSize: '13px',
+              color: 'var(--navy-mid)',
+              display: 'flex',
+              alignItems: 'center',
               gap: '12px',
               marginTop: '20px'
             }}>
               <FaUserShield style={{ fontSize: '20px', color: 'var(--admin-color-dev)', flexShrink: 0 }} />
               <div>
-                <strong>Developer Notice:</strong> Modifying account permissions changes security rules globally. 
-                Setting a user's role to <strong>Admin</strong> grants them authorization to verify user accounts and post/delete vacancies. 
+                <strong>Developer Notice:</strong> Modifying account permissions changes security rules globally.
+                Setting a user's role to <strong>Admin</strong> grants them authorization to verify user accounts and post/delete vacancies.
                 Setting a user to <strong>Developer</strong> additionally grants access to this Access Management panel.
               </div>
             </div>
           </div>
         )}
 
-        </div>
+      </div>
 
       {/* User Profile Details Modal */}
       {selectedUser && (
@@ -855,7 +855,7 @@ service cloud.firestore {
               <h2>Alumni Profile Details</h2>
               <button className="admin-modal-close-btn" onClick={() => setSelectedUser(null)}>&times;</button>
             </div>
-            
+
             <div className="admin-modal-body">
               {/* Profile Avatar Banner */}
               <div className="admin-modal-user-card">
@@ -1008,8 +1008,8 @@ service cloud.firestore {
                       {Array.isArray(selectedUser.certifications) && selectedUser.certifications.length > 0 ? (
                         <ul style={{ margin: 0, paddingLeft: '20px', listStyleType: 'disc' }}>
                           {selectedUser.certifications.map((c, i) => {
-                            const certText = c && typeof c === 'object' 
-                              ? `${c.area || ''} ${c.detail ? `(${c.detail})` : ''}`.trim() 
+                            const certText = c && typeof c === 'object'
+                              ? `${c.area || ''} ${c.detail ? `(${c.detail})` : ''}`.trim()
                               : String(c);
                             return <li key={i} style={{ marginBottom: '4px', fontWeight: '600' }}>{certText}</li>;
                           })}
@@ -1051,19 +1051,37 @@ service cloud.firestore {
                   </div>
                 </div>
               </div>
+
+              {/* Add this block inside .admin-modal-grid-2 in the Certifications & Skills section */}
+              <div className="admin-modal-info-item" style={{ gridColumn: 'span 2', marginTop: '14px' }}>
+                <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Interest / Hobbies</span>
+                <div className="admin-modal-info-value">
+                  {Array.isArray(selectedUser.hobbies) && selectedUser.hobbies.length > 0 ? (
+                    <div className="admin-modal-badge-list">
+                      {selectedUser.hobbies.map((hobby, i) => (
+                        <span key={i} className="admin-modal-badge-tag">
+                          {hobby}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <span style={{ fontSize: '13px', color: 'var(--slate)' }}>No hobbies listed.</span>
+                  )}
+                </div>
+              </div>
             </div>
 
             <div className="admin-modal-footer">
-              <button 
+              <button
                 type="button"
-                className="admin-btn-primary" 
+                className="admin-btn-primary"
                 style={{ background: 'var(--slate)', border: 'none', marginTop: 0 }}
                 onClick={() => setSelectedUser(null)}
               >
                 Close Profile
               </button>
               {selectedUser.verification_status ? (
-                <button 
+                <button
                   type="button"
                   className="admin-btn-revoke"
                   style={{ padding: '10px 20px' }}
@@ -1072,7 +1090,7 @@ service cloud.firestore {
                   Revoke Approval
                 </button>
               ) : (
-                <button 
+                <button
                   type="button"
                   className="admin-btn-verify"
                   style={{ padding: '10px 20px' }}
@@ -1097,17 +1115,17 @@ service cloud.firestore {
               Are you sure you want to delete this job vacancy from the Job Board? This action is permanent and cannot be undone.
             </p>
             <div className="admin-delete-modal-footer">
-              <button 
+              <button
                 type="button"
-                className="admin-btn-primary" 
+                className="admin-btn-primary"
                 style={{ background: 'var(--slate)', border: 'none', margin: 0, padding: '10px 18px' }}
                 onClick={() => setDeletingJobId(null)}
               >
                 Cancel
               </button>
-              <button 
+              <button
                 type="button"
-                className="admin-btn-delete-confirm" 
+                className="admin-btn-delete-confirm"
                 style={{ margin: 0, padding: '10px 18px' }}
                 onClick={handleConfirmDeleteJob}
               >
