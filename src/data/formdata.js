@@ -37,12 +37,20 @@ export const CERTIFICATION_OPTIONS = [
 ]
 
 export const PRODUCT_SERVICE_OPTIONS = [
-  "Apparel & Garments",
-  "Textiles & Fabrics",
-  "Fashion Accessories",
-  "Manufacturing Equipment",
-  "Design Services",
-  "Consulting",
-  "Software & Technology",
-  "Other"
+  "Process Equipments, Heat Exchanger, Piping",
+  "Skid Mounted Equipments",
+  "Renewable Energy Products",
+  "Cryogenic Equipments",
+  "Boiler / Steam Products",
+  "Daily / Cold Storage Products",
+  "Structural Fabrication / PEB",
+  "Defence Products",
+  "Pharma Equipments",
+  "Automobile Products",
+  "Manpower Supplier / Job Work",
+  "Inspection & Certification Services",
+  "Electrical Equipment",
+  "Food / Beverage Equipment",
+  "NDT Services",
+  "Others",
 ]
