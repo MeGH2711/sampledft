@@ -21,6 +21,7 @@ import NewsletterSection from './components/NewsletterSection'
 import Newsroom from './components/Newsroom'
 import Login from './components/Login'
 import Profile from './components/Profile'
+import Admin from './components/Admin'
 import { auth, isFirebaseConfigured } from './firebase'
 import { signOut } from 'firebase/auth'
 
@@ -112,7 +113,7 @@ function App() {
     localStorage.removeItem('alumniUser')
   }
 
-  const showHeaderFooter = location.pathname !== '/login'
+  const showHeaderFooter = location.pathname !== '/login' && location.pathname !== '/admin'
 
   return (
     <>
@@ -141,6 +142,7 @@ function App() {
           <Route path="/newsroom" element={<Newsroom />} />
           <Route path="/login" element={<Login user={user} onLoginSuccess={handleLoginSuccess} />} />
           <Route path="/profile" element={<Profile user={user} onUpdateUser={handleUpdateUser} />} />
+          <Route path="/admin" element={<Admin user={user} onUpdateUser={handleUpdateUser} />} />
         </Routes>
       </main>
       {showHeaderFooter && <Footer />}

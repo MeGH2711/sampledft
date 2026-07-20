@@ -24,6 +24,24 @@ export default function Navbar({ user, onLogout }) {
   const location = useLocation()
   const isHome = location.pathname === '/'
 
+  const getDropdownDisplayName = () => {
+    if (!user) return '';
+    if (user.firstName || user.lastName) {
+      return `${user.firstName || ''} ${user.lastName || ''}`.trim();
+    }
+    const parts = (user.name || '').trim().split(/\s+/);
+    if (parts.length <= 2) return user.name;
+    const titles = ['dr', 'dr.', 'prof', 'prof.', 'mr', 'mr.', 'ms', 'ms.', 'mrs', 'mrs.'];
+    let startIndex = 0;
+    if (titles.includes(parts[0].toLowerCase()) && parts.length > 2) {
+      startIndex = 1;
+    }
+    const prefix = startIndex === 1 ? parts[0] + ' ' : '';
+    const first = parts[startIndex];
+    const last = parts[parts.length - 1];
+    return `${prefix}${first} ${last}`.trim();
+  };
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -157,7 +175,7 @@ export default function Navbar({ user, onLogout }) {
                 </button>
                 <div className={`navbar__user-dropdown ${userMenuOpen ? 'navbar__user-dropdown--open' : ''}`}>
                   <div className="navbar__dropdown-header">
-                    <strong className="navbar__dropdown-name">{user.name}</strong>
+                    <strong className="navbar__dropdown-name">{getDropdownDisplayName()}</strong>
                     <div className={`navbar__user-badge ${user.verification_status ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`}>
                       {user.verification_status ? (
                         <>
@@ -171,9 +189,8 @@ export default function Navbar({ user, onLogout }) {
                         </>
                       )}
                     </div>
-                    <span className="navbar__dropdown-sub">{user.degree ? `${user.degree} · ` : ''}Class of {user.batch}</span>
+                    <span className="navbar__dropdown-sub">Class of {user.degree ? `${user.degree} · ` : ''}{user.passoutYear || user.batch}</span>
                   </div>
-                  <hr className="navbar__dropdown-divider" />
                   <RouterLink
                     to="/profile"
                     className="navbar__user-dropdown-item"
@@ -182,6 +199,19 @@ export default function Navbar({ user, onLogout }) {
                     My Profile
                   </RouterLink>
                   <hr className="navbar__dropdown-divider" />
+                  {(user.account_type === 'admin' || user.account_type === 'developer') && (
+                    <>
+                      <RouterLink
+                        to="/admin"
+                        className="navbar__user-dropdown-item navbar__user-dropdown-admin"
+                        onClick={() => setUserMenuOpen(false)}
+                        style={{ color: 'var(--signal-red)', fontWeight: 'bold' }}
+                      >
+                        Admin Dashboard
+                      </RouterLink>
+                      <hr className="navbar__dropdown-divider" />
+                    </>
+                  )}
                   <button
                     onClick={() => {
                       onLogout()
@@ -312,7 +342,7 @@ export default function Navbar({ user, onLogout }) {
                 <div className="navbar__mobile-user-info">
                   <span className="navbar__mobile-avatar">{user.name.charAt(0).toUpperCase()}</span>
                   <div style={{ textAlign: 'left' }}>
-                    <div className="navbar__mobile-user-name">{user.name}</div>
+                    <div className="navbar__mobile-user-name">{getDropdownDisplayName()}</div>
                     <div className={`navbar__user-badge ${user.verification_status ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`}>
                       {user.verification_status ? (
                         <>
@@ -326,7 +356,7 @@ export default function Navbar({ user, onLogout }) {
                         </>
                       )}
                     </div>
-                    <div className="navbar__mobile-user-class">Class of {user.batch}</div>
+                    <div className="navbar__mobile-user-class">{user.passoutYear || user.batch}</div>
                   </div>
                 </div>
                 <RouterLink
@@ -336,6 +366,16 @@ export default function Navbar({ user, onLogout }) {
                 >
                   My Profile
                 </RouterLink>
+                {(user.account_type === 'admin' || user.account_type === 'developer') && (
+                  <RouterLink
+                    to="/admin"
+                    className="navbar__mobile-profile-btn"
+                    onClick={() => setMenuOpen(false)}
+                    style={{ background: 'var(--navy-deep)', color: 'var(--paper-white)', border: 'none', marginTop: '8px', marginBottom: '8px' }}
+                  >
+                    Admin Dashboard
+                  </RouterLink>
+                )}
                 <button
                   onClick={() => {
                     onLogout()

@@ -23,13 +23,16 @@ import {
   FaTrash,
   FaCertificate,
   FaGlobe,
-  FaBoxOpen
+  FaBoxOpen,
+  FaMapMarkerAlt,
+  FaSitemap,
+  FaAward
 } from 'react-icons/fa'
 import alumniLogo from '../assets/Logo/dft-logo-dark.avif'
 import './Login.css'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
-import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc, collection, query, where, getDocs } from 'firebase/firestore'
 import {
   countryCodes,
   ACADEMIC_YEARS,
@@ -37,6 +40,9 @@ import {
   CERTIFICATION_OPTIONS,
   PRODUCT_SERVICE_OPTIONS
 } from '../data/formdata'
+
+const MONTH_OPTIONS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const PROMOTION_YEAR_OPTIONS = Array.from({ length: new Date().getFullYear() - 1980 + 1 }, (_, i) => String(new Date().getFullYear() - i));
 
 const parsePhoneNumber = (fullPhone) => {
   if (!fullPhone) return { code: '+91', number: '' }
@@ -128,11 +134,57 @@ export default function Login({ user, onLoginSuccess }) {
     linkedin: '',
     dom: '',
     degrees: [],
-    areaOfCertification: '',
     profession: '',
-    productServices: '',
-    companyWebsite: ''
+    companyWebsite: '',
+
+    // New/replaced fields:
+    city: '',
+    state: '',
+    country: '',
+    certifications: [],
+    productServices: [],
+    department: '',
+    workingSince: '',
+    companyCity: '',
+    companyState: '',
+    companyCountry: '',
+    lastPromotionDesignation: '',
+    lastPromotionMonth: '',
+    lastPromotionYear: '',
+    awards: [],
+    hobbies: []
   })
+
+  const [isProductServicesOpen, setIsProductServicesOpen] = useState(false)
+  const productServicesRef = useRef(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (productServicesRef.current && !productServicesRef.current.contains(event.target)) {
+        setIsProductServicesOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
+  const [showPhoneModal, setShowPhoneModal] = useState(false)
+  const [verifyPhoneInput, setVerifyPhoneInput] = useState('')
+  const [verifyPhoneError, setVerifyPhoneError] = useState('')
+
+  const [showRegSuccessModal, setShowRegSuccessModal] = useState(false)
+  const [registeredUserObj, setRegisteredUserObj] = useState(null)
+
+  const handleCloseRegSuccessModal = () => {
+    if (registeredUserObj) {
+      onLoginSuccess(registeredUserObj)
+    }
+    setShowRegSuccessModal(false)
+    setRegisteredUserObj(null)
+    navigate('/')
+  }
 
   const [captchaCode, setCaptchaCode] = useState('')
   const [captchaInput, setCaptchaInput] = useState('')
@@ -275,6 +327,94 @@ export default function Login({ user, onLoginSuccess }) {
     })
   }
 
+  const handleAddCertification = () => {
+    setRegisterForm(prev => ({
+      ...prev,
+      certifications: [...(prev.certifications || []), { area: '', detail: '' }]
+    }))
+  }
+
+  const handleRemoveCertification = (index) => {
+    setRegisterForm(prev => ({
+      ...prev,
+      certifications: (prev.certifications || []).filter((_, i) => i !== index)
+    }))
+  }
+
+  const handleCertificationChange = (index, field, val) => {
+    setRegisterForm(prev => {
+      const updated = [...(prev.certifications || [])]
+      updated[index] = { ...updated[index], [field]: val }
+      return {
+        ...prev,
+        certifications: updated
+      }
+    })
+  }
+
+  const handleMultiSelectChange = (name, val) => {
+    setRegisterForm(prev => {
+      const current = prev[name] || []
+      const updated = current.includes(val)
+        ? current.filter(item => item !== val)
+        : [...current, val]
+      return {
+        ...prev,
+        [name]: updated
+      }
+    })
+  }
+
+  const handleAddAward = () => {
+    setRegisterForm(prev => ({
+      ...prev,
+      awards: [...(prev.awards || []), '']
+    }))
+  }
+
+  const handleRemoveAward = (index) => {
+    setRegisterForm(prev => ({
+      ...prev,
+      awards: (prev.awards || []).filter((_, i) => i !== index)
+    }))
+  }
+
+  const handleAwardChange = (index, val) => {
+    setRegisterForm(prev => {
+      const updated = [...(prev.awards || [])]
+      updated[index] = val
+      return {
+        ...prev,
+        awards: updated
+      }
+    })
+  }
+
+  const handleAddHobby = () => {
+    setRegisterForm(prev => ({
+      ...prev,
+      hobbies: [...(prev.hobbies || []), '']
+    }))
+  }
+
+  const handleRemoveHobby = (index) => {
+    setRegisterForm(prev => ({
+      ...prev,
+      hobbies: (prev.hobbies || []).filter((_, i) => i !== index)
+    }))
+  }
+
+  const handleHobbyChange = (index, val) => {
+    setRegisterForm(prev => {
+      const updated = [...(prev.hobbies || [])]
+      updated[index] = val
+      return {
+        ...prev,
+        hobbies: updated
+      }
+    })
+  }
+
   // Login Submit Handler
   const handleLoginSubmit = async (e) => {
     e.preventDefault()
@@ -297,6 +437,22 @@ export default function Login({ user, onLoginSuccess }) {
           const parsedSecPhone = parsePhoneNumber(profileData.secondaryPhone)
           const parsedWhatsapp = parsePhoneNumber(profileData.whatsapp)
 
+          // Let's parse productServices
+          let loadedProductServices = [];
+          if (Array.isArray(profileData.productServices)) {
+            loadedProductServices = profileData.productServices;
+          } else if (profileData.productServices) {
+            loadedProductServices = [profileData.productServices];
+          }
+
+          // Let's parse certifications
+          let loadedCertifications = [];
+          if (Array.isArray(profileData.certifications)) {
+            loadedCertifications = profileData.certifications;
+          } else if (profileData.areaOfCertification) {
+            loadedCertifications = [{ area: profileData.areaOfCertification, detail: '' }];
+          }
+
           userToLogin = {
             uid: user.uid,
             name: profileData.name || user.displayName || 'Alumni Member',
@@ -311,13 +467,30 @@ export default function Login({ user, onLoginSuccess }) {
             secondaryPhone: parsedSecPhone.number,
             whatsappCode: parsedWhatsapp.code,
             whatsapp: parsedWhatsapp.number,
-            batch: profileData.batch || '',
+            batch: profileData.batch || profileData.passoutYear || '',
+            passoutYear: profileData.passoutYear || profileData.batch || '',
             degree: profileData.degree || '',
             jobTitle: profileData.jobTitle || '',
             company: profileData.company || '',
             linkedin: profileData.linkedin || '',
             verification_status: profileData.verification_status !== undefined ? profileData.verification_status : false,
-            account_type: profileData.account_type || 'alumni'
+            account_type: profileData.account_type || 'alumni',
+            // New fields
+            city: profileData.city || '',
+            state: profileData.state || '',
+            country: profileData.country || '',
+            certifications: loadedCertifications,
+            productServices: loadedProductServices,
+            department: profileData.department || '',
+            workingSince: profileData.workingSince || '',
+            companyCity: profileData.companyCity || '',
+            companyState: profileData.companyState || '',
+            companyCountry: profileData.companyCountry || '',
+            lastPromotionDesignation: profileData.lastPromotionDesignation || '',
+            lastPromotionMonth: profileData.lastPromotionMonth || '',
+            lastPromotionYear: profileData.lastPromotionYear || '',
+            awards: profileData.awards || [],
+            hobbies: profileData.hobbies || []
           }
         } else {
           userToLogin = {
@@ -340,7 +513,23 @@ export default function Login({ user, onLoginSuccess }) {
             company: '',
             linkedin: '',
             verification_status: false,
-            account_type: 'alumni'
+            account_type: 'alumni',
+            // New fields
+            city: '',
+            state: '',
+            country: '',
+            certifications: [],
+            productServices: [],
+            department: '',
+            workingSince: '',
+            companyCity: '',
+            companyState: '',
+            companyCountry: '',
+            lastPromotionDesignation: '',
+            lastPromotionMonth: '',
+            lastPromotionYear: '',
+            awards: [],
+            hobbies: []
           }
         }
 
@@ -409,7 +598,8 @@ export default function Login({ user, onLoginSuccess }) {
               secondaryPhone: parsedSecPhone.number,
               whatsappCode: parsedWhatsapp.code,
               whatsapp: parsedWhatsapp.number,
-              batch: userToLogin.batch,
+              batch: userToLogin.batch || userToLogin.passoutYear || '',
+              passoutYear: userToLogin.passoutYear || userToLogin.batch || '',
               degree: userToLogin.degree,
               linkedin: userToLogin.linkedin || '',
               verification_status: userToLogin.verification_status !== undefined ? userToLogin.verification_status : false,
@@ -511,13 +701,28 @@ export default function Login({ user, onLoginSuccess }) {
           jobTitle: registerForm.jobTitle || '',
           company: registerForm.company || '',
           linkedin: registerForm.linkedin || '',
-          areaOfCertification: registerForm.areaOfCertification || '',
           profession: registerForm.profession || '',
-          productServices: registerForm.productServices || '',
           companyWebsite: registerForm.companyWebsite || '',
           verification_status: false,
           account_type: 'alumni',
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
+
+          // New fields
+          city: registerForm.city || '',
+          state: registerForm.state || '',
+          country: registerForm.country || '',
+          certifications: registerForm.certifications || [],
+          productServices: registerForm.productServices || [],
+          department: registerForm.department || '',
+          workingSince: registerForm.workingSince || '',
+          companyCity: registerForm.companyCity || '',
+          companyState: registerForm.companyState || '',
+          companyCountry: registerForm.companyCountry || '',
+          lastPromotionDesignation: registerForm.lastPromotionDesignation || '',
+          lastPromotionMonth: registerForm.lastPromotionMonth || '',
+          lastPromotionYear: registerForm.lastPromotionYear || '',
+          awards: registerForm.awards || [],
+          hobbies: registerForm.hobbies || []
         })
 
         const newUser = {
@@ -532,27 +737,38 @@ export default function Login({ user, onLoginSuccess }) {
           bloodGroup: registerForm.bloodGroup,
           admissionYear: registerForm.admissionYear,
           passoutYear: registerForm.passoutYear,
+          batch: registerForm.passoutYear,
           degrees: registerForm.degrees || [],
           jobTitle: registerForm.jobTitle || '',
           company: registerForm.company || '',
           linkedin: registerForm.linkedin || '',
           dom: registerForm.dom || '',
-          areaOfCertification: registerForm.areaOfCertification || '',
           profession: registerForm.profession || '',
-          productServices: registerForm.productServices || '',
           companyWebsite: registerForm.companyWebsite || '',
           verification_status: false,
-          account_type: 'alumni'
+          account_type: 'alumni',
+
+          // New fields
+          city: registerForm.city || '',
+          state: registerForm.state || '',
+          country: registerForm.country || '',
+          certifications: registerForm.certifications || [],
+          productServices: registerForm.productServices || [],
+          department: registerForm.department || '',
+          workingSince: registerForm.workingSince || '',
+          companyCity: registerForm.companyCity || '',
+          companyState: registerForm.companyState || '',
+          companyCountry: registerForm.companyCountry || '',
+          lastPromotionDesignation: registerForm.lastPromotionDesignation || '',
+          lastPromotionMonth: registerForm.lastPromotionMonth || '',
+          lastPromotionYear: registerForm.lastPromotionYear || '',
+          awards: registerForm.awards || [],
+          hobbies: registerForm.hobbies || []
         }
 
-        setSuccessMessage('Account created successfully! Welcome to the DFT Alumni Network.')
-        setShowSuccess(true)
+        setRegisteredUserObj(newUser)
+        setShowRegSuccessModal(true)
         setLoading(false)
-
-        setTimeout(() => {
-          onLoginSuccess(newUser)
-          navigate('/')
-        }, 1500)
       } catch (err) {
         setLoading(false)
         console.error("Firebase Registration Error:", err)
@@ -586,43 +802,74 @@ export default function Login({ user, onLoginSuccess }) {
           company: registerForm.company || '',
           linkedin: registerForm.linkedin || '',
           dom: registerForm.dom || '',
-          areaOfCertification: registerForm.areaOfCertification || '',
+          profession: registerForm.profession || '',
+          companyWebsite: registerForm.companyWebsite || '',
           verification_status: false,
-          account_type: 'alumni'
+          account_type: 'alumni',
+
+          // New fields
+          city: registerForm.city || '',
+          state: registerForm.state || '',
+          country: registerForm.country || '',
+          certifications: registerForm.certifications || [],
+          productServices: registerForm.productServices || [],
+          department: registerForm.department || '',
+          workingSince: registerForm.workingSince || '',
+          companyCity: registerForm.companyCity || '',
+          companyState: registerForm.companyState || '',
+          companyCountry: registerForm.companyCountry || '',
+          lastPromotionDesignation: registerForm.lastPromotionDesignation || '',
+          lastPromotionMonth: registerForm.lastPromotionMonth || '',
+          lastPromotionYear: registerForm.lastPromotionYear || '',
+          awards: registerForm.awards || [],
+          hobbies: registerForm.hobbies || []
         }
 
         localStorage.setItem('mockRegisteredAlumni', JSON.stringify(newUser))
 
-        setSuccessMessage('Account created successfully! Welcome to the DFT Alumni Network. (Mock Mode)')
-        setShowSuccess(true)
-        setLoading(false)
+        const mockCreatedUserObj = {
+          uid: newUser.uid,
+          name: newUser.name,
+          email: newUser.email,
+          dob: newUser.dob,
+          phone: newUser.phone,
+          secondaryPhone: newUser.secondaryPhone,
+          whatsapp: newUser.whatsapp,
+          middleName: newUser.middleName,
+          userType: newUser.userType,
+          bloodGroup: newUser.bloodGroup,
+          admissionYear: newUser.admissionYear,
+          passoutYear: newUser.passoutYear,
+          batch: newUser.passoutYear,
+          degrees: newUser.degrees || [],
+          linkedin: newUser.linkedin || '',
+          dom: newUser.dom || '',
+          profession: newUser.profession || '',
+          companyWebsite: newUser.companyWebsite || '',
+          verification_status: false,
+          account_type: 'alumni',
 
-        setTimeout(() => {
-          onLoginSuccess({
-            uid: newUser.uid,
-            name: newUser.name,
-            email: newUser.email,
-            dob: newUser.dob,
-            phone: newUser.phone,
-            secondaryPhone: newUser.secondaryPhone,
-            whatsapp: newUser.whatsapp,
-            middleName: newUser.middleName,
-            userType: newUser.userType,
-            bloodGroup: newUser.bloodGroup,
-            admissionYear: newUser.admissionYear,
-            passoutYear: newUser.passoutYear,
-            degrees: newUser.degrees || [],
-            linkedin: newUser.linkedin || '',
-            dom: newUser.dom || '',
-            areaOfCertification: newUser.areaOfCertification || '',
-            profession: newUser.profession || '',
-            productServices: newUser.productServices || '',
-            companyWebsite: newUser.companyWebsite || '',
-            verification_status: false,
-            account_type: 'alumni'
-          })
-          navigate('/')
-        }, 1500)
+          // New fields
+          city: newUser.city || '',
+          state: newUser.state || '',
+          country: newUser.country || '',
+          certifications: newUser.certifications || [],
+          productServices: newUser.productServices || [],
+          department: newUser.department || '',
+          workingSince: newUser.workingSince || '',
+          companyCity: newUser.companyCity || '',
+          companyState: newUser.companyState || '',
+          companyCountry: newUser.companyCountry || '',
+          lastPromotionDesignation: newUser.lastPromotionDesignation || '',
+          lastPromotionMonth: newUser.lastPromotionMonth || '',
+          lastPromotionYear: newUser.lastPromotionYear || '',
+          awards: newUser.awards || [],
+          hobbies: newUser.hobbies || []
+        }
+
+        setRegisteredUserObj(mockCreatedUserObj)
+        setShowRegSuccessModal(true)
+        setLoading(false)
       }, 1500)
     }
   }
@@ -634,11 +881,66 @@ export default function Login({ user, onLoginSuccess }) {
       return
     }
     setError('')
+    setVerifyPhoneInput('')
+    setVerifyPhoneError('')
+    setShowPhoneModal(true)
+  }
+
+  // Verify Phone and send password reset link
+  const handleVerifyAndResetPassword = async (e) => {
+    if (e) e.preventDefault()
+    setVerifyPhoneError('')
+
+    if (!verifyPhoneInput.trim()) {
+      setVerifyPhoneError('Please enter a phone number.')
+      return
+    }
+
     setLoading(true)
+
+    const inputDigits = verifyPhoneInput.replace(/\D/g, '')
+    if (!inputDigits) {
+      setVerifyPhoneError('Please enter a valid phone number with digits.')
+      setLoading(false)
+      return
+    }
 
     if (isFirebaseConfigured) {
       try {
-        await sendPasswordResetEmail(auth, loginForm.email)
+        // Query users collection for user doc with matching email
+        const q = query(collection(db, 'users'), where('email', '==', loginForm.email.trim()))
+        const querySnapshot = await getDocs(q)
+
+        if (querySnapshot.empty) {
+          setVerifyPhoneError('No account found with this email address.')
+          setLoading(false)
+          return
+        }
+
+        let matchedUser = null
+        querySnapshot.forEach(doc => {
+          matchedUser = doc.data()
+        })
+
+        const storedPhoneDigits = matchedUser.phone ? matchedUser.phone.replace(/\D/g, '') : ''
+        const storedSecPhoneDigits = matchedUser.secondaryPhone ? matchedUser.secondaryPhone.replace(/\D/g, '') : ''
+        const storedWhatsappDigits = matchedUser.whatsapp ? matchedUser.whatsapp.replace(/\D/g, '') : ''
+
+        const isMatch = (
+          (storedPhoneDigits && (storedPhoneDigits.endsWith(inputDigits) || inputDigits.endsWith(storedPhoneDigits))) ||
+          (storedSecPhoneDigits && (storedSecPhoneDigits.endsWith(inputDigits) || inputDigits.endsWith(storedSecPhoneDigits))) ||
+          (storedWhatsappDigits && (storedWhatsappDigits.endsWith(inputDigits) || inputDigits.endsWith(storedWhatsappDigits)))
+        )
+
+        if (!isMatch) {
+          setVerifyPhoneError('Provided phone number does not match our records.')
+          setLoading(false)
+          return
+        }
+
+        // Match found! Send password reset email
+        await sendPasswordResetEmail(auth, loginForm.email.trim())
+        setShowPhoneModal(false)
         setError('')
         setSuccessMessage(`Password reset link sent to ${loginForm.email}! Check your inbox.`)
         setShowSuccess(true)
@@ -646,22 +948,50 @@ export default function Login({ user, onLoginSuccess }) {
         setTimeout(() => setShowSuccess(false), 4000)
       } catch (err) {
         setLoading(false)
-        console.error("Firebase Password Reset Error:", err)
+        console.error("Firebase Password Reset/Verify Error:", err)
         if (err.code === 'auth/invalid-email') {
-          setError('Please enter a valid email address.')
-        } else if (err.code === 'auth/user-not-found') {
-          setError('No account found with this email address.')
+          setVerifyPhoneError('Please enter a valid email address.')
         } else {
-          setError(err.message || 'Error sending password reset link.')
+          setVerifyPhoneError(err.message || 'Error processing request.')
         }
       }
     } else {
-      // Fallback Mock Password Reset
+      // Fallback Mock Password Reset verification
       setTimeout(() => {
-        setSuccessMessage(`Password reset link has been mock-sent to ${loginForm.email}.`)
-        setShowSuccess(true)
-        setLoading(false)
-        setTimeout(() => setShowSuccess(false), 4000)
+        const mockRegistered = localStorage.getItem('mockRegisteredAlumni')
+        if (mockRegistered) {
+          const parsed = JSON.parse(mockRegistered)
+          if (parsed.email === loginForm.email.trim()) {
+            const storedPhoneDigits = parsed.phone ? parsed.phone.replace(/\D/g, '') : ''
+            const storedSecPhoneDigits = parsed.secondaryPhone ? parsed.secondaryPhone.replace(/\D/g, '') : ''
+            const storedWhatsappDigits = parsed.whatsapp ? parsed.whatsapp.replace(/\D/g, '') : ''
+
+            const isMatch = (
+              (storedPhoneDigits && (storedPhoneDigits.endsWith(inputDigits) || inputDigits.endsWith(storedPhoneDigits))) ||
+              (storedSecPhoneDigits && (storedSecPhoneDigits.endsWith(inputDigits) || inputDigits.endsWith(storedSecPhoneDigits))) ||
+              (storedWhatsappDigits && (storedWhatsappDigits.endsWith(inputDigits) || inputDigits.endsWith(storedWhatsappDigits)))
+            )
+
+            if (!isMatch) {
+              setVerifyPhoneError('Provided phone number does not match our mock records.')
+              setLoading(false)
+              return
+            }
+
+            // Match found! Mock success
+            setShowPhoneModal(false)
+            setSuccessMessage(`Password reset link has been mock-sent to ${loginForm.email}.`)
+            setShowSuccess(true)
+            setLoading(false)
+            setTimeout(() => setShowSuccess(false), 4000)
+          } else {
+            setVerifyPhoneError('No account found with this email address in Mock records.')
+            setLoading(false)
+          }
+        } else {
+          setVerifyPhoneError('No accounts registered in Mock local storage.')
+          setLoading(false)
+        }
       }, 1000)
     }
   }
@@ -1045,6 +1375,54 @@ export default function Login({ user, onLoginSuccess }) {
                     <div className="login-field" style={{ visibility: 'hidden' }}></div>
                   </div>
 
+                  <div className="login-form__grid-3" style={{ marginTop: '15px' }}>
+                    <div className="login-field">
+                      <label htmlFor="reg-city">City</label>
+                      <div className="login-field__input-wrap">
+                        <FaMapMarkerAlt className="login-field__icon" />
+                        <input
+                          id="reg-city"
+                          type="text"
+                          name="city"
+                          placeholder="Ahmedabad"
+                          value={registerForm.city}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+                    <div className="login-field">
+                      <label htmlFor="reg-state">State</label>
+                      <div className="login-field__input-wrap">
+                        <FaMapMarkerAlt className="login-field__icon" />
+                        <input
+                          id="reg-state"
+                          type="text"
+                          name="state"
+                          placeholder="Gujarat"
+                          value={registerForm.state}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+                    <div className="login-field">
+                      <label htmlFor="reg-country">Country</label>
+                      <div className="login-field__input-wrap">
+                        <FaGlobe className="login-field__icon" />
+                        <input
+                          id="reg-country"
+                          type="text"
+                          name="country"
+                          placeholder="India"
+                          value={registerForm.country}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
                   <h4 className="login-section-title" style={{ marginTop: '20px' }}>Academic Details</h4>
                   <div className="login-form__grid">
                     <div className="login-field login-field--full">
@@ -1203,6 +1581,38 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
+                      <label htmlFor="reg-company">Current Organization</label>
+                      <div className="login-field__input-wrap">
+                        <FaBuilding className="login-field__icon" />
+                        <input
+                          id="reg-company"
+                          type="text"
+                          name="company"
+                          placeholder="Arvind Mills"
+                          value={registerForm.company}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="login-field">
+                      <label htmlFor="reg-department">Department</label>
+                      <div className="login-field__input-wrap">
+                        <FaSitemap className="login-field__icon" />
+                        <input
+                          id="reg-department"
+                          type="text"
+                          name="department"
+                          placeholder="e.g. Sales, Quality Assurance"
+                          value={registerForm.department}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="login-field">
                       <label htmlFor="reg-job">Current Job Title</label>
                       <div className="login-field__input-wrap">
                         <FaBriefcase className="login-field__icon" />
@@ -1219,35 +1629,17 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-company">Current Organization</label>
+                      <label htmlFor="reg-working-since">Working Since</label>
                       <div className="login-field__input-wrap">
-                        <FaBuilding className="login-field__icon" />
+                        <FaCalendarAlt className="login-field__icon" />
                         <input
-                          id="reg-company"
-                          type="text"
-                          name="company"
-                          placeholder="Arvind Mills"
-                          value={registerForm.company}
+                          id="reg-working-since"
+                          type="date"
+                          name="workingSince"
+                          value={registerForm.workingSince}
                           onChange={handleRegisterChange}
                           disabled={loading}
                         />
-                      </div>
-                    </div>
-
-                    <div className="login-field login-field--full">
-                      <label htmlFor="reg-product-services">Detail of Product / Services offered by your Company</label>
-                      <div className="login-field__input-wrap">
-                        <FaBoxOpen className="login-field__icon" />
-                        <select
-                          id="reg-product-services"
-                          name="productServices"
-                          value={registerForm.productServices}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        >
-                          <option value="">Select Offerings</option>
-                          {PRODUCT_SERVICE_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                        </select>
                       </div>
                     </div>
 
@@ -1268,23 +1660,6 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field login-field--full">
-                      <label htmlFor="reg-certification">Area of Certification</label>
-                      <div className="login-field__input-wrap">
-                        <FaCertificate className="login-field__icon" style={{ color: 'var(--slate)' }} />
-                        <select
-                          id="reg-certification"
-                          name="areaOfCertification"
-                          value={registerForm.areaOfCertification}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        >
-                          <option value="">Select Certification Area</option>
-                          {CERTIFICATION_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="login-field login-field--full">
                       <label htmlFor="reg-linkedin">LinkedIn Profile Link</label>
                       <div className="login-field__input-wrap">
                         <FaLinkedin className="login-field__icon" style={{ color: '#0077b5' }} />
@@ -1299,6 +1674,350 @@ export default function Login({ user, onLoginSuccess }) {
                         />
                       </div>
                     </div>
+                  </div>
+
+                  <div className="login-form__grid-3" style={{ marginTop: '10px' }}>
+                    <div className="login-field">
+                      <label htmlFor="reg-company-city">Company Location (City)</label>
+                      <div className="login-field__input-wrap">
+                        <FaMapMarkerAlt className="login-field__icon" />
+                        <input
+                          id="reg-company-city"
+                          type="text"
+                          name="companyCity"
+                          placeholder="e.g. Mumbai"
+                          value={registerForm.companyCity}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+                    <div className="login-field">
+                      <label htmlFor="reg-company-state">Company Location (State)</label>
+                      <div className="login-field__input-wrap">
+                        <FaMapMarkerAlt className="login-field__icon" />
+                        <input
+                          id="reg-company-state"
+                          type="text"
+                          name="companyState"
+                          placeholder="e.g. Maharashtra"
+                          value={registerForm.companyState}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+                    <div className="login-field">
+                      <label htmlFor="reg-company-country">Company Location (Country)</label>
+                      <div className="login-field__input-wrap">
+                        <FaGlobe className="login-field__icon" />
+                        <input
+                          id="reg-company-country"
+                          type="text"
+                          name="companyCountry"
+                          placeholder="e.g. India"
+                          value={registerForm.companyCountry}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="login-form__grid" style={{ marginTop: '10px' }}>
+                    <div className="login-field login-field--full">
+                      <label>Detail of Product / Services offered by your Company</label>
+                      <div className="login-field__input-wrap product-services-multiselect" ref={productServicesRef}>
+                        <FaBoxOpen className="login-field__icon" style={{ color: 'var(--slate)' }} />
+                        <div
+                          className={`multiselect-control ${isProductServicesOpen ? 'open' : ''} ${loading ? 'disabled' : ''}`}
+                          onClick={() => !loading && setIsProductServicesOpen(!isProductServicesOpen)}
+                        >
+                          <div className="multiselect-values">
+                            {registerForm.productServices && registerForm.productServices.length > 0 ? (
+                              registerForm.productServices.map(val => (
+                                <span key={val} className="multiselect-tag">
+                                  {val}
+                                  <span className="multiselect-tag-remove" onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleMultiSelectChange('productServices', val);
+                                  }}>&times;</span>
+                                </span>
+                              ))
+                            ) : (
+                              <span className="multiselect-placeholder">Select Offerings</span>
+                            )}
+                          </div>
+                          <div className="multiselect-arrow"></div>
+                        </div>
+
+                        {isProductServicesOpen && (
+                          <div className="multiselect-dropdown">
+                            {PRODUCT_SERVICE_OPTIONS.map(opt => {
+                              const isChecked = (registerForm.productServices || []).includes(opt);
+                              return (
+                                <label key={opt} className="multiselect-option" onClick={(e) => e.stopPropagation()}>
+                                  <input
+                                    type="checkbox"
+                                    checked={isChecked}
+                                    onChange={() => handleMultiSelectChange('productServices', opt)}
+                                    disabled={loading}
+                                  />
+                                  <span>{opt}</span>
+                                </label>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="login-field">
+                      <label htmlFor="reg-last-promotion">Last Received Promotion (Designation)</label>
+                      <div className="login-field__input-wrap">
+                        <FaAward className="login-field__icon" />
+                        <input
+                          id="reg-last-promotion"
+                          type="text"
+                          name="lastPromotionDesignation"
+                          placeholder="e.g. Team Lead"
+                          value={registerForm.lastPromotionDesignation}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="login-field">
+                      <label>Last Promotion Received Date (Month / Year)</label>
+                      <div className="login-form__row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', padding: 0, margin: 0, border: 'none' }}>
+                        <div className="login-field__input-wrap">
+                          <FaCalendarAlt className="login-field__icon" />
+                          <select
+                            name="lastPromotionMonth"
+                            value={registerForm.lastPromotionMonth}
+                            onChange={handleRegisterChange}
+                            disabled={loading}
+                            style={{ paddingLeft: '42px' }}
+                          >
+                            <option value="">Select Month</option>
+                            {MONTH_OPTIONS.map(m => <option key={m} value={m}>{m}</option>)}
+                          </select>
+                        </div>
+                        <div className="login-field__input-wrap">
+                          <FaCalendarAlt className="login-field__icon" />
+                          <select
+                            name="lastPromotionYear"
+                            value={registerForm.lastPromotionYear}
+                            onChange={handleRegisterChange}
+                            disabled={loading}
+                            style={{ paddingLeft: '42px' }}
+                          >
+                            <option value="">Select Year</option>
+                            {PROMOTION_YEAR_OPTIONS.map(y => <option key={y} value={y}>{y}</option>)}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Certifications list */}
+                  <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                    <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
+                      Certifications
+                    </label>
+                    {((registerForm.certifications || []).length > 0) ? (
+                      (registerForm.certifications || []).map((cert, index) => (
+                        <div key={index} className="previous-degree-row">
+                          <div className="login-field">
+                            <label htmlFor={`reg-cert-area-${index}`}>Area of Certification</label>
+                            <div className="login-field__input-wrap">
+                              <FaCertificate className="login-field__icon" style={{ color: 'var(--slate)' }} />
+                              <select
+                                id={`reg-cert-area-${index}`}
+                                name="area"
+                                value={cert.area}
+                                onChange={(e) => handleCertificationChange(index, 'area', e.target.value)}
+                                disabled={loading}
+                              >
+                                <option value="">Select Area</option>
+                                {CERTIFICATION_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
+                              </select>
+                            </div>
+                          </div>
+
+                          <div className="login-field">
+                            <label htmlFor={`reg-cert-detail-${index}`}>About the Certification Detail</label>
+                            <div className="login-field__input-wrap">
+                              <FaBriefcase className="login-field__icon" />
+                              <input
+                                id={`reg-cert-detail-${index}`}
+                                type="text"
+                                placeholder="Detail (e.g. AWS Certified Developer)"
+                                value={cert.detail}
+                                onChange={(e) => handleCertificationChange(index, 'detail', e.target.value)}
+                                disabled={loading}
+                              />
+                            </div>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveCertification(index)}
+                            className="profile-btn profile-btn--secondary"
+                            style={{
+                              width: '100%',
+                              height: '44px',
+                              padding: 0,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'var(--signal-red)',
+                              backgroundColor: 'rgba(232, 48, 42, 0.05)',
+                              borderColor: 'var(--line-grey)'
+                            }}
+                            title="Remove Certification"
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      ))
+                    ) : (
+                      <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Certifications added.</div>
+                    )}
+                  </div>
+
+                  {/* Add Certification Button */}
+                  <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-start', marginBottom: '20px' }}>
+                    <button
+                      type="button"
+                      onClick={handleAddCertification}
+                      className="profile-btn profile-btn--secondary"
+                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
+                      disabled={loading}
+                    >
+                      <FaPlus /> Add Certification
+                    </button>
+                  </div>
+
+                  {/* Awards list */}
+                  <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
+                      Details of Award received from Government, Company, Professional Association etc.
+                    </label>
+                    {((registerForm.awards || []).length > 0) ? (
+                      (registerForm.awards || []).map((award, index) => (
+                        <div key={index} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                          <div className="login-field" style={{ flex: 1 }}>
+                            <div className="login-field__input-wrap">
+                              <FaAward className="login-field__icon" />
+                              <input
+                                type="text"
+                                placeholder="Award Details (e.g. Best Employee 2025)"
+                                value={award}
+                                onChange={(e) => handleAwardChange(index, e.target.value)}
+                                disabled={loading}
+                              />
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveAward(index)}
+                            className="profile-btn profile-btn--secondary"
+                            style={{
+                              width: '44px',
+                              height: '44px',
+                              padding: 0,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'var(--signal-red)',
+                              backgroundColor: 'rgba(232, 48, 42, 0.05)',
+                              borderColor: 'var(--line-grey)',
+                              margin: 0
+                            }}
+                            title="Remove Award"
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      ))
+                    ) : (
+                      <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Awards added.</div>
+                    )}
+                  </div>
+
+                  {/* Add Award Button */}
+                  <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-start', marginBottom: '20px' }}>
+                    <button
+                      type="button"
+                      onClick={handleAddAward}
+                      className="profile-btn profile-btn--secondary"
+                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
+                      disabled={loading}
+                    >
+                      <FaPlus /> Add Award
+                    </button>
+                  </div>
+
+                  {/* Hobbies list */}
+                  <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
+                      Interest / Hobby
+                    </label>
+                    {((registerForm.hobbies || []).length > 0) ? (
+                      (registerForm.hobbies || []).map((hobby, index) => (
+                        <div key={index} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                          <div className="login-field" style={{ flex: 1 }}>
+                            <div className="login-field__input-wrap">
+                              <FaHeart className="login-field__icon" />
+                              <input
+                                type="text"
+                                placeholder="Hobby (e.g. Reading, Photography)"
+                                value={hobby}
+                                onChange={(e) => handleHobbyChange(index, e.target.value)}
+                                disabled={loading}
+                              />
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveHobby(index)}
+                            className="profile-btn profile-btn--secondary"
+                            style={{
+                              width: '44px',
+                              height: '44px',
+                              padding: 0,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'var(--signal-red)',
+                              backgroundColor: 'rgba(232, 48, 42, 0.05)',
+                              borderColor: 'var(--line-grey)',
+                              margin: 0
+                            }}
+                            title="Remove Hobby"
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      ))
+                    ) : (
+                      <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Interests or Hobbies added.</div>
+                    )}
+                  </div>
+
+                  {/* Add Hobby Button */}
+                  <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-start', marginBottom: '20px' }}>
+                    <button
+                      type="button"
+                      onClick={handleAddHobby}
+                      className="profile-btn profile-btn--secondary"
+                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
+                      disabled={loading}
+                    >
+                      <FaPlus /> Add Interest / Hobby
+                    </button>
                   </div>
 
                   <div className="login-form__row">
@@ -1409,6 +2128,86 @@ export default function Login({ user, onLoginSuccess }) {
           </div>
         </div>
       </div>
+      {showPhoneModal && (
+        <div className="login-modal-overlay" onClick={() => !loading && setShowPhoneModal(false)}>
+          <div className="login-modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3 className="login-modal-title">Verify Phone Number</h3>
+            <p className="login-modal-description">
+              Please enter the Primary, Secondary, or WhatsApp phone number associated with the account <strong>{loginForm.email}</strong> to verify your identity.
+            </p>
+            
+            {verifyPhoneError && (
+              <div className="login-error" style={{ marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 14px', borderRadius: '6px', fontSize: '0.85rem' }}>
+                <FaTimesCircle /> {verifyPhoneError}
+              </div>
+            )}
+            
+            <form onSubmit={handleVerifyAndResetPassword}>
+              <div className="login-field" style={{ margin: '15px 0' }}>
+                <label htmlFor="verify-phone">Associated Phone Number</label>
+                <div className="login-field__input-wrap">
+                  <FaPhone className="login-field__icon" style={{ transform: 'rotate(90deg)' }} />
+                  <input
+                    id="verify-phone"
+                    type="tel"
+                    placeholder="Enter phone number"
+                    value={verifyPhoneInput}
+                    onChange={(e) => setVerifyPhoneInput(e.target.value)}
+                    disabled={loading}
+                    required
+                    style={{ paddingLeft: '42px' }}
+                  />
+                </div>
+              </div>
+
+              <div className="login-modal-actions" style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '20px' }}>
+                <button
+                  type="button"
+                  className="profile-btn profile-btn--secondary"
+                  style={{ margin: 0, padding: '10px 20px', fontSize: '0.85rem' }}
+                  onClick={() => {
+                    setShowPhoneModal(false)
+                    setVerifyPhoneInput('')
+                    setVerifyPhoneError('')
+                  }}
+                  disabled={loading}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="profile-btn profile-btn--primary"
+                  style={{ margin: 0, padding: '10px 20px', fontSize: '0.85rem' }}
+                  disabled={loading || !verifyPhoneInput.trim()}
+                >
+                  {loading ? <span className="login-spinner"></span> : 'Verify & Send Link'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {showRegSuccessModal && (
+        <div className="login-modal-overlay">
+          <div className="login-modal-content" style={{ textAlign: 'center', padding: '40px' }}>
+            <FaCheckCircle className="success-icon-anim" style={{ fontSize: '4.5rem', marginBottom: '20px' }} />
+            <h3 className="login-modal-title" style={{ fontSize: '1.6rem', color: 'var(--navy-deep)', marginBottom: '15px' }}>Account Created!</h3>
+            <p className="login-modal-description" style={{ fontSize: '0.95rem', lineHeight: '1.6', color: 'var(--slate)', marginBottom: '24px' }}>
+              You have successfully created your account!
+              <br /><br />
+              Please note that your account will be verified within <strong style={{ color: 'var(--signal-red)', fontWeight: '700' }}>1-2 days</strong> by the Administrator.
+            </p>
+            <button
+              type="button"
+              className="profile-btn profile-btn--primary"
+              style={{ margin: '0 auto', width: 'auto', display: 'inline-flex', padding: '12px 30px', fontSize: '0.9rem' }}
+              onClick={handleCloseRegSuccessModal}
+            >
+              Proceed to Portal
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

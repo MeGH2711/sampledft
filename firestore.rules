@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Check if user is logged in
+    function isLoggedIn() {
+      return request.auth != null;
+    }
+
+    // Fetch the user's account_type from the users collection
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    // Check if user is an admin or developer
+    function isAdminOrDev() {
+      return isLoggedIn() && 
+        (getUserData().account_type == 'admin' || getUserData().account_type == 'developer');
+    }
+
+    match /users/{userId} {
+      // Allow read/write if the user is the owner of the document
+      allow read, write: if isLoggedIn() && request.auth.uid == userId;
+      
+      // Allow admin or developer to list all users, view their profiles, and change their account_type/verification_status
+      allow read, write: if isAdminOrDev();
+    }
+
+    match /jobs/{jobId} {
+      // Anyone (even unauthenticated) can read job listings
+      allow read: if true;
+      
+      // Only admins or developers can create, update, or delete jobs
+      allow write: if isAdminOrDev();
+    }
+  }
+}

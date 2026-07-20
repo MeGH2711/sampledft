@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   FaArrowLeft,
@@ -19,7 +19,10 @@ import {
   FaTrash,
   FaCertificate,
   FaGlobe,
-  FaBoxOpen
+  FaBoxOpen,
+  FaMapMarkerAlt,
+  FaSitemap,
+  FaAward
 } from 'react-icons/fa'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
@@ -31,6 +34,9 @@ import {
   CERTIFICATION_OPTIONS,
   PRODUCT_SERVICE_OPTIONS
 } from '../data/formdata'
+
+const MONTH_OPTIONS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const PROMOTION_YEAR_OPTIONS = Array.from({ length: new Date().getFullYear() - 1980 + 1 }, (_, i) => String(new Date().getFullYear() - i));
 
 const parsePhoneNumber = (fullPhone) => {
   if (!fullPhone) return { code: '+91', number: '' }
@@ -132,10 +138,25 @@ export default function Profile({ user, onUpdateUser }) {
     verification_status: false,
     account_type: 'alumni',
     degrees: [],
-    areaOfCertification: '',
     profession: '',
-    productServices: '',
-    companyWebsite: ''
+    companyWebsite: '',
+
+    // New/replaced fields:
+    city: '',
+    state: '',
+    country: '',
+    certifications: [],
+    productServices: [],
+    department: '',
+    workingSince: '',
+    companyCity: '',
+    companyState: '',
+    companyCountry: '',
+    lastPromotionDesignation: '',
+    lastPromotionMonth: '',
+    lastPromotionYear: '',
+    awards: [],
+    hobbies: []
   })
 
   const [originalForm, setOriginalForm] = useState({
@@ -161,11 +182,41 @@ export default function Profile({ user, onUpdateUser }) {
     verification_status: false,
     account_type: 'alumni',
     degrees: [],
-    areaOfCertification: '',
     profession: '',
-    productServices: '',
-    companyWebsite: ''
+    companyWebsite: '',
+
+    // New/replaced fields:
+    city: '',
+    state: '',
+    country: '',
+    certifications: [],
+    productServices: [],
+    department: '',
+    workingSince: '',
+    companyCity: '',
+    companyState: '',
+    companyCountry: '',
+    lastPromotionDesignation: '',
+    lastPromotionMonth: '',
+    lastPromotionYear: '',
+    awards: [],
+    hobbies: []
   })
+
+  const [isProductServicesOpen, setIsProductServicesOpen] = useState(false)
+  const productServicesRef = useRef(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (productServicesRef.current && !productServicesRef.current.contains(event.target)) {
+        setIsProductServicesOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   // Load user data on mount
   useEffect(() => {
@@ -193,6 +244,24 @@ export default function Profile({ user, onUpdateUser }) {
             const parsedSecPhone = parsePhoneNumber(data.secondaryPhone)
             const parsedWhatsapp = parsePhoneNumber(data.whatsapp)
 
+            // Let's parse productServices
+            let loadedProductServices = [];
+            if (Array.isArray(data.productServices)) {
+              loadedProductServices = data.productServices;
+            } else if (data.productServices) {
+              loadedProductServices = [data.productServices];
+            } else if (user.productServices) {
+              loadedProductServices = Array.isArray(user.productServices) ? user.productServices : [user.productServices];
+            }
+
+            // Let's parse certifications
+            let loadedCertifications = [];
+            if (Array.isArray(data.certifications)) {
+              loadedCertifications = data.certifications;
+            } else if (data.areaOfCertification || user.areaOfCertification) {
+              loadedCertifications = [{ area: data.areaOfCertification || user.areaOfCertification, detail: '' }];
+            }
+
             const loadedData = {
               firstName: defaultFirstName,
               middleName: data.middleName || user.middleName || '',
@@ -216,10 +285,25 @@ export default function Profile({ user, onUpdateUser }) {
               verification_status: data.verification_status !== undefined ? data.verification_status : false,
               account_type: data.account_type || 'alumni',
               degrees: data.degrees || [],
-              areaOfCertification: data.areaOfCertification || user.areaOfCertification || '',
               profession: data.profession || user.profession || '',
-              productServices: data.productServices || user.productServices || '',
-              companyWebsite: data.companyWebsite || user.companyWebsite || ''
+              companyWebsite: data.companyWebsite || user.companyWebsite || '',
+
+              // New fields
+              city: data.city || user.city || '',
+              state: data.state || user.state || '',
+              country: data.country || user.country || '',
+              certifications: loadedCertifications,
+              productServices: loadedProductServices,
+              department: data.department || user.department || '',
+              workingSince: formatDob(data.workingSince || user.workingSince || ''),
+              companyCity: data.companyCity || user.companyCity || '',
+              companyState: data.companyState || user.companyState || '',
+              companyCountry: data.companyCountry || user.companyCountry || '',
+              lastPromotionDesignation: data.lastPromotionDesignation || user.lastPromotionDesignation || '',
+              lastPromotionMonth: data.lastPromotionMonth || user.lastPromotionMonth || '',
+              lastPromotionYear: data.lastPromotionYear || user.lastPromotionYear || '',
+              awards: data.awards || user.awards || [],
+              hobbies: data.hobbies || user.hobbies || []
             }
             setProfileForm(loadedData)
             setOriginalForm(loadedData)
@@ -229,6 +313,22 @@ export default function Profile({ user, onUpdateUser }) {
             const parsedPhone = parsePhoneNumber(user.phone)
             const parsedSecPhone = parsePhoneNumber(user.secondaryPhone)
             const parsedWhatsapp = parsePhoneNumber(user.whatsapp)
+
+            // Let's parse productServices
+            let loadedProductServices = [];
+            if (Array.isArray(user.productServices)) {
+              loadedProductServices = user.productServices;
+            } else if (user.productServices) {
+              loadedProductServices = [user.productServices];
+            }
+
+            // Let's parse certifications
+            let loadedCertifications = [];
+            if (Array.isArray(user.certifications)) {
+              loadedCertifications = user.certifications;
+            } else if (user.areaOfCertification) {
+              loadedCertifications = [{ area: user.areaOfCertification, detail: '' }];
+            }
 
             const seedData = {
               firstName: nameSplit[0] || '',
@@ -253,10 +353,25 @@ export default function Profile({ user, onUpdateUser }) {
               verification_status: false,
               account_type: 'alumni',
               degrees: user.degrees || [],
-              areaOfCertification: user.areaOfCertification || '',
               profession: user.profession || '',
-              productServices: user.productServices || '',
-              companyWebsite: user.companyWebsite || ''
+              companyWebsite: user.companyWebsite || '',
+
+              // New fields
+              city: user.city || '',
+              state: user.state || '',
+              country: user.country || '',
+              certifications: loadedCertifications,
+              productServices: loadedProductServices,
+              department: user.department || '',
+              workingSince: formatDob(user.workingSince || ''),
+              companyCity: user.companyCity || '',
+              companyState: user.companyState || '',
+              companyCountry: user.companyCountry || '',
+              lastPromotionDesignation: user.lastPromotionDesignation || '',
+              lastPromotionMonth: user.lastPromotionMonth || '',
+              lastPromotionYear: user.lastPromotionYear || '',
+              awards: user.awards || [],
+              hobbies: user.hobbies || []
             }
             setProfileForm(seedData)
             setOriginalForm(seedData)
@@ -277,6 +392,22 @@ export default function Profile({ user, onUpdateUser }) {
             const parsedPhone = parsePhoneNumber(parsed.phone)
             const parsedSecPhone = parsePhoneNumber(parsed.secondaryPhone)
             const parsedWhatsapp = parsePhoneNumber(parsed.whatsapp)
+
+            // Let's parse productServices
+            let loadedProductServices = [];
+            if (Array.isArray(parsed.productServices)) {
+              loadedProductServices = parsed.productServices;
+            } else if (parsed.productServices) {
+              loadedProductServices = [parsed.productServices];
+            }
+
+            // Let's parse certifications
+            let loadedCertifications = [];
+            if (Array.isArray(parsed.certifications)) {
+              loadedCertifications = parsed.certifications;
+            } else if (parsed.areaOfCertification) {
+              loadedCertifications = [{ area: parsed.areaOfCertification, detail: '' }];
+            }
 
             const mockData = {
               firstName: parsed.firstName || nameSplit[0] || '',
@@ -301,10 +432,25 @@ export default function Profile({ user, onUpdateUser }) {
               verification_status: parsed.verification_status !== undefined ? parsed.verification_status : false,
               account_type: parsed.account_type || 'alumni',
               degrees: parsed.degrees || [],
-              areaOfCertification: parsed.areaOfCertification || '',
               profession: parsed.profession || '',
-              productServices: parsed.productServices || '',
-              companyWebsite: parsed.companyWebsite || ''
+              companyWebsite: parsed.companyWebsite || '',
+
+              // New fields
+              city: parsed.city || '',
+              state: parsed.state || '',
+              country: parsed.country || '',
+              certifications: loadedCertifications,
+              productServices: loadedProductServices,
+              department: parsed.department || '',
+              workingSince: formatDob(parsed.workingSince || ''),
+              companyCity: parsed.companyCity || '',
+              companyState: parsed.companyState || '',
+              companyCountry: parsed.companyCountry || '',
+              lastPromotionDesignation: parsed.lastPromotionDesignation || '',
+              lastPromotionMonth: parsed.lastPromotionMonth || '',
+              lastPromotionYear: parsed.lastPromotionYear || '',
+              awards: parsed.awards || [],
+              hobbies: parsed.hobbies || []
             }
             setProfileForm(mockData)
             setOriginalForm(mockData)
@@ -318,6 +464,22 @@ export default function Profile({ user, onUpdateUser }) {
         const parsedPhone = parsePhoneNumber(user.phone)
         const parsedSecPhone = parsePhoneNumber(user.secondaryPhone)
         const parsedWhatsapp = parsePhoneNumber(user.whatsapp)
+
+        // Let's parse productServices
+        let loadedProductServices = [];
+        if (Array.isArray(user.productServices)) {
+          loadedProductServices = user.productServices;
+        } else if (user.productServices) {
+          loadedProductServices = [user.productServices];
+        }
+
+        // Let's parse certifications
+        let loadedCertifications = [];
+        if (Array.isArray(user.certifications)) {
+          loadedCertifications = user.certifications;
+        } else if (user.areaOfCertification) {
+          loadedCertifications = [{ area: user.areaOfCertification, detail: '' }];
+        }
 
         const fallbackData = {
           firstName: nameSplit[0] || '',
@@ -342,10 +504,25 @@ export default function Profile({ user, onUpdateUser }) {
           verification_status: user.verification_status || false,
           account_type: user.account_type || 'alumni',
           degrees: user.degrees || [],
-          areaOfCertification: user.areaOfCertification || '',
           profession: user.profession || '',
-          productServices: user.productServices || '',
-          companyWebsite: user.companyWebsite || ''
+          companyWebsite: user.companyWebsite || '',
+
+          // New fields
+          city: user.city || '',
+          state: user.state || '',
+          country: user.country || '',
+          certifications: loadedCertifications,
+          productServices: loadedProductServices,
+          department: user.department || '',
+          workingSince: formatDob(user.workingSince || ''),
+          companyCity: user.companyCity || '',
+          companyState: user.companyState || '',
+          companyCountry: user.companyCountry || '',
+          lastPromotionDesignation: user.lastPromotionDesignation || '',
+          lastPromotionMonth: user.lastPromotionMonth || '',
+          lastPromotionYear: user.lastPromotionYear || '',
+          awards: user.awards || [],
+          hobbies: user.hobbies || []
         }
         setProfileForm(fallbackData)
         setOriginalForm(fallbackData)
@@ -412,6 +589,94 @@ export default function Profile({ user, onUpdateUser }) {
       return {
         ...prev,
         degrees: updatedDegrees
+      }
+    })
+  }
+
+  const handleAddCertification = () => {
+    setProfileForm(prev => ({
+      ...prev,
+      certifications: [...(prev.certifications || []), { area: '', detail: '' }]
+    }))
+  }
+
+  const handleRemoveCertification = (index) => {
+    setProfileForm(prev => ({
+      ...prev,
+      certifications: (prev.certifications || []).filter((_, i) => i !== index)
+    }))
+  }
+
+  const handleCertificationChange = (index, field, val) => {
+    setProfileForm(prev => {
+      const updated = [...(prev.certifications || [])]
+      updated[index] = { ...updated[index], [field]: val }
+      return {
+        ...prev,
+        certifications: updated
+      }
+    })
+  }
+
+  const handleMultiSelectChange = (name, val) => {
+    setProfileForm(prev => {
+      const current = prev[name] || []
+      const updated = current.includes(val)
+        ? current.filter(item => item !== val)
+        : [...current, val]
+      return {
+        ...prev,
+        [name]: updated
+      }
+    })
+  }
+
+  const handleAddAward = () => {
+    setProfileForm(prev => ({
+      ...prev,
+      awards: [...(prev.awards || []), '']
+    }))
+  }
+
+  const handleRemoveAward = (index) => {
+    setProfileForm(prev => ({
+      ...prev,
+      awards: (prev.awards || []).filter((_, i) => i !== index)
+    }))
+  }
+
+  const handleAwardChange = (index, val) => {
+    setProfileForm(prev => {
+      const updated = [...(prev.awards || [])]
+      updated[index] = val
+      return {
+        ...prev,
+        awards: updated
+      }
+    })
+  }
+
+  const handleAddHobby = () => {
+    setProfileForm(prev => ({
+      ...prev,
+      hobbies: [...(prev.hobbies || []), '']
+    }))
+  }
+
+  const handleRemoveHobby = (index) => {
+    setProfileForm(prev => ({
+      ...prev,
+      hobbies: (prev.hobbies || []).filter((_, i) => i !== index)
+    }))
+  }
+
+  const handleHobbyChange = (index, val) => {
+    setProfileForm(prev => {
+      const updated = [...(prev.hobbies || [])]
+      updated[index] = val
+      return {
+        ...prev,
+        hobbies: updated
       }
     })
   }
@@ -485,15 +750,31 @@ export default function Profile({ user, onUpdateUser }) {
       bloodGroup: profileForm.bloodGroup,
       admissionYear: profileForm.admissionYear,
       passoutYear: profileForm.passoutYear,
+      batch: profileForm.passoutYear,
       degrees: profileForm.degrees || [],
       jobTitle: profileForm.jobTitle.trim(),
       company: profileForm.company.trim(),
       linkedin: profileForm.linkedin.trim(),
       dom: profileForm.dom,
-      areaOfCertification: profileForm.areaOfCertification || '',
       profession: profileForm.profession || '',
-      productServices: profileForm.productServices || '',
-      companyWebsite: profileForm.companyWebsite || ''
+      companyWebsite: profileForm.companyWebsite || '',
+
+      // New fields
+      city: profileForm.city.trim(),
+      state: profileForm.state.trim(),
+      country: profileForm.country.trim(),
+      certifications: profileForm.certifications || [],
+      productServices: profileForm.productServices || [],
+      department: profileForm.department.trim(),
+      workingSince: profileForm.workingSince,
+      companyCity: profileForm.companyCity.trim(),
+      companyState: profileForm.companyState.trim(),
+      companyCountry: profileForm.companyCountry.trim(),
+      lastPromotionDesignation: profileForm.lastPromotionDesignation.trim(),
+      lastPromotionMonth: profileForm.lastPromotionMonth,
+      lastPromotionYear: profileForm.lastPromotionYear,
+      awards: profileForm.awards || [],
+      hobbies: profileForm.hobbies || []
     }
 
     const uid = user.uid || (auth.currentUser ? auth.currentUser.uid : null)
@@ -543,10 +824,25 @@ export default function Profile({ user, onUpdateUser }) {
               company: updatedProfile.company,
               linkedin: updatedProfile.linkedin,
               dom: updatedProfile.dom,
-              areaOfCertification: updatedProfile.areaOfCertification || '',
               profession: updatedProfile.profession || '',
-              productServices: updatedProfile.productServices || '',
-              companyWebsite: updatedProfile.companyWebsite || ''
+              companyWebsite: updatedProfile.companyWebsite || '',
+
+              // New fields
+              city: updatedProfile.city,
+              state: updatedProfile.state,
+              country: updatedProfile.country,
+              certifications: updatedProfile.certifications,
+              productServices: updatedProfile.productServices,
+              department: updatedProfile.department,
+              workingSince: updatedProfile.workingSince,
+              companyCity: updatedProfile.companyCity,
+              companyState: updatedProfile.companyState,
+              companyCountry: updatedProfile.companyCountry,
+              lastPromotionDesignation: updatedProfile.lastPromotionDesignation,
+              lastPromotionMonth: updatedProfile.lastPromotionMonth,
+              lastPromotionYear: updatedProfile.lastPromotionYear,
+              awards: updatedProfile.awards,
+              hobbies: updatedProfile.hobbies
             }
             localStorage.setItem('mockRegisteredAlumni', JSON.stringify(updatedMock))
           }
@@ -582,11 +878,24 @@ export default function Profile({ user, onUpdateUser }) {
     profileForm.company !== originalForm.company ||
     profileForm.linkedin !== originalForm.linkedin ||
     profileForm.dom !== originalForm.dom ||
-    profileForm.areaOfCertification !== originalForm.areaOfCertification ||
     profileForm.profession !== originalForm.profession ||
-    profileForm.productServices !== originalForm.productServices ||
     profileForm.companyWebsite !== originalForm.companyWebsite ||
-    JSON.stringify(profileForm.degrees || []) !== JSON.stringify(originalForm.degrees || [])
+    profileForm.city !== originalForm.city ||
+    profileForm.state !== originalForm.state ||
+    profileForm.country !== originalForm.country ||
+    profileForm.department !== originalForm.department ||
+    profileForm.workingSince !== originalForm.workingSince ||
+    profileForm.companyCity !== originalForm.companyCity ||
+    profileForm.companyState !== originalForm.companyState ||
+    profileForm.companyCountry !== originalForm.companyCountry ||
+    profileForm.lastPromotionDesignation !== originalForm.lastPromotionDesignation ||
+    profileForm.lastPromotionMonth !== originalForm.lastPromotionMonth ||
+    profileForm.lastPromotionYear !== originalForm.lastPromotionYear ||
+    JSON.stringify(profileForm.degrees || []) !== JSON.stringify(originalForm.degrees || []) ||
+    JSON.stringify(profileForm.certifications || []) !== JSON.stringify(originalForm.certifications || []) ||
+    JSON.stringify(profileForm.productServices || []) !== JSON.stringify(originalForm.productServices || []) ||
+    JSON.stringify(profileForm.awards || []) !== JSON.stringify(originalForm.awards || []) ||
+    JSON.stringify(profileForm.hobbies || []) !== JSON.stringify(originalForm.hobbies || [])
   ) : false
 
   // Signed out check
@@ -927,6 +1236,54 @@ export default function Profile({ user, onUpdateUser }) {
                   <div className="profile-field" style={{ visibility: 'hidden' }}></div>
                 </div>
 
+                <div className="profile-form__grid-3" style={{ marginTop: '15px' }}>
+                  <div className="profile-field">
+                    <label htmlFor="prof-city">City</label>
+                    <div className="profile-field__input-wrap">
+                      <FaMapMarkerAlt className="profile-field__icon" />
+                      <input
+                        id="prof-city"
+                        type="text"
+                        name="city"
+                        value={profileForm.city}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+                  <div className="profile-field">
+                    <label htmlFor="prof-state">State</label>
+                    <div className="profile-field__input-wrap">
+                      <FaMapMarkerAlt className="profile-field__icon" />
+                      <input
+                        id="prof-state"
+                        type="text"
+                        name="state"
+                        value={profileForm.state}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+                  <div className="profile-field">
+                    <label htmlFor="prof-country">Country</label>
+                    <div className="profile-field__input-wrap">
+                      <FaGlobe className="profile-field__icon" />
+                      <input
+                        id="prof-country"
+                        type="text"
+                        name="country"
+                        value={profileForm.country}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 <h4 className="profile-form__section-title" style={{ marginTop: '20px' }}>Academic Details</h4>
                 <div className="profile-form__grid">
                   <div className="profile-field profile-field--full">
@@ -1090,6 +1447,38 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
+                    <label htmlFor="prof-company">Company</label>
+                    <div className="profile-field__input-wrap">
+                      <FaBuilding className="profile-field__icon" />
+                      <input
+                        id="prof-company"
+                        type="text"
+                        name="company"
+                        value={profileForm.company}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="profile-field">
+                    <label htmlFor="prof-department">Department</label>
+                    <div className="profile-field__input-wrap">
+                      <FaSitemap className="profile-field__icon" />
+                      <input
+                        id="prof-department"
+                        type="text"
+                        name="department"
+                        value={profileForm.department}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="profile-field">
                     <label htmlFor="prof-job-title">Job Title</label>
                     <div className="profile-field__input-wrap">
                       <FaBriefcase className="profile-field__icon" />
@@ -1106,37 +1495,18 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-company">Company</label>
+                    <label htmlFor="prof-working-since">Working Since</label>
                     <div className="profile-field__input-wrap">
-                      <FaBuilding className="profile-field__icon" />
+                      <FaCalendarAlt className="profile-field__icon" />
                       <input
-                        id="prof-company"
-                        type="text"
-                        name="company"
-                        value={profileForm.company}
+                        id="prof-working-since"
+                        type="date"
+                        name="workingSince"
+                        value={profileForm.workingSince}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                         placeholder="No Data Provided"
                       />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="profile-form__grid">
-                  <div className="profile-field profile-field--full">
-                    <label htmlFor="prof-product-services">Detail of Product / Services offered by your Company</label>
-                    <div className="profile-field__input-wrap">
-                      <FaBoxOpen className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
-                      <select
-                        id="prof-product-services"
-                        name="productServices"
-                        value={profileForm.productServices}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                      >
-                        <option value="">Select Offerings</option>
-                        {PRODUCT_SERVICE_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                      </select>
                     </div>
                   </div>
 
@@ -1171,24 +1541,365 @@ export default function Profile({ user, onUpdateUser }) {
                       />
                     </div>
                   </div>
+                </div>
 
-                  <div className="profile-field profile-field--full">
-                    <label htmlFor="prof-certification">Area of Certification</label>
+                <div className="profile-form__grid-3" style={{ marginTop: '10px' }}>
+                  <div className="profile-field">
+                    <label htmlFor="prof-company-city">Company Location (City)</label>
                     <div className="profile-field__input-wrap">
-                      <FaCertificate className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
-                      <select
-                        id="prof-certification"
-                        name="areaOfCertification"
-                        value={profileForm.areaOfCertification}
+                      <FaMapMarkerAlt className="profile-field__icon" />
+                      <input
+                        id="prof-company-city"
+                        type="text"
+                        name="companyCity"
+                        value={profileForm.companyCity}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
-                      >
-                        <option value="">Select Certification Area</option>
-                        {CERTIFICATION_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
-                      </select>
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+                  <div className="profile-field">
+                    <label htmlFor="prof-company-state">Company Location (State)</label>
+                    <div className="profile-field__input-wrap">
+                      <FaMapMarkerAlt className="profile-field__icon" />
+                      <input
+                        id="prof-company-state"
+                        type="text"
+                        name="companyState"
+                        value={profileForm.companyState}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+                  <div className="profile-field">
+                    <label htmlFor="prof-company-country">Company Location (Country)</label>
+                    <div className="profile-field__input-wrap">
+                      <FaGlobe className="profile-field__icon" />
+                      <input
+                        id="prof-company-country"
+                        type="text"
+                        name="companyCountry"
+                        value={profileForm.companyCountry}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder="No Data Provided"
+                      />
                     </div>
                   </div>
                 </div>
+
+                <div className="profile-form__grid" style={{ marginTop: '10px' }}>
+                  <div className="profile-field profile-field--full">
+                    <label>Detail of Product / Services offered by your Company</label>
+                    <div className="profile-field__input-wrap product-services-multiselect" ref={productServicesRef}>
+                      <FaBoxOpen className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
+                      <div
+                        className={`multiselect-control ${isProductServicesOpen ? 'open' : ''} ${(!isEditing || loading) ? 'disabled' : ''}`}
+                        onClick={() => isEditing && !loading && setIsProductServicesOpen(!isProductServicesOpen)}
+                      >
+                        <div className="multiselect-values">
+                          {profileForm.productServices && profileForm.productServices.length > 0 ? (
+                            profileForm.productServices.map(val => (
+                              <span key={val} className="multiselect-tag">
+                                {val}
+                                {isEditing && (
+                                  <span className="multiselect-tag-remove" onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleMultiSelectChange('productServices', val);
+                                  }}>&times;</span>
+                                )}
+                              </span>
+                            ))
+                          ) : (
+                            <span className="multiselect-placeholder">Select Offerings</span>
+                          )}
+                        </div>
+                        <div className="multiselect-arrow"></div>
+                      </div>
+
+                      {isProductServicesOpen && isEditing && (
+                        <div className="multiselect-dropdown">
+                          {PRODUCT_SERVICE_OPTIONS.map(opt => {
+                            const isChecked = (profileForm.productServices || []).includes(opt);
+                            return (
+                              <label key={opt} className="multiselect-option" onClick={(e) => e.stopPropagation()}>
+                                <input
+                                  type="checkbox"
+                                  checked={isChecked}
+                                  onChange={() => handleMultiSelectChange('productServices', opt)}
+                                  disabled={loading}
+                                />
+                                <span>{opt}</span>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="profile-field">
+                    <label htmlFor="prof-last-promotion">Last Received Promotion (Designation)</label>
+                    <div className="profile-field__input-wrap">
+                      <FaAward className="profile-field__icon" />
+                      <input
+                        id="prof-last-promotion"
+                        type="text"
+                        name="lastPromotionDesignation"
+                        value={profileForm.lastPromotionDesignation}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="profile-field">
+                    <label>Last Promotion Received Date (Month / Year)</label>
+                    <div className="profile-form__grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', padding: 0, margin: 0, border: 'none' }}>
+                      <div className="profile-field__input-wrap">
+                        <FaCalendarAlt className="profile-field__icon" />
+                        <select
+                          name="lastPromotionMonth"
+                          value={profileForm.lastPromotionMonth}
+                          onChange={handleInputChange}
+                          disabled={!isEditing || loading}
+                          style={{ paddingLeft: '42px' }}
+                        >
+                          <option value="">Select Month</option>
+                          {MONTH_OPTIONS.map(m => <option key={m} value={m}>{m}</option>)}
+                        </select>
+                      </div>
+                      <div className="profile-field__input-wrap">
+                        <FaCalendarAlt className="profile-field__icon" />
+                        <select
+                          name="lastPromotionYear"
+                          value={profileForm.lastPromotionYear}
+                          onChange={handleInputChange}
+                          disabled={!isEditing || loading}
+                          style={{ paddingLeft: '42px' }}
+                        >
+                          <option value="">Select Year</option>
+                          {PROMOTION_YEAR_OPTIONS.map(y => <option key={y} value={y}>{y}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Certifications list */}
+                <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                  <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
+                    Certifications
+                  </label>
+                  {((profileForm.certifications || []).length > 0) ? (
+                    (profileForm.certifications || []).map((cert, index) => (
+                      <div key={index} className={isEditing ? "previous-degree-row" : "profile-form__grid"}>
+                        <div className="profile-field">
+                          <label htmlFor={`prof-cert-area-${index}`}>Area of Certification</label>
+                          <div className="profile-field__input-wrap">
+                            <FaCertificate className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
+                            <select
+                              id={`prof-cert-area-${index}`}
+                              name="area"
+                              value={cert.area}
+                              onChange={(e) => handleCertificationChange(index, 'area', e.target.value)}
+                              disabled={!isEditing || loading}
+                            >
+                              <option value="">Select Area</option>
+                              {CERTIFICATION_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="profile-field">
+                          <label htmlFor={`prof-cert-detail-${index}`}>About the Certification Detail</label>
+                          <div className="profile-field__input-wrap">
+                            <FaBriefcase className="profile-field__icon" />
+                            <input
+                              id={`prof-cert-detail-${index}`}
+                              type="text"
+                              value={cert.detail}
+                              onChange={(e) => handleCertificationChange(index, 'detail', e.target.value)}
+                              disabled={!isEditing || loading}
+                              placeholder="No Data Provided"
+                            />
+                          </div>
+                        </div>
+
+                        {isEditing && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveCertification(index)}
+                            className="profile-btn profile-btn--secondary"
+                            style={{
+                              width: '100%',
+                              height: '44px',
+                              padding: 0,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'var(--signal-red)',
+                              backgroundColor: 'rgba(232, 48, 42, 0.05)',
+                              borderColor: 'var(--line-grey)'
+                            }}
+                            title="Remove Certification"
+                          >
+                            <FaTrash />
+                          </button>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Certifications added.</div>
+                  )}
+                </div>
+
+                {/* Add Certification Button */}
+                {isEditing && (
+                  <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-start', marginBottom: '20px' }}>
+                    <button
+                      type="button"
+                      onClick={handleAddCertification}
+                      className="profile-btn profile-btn--secondary"
+                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
+                      disabled={loading}
+                    >
+                      <FaPlus /> Add Certification
+                    </button>
+                  </div>
+                )}
+
+                {/* Awards list */}
+                <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
+                    Details of Award received from Government, Company, Professional Association etc.
+                  </label>
+                  {((profileForm.awards || []).length > 0) ? (
+                    (profileForm.awards || []).map((award, index) => (
+                      <div key={index} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <div className="profile-field" style={{ flex: 1 }}>
+                          <div className="profile-field__input-wrap">
+                            <FaAward className="profile-field__icon" />
+                            <input
+                              type="text"
+                              value={award}
+                              onChange={(e) => handleAwardChange(index, e.target.value)}
+                              disabled={!isEditing || loading}
+                              placeholder="No Data Provided"
+                            />
+                          </div>
+                        </div>
+                        {isEditing && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveAward(index)}
+                            className="profile-btn profile-btn--secondary"
+                            style={{
+                              width: '44px',
+                              height: '44px',
+                              padding: 0,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'var(--signal-red)',
+                              backgroundColor: 'rgba(232, 48, 42, 0.05)',
+                              borderColor: 'var(--line-grey)',
+                              margin: 0
+                            }}
+                            title="Remove Award"
+                          >
+                            <FaTrash />
+                          </button>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Awards added.</div>
+                  )}
+                </div>
+
+                {/* Add Award Button */}
+                {isEditing && (
+                  <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-start', marginBottom: '20px' }}>
+                    <button
+                      type="button"
+                      onClick={handleAddAward}
+                      className="profile-btn profile-btn--secondary"
+                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
+                      disabled={loading}
+                    >
+                      <FaPlus /> Add Award
+                    </button>
+                  </div>
+                )}
+
+                {/* Hobbies list */}
+                <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
+                    Interest / Hobby
+                  </label>
+                  {((profileForm.hobbies || []).length > 0) ? (
+                    (profileForm.hobbies || []).map((hobby, index) => (
+                      <div key={index} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <div className="profile-field" style={{ flex: 1 }}>
+                          <div className="profile-field__input-wrap">
+                            <FaHeart className="profile-field__icon" />
+                            <input
+                              type="text"
+                              value={hobby}
+                              onChange={(e) => handleHobbyChange(index, e.target.value)}
+                              disabled={!isEditing || loading}
+                              placeholder="No Data Provided"
+                            />
+                          </div>
+                        </div>
+                        {isEditing && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveHobby(index)}
+                            className="profile-btn profile-btn--secondary"
+                            style={{
+                              width: '44px',
+                              height: '44px',
+                              padding: 0,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'var(--signal-red)',
+                              backgroundColor: 'rgba(232, 48, 42, 0.05)',
+                              borderColor: 'var(--line-grey)',
+                              margin: 0
+                            }}
+                            title="Remove Hobby"
+                          >
+                            <FaTrash />
+                          </button>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Interests or Hobbies added.</div>
+                  )}
+                </div>
+
+                {/* Add Hobby Button */}
+                {isEditing && (
+                  <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-start', marginBottom: '20px' }}>
+                    <button
+                      type="button"
+                      onClick={handleAddHobby}
+                      className="profile-btn profile-btn--secondary"
+                      style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
+                      disabled={loading}
+                    >
+                      <FaPlus /> Add Interest / Hobby
+                    </button>
+                  </div>
+                )}
 
                 {isEditing && (
                   <div className="profile-actions">
