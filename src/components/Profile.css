@@ -667,3 +667,32 @@
   accent-color: var(--navy-deep);
   flex-shrink: 0;
 }
+
+/* ============================================
+   PHONE CODE DISPLAY FIX
+   ============================================ */
+/* Hide the text (and emoji) in the selected state of the select field */
+.phone-country-select {
+  color: transparent !important;
+}
+
+/* Ensure options inside the dropdown menu remain visible */
+.phone-country-select option {
+  color: var(--navy-deep) !important;
+}
+
+/* Overlay the raw country code text without the emoji */
+.phone-selected-text {
+  position: absolute;
+  left: 42px;
+  /* Places text right after the flag icon */
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  /* Allows clicks to pass through to the select field */
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--navy-deep);
+  z-index: 2;
+}

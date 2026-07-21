@@ -1206,6 +1206,10 @@ export default function Profile({ user, onUpdateUser }) {
                     <label htmlFor="prof-phone">Contact Number <span className="profile-field__required">*</span></label>
                     <div className="profile-field__input-wrap phone-input-wrap">
                       <span className={`fi fi-${getCountryIso(profileForm.phoneCode)} profile-field__icon`}></span>
+
+                      {/* ADD THIS SPAN */}
+                      <span className="phone-selected-text">{profileForm.phoneCode}</span>
+
                       <select
                         className="phone-country-select"
                         name="phoneCode"
@@ -1232,6 +1236,10 @@ export default function Profile({ user, onUpdateUser }) {
                     <label htmlFor="prof-sec-phone">Secondary Contact Number</label>
                     <div className="profile-field__input-wrap phone-input-wrap">
                       <span className={`fi fi-${getCountryIso(profileForm.secondaryPhoneCode)} profile-field__icon`}></span>
+
+                      {/* ADD THIS SPAN */}
+                      <span className="phone-selected-text">{profileForm.secondaryPhoneCode}</span>
+
                       <select
                         className="phone-country-select"
                         name="secondaryPhoneCode"
@@ -1259,6 +1267,10 @@ export default function Profile({ user, onUpdateUser }) {
                     <label htmlFor="prof-whatsapp">WhatsApp Number <span className="profile-field__required">*</span></label>
                     <div className="profile-field__input-wrap phone-input-wrap">
                       <span className={`fi fi-${getCountryIso(profileForm.whatsappCode)} profile-field__icon`}></span>
+
+                      {/* ADD THIS SPAN */}
+                      <span className="phone-selected-text">{profileForm.whatsappCode}</span>
+
                       <select
                         className="phone-country-select"
                         name="whatsappCode"
