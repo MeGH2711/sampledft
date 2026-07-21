@@ -1,6 +1,6 @@
 # 📁 dft-alumni — Codebase Export
 
-> Generated on: 7/21/2026, 1:56:05 PM
+> Generated on: 7/21/2026, 4:08:23 PM
 
 > Root: `c:\Users\meghp\Desktop\DFT Alumni\DFTWebsite\New_Website\dft-alumni`
 
@@ -64,8 +64,9 @@
 54. [`src\firebase.js`](#file-54)
 55. [`src\index.css`](#file-55)
 56. [`src\main.jsx`](#file-56)
-57. [`vercel.json`](#file-57)
-58. [`vite.config.js`](#file-58)
+57. [`src\utils\hash.js`](#file-57)
+58. [`vercel.json`](#file-58)
+59. [`vite.config.js`](#file-59)
 
 ---
 
@@ -10661,6 +10662,7 @@ import {
   PRODUCT_SERVICE_OPTIONS,
   HOBBY_OPTIONS
 } from '../data/formdata'
+import { hashEmail, hashPhoneDigits } from '../utils/hash'
 
 const MONTH_OPTIONS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const PROMOTION_YEAR_OPTIONS = Array.from({ length: new Date().getFullYear() - 1980 + 1 }, (_, i) => String(new Date().getFullYear() - i));
@@ -11351,6 +11353,21 @@ export default function Login({ user, onLoginSuccess }) {
           consentAlumniSearch: registerForm.consentAlumniSearch || false
         })
 
+        // Write the password-reset lookup doc (hashes only, no plaintext phone data)
+        const emailHashKey = await hashEmail(registerForm.email)
+        const phoneHash = await hashPhoneDigits(`${registerForm.phoneCode} ${registerForm.phone}`)
+        const secPhoneHash = registerForm.secondaryPhone
+          ? await hashPhoneDigits(`${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`)
+          : ''
+        const whatsappHash = await hashPhoneDigits(`${registerForm.whatsappCode} ${registerForm.whatsapp}`)
+
+        await setDoc(doc(db, 'passwordResetLookup', emailHashKey), {
+          uid: user.uid,
+          phoneHash,
+          secPhoneHash,
+          whatsappHash
+        })
+
         const newUser = {
           uid: user.uid,
           name: [registerForm.firstName.trim(), registerForm.middleName.trim(), registerForm.lastName.trim()].filter(Boolean).join(' '),
@@ -11540,33 +11557,25 @@ export default function Login({ user, onLoginSuccess }) {
 
     if (isFirebaseConfigured) {
       try {
-        // Query users collection for user doc with matching email
-        const q = query(collection(db, 'users'), where('email', '==', loginForm.email.trim()))
-        const querySnapshot = await getDocs(q)
+        const emailHashKey = await hashEmail(loginForm.email)
+        const lookupSnap = await getDoc(doc(db, 'passwordResetLookup', emailHashKey))
 
-        if (querySnapshot.empty) {
-          setVerifyPhoneError('No account found with this email address.')
+        if (!lookupSnap.exists()) {
+          setVerifyPhoneError('No account found with that email/phone combination.')
           setLoading(false)
           return
         }
 
-        let matchedUser = null
-        querySnapshot.forEach(doc => {
-          matchedUser = doc.data()
-        })
+        const lookupData = lookupSnap.data()
+        const inputPhoneHash = await hashPhoneDigits(verifyPhoneInput)
 
-        const storedPhoneDigits = matchedUser.phone ? matchedUser.phone.replace(/\D/g, '') : ''
-        const storedSecPhoneDigits = matchedUser.secondaryPhone ? matchedUser.secondaryPhone.replace(/\D/g, '') : ''
-        const storedWhatsappDigits = matchedUser.whatsapp ? matchedUser.whatsapp.replace(/\D/g, '') : ''
-
-        const isMatch = (
-          (storedPhoneDigits && (storedPhoneDigits.endsWith(inputDigits) || inputDigits.endsWith(storedPhoneDigits))) ||
-          (storedSecPhoneDigits && (storedSecPhoneDigits.endsWith(inputDigits) || inputDigits.endsWith(storedSecPhoneDigits))) ||
-          (storedWhatsappDigits && (storedWhatsappDigits.endsWith(inputDigits) || inputDigits.endsWith(storedWhatsappDigits)))
-        )
+        const isMatch =
+          (lookupData.phoneHash && lookupData.phoneHash === inputPhoneHash) ||
+          (lookupData.secPhoneHash && lookupData.secPhoneHash === inputPhoneHash) ||
+          (lookupData.whatsappHash && lookupData.whatsappHash === inputPhoneHash)
 
         if (!isMatch) {
-          setVerifyPhoneError('Provided phone number does not match our records.')
+          setVerifyPhoneError('No account found with that email/phone combination.')
           setLoading(false)
           return
         }
@@ -15616,6 +15625,7 @@ import {
   PRODUCT_SERVICE_OPTIONS,
   HOBBY_OPTIONS
 } from '../data/formdata'
+import { hashEmail, hashPhoneDigits } from '../utils/hash'
 
 const MONTH_OPTIONS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const PROMOTION_YEAR_OPTIONS = Array.from({ length: new Date().getFullYear() - 1980 + 1 }, (_, i) => String(new Date().getFullYear() - i));
@@ -16358,6 +16368,38 @@ export default function Profile({ user, onUpdateUser }) {
       try {
         const userDocRef = doc(db, 'users', uid)
         await setDoc(userDocRef, updatedProfile, { merge: true })
+
+        if (isFirebaseConfigured && uid) {
+          try {
+            const userDocRef = doc(db, 'users', uid)
+            await setDoc(userDocRef, updatedProfile, { merge: true })
+
+            // Keep the password-reset lookup doc in sync with any phone/email changes
+            const emailHashKey = await hashEmail(user.email) // account email — not editable here
+            const phoneHash = await hashPhoneDigits(updatedProfile.phone)
+            const secPhoneHash = updatedProfile.secondaryPhone ? await hashPhoneDigits(updatedProfile.secondaryPhone) : ''
+            const whatsappHash = await hashPhoneDigits(updatedProfile.whatsapp)
+
+            await setDoc(doc(db, 'passwordResetLookup', emailHashKey), {
+              uid,
+              phoneHash,
+              secPhoneHash,
+              whatsappHash
+            }, { merge: true })
+
+            // Propagate updates up to the App session state
+            onUpdateUser(updatedProfile)
+            setOriginalForm(prev => ({ ...prev, ...updatedProfile }))
+
+            setSuccess('Profile updated successfully!')
+            setIsEditing(false)
+          } catch (err) {
+            console.error("Error updating user Firestore document:", err)
+            setError('Failed to save changes. Please try again.')
+          } finally {
+            setLoading(false)
+          }
+        }
 
         // Propagate updates up to the App session state
         onUpdateUser(updatedProfile)
@@ -19502,17 +19544,17 @@ import sangam4 from '../assets/Sangam_Team/Ramdevsinh_Gohil.avif'
 import sangam5 from '../assets/Sangam_Team/Tarak_Pandya.avif'
 
 export const sangamCoreTeam = [
-  { name: 'Darshak Maru', role: 'Core Team', batch: 'Batch of 2002', img: sangam1, gmail: '', linkedin: 'https://www.linkedin.com/in/darshak-maru-b588b878' },
-  { name: 'Keyur Darji', role: 'Core Team', batch: 'Batch of', img: sangam2, gmail: '', linkedin: 'https://www.linkedin.com/in/keyur-darji-23255973/' },
-  { name: 'Pratik Patel', role: 'Core Team', batch: 'Batch of', img: sangam3, gmail: '', linkedin: 'https://www.linkedin.com/in/pratik-patel-32957317/' },
-  { name: 'Ramdevsinh Gohil', role: 'Core Team', batch: 'Batch of', img: sangam4, gmail: '', linkedin: 'https://www.linkedin.com/in/ramdevsinh-gohil-9b7b63105/' },
-  { name: 'Tarak Pandya', role: 'Core Team', batch: 'Batch of', img: sangam5, gmail: '', linkedin: 'https://www.linkedin.com/in/tarak-pandya-14a50419a/' },
+  { name: 'Darshak Maru', role: 'Core Committee Member', batch: 'Batch of 2002', img: sangam1, gmail: 'darshakmaru@yahoo.co.in', linkedin: 'https://www.linkedin.com/in/darshak-maru-b588b878' },
+  { name: 'Keyur Darji', role: 'Core Committee Member', batch: 'Batch of 2003', img: sangam2, gmail: 'keyurjdarji@gmail.com', linkedin: 'https://www.linkedin.com/in/keyur-darji-23255973/' },
+  { name: 'Pratik Patel', role: 'Core Committee Member', batch: 'Batch of 2008', img: sangam3, gmail: 'pdpatel07@gmail.com', linkedin: 'https://www.linkedin.com/in/pratik-patel-32957317/' },
+  { name: 'Ramdevsinh Gohil', role: 'Core Committee Member', batch: 'Batch of 2014', img: sangam4, gmail: 'ramdevsinh.gohil007@yahoo.com', linkedin: 'https://www.linkedin.com/in/ramdevsinh-gohil-9b7b63105/' },
+  { name: 'Tarak Pandya', role: 'Core Committee Member', batch: 'Batch of 2004', img: sangam5, gmail: 'tarak@indotecheng.com', linkedin: 'https://www.linkedin.com/in/tarak-pandya-14a50419a/' },
 ]
 
 export const members = [
-  { name: 'Haresh Mandaliya', role: 'PRESIDENT', batch: 'Batch of 2001', img: member1, gmail: '', linkedin: 'https://www.linkedin.com/in/haresh-mandalia-b83854242/' },
-  { name: 'Mahesh Patel', role: 'SECRETARY', batch: 'Batch of 2005', img: member3, gmail: 'pmaheshpatel@gmail.com', linkedin: 'https://www.linkedin.com/in/mahesh-patel-b34aa87/' },
-  { name: 'Ashok Pansuriya', role: 'VICE PRESIDENT', batch: 'Batch of 2003', img: member2, gmail: '', linkedin: '' },
+  { name: 'Haresh Mandaliya', role: 'PRESIDENT', batch: 'Batch of 1987', img: member1, gmail: 'haresh.dd@yahoo.com', linkedin: 'https://www.linkedin.com/in/haresh-mandalia-b83854242?' },
+  { name: 'Mahesh Patel', role: 'SECRETARY', batch: 'Batch of 1995', img: member3, gmail: 'pmaheshpatel@gmail.com', linkedin: 'https://www.linkedin.com/in/mahesh-patel-b34aa87/' },
+  { name: 'Ashok Pansuriya', role: 'Treasurer', batch: 'Batch of 1993', img: member2, gmail: 'Akpansuriya26@gmail.com', linkedin: '' },
 ]
 
 ```
@@ -20389,6 +20431,53 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 ## File 57 {#file-57}
 
+**📄 Path:** `src\utils\hash.js`
+
+```javascript
+// src/utils/hash.js
+//
+// Uses the browser's built-in Web Crypto API (crypto.subtle) — no extra
+// dependency needed. Requires a secure context (HTTPS or localhost), which
+// is already true for any deployed Vite/Firebase Hosting app.
+
+export async function sha256Hex(input) {
+    const encoder = new TextEncoder()
+    const data = encoder.encode(input)
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+    const hashArray = Array.from(new Uint8Array(hashBuffer))
+    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
+}
+
+export function normalizeEmail(email) {
+    return (email || '').trim().toLowerCase()
+}
+
+// Country-code prefixes vary (e.g. "+91 9876543210" vs "9876543210"),
+// which previously worked because the app did suffix-matching on raw
+// digits. Hashes can't be suffix-matched, so instead we normalize to a
+// canonical form BEFORE hashing: strip all non-digits, then keep only
+// the last 10 digits (standard mobile number length). This makes
+// "+91 9876543210" and "9876543210" hash identically.
+export function canonicalPhoneDigits(phone) {
+    const digits = (phone || '').replace(/\D/g, '')
+    return digits.length > 10 ? digits.slice(-10) : digits
+}
+
+export async function hashEmail(email) {
+    return sha256Hex(normalizeEmail(email))
+}
+
+export async function hashPhoneDigits(phone) {
+    const canonical = canonicalPhoneDigits(phone)
+    if (!canonical) return ''
+    return sha256Hex(canonical)
+}
+```
+
+---
+
+## File 58 {#file-58}
+
 **📄 Path:** `vercel.json`
 
 ```json
@@ -20404,7 +20493,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 ---
 
-## File 58 {#file-58}
+## File 59 {#file-59}
 
 **📄 Path:** `vite.config.js`
 

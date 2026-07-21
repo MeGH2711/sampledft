@@ -95,25 +95,6 @@ export default function Footer() {
             </div>
           ))}
 
-          {/* Newsletter */}
-          <div className="footer__newsletter">
-            <h4 className="footer__col-heading">Stay Updated</h4>
-            <p className="footer__newsletter-text">
-              Subscribe for the latest events, reunions, and updates from the DFT Alumni community.
-            </p>
-            <form className="footer__newsletter-form" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                id="footer-email"
-                placeholder="your@email.com"
-                className="footer__newsletter-input"
-              />
-              <button type="submit" className="footer__newsletter-btn">
-                JOIN
-              </button>
-            </form>
-          </div>
-
         </div>
       </div>
 
