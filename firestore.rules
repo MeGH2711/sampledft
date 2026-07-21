@@ -33,5 +33,34 @@ service cloud.firestore {
       // Only admins or developers can create, update, or delete jobs
       allow write: if isAdminOrDev();
     }
+
+    // Password-reset phone-verification lookup.
+    // Doc ID = sha256(lowercased, trimmed email). Doc contains only hashes
+    // (uid + phone hashes) — never plaintext phone numbers or profile data.
+    match /passwordResetLookup/{emailHash} {
+      // Anyone can fetch ONE doc by its exact known ID — this is all the
+      // forgot-password flow needs, and it's the only thing this rule allows.
+      allow get: if true;
+
+      // Nobody can query/scan the collection — this is what keeps it safe
+      // for unauthenticated access. Without this, the "get: true" rule above
+      // would still block bulk queries by default, but being explicit here
+      // makes the intent unambiguous.
+      allow list: if false;
+
+      // Only a logged-in user creating/updating THEIR OWN lookup doc
+      // (uid inside the doc must match the caller's uid) is allowed to write.
+      allow create: if isLoggedIn()
+                    && request.resource.data.uid == request.auth.uid
+                    && request.resource.data.keys().hasOnly(['uid', 'phoneHash', 'secPhoneHash', 'whatsappHash']);
+
+      allow update: if isLoggedIn()
+                    && resource.data.uid == request.auth.uid
+                    && request.resource.data.uid == request.auth.uid;
+
+      // Only admins/devs can delete lookup docs (e.g. to fix a stale or
+      // disputed entry).
+      allow delete: if isAdminOrDev();
+    }
   }
 }

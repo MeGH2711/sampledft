@@ -1,6 +1,6 @@
 # 📁 dft-alumni — Codebase Export
 
-> Generated on: 7/20/2026, 11:53:33 PM
+> Generated on: 7/21/2026, 1:56:05 PM
 
 > Root: `c:\Users\meghp\Desktop\DFT Alumni\DFTWebsite\New_Website\dft-alumni`
 
@@ -2676,7 +2676,6 @@
     "vite": "^8.1.1"
   }
 }
-
 ```
 
 ---
@@ -3757,6 +3756,7 @@ export default function About() {
   margin: 8px 0 0 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -3824,33 +3824,83 @@ export default function About() {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  padding: 16px 24px;
-  border-radius: 8px;
+  left: auto;
+  padding: 14px 16px;
+  border-radius: 6px;
   font-weight: 600;
+  font-size: 0.85rem;
   display: flex;
   align-items: center;
-  gap: 10px;
-  box-shadow: 0 10px 30px rgba(11, 27, 63, 0.15);
+  gap: 12px;
+  background: var(--navy-deep);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   z-index: 2000;
-  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: min(380px, calc(100vw - 32px));
+  border-left: 4px solid transparent;
+  animation: toastLifecycle 4.5s ease-in-out forwards;
+}
+
+@media (max-width: 600px) {
+  .admin-toast-message {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    max-width: none;
+  }
+}
+
+.admin-toast-message span {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.admin-toast-message__close {
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.6;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.admin-toast-message__close:hover {
+  opacity: 1;
 }
 
 .admin-toast-message.success {
-  background-color: var(--paper-white);
-  color: #10b981;
-  border-left: 4px solid #10b981;
-  border-top: 1px solid var(--line-grey);
-  border-right: 1px solid var(--line-grey);
-  border-bottom: 1px solid var(--line-grey);
+  border-left-color: #2ecc71;
+  color: #6fe3a1;
 }
 
 .admin-toast-message.error {
-  background-color: var(--paper-white);
-  color: #ef4444;
-  border-left: 4px solid #ef4444;
-  border-top: 1px solid var(--line-grey);
-  border-right: 1px solid var(--line-grey);
-  border-bottom: 1px solid var(--line-grey);
+  border-left-color: var(--signal-red);
+  color: #ff8a80;
+}
+
+@keyframes toastLifecycle {
+  0% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  9% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  92% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
 }
 
 /* Access Denied */
@@ -4213,19 +4263,19 @@ export default function About() {
 ```jsx
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { 
-  FaUserShield, 
-  FaUsers, 
-  FaCheckCircle, 
-  FaBriefcase, 
-  FaTrash, 
-  FaExclamationTriangle, 
-  FaClock, 
-  FaSearch, 
-  FaArrowLeft, 
-  FaPlus, 
-  FaMapMarkerAlt, 
-  FaInfoCircle,
+import {
+  FaUserShield,
+  FaUsers,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaBriefcase,
+  FaTrash,
+  FaExclamationTriangle,
+  FaClock,
+  FaSearch,
+  FaArrowLeft,
+  FaPlus,
+  FaMapMarkerAlt,
   FaCopy
 } from 'react-icons/fa'
 import { db } from '../firebase'
@@ -4436,7 +4486,7 @@ export default function Admin({ user, onUpdateUser }) {
           <FaExclamationTriangle className="admin-denied-icon" />
           <h2>Access Restricted</h2>
           <p>
-            This portal is strictly reserved for DFT website Administrators and Developers. 
+            This portal is strictly reserved for DFT website Administrators and Developers.
             If you believe this is an error, please contact support or re-authenticate.
           </p>
           <button className="admin-btn-primary" onClick={() => navigate('/')}>
@@ -4465,16 +4515,16 @@ export default function Admin({ user, onUpdateUser }) {
     const nameMatch = String(u.name || '').toLowerCase().includes(query)
     const emailMatch = String(u.email || '').toLowerCase().includes(query)
     const batchMatch = String(u.batch || u.passoutYear || '').toLowerCase().includes(query)
-    
+
     // Check degrees array safely or fallback to degree string comparison
     const degreeMatch = Array.isArray(u.degrees)
       ? u.degrees.some(d => {
-          if (d && typeof d === 'object') {
-            return String(d.degree || '').toLowerCase().includes(query) || 
-                   String(d.domain || '').toLowerCase().includes(query);
-          }
-          return String(d || '').toLowerCase().includes(query);
-        })
+        if (d && typeof d === 'object') {
+          return String(d.degree || '').toLowerCase().includes(query) ||
+            String(d.domain || '').toLowerCase().includes(query);
+        }
+        return String(d || '').toLowerCase().includes(query);
+      })
       : String(u.degree || '').toLowerCase().includes(query)
 
     const searchMatch = !query || nameMatch || emailMatch || batchMatch || degreeMatch
@@ -4486,6 +4536,14 @@ export default function Admin({ user, onUpdateUser }) {
     return searchMatch && statusMatch
   })
 
+  // Access Management tab: same filtered set, ordered developer -> admin -> alumni
+  const ROLE_ORDER = { developer: 0, admin: 1, alumni: 2 }
+  const accessManagementUsers = [...filteredUsers].sort((a, b) => {
+    const roleA = ROLE_ORDER[a.account_type] ?? ROLE_ORDER.alumni
+    const roleB = ROLE_ORDER[b.account_type] ?? ROLE_ORDER.alumni
+    return roleA - roleB
+  })
+
   // Count helper statistics
   const totalUsers = usersList.length
   const pendingCount = usersList.filter(u => !u.verification_status).length
@@ -4495,20 +4553,29 @@ export default function Admin({ user, onUpdateUser }) {
   return (
     <div className="admin-page">
       <div className="admin-container">
-        
+
         {/* Toast notification banner */}
         {toast.show && (
-          <div className={`admin-toast-message ${toast.type}`}>
-            <FaInfoCircle /> {toast.message}
+          <div className={`admin-toast-message ${toast.type}`} role={toast.type === 'error' ? 'alert' : 'status'}>
+            {toast.type === 'error' ? <FaTimesCircle /> : <FaCheckCircle />}
+            <span>{toast.message}</span>
+            <button
+              type="button"
+              className="admin-toast-message__close"
+              onClick={() => setToast({ show: false, message: '', type: '' })}
+              aria-label="Dismiss"
+            >
+              &times;
+            </button>
           </div>
         )}
 
         {/* Dashboard Title & Meta */}
         <div className="admin-header">
           <div style={{ marginBottom: '20px' }}>
-            <button 
+            <button
               type="button"
-              className="admin-btn-view" 
+              className="admin-btn-view"
               style={{ padding: '8px 16px', display: 'inline-flex', alignItems: 'center', gap: '6px', border: '1px solid var(--line-grey)' }}
               onClick={() => navigate('/')}
             >
@@ -4549,10 +4616,10 @@ export default function Admin({ user, onUpdateUser }) {
               <FaExclamationTriangle /> Database Permission Denied (Missing Firestore Rules)
             </h4>
             <p style={{ fontSize: '14px', color: 'var(--slate)', marginBottom: '16px', lineHeight: '1.6' }}>
-              Firestore rejected the load request because your current security rules restrict administrative queries on collections. 
+              Firestore rejected the load request because your current security rules restrict administrative queries on collections.
               To authorize admins to verify alumni profiles and post jobs, configure the following rules in your **Firebase Console &gt; Firestore Database &gt; Rules** tab:
             </p>
-            
+
             <pre style={{
               background: '#0B1B3F',
               color: '#F3F4F7',
@@ -4564,7 +4631,7 @@ export default function Admin({ user, onUpdateUser }) {
               marginBottom: '16px',
               lineHeight: '1.5'
             }}>
-{`rules_version = '2';
+              {`rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function isLoggedIn() {
@@ -4590,8 +4657,8 @@ service cloud.firestore {
 }`}
             </pre>
 
-            <button 
-              className="admin-btn-primary" 
+            <button
+              className="admin-btn-primary"
               style={{ marginTop: 0, padding: '8px 16px', fontSize: '13px' }}
               onClick={copyRulesToClipboard}
             >
@@ -4633,14 +4700,14 @@ service cloud.firestore {
 
         {/* Navigation Tabs */}
         <div className="admin-tabs">
-          <button 
+          <button
             className={`admin-tab-btn ${activeTab === 'verification' ? 'active' : ''}`}
             onClick={() => setActiveTab('verification')}
           >
             <FaCheckCircle className="admin-tab-btn-icon" /> Account Verification
           </button>
-          
-          <button 
+
+          <button
             className={`admin-tab-btn ${activeTab === 'jobs' ? 'active' : ''}`}
             onClick={() => setActiveTab('jobs')}
           >
@@ -4649,7 +4716,7 @@ service cloud.firestore {
 
           {/* Strictly Gated: Access Management is Developer Only */}
           {user.account_type === 'developer' && (
-            <button 
+            <button
               className={`admin-tab-btn ${activeTab === 'access' ? 'active' : ''}`}
               onClick={() => setActiveTab('access')}
             >
@@ -4661,14 +4728,14 @@ service cloud.firestore {
         {/* --- TAB CONTENT: ACCOUNT VERIFICATION --- */}
         {activeTab === 'verification' && (
           <div className="admin-tab-content">
-            
+
             {/* Search & Filter Controls */}
             <div className="admin-controls-row">
               <div className="admin-search-wrapper">
                 <FaSearch className="admin-search-icon" />
-                <input 
-                  type="text" 
-                  placeholder="Search by name, email, degree or batch..." 
+                <input
+                  type="text"
+                  placeholder="Search by name, email, degree or batch..."
                   className="admin-search-input"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -4676,19 +4743,19 @@ service cloud.firestore {
               </div>
 
               <div className="admin-filters">
-                <button 
+                <button
                   className={`admin-filter-btn ${filterStatus === 'all' ? 'active' : ''}`}
                   onClick={() => setFilterStatus('all')}
                 >
                   All ({totalUsers})
                 </button>
-                <button 
+                <button
                   className={`admin-filter-btn ${filterStatus === 'pending' ? 'active' : ''}`}
                   onClick={() => setFilterStatus('pending')}
                 >
                   Pending ({pendingCount})
                 </button>
-                <button 
+                <button
                   className={`admin-filter-btn ${filterStatus === 'verified' ? 'active' : ''}`}
                   onClick={() => setFilterStatus('verified')}
                 >
@@ -4736,7 +4803,7 @@ service cloud.firestore {
                           </span>
                         </td>
                         <td style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'nowrap' }}>
-                          <button 
+                          <button
                             type="button"
                             className="admin-btn-view"
                             onClick={() => setSelectedUser(item)}
@@ -4744,7 +4811,7 @@ service cloud.firestore {
                             View Profile
                           </button>
                           {item.verification_status ? (
-                            <button 
+                            <button
                               type="button"
                               className="admin-btn-revoke"
                               onClick={() => handleToggleVerification(item.uid, true)}
@@ -4752,7 +4819,7 @@ service cloud.firestore {
                               Revoke Approval
                             </button>
                           ) : (
-                            <button 
+                            <button
                               type="button"
                               className="admin-btn-verify"
                               onClick={() => handleToggleVerification(item.uid, false)}
@@ -4781,22 +4848,22 @@ service cloud.firestore {
         {activeTab === 'jobs' && (
           <div className="admin-tab-content">
             <div className="admin-jobs-layout">
-              
+
               {/* Job Posting Form */}
               <div className="admin-job-form-card">
                 <h3 className="admin-card-title">
                   <FaPlus /> Post a Job Vacancy
                 </h3>
-                
+
                 <form onSubmit={handlePostJob}>
                   <div className="admin-form-grid">
                     <div className="admin-form-group">
                       <label htmlFor="job-title">Job Title *</label>
-                      <input 
-                        type="text" 
-                        id="job-title" 
-                        name="title" 
-                        className="admin-form-input" 
+                      <input
+                        type="text"
+                        id="job-title"
+                        name="title"
+                        className="admin-form-input"
                         placeholder="e.g. Lead Textile Merchandiser"
                         value={jobForm.title}
                         onChange={handleJobFormChange}
@@ -4807,11 +4874,11 @@ service cloud.firestore {
                     <div className="admin-form-grid-2">
                       <div className="admin-form-group">
                         <label htmlFor="job-company">Company *</label>
-                        <input 
-                          type="text" 
-                          id="job-company" 
-                          name="company" 
-                          className="admin-form-input" 
+                        <input
+                          type="text"
+                          id="job-company"
+                          name="company"
+                          className="admin-form-input"
                           placeholder="e.g. Reliance Retail"
                           value={jobForm.company}
                           onChange={handleJobFormChange}
@@ -4821,11 +4888,11 @@ service cloud.firestore {
 
                       <div className="admin-form-group">
                         <label htmlFor="job-location">Location *</label>
-                        <input 
-                          type="text" 
-                          id="job-location" 
-                          name="location" 
-                          className="admin-form-input" 
+                        <input
+                          type="text"
+                          id="job-location"
+                          name="location"
+                          className="admin-form-input"
                           placeholder="e.g. Mumbai, India"
                           value={jobForm.location}
                           onChange={handleJobFormChange}
@@ -4837,11 +4904,11 @@ service cloud.firestore {
                     <div className="admin-form-grid-2">
                       <div className="admin-form-group">
                         <label htmlFor="job-exp">Experience Required</label>
-                        <input 
-                          type="text" 
-                          id="job-exp" 
-                          name="experience" 
-                          className="admin-form-input" 
+                        <input
+                          type="text"
+                          id="job-exp"
+                          name="experience"
+                          className="admin-form-input"
                           placeholder="e.g. 3-5 years"
                           value={jobForm.experience}
                           onChange={handleJobFormChange}
@@ -4850,11 +4917,11 @@ service cloud.firestore {
 
                       <div className="admin-form-group">
                         <label htmlFor="job-skills">Key Skills (comma separated)</label>
-                        <input 
-                          type="text" 
-                          id="job-skills" 
-                          name="skills" 
-                          className="admin-form-input" 
+                        <input
+                          type="text"
+                          id="job-skills"
+                          name="skills"
+                          className="admin-form-input"
                           placeholder="e.g. Merchandising, Sourcing, Excel"
                           value={jobForm.skills}
                           onChange={handleJobFormChange}
@@ -4864,10 +4931,10 @@ service cloud.firestore {
 
                     <div className="admin-form-group">
                       <label htmlFor="job-desc">Job Description</label>
-                      <textarea 
-                        id="job-desc" 
-                        name="description" 
-                        className="admin-form-textarea" 
+                      <textarea
+                        id="job-desc"
+                        name="description"
+                        className="admin-form-textarea"
                         placeholder="Enter key details about the role, duties, salary details..."
                         value={jobForm.description}
                         onChange={handleJobFormChange}
@@ -4876,20 +4943,20 @@ service cloud.firestore {
 
                     <div className="admin-form-group">
                       <label htmlFor="job-apply">Apply Link or Email Address</label>
-                      <input 
-                        type="text" 
-                        id="job-apply" 
-                        name="applyUrl" 
-                        className="admin-form-input" 
+                      <input
+                        type="text"
+                        id="job-apply"
+                        name="applyUrl"
+                        className="admin-form-input"
                         placeholder="e.g. careers@reliance.com or http://company.com/apply"
                         value={jobForm.applyUrl}
                         onChange={handleJobFormChange}
                       />
                     </div>
 
-                    <button 
-                      type="submit" 
-                      className="admin-btn-primary" 
+                    <button
+                      type="submit"
+                      className="admin-btn-primary"
                       disabled={submittingJob}
                     >
                       {submittingJob ? "Posting Opportunity..." : "Publish Job Post"}
@@ -4917,21 +4984,21 @@ service cloud.firestore {
                           </div>
                           <p className="admin-job-desc">{job.description || "No description provided."}</p>
                           <div style={{ marginTop: '8px', fontSize: '12px' }}>
-                            <strong style={{ color: 'var(--navy-deep)' }}>Key Skills:</strong> 
+                            <strong style={{ color: 'var(--navy-deep)' }}>Key Skills:</strong>
                             <span style={{ marginLeft: '6px', color: 'var(--slate)' }}>{job.skills}</span>
                           </div>
                           {job.applyUrl && job.applyUrl !== '#' && (
-                            <a 
-                              href={job.applyUrl.startsWith('http') || job.applyUrl.startsWith('mailto') ? job.applyUrl : `http://${job.applyUrl}`} 
-                              target="_blank" 
+                            <a
+                              href={job.applyUrl.startsWith('http') || job.applyUrl.startsWith('mailto') ? job.applyUrl : `http://${job.applyUrl}`}
+                              target="_blank"
                               rel="noopener noreferrer"
-                              style={{ 
-                                display: 'inline-flex', 
-                                marginTop: '12px', 
-                                fontSize: '13px', 
-                                fontWeight: '600', 
-                                color: 'var(--signal-red)', 
-                                textDecoration: 'underline' 
+                              style={{
+                                display: 'inline-flex',
+                                marginTop: '12px',
+                                fontSize: '13px',
+                                fontWeight: '600',
+                                color: 'var(--signal-red)',
+                                textDecoration: 'underline'
                               }}
                             >
                               Application Link
@@ -4939,7 +5006,7 @@ service cloud.firestore {
                           )}
                         </div>
                         <div className="admin-job-actions">
-                          <button 
+                          <button
                             className="admin-btn-delete-job"
                             onClick={() => setDeletingJobId(job.id)}
                             title="Delete vacancy post"
@@ -4968,9 +5035,9 @@ service cloud.firestore {
             <div className="admin-controls-row">
               <div className="admin-search-wrapper" style={{ maxWidth: '100%' }}>
                 <FaSearch className="admin-search-icon" />
-                <input 
-                  type="text" 
-                  placeholder="Search users to modify database access roles..." 
+                <input
+                  type="text"
+                  placeholder="Search users to modify database access roles..."
                   className="admin-search-input"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -4989,8 +5056,8 @@ service cloud.firestore {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredUsers.length > 0 ? (
-                    filteredUsers.map((item) => (
+                  {accessManagementUsers.length > 0 ? (
+                    accessManagementUsers.map((item) => (
                       <tr key={item.uid}>
                         <td>
                           <div className="admin-table-user-info">
@@ -5009,8 +5076,8 @@ service cloud.firestore {
                           </span>
                         </td>
                         <td>
-                          <select 
-                            value={item.account_type || 'alumni'} 
+                          <select
+                            value={item.account_type || 'alumni'}
                             onChange={(e) => handleRoleChange(item.uid, e.target.value)}
                             className={`admin-role-select ${item.account_type || 'alumni'}`}
                             disabled={String(item.email || '').toLowerCase() === 'patelmeghmahesh2701@gmail.com'}
@@ -5036,29 +5103,29 @@ service cloud.firestore {
               </table>
             </div>
 
-            <div style={{ 
-              backgroundColor: 'rgba(99, 102, 241, 0.05)', 
-              borderLeft: '4px solid var(--admin-color-dev)', 
-              padding: '16px', 
-              borderRadius: '6px', 
-              fontSize: '13px', 
-              color: 'var(--navy-mid)', 
-              display: 'flex', 
-              alignItems: 'center', 
+            <div style={{
+              backgroundColor: 'rgba(99, 102, 241, 0.05)',
+              borderLeft: '4px solid var(--admin-color-dev)',
+              padding: '16px',
+              borderRadius: '6px',
+              fontSize: '13px',
+              color: 'var(--navy-mid)',
+              display: 'flex',
+              alignItems: 'center',
               gap: '12px',
               marginTop: '20px'
             }}>
               <FaUserShield style={{ fontSize: '20px', color: 'var(--admin-color-dev)', flexShrink: 0 }} />
               <div>
-                <strong>Developer Notice:</strong> Modifying account permissions changes security rules globally. 
-                Setting a user's role to <strong>Admin</strong> grants them authorization to verify user accounts and post/delete vacancies. 
+                <strong>Developer Notice:</strong> Modifying account permissions changes security rules globally.
+                Setting a user's role to <strong>Admin</strong> grants them authorization to verify user accounts and post/delete vacancies.
                 Setting a user to <strong>Developer</strong> additionally grants access to this Access Management panel.
               </div>
             </div>
           </div>
         )}
 
-        </div>
+      </div>
 
       {/* User Profile Details Modal */}
       {selectedUser && (
@@ -5068,7 +5135,7 @@ service cloud.firestore {
               <h2>Alumni Profile Details</h2>
               <button className="admin-modal-close-btn" onClick={() => setSelectedUser(null)}>&times;</button>
             </div>
-            
+
             <div className="admin-modal-body">
               {/* Profile Avatar Banner */}
               <div className="admin-modal-user-card">
@@ -5221,8 +5288,8 @@ service cloud.firestore {
                       {Array.isArray(selectedUser.certifications) && selectedUser.certifications.length > 0 ? (
                         <ul style={{ margin: 0, paddingLeft: '20px', listStyleType: 'disc' }}>
                           {selectedUser.certifications.map((c, i) => {
-                            const certText = c && typeof c === 'object' 
-                              ? `${c.area || ''} ${c.detail ? `(${c.detail})` : ''}`.trim() 
+                            const certText = c && typeof c === 'object'
+                              ? `${c.area || ''} ${c.detail ? `(${c.detail})` : ''}`.trim()
                               : String(c);
                             return <li key={i} style={{ marginBottom: '4px', fontWeight: '600' }}>{certText}</li>;
                           })}
@@ -5264,19 +5331,37 @@ service cloud.firestore {
                   </div>
                 </div>
               </div>
+
+              {/* Add this block inside .admin-modal-grid-2 in the Certifications & Skills section */}
+              <div className="admin-modal-info-item" style={{ gridColumn: 'span 2', marginTop: '14px' }}>
+                <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Interest / Hobbies</span>
+                <div className="admin-modal-info-value">
+                  {Array.isArray(selectedUser.hobbies) && selectedUser.hobbies.length > 0 ? (
+                    <div className="admin-modal-badge-list">
+                      {selectedUser.hobbies.map((hobby, i) => (
+                        <span key={i} className="admin-modal-badge-tag">
+                          {hobby}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <span style={{ fontSize: '13px', color: 'var(--slate)' }}>No hobbies listed.</span>
+                  )}
+                </div>
+              </div>
             </div>
 
             <div className="admin-modal-footer">
-              <button 
+              <button
                 type="button"
-                className="admin-btn-primary" 
+                className="admin-btn-primary"
                 style={{ background: 'var(--slate)', border: 'none', marginTop: 0 }}
                 onClick={() => setSelectedUser(null)}
               >
                 Close Profile
               </button>
               {selectedUser.verification_status ? (
-                <button 
+                <button
                   type="button"
                   className="admin-btn-revoke"
                   style={{ padding: '10px 20px' }}
@@ -5285,7 +5370,7 @@ service cloud.firestore {
                   Revoke Approval
                 </button>
               ) : (
-                <button 
+                <button
                   type="button"
                   className="admin-btn-verify"
                   style={{ padding: '10px 20px' }}
@@ -5310,17 +5395,17 @@ service cloud.firestore {
               Are you sure you want to delete this job vacancy from the Job Board? This action is permanent and cannot be undone.
             </p>
             <div className="admin-delete-modal-footer">
-              <button 
+              <button
                 type="button"
-                className="admin-btn-primary" 
+                className="admin-btn-primary"
                 style={{ background: 'var(--slate)', border: 'none', margin: 0, padding: '10px 18px' }}
                 onClick={() => setDeletingJobId(null)}
               >
                 Cancel
               </button>
-              <button 
+              <button
                 type="button"
-                className="admin-btn-delete-confirm" 
+                className="admin-btn-delete-confirm"
                 style={{ margin: 0, padding: '10px 18px' }}
                 onClick={handleConfirmDeleteJob}
               >
@@ -5334,7 +5419,6 @@ service cloud.firestore {
     </div>
   )
 }
-
 ```
 
 ---
@@ -10413,6 +10497,118 @@ export default function ImageWithSkeleton({
     opacity: 1;
   }
 }
+
+/* ============================================
+   TOAST NOTIFICATIONS
+   ============================================ */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  pointer-events: none;
+  /* Allows clicking through the empty container space */
+  max-width: min(380px, calc(100vw - 32px));
+}
+
+@media (max-width: 600px) {
+  .toast-container {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    max-width: none;
+    align-items: stretch;
+  }
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--navy-deep);
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  width: 100%;
+  animation: toastLifecycle 10s ease-in-out forwards;
+  border-left: 4px solid transparent;
+}
+
+.toast__icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.toast span {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.toast__close {
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.6;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.toast__close:hover {
+  opacity: 1;
+}
+
+.toast--error {
+  border-left-color: var(--signal-red);
+  color: #ff8a80;
+}
+
+.toast--error .toast__icon {
+  color: var(--signal-red);
+  font-size: 1.1rem;
+}
+
+.toast--success {
+  border-left-color: #2ecc71;
+}
+
+.toast--success .toast__icon {
+  color: #2ecc71;
+  font-size: 1.1rem;
+}
+
+@keyframes toastLifecycle {
+  0% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  4% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  92% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
 ```
 
 ---
@@ -10612,6 +10808,38 @@ export default function Login({ user, onLoginSuccess }) {
     setCaptchaCode(code)
     setCaptchaInput('')
   }
+
+  // Auto-hide general errors after 10 seconds
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError('');
+      }, 10000);
+      return () => clearTimeout(timer); // Cleanup if the error changes or component unmounts
+    }
+  }, [error]);
+
+  // Auto-hide phone verification errors after 10 seconds
+  useEffect(() => {
+    if (verifyPhoneError) {
+      const timer = setTimeout(() => {
+        setVerifyPhoneError('');
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [verifyPhoneError]);
+
+  // Auto-hide success messages after 10 seconds 
+  // (Note: Some of your existing success actions redirect the user before this timer finishes)
+  useEffect(() => {
+    if (showSuccess) {
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+        setSuccessMessage('');
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccess]);
 
   // Draw captcha on canvas whenever captchaCode changes
   useEffect(() => {
@@ -11070,16 +11298,6 @@ export default function Login({ user, onLoginSuccess }) {
       }
     }
 
-    if (isNaN(passYear) || passYear < 1970 || passYear > currentYear + 6) {
-      setError(`Please enter a valid DFT Passout Year (1970 - ${currentYear + 6}).`)
-      return
-    }
-
-    if (admYear > passYear) {
-      setError('DFT Admission Year cannot be after DFT Passout Year.')
-      return
-    }
-
     setLoading(true)
 
     if (isFirebaseConfigured) {
@@ -11463,7 +11681,7 @@ export default function Login({ user, onLoginSuccess }) {
               <div className={`login-tabs__indicator ${activeTab === 'register' ? 'slide' : ''}`}></div>
             </div>
 
-            {/* Success Animation Overlay */}
+            {/* RESTORED: Success Animation Overlay */}
             {showSuccess && (
               <div className="login-success-overlay">
                 <div className="login-success-overlay__content">
@@ -11487,13 +11705,6 @@ export default function Login({ user, onLoginSuccess }) {
                   <p className="login-card__mobile-tagline">Together · United · Stronger</p>
                 </div>
               </div>
-
-              {error && (
-                <div className="login-error-alert">
-                  <FaTimesCircle className="login-error-alert__icon" />
-                  <span>{error}</span>
-                </div>
-              )}
 
               {activeTab === 'login' ? (
                 /* SIGN IN VIEW */
@@ -12076,7 +12287,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field login-field--full">
-                      <label htmlFor="reg-company-website">Company Website (Optional)</label>
+                      <label htmlFor="reg-company-website">Company Website</label>
                       <div className="login-field__input-wrap">
                         <FaGlobe className="login-field__icon" />
                         <input
@@ -12537,12 +12748,6 @@ export default function Login({ user, onLoginSuccess }) {
               Please enter the Primary, Secondary, or WhatsApp phone number associated with the account <strong>{loginForm.email}</strong> to verify your identity.
             </p>
 
-            {verifyPhoneError && (
-              <div className="login-error" style={{ marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 14px', borderRadius: '6px', fontSize: '0.85rem' }}>
-                <FaTimesCircle /> {verifyPhoneError}
-              </div>
-            )}
-
             <form onSubmit={handleVerifyAndResetPassword}>
               <div className="login-field" style={{ margin: '15px 0' }}>
                 <label htmlFor="verify-phone">Associated Phone Number</label>
@@ -12609,7 +12814,39 @@ export default function Login({ user, onLoginSuccess }) {
           </div>
         </div>
       )}
-    </div>
+      {/* Global Toast Notifications */}
+      <div className="toast-container">
+        {error && (
+          <div className="toast toast--error" role="alert">
+            <FaTimesCircle className="toast__icon" />
+            <span>{error}</span>
+            <button
+              type="button"
+              className="toast__close"
+              onClick={() => setError('')}
+              aria-label="Dismiss"
+            >
+              &times;
+            </button>
+          </div>
+        )}
+
+        {verifyPhoneError && (
+          <div className="toast toast--error" role="alert">
+            <FaTimesCircle className="toast__icon" />
+            <span>{verifyPhoneError}</span>
+            <button
+              type="button"
+              className="toast__close"
+              onClick={() => setVerifyPhoneError('')}
+              aria-label="Dismiss"
+            >
+              &times;
+            </button>
+          </div>
+        )}
+      </div>
+    </div> // This is the final closing div of the component
   )
 }
 ```
@@ -14759,57 +14996,104 @@ export default function Newsroom() {
   transform: translateX(-4px);
 }
 
-/* Error/Success Alerts */
+/* Toast Container — fixed bottom-right */
+.profile-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  pointer-events: none;
+  max-width: min(380px, calc(100vw - 32px));
+}
+
+@media (max-width: 600px) {
+  .profile-toast-container {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    max-width: none;
+    align-items: stretch;
+  }
+}
+
+/* Error/Success Toasts */
 .profile-alert {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 18px;
+  padding: 14px 16px;
   font-family: var(--font-body);
   font-size: 0.8rem;
   font-weight: 600;
-  border-radius: 4px;
-  animation: alertFadeInOut 5s ease-in-out forwards;
+  border-radius: 6px;
+  width: 100%;
+  background: var(--navy-deep);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  animation: toastLifecycle 5s ease-in-out forwards;
+  pointer-events: auto;
 }
 
-@keyframes alertFadeInOut {
+@keyframes toastLifecycle {
   0% {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateX(40px);
   }
 
   8% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 
   92% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 
   100% {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateX(40px);
   }
 }
 
 .profile-alert--error {
-  background: rgba(232, 48, 42, 0.1);
-  border: 1px solid rgba(232, 48, 42, 0.2);
   border-left: 4px solid var(--signal-red);
-  color: #ff6b6b;
+  color: #ff8a80;
 }
 
 .profile-alert--success {
-  background: rgba(46, 204, 113, 0.1);
-  border: 1px solid rgba(46, 204, 113, 0.2);
   border-left: 4px solid #2ecc71;
-  color: #2ecc71;
+  color: #6fe3a1;
 }
 
 .profile-alert__icon {
   font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.profile-alert span {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.profile-alert__close {
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.6;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.profile-alert__close:hover {
+  opacity: 1;
 }
 
 /* Main Layout Grid */
@@ -15429,6 +15713,7 @@ export default function Profile({ user, onUpdateUser }) {
     bloodGroup: '',
     admissionYear: '',
     passoutYear: '',
+    diplomaNotCompleted: false,
     jobTitle: '',
     company: '',
     linkedin: '',
@@ -15474,6 +15759,7 @@ export default function Profile({ user, onUpdateUser }) {
     bloodGroup: '',
     admissionYear: '',
     passoutYear: '',
+    diplomaNotCompleted: false,
     jobTitle: '',
     company: '',
     linkedin: '',
@@ -15563,6 +15849,7 @@ export default function Profile({ user, onUpdateUser }) {
               bloodGroup: data.bloodGroup || user.bloodGroup || '',
               admissionYear: data.admissionYear || '',
               passoutYear: data.passoutYear || data.batch || '',
+              diplomaNotCompleted: data.diplomaNotCompleted || false,
               jobTitle: data.jobTitle || '',
               company: data.company || '',
               linkedin: data.linkedin || '',
@@ -15632,6 +15919,7 @@ export default function Profile({ user, onUpdateUser }) {
               bloodGroup: user.bloodGroup || '',
               admissionYear: user.admissionYear || '',
               passoutYear: user.passoutYear || user.batch || '',
+              diplomaNotCompleted: user.diplomaNotCompleted || false,
               jobTitle: '',
               company: '',
               linkedin: '',
@@ -15712,6 +16000,7 @@ export default function Profile({ user, onUpdateUser }) {
               bloodGroup: parsed.bloodGroup || '',
               admissionYear: parsed.admissionYear || '',
               passoutYear: parsed.passoutYear || parsed.batch || '',
+              diplomaNotCompleted: parsed.diplomaNotCompleted || false,
               jobTitle: parsed.jobTitle || '',
               company: parsed.company || '',
               linkedin: parsed.linkedin || '',
@@ -15785,6 +16074,7 @@ export default function Profile({ user, onUpdateUser }) {
           bloodGroup: user.bloodGroup || '',
           admissionYear: user.admissionYear || '',
           passoutYear: user.passoutYear || user.batch || '',
+          diplomaNotCompleted: user.diplomaNotCompleted || false,
           jobTitle: user.jobTitle || '',
           company: user.company || '',
           linkedin: user.linkedin || '',
@@ -15832,17 +16122,29 @@ export default function Profile({ user, onUpdateUser }) {
     }
   }, [success])
 
+  // Auto-clear error toast after 5 seconds to match fade-out animation
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError('')
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [error])
+
   const handleInputChange = (e) => {
-    const { name, value } = e.target
+    const { name, value, type, checked } = e.target // Extract type and checked
     const cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name)
       ? value.replace(/\D/g, '')
       : value;
+
     setProfileForm(prev => {
       const updated = {
         ...prev,
-        [name]: cleanValue
+        [name]: type === 'checkbox' ? checked : cleanValue // Handle checkbox
       }
-      if (name === 'admissionYear' && cleanValue) {
+      // Calculate target passout year only if diploma is not checked
+      if (name === 'admissionYear' && cleanValue && !prev.diplomaNotCompleted) {
         const parsedYear = parseInt(cleanValue, 10)
         if (!isNaN(parsedYear)) {
           const targetPassout = parsedYear + 3
@@ -15852,6 +16154,10 @@ export default function Profile({ user, onUpdateUser }) {
             updated.passoutYear = '2040'
           }
         }
+      }
+      // Clear passout year if checkbox gets ticked
+      if (name === 'diplomaNotCompleted' && checked) {
+        updated.passoutYear = ''
       }
       return updated
     })
@@ -15989,14 +16295,17 @@ export default function Profile({ user, onUpdateUser }) {
       return
     }
 
-    if (isNaN(passYear) || passYear < 1970 || passYear > currentYear + 6) {
-      setError(`Please enter a valid DFT Passout Year (e.g. 1970 - ${currentYear + 6}).`)
-      return
-    }
+    // Only validate passout year if the checkbox is NOT ticked
+    if (!profileForm.diplomaNotCompleted) {
+      if (isNaN(passYear) || passYear < 1970 || passYear > currentYear + 6) {
+        setError(`Please enter a valid DFT Passout Year (e.g. 1970 - ${currentYear + 6}).`)
+        return
+      }
 
-    if (admYear > passYear) {
-      setError('DFT Admission Year cannot be after DFT Passout Year.')
-      return
+      if (admYear > passYear) {
+        setError('DFT Admission Year cannot be after DFT Passout Year.')
+        return
+      }
     }
 
     setLoading(true)
@@ -16014,6 +16323,7 @@ export default function Profile({ user, onUpdateUser }) {
       bloodGroup: profileForm.bloodGroup,
       admissionYear: profileForm.admissionYear,
       passoutYear: profileForm.passoutYear,
+      diplomaNotCompleted: profileForm.diplomaNotCompleted || false,
       batch: profileForm.passoutYear,
       degrees: profileForm.degrees || [],
       jobTitle: profileForm.jobTitle.trim(),
@@ -16140,6 +16450,7 @@ export default function Profile({ user, onUpdateUser }) {
     profileForm.bloodGroup !== originalForm.bloodGroup ||
     profileForm.admissionYear !== originalForm.admissionYear ||
     profileForm.passoutYear !== originalForm.passoutYear ||
+    profileForm.diplomaNotCompleted !== originalForm.diplomaNotCompleted ||
     profileForm.jobTitle !== originalForm.jobTitle ||
     profileForm.company !== originalForm.company ||
     profileForm.linkedin !== originalForm.linkedin ||
@@ -16194,25 +16505,43 @@ export default function Profile({ user, onUpdateUser }) {
       <div className="profile-page__decor profile-page__decor--1"></div>
       <div className="profile-page__decor profile-page__decor--2"></div>
 
+      <div className="profile-toast-container">
+        {error && (
+          <div className="profile-alert profile-alert--error" role="alert">
+            <FaTimesCircle className="profile-alert__icon" />
+            <span>{error}</span>
+            <button
+              type="button"
+              className="profile-alert__close"
+              onClick={() => setError('')}
+              aria-label="Dismiss"
+            >
+              &times;
+            </button>
+          </div>
+        )}
+
+        {success && (
+          <div className="profile-alert profile-alert--success" role="status">
+            <FaCheckCircle className="profile-alert__icon" />
+            <span>{success}</span>
+            <button
+              type="button"
+              className="profile-alert__close"
+              onClick={() => setSuccess('')}
+              aria-label="Dismiss"
+            >
+              &times;
+            </button>
+          </div>
+        )}
+      </div>
+
       <div className="profile-container">
         {/* Back Link */}
         <button className="profile-back-link" onClick={() => navigate(-1)}>
           <FaArrowLeft /> Back
         </button>
-
-        {error && (
-          <div className="profile-alert profile-alert--error">
-            <FaTimesCircle className="profile-alert__icon" />
-            <span>{error}</span>
-          </div>
-        )}
-
-        {success && (
-          <div className="profile-alert profile-alert--success">
-            <FaCheckCircle className="profile-alert__icon" />
-            <span>{success}</span>
-          </div>
-        )}
 
         <div className="profile-grid">
           {/* Left Column */}
@@ -16591,7 +16920,10 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-passout">DFT Passout Year <span className="profile-field__required">*</span></label>
+                    <label htmlFor="prof-passout">
+                      DFT Passout Year
+                      {!profileForm.diplomaNotCompleted && <span className="profile-field__required">*</span>}
+                    </label>
                     <div className="profile-field__input-wrap">
                       <FaCalendarAlt className="profile-field__icon" />
                       <select
@@ -16599,13 +16931,24 @@ export default function Profile({ user, onUpdateUser }) {
                         name="passoutYear"
                         value={profileForm.passoutYear}
                         onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        required
+                        disabled={!isEditing || loading || profileForm.diplomaNotCompleted}
+                        required={!profileForm.diplomaNotCompleted}
                       >
                         <option value="">Select Year</option>
                         {ACADEMIC_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
                       </select>
                     </div>
+
+                    <label className="checkbox-option" style={{ marginTop: '10px' }}>
+                      <input
+                        type="checkbox"
+                        name="diplomaNotCompleted"
+                        checked={profileForm.diplomaNotCompleted || false}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      />
+                      <span>I have not yet completed my diploma / Passout Year is not applicable</span>
+                    </label>
                   </div>
                 </div>
 
@@ -17184,7 +17527,6 @@ export default function Profile({ user, onUpdateUser }) {
     </div>
   )
 }
-
 ```
 
 ---
@@ -19363,8 +19705,8 @@ const firebaseConfig = {
 }
 
 // Check if Firebase keys are provided and not placeholders
-export const isFirebaseConfigured = 
-  import.meta.env.VITE_FIREBASE_API_KEY && 
+export const isFirebaseConfigured =
+  import.meta.env.VITE_FIREBASE_API_KEY &&
   import.meta.env.VITE_FIREBASE_API_KEY !== 'YOUR_FIREBASE_API_KEY_HERE'
 
 let app

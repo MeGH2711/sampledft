@@ -41,6 +41,7 @@ import {
   PRODUCT_SERVICE_OPTIONS,
   HOBBY_OPTIONS
 } from '../data/formdata'
+import { hashEmail, hashPhoneDigits } from '../utils/hash'
 
 const MONTH_OPTIONS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const PROMOTION_YEAR_OPTIONS = Array.from({ length: new Date().getFullYear() - 1980 + 1 }, (_, i) => String(new Date().getFullYear() - i));
@@ -731,6 +732,21 @@ export default function Login({ user, onLoginSuccess }) {
           consentAlumniSearch: registerForm.consentAlumniSearch || false
         })
 
+        // Write the password-reset lookup doc (hashes only, no plaintext phone data)
+        const emailHashKey = await hashEmail(registerForm.email)
+        const phoneHash = await hashPhoneDigits(`${registerForm.phoneCode} ${registerForm.phone}`)
+        const secPhoneHash = registerForm.secondaryPhone
+          ? await hashPhoneDigits(`${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`)
+          : ''
+        const whatsappHash = await hashPhoneDigits(`${registerForm.whatsappCode} ${registerForm.whatsapp}`)
+
+        await setDoc(doc(db, 'passwordResetLookup', emailHashKey), {
+          uid: user.uid,
+          phoneHash,
+          secPhoneHash,
+          whatsappHash
+        })
+
         const newUser = {
           uid: user.uid,
           name: [registerForm.firstName.trim(), registerForm.middleName.trim(), registerForm.lastName.trim()].filter(Boolean).join(' '),
@@ -920,33 +936,25 @@ export default function Login({ user, onLoginSuccess }) {
 
     if (isFirebaseConfigured) {
       try {
-        // Query users collection for user doc with matching email
-        const q = query(collection(db, 'users'), where('email', '==', loginForm.email.trim()))
-        const querySnapshot = await getDocs(q)
+        const emailHashKey = await hashEmail(loginForm.email)
+        const lookupSnap = await getDoc(doc(db, 'passwordResetLookup', emailHashKey))
 
-        if (querySnapshot.empty) {
-          setVerifyPhoneError('No account found with this email address.')
+        if (!lookupSnap.exists()) {
+          setVerifyPhoneError('No account found with that email/phone combination.')
           setLoading(false)
           return
         }
 
-        let matchedUser = null
-        querySnapshot.forEach(doc => {
-          matchedUser = doc.data()
-        })
+        const lookupData = lookupSnap.data()
+        const inputPhoneHash = await hashPhoneDigits(verifyPhoneInput)
 
-        const storedPhoneDigits = matchedUser.phone ? matchedUser.phone.replace(/\D/g, '') : ''
-        const storedSecPhoneDigits = matchedUser.secondaryPhone ? matchedUser.secondaryPhone.replace(/\D/g, '') : ''
-        const storedWhatsappDigits = matchedUser.whatsapp ? matchedUser.whatsapp.replace(/\D/g, '') : ''
-
-        const isMatch = (
-          (storedPhoneDigits && (storedPhoneDigits.endsWith(inputDigits) || inputDigits.endsWith(storedPhoneDigits))) ||
-          (storedSecPhoneDigits && (storedSecPhoneDigits.endsWith(inputDigits) || inputDigits.endsWith(storedSecPhoneDigits))) ||
-          (storedWhatsappDigits && (storedWhatsappDigits.endsWith(inputDigits) || inputDigits.endsWith(storedWhatsappDigits)))
-        )
+        const isMatch =
+          (lookupData.phoneHash && lookupData.phoneHash === inputPhoneHash) ||
+          (lookupData.secPhoneHash && lookupData.secPhoneHash === inputPhoneHash) ||
+          (lookupData.whatsappHash && lookupData.whatsappHash === inputPhoneHash)
 
         if (!isMatch) {
-          setVerifyPhoneError('Provided phone number does not match our records.')
+          setVerifyPhoneError('No account found with that email/phone combination.')
           setLoading(false)
           return
         }

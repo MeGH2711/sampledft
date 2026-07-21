@@ -35,6 +35,7 @@ import {
   PRODUCT_SERVICE_OPTIONS,
   HOBBY_OPTIONS
 } from '../data/formdata'
+import { hashEmail, hashPhoneDigits } from '../utils/hash'
 
 const MONTH_OPTIONS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const PROMOTION_YEAR_OPTIONS = Array.from({ length: new Date().getFullYear() - 1980 + 1 }, (_, i) => String(new Date().getFullYear() - i));
@@ -777,6 +778,38 @@ export default function Profile({ user, onUpdateUser }) {
       try {
         const userDocRef = doc(db, 'users', uid)
         await setDoc(userDocRef, updatedProfile, { merge: true })
+
+        if (isFirebaseConfigured && uid) {
+          try {
+            const userDocRef = doc(db, 'users', uid)
+            await setDoc(userDocRef, updatedProfile, { merge: true })
+
+            // Keep the password-reset lookup doc in sync with any phone/email changes
+            const emailHashKey = await hashEmail(user.email) // account email — not editable here
+            const phoneHash = await hashPhoneDigits(updatedProfile.phone)
+            const secPhoneHash = updatedProfile.secondaryPhone ? await hashPhoneDigits(updatedProfile.secondaryPhone) : ''
+            const whatsappHash = await hashPhoneDigits(updatedProfile.whatsapp)
+
+            await setDoc(doc(db, 'passwordResetLookup', emailHashKey), {
+              uid,
+              phoneHash,
+              secPhoneHash,
+              whatsappHash
+            }, { merge: true })
+
+            // Propagate updates up to the App session state
+            onUpdateUser(updatedProfile)
+            setOriginalForm(prev => ({ ...prev, ...updatedProfile }))
+
+            setSuccess('Profile updated successfully!')
+            setIsEditing(false)
+          } catch (err) {
+            console.error("Error updating user Firestore document:", err)
+            setError('Failed to save changes. Please try again.')
+          } finally {
+            setLoading(false)
+          }
+        }
 
         // Propagate updates up to the App session state
         onUpdateUser(updatedProfile)
