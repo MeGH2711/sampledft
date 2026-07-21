@@ -1313,6 +1313,10 @@ export default function Login({ user, onLoginSuccess }) {
                       <label htmlFor="reg-phone">Contact Number <span className="login-field__required">*</span></label>
                       <div className="login-field__input-wrap phone-input-wrap">
                         <span className={`fi fi-${getCountryIso(registerForm.phoneCode)} login-field__icon`}></span>
+
+                        {/* ADD THIS SPAN */}
+                        <span className="phone-selected-text">{registerForm.phoneCode}</span>
+
                         <select
                           className="phone-country-select"
                           name="phoneCode"
@@ -1339,6 +1343,10 @@ export default function Login({ user, onLoginSuccess }) {
                       <label htmlFor="reg-sec-phone">Secondary Contact Number</label>
                       <div className="login-field__input-wrap phone-input-wrap">
                         <span className={`fi fi-${getCountryIso(registerForm.secondaryPhoneCode)} login-field__icon`}></span>
+
+                        {/* ADD THIS SPAN */}
+                        <span className="phone-selected-text">{registerForm.secondaryPhoneCode}</span>
+
                         <select
                           className="phone-country-select"
                           name="secondaryPhoneCode"
@@ -1364,6 +1372,10 @@ export default function Login({ user, onLoginSuccess }) {
                       <label htmlFor="reg-whatsapp">WhatsApp Number <span className="login-field__required">*</span></label>
                       <div className="login-field__input-wrap phone-input-wrap">
                         <span className={`fi fi-${getCountryIso(registerForm.whatsappCode)} login-field__icon`}></span>
+
+                        {/* ADD THIS SPAN */}
+                        <span className="phone-selected-text">{registerForm.whatsappCode}</span>
+
                         <select
                           className="phone-country-select"
                           name="whatsappCode"

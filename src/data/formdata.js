@@ -1,19 +1,19 @@
 export const countryCodes = [
-  { code: '+91', label: '🇮🇳 +91' },
-  { code: '+1', label: '🇺🇸 +1' },
-  { code: '+44', label: '🇬🇧 +44' },
-  { code: '+971', label: '🇦🇪 +971' },
-  { code: '+65', label: '🇸🇬 +65' },
-  { code: '+61', label: '🇦🇺 +61' },
-  { code: '+49', label: '🇩🇪 +49' },
-  { code: '+966', label: '🇸🇦 +966' },
-  { code: '+968', label: '🇴🇲 +968' },
-  { code: '+974', label: '🇶🇦 +974' },
-  { code: '+965', label: '🇰🇼 +965' },
-  { code: '+973', label: '🇧🇭 +973' },
-  { code: '+27', label: '🇿🇦 +27' },
-  { code: '+33', label: '🇫🇷 +33' },
-  { code: '+81', label: '🇯🇵 +81' }
+  { code: '+91', label: '🇮🇳 +91 (India)' },
+  { code: '+1', label: '🇺🇸 +1 (USA)' },
+  { code: '+44', label: '🇬🇧 +44 (Great Britain)' },
+  { code: '+971', label: '🇦🇪 +971 (United Arab Emirates)' },
+  { code: '+65', label: '🇸🇬 +65 (Singapore)' },
+  { code: '+61', label: '🇦🇺 +61 (Australia)' },
+  { code: '+49', label: '🇩🇪 +49 (Germany)' },
+  { code: '+966', label: '🇸🇦 +966 (Saudi Arabia)' },
+  { code: '+968', label: '🇴🇲 +968 (Oman)' },
+  { code: '+974', label: '🇶🇦 +974 (Qatar)' },
+  { code: '+965', label: '🇰🇼 +965 (Kuwait)' },
+  { code: '+973', label: '🇧🇭 +973 (Bahrain)' },
+  { code: '+27', label: '🇿🇦 +27 (South Africa)' },
+  { code: '+33', label: '🇫🇷 +33 (France)' },
+  { code: '+81', label: '🇯🇵 +81 (Japan)' }
 ]
 
 export const ACADEMIC_YEARS = Array.from({ length: 2040 - 1983 + 1 }, (_, i) => String(1983 + i))
