@@ -53,10 +53,10 @@ export default function Footer() {
                 <div className="footer__logo-sub">Sir Bhavsinhji Polytechnic, Bhavnagar</div>
               </div>
             </div>
-            <p className="footer__brand-text">
+            {/* <p className="footer__brand-text">
               A proud community of graduates united by the legacy of the Diploma in Fabrication
               Technology — connecting, inspiring, and giving back generation after generation.
-            </p>
+            </p> */}
             <div className="footer__socials">
               {socials.map((s) => (
                 <a key={s.label} href={s.href} className="footer__social" target='__blank' aria-label={s.label}>
