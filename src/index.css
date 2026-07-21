@@ -72,9 +72,12 @@ body {
 }
 
 /* Optional: You can also restrict it strictly to the main wrapper */
-#root,
-main {
-  overflow-x: hidden;
+@media (max-width: 768px) {
+
+  #root,
+  main {
+    overflow-x: hidden;
+  }
 }
 
 a {
