@@ -93,57 +93,104 @@
   transform: translateX(-4px);
 }
 
-/* Error/Success Alerts */
+/* Toast Container — fixed bottom-right */
+.profile-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  pointer-events: none;
+  max-width: min(380px, calc(100vw - 32px));
+}
+
+@media (max-width: 600px) {
+  .profile-toast-container {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    max-width: none;
+    align-items: stretch;
+  }
+}
+
+/* Error/Success Toasts */
 .profile-alert {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 18px;
+  padding: 14px 16px;
   font-family: var(--font-body);
   font-size: 0.8rem;
   font-weight: 600;
-  border-radius: 4px;
-  animation: alertFadeInOut 5s ease-in-out forwards;
+  border-radius: 6px;
+  width: 100%;
+  background: var(--navy-deep);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  animation: toastLifecycle 5s ease-in-out forwards;
+  pointer-events: auto;
 }
 
-@keyframes alertFadeInOut {
+@keyframes toastLifecycle {
   0% {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateX(40px);
   }
 
   8% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 
   92% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 
   100% {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateX(40px);
   }
 }
 
 .profile-alert--error {
-  background: rgba(232, 48, 42, 0.1);
-  border: 1px solid rgba(232, 48, 42, 0.2);
   border-left: 4px solid var(--signal-red);
-  color: #ff6b6b;
+  color: #ff8a80;
 }
 
 .profile-alert--success {
-  background: rgba(46, 204, 113, 0.1);
-  border: 1px solid rgba(46, 204, 113, 0.2);
   border-left: 4px solid #2ecc71;
-  color: #2ecc71;
+  color: #6fe3a1;
 }
 
 .profile-alert__icon {
   font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.profile-alert span {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.profile-alert__close {
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0.6;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.profile-alert__close:hover {
+  opacity: 1;
 }
 
 /* Main Layout Grid */

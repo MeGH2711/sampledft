@@ -4,6 +4,7 @@ import {
   FaUserShield,
   FaUsers,
   FaCheckCircle,
+  FaTimesCircle,
   FaBriefcase,
   FaTrash,
   FaExclamationTriangle,
@@ -12,7 +13,6 @@ import {
   FaArrowLeft,
   FaPlus,
   FaMapMarkerAlt,
-  FaInfoCircle,
   FaCopy
 } from 'react-icons/fa'
 import { db } from '../firebase'
@@ -273,6 +273,14 @@ export default function Admin({ user, onUpdateUser }) {
     return searchMatch && statusMatch
   })
 
+  // Access Management tab: same filtered set, ordered developer -> admin -> alumni
+  const ROLE_ORDER = { developer: 0, admin: 1, alumni: 2 }
+  const accessManagementUsers = [...filteredUsers].sort((a, b) => {
+    const roleA = ROLE_ORDER[a.account_type] ?? ROLE_ORDER.alumni
+    const roleB = ROLE_ORDER[b.account_type] ?? ROLE_ORDER.alumni
+    return roleA - roleB
+  })
+
   // Count helper statistics
   const totalUsers = usersList.length
   const pendingCount = usersList.filter(u => !u.verification_status).length
@@ -285,8 +293,17 @@ export default function Admin({ user, onUpdateUser }) {
 
         {/* Toast notification banner */}
         {toast.show && (
-          <div className={`admin-toast-message ${toast.type}`}>
-            <FaInfoCircle /> {toast.message}
+          <div className={`admin-toast-message ${toast.type}`} role={toast.type === 'error' ? 'alert' : 'status'}>
+            {toast.type === 'error' ? <FaTimesCircle /> : <FaCheckCircle />}
+            <span>{toast.message}</span>
+            <button
+              type="button"
+              className="admin-toast-message__close"
+              onClick={() => setToast({ show: false, message: '', type: '' })}
+              aria-label="Dismiss"
+            >
+              &times;
+            </button>
           </div>
         )}
 
@@ -776,8 +793,8 @@ service cloud.firestore {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredUsers.length > 0 ? (
-                    filteredUsers.map((item) => (
+                  {accessManagementUsers.length > 0 ? (
+                    accessManagementUsers.map((item) => (
                       <tr key={item.uid}>
                         <td>
                           <div className="admin-table-user-info">

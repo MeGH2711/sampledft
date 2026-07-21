@@ -189,6 +189,38 @@ export default function Login({ user, onLoginSuccess }) {
     setCaptchaInput('')
   }
 
+  // Auto-hide general errors after 10 seconds
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError('');
+      }, 10000);
+      return () => clearTimeout(timer); // Cleanup if the error changes or component unmounts
+    }
+  }, [error]);
+
+  // Auto-hide phone verification errors after 10 seconds
+  useEffect(() => {
+    if (verifyPhoneError) {
+      const timer = setTimeout(() => {
+        setVerifyPhoneError('');
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [verifyPhoneError]);
+
+  // Auto-hide success messages after 10 seconds 
+  // (Note: Some of your existing success actions redirect the user before this timer finishes)
+  useEffect(() => {
+    if (showSuccess) {
+      const timer = setTimeout(() => {
+        setShowSuccess(false);
+        setSuccessMessage('');
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccess]);
+
   // Draw captcha on canvas whenever captchaCode changes
   useEffect(() => {
     if (captchaCode && canvasRef.current) {
@@ -646,16 +678,6 @@ export default function Login({ user, onLoginSuccess }) {
       }
     }
 
-    if (isNaN(passYear) || passYear < 1970 || passYear > currentYear + 6) {
-      setError(`Please enter a valid DFT Passout Year (1970 - ${currentYear + 6}).`)
-      return
-    }
-
-    if (admYear > passYear) {
-      setError('DFT Admission Year cannot be after DFT Passout Year.')
-      return
-    }
-
     setLoading(true)
 
     if (isFirebaseConfigured) {
@@ -1039,7 +1061,7 @@ export default function Login({ user, onLoginSuccess }) {
               <div className={`login-tabs__indicator ${activeTab === 'register' ? 'slide' : ''}`}></div>
             </div>
 
-            {/* Success Animation Overlay */}
+            {/* RESTORED: Success Animation Overlay */}
             {showSuccess && (
               <div className="login-success-overlay">
                 <div className="login-success-overlay__content">
@@ -1063,13 +1085,6 @@ export default function Login({ user, onLoginSuccess }) {
                   <p className="login-card__mobile-tagline">Together · United · Stronger</p>
                 </div>
               </div>
-
-              {error && (
-                <div className="login-error-alert">
-                  <FaTimesCircle className="login-error-alert__icon" />
-                  <span>{error}</span>
-                </div>
-              )}
 
               {activeTab === 'login' ? (
                 /* SIGN IN VIEW */
@@ -1652,7 +1667,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field login-field--full">
-                      <label htmlFor="reg-company-website">Company Website (Optional)</label>
+                      <label htmlFor="reg-company-website">Company Website</label>
                       <div className="login-field__input-wrap">
                         <FaGlobe className="login-field__icon" />
                         <input
@@ -2113,12 +2128,6 @@ export default function Login({ user, onLoginSuccess }) {
               Please enter the Primary, Secondary, or WhatsApp phone number associated with the account <strong>{loginForm.email}</strong> to verify your identity.
             </p>
 
-            {verifyPhoneError && (
-              <div className="login-error" style={{ marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 14px', borderRadius: '6px', fontSize: '0.85rem' }}>
-                <FaTimesCircle /> {verifyPhoneError}
-              </div>
-            )}
-
             <form onSubmit={handleVerifyAndResetPassword}>
               <div className="login-field" style={{ margin: '15px 0' }}>
                 <label htmlFor="verify-phone">Associated Phone Number</label>
@@ -2185,6 +2194,38 @@ export default function Login({ user, onLoginSuccess }) {
           </div>
         </div>
       )}
-    </div>
+      {/* Global Toast Notifications */}
+      <div className="toast-container">
+        {error && (
+          <div className="toast toast--error" role="alert">
+            <FaTimesCircle className="toast__icon" />
+            <span>{error}</span>
+            <button
+              type="button"
+              className="toast__close"
+              onClick={() => setError('')}
+              aria-label="Dismiss"
+            >
+              &times;
+            </button>
+          </div>
+        )}
+
+        {verifyPhoneError && (
+          <div className="toast toast--error" role="alert">
+            <FaTimesCircle className="toast__icon" />
+            <span>{verifyPhoneError}</span>
+            <button
+              type="button"
+              className="toast__close"
+              onClick={() => setVerifyPhoneError('')}
+              aria-label="Dismiss"
+            >
+              &times;
+            </button>
+          </div>
+        )}
+      </div>
+    </div> // This is the final closing div of the component
   )
 }

@@ -132,6 +132,7 @@ export default function Profile({ user, onUpdateUser }) {
     bloodGroup: '',
     admissionYear: '',
     passoutYear: '',
+    diplomaNotCompleted: false,
     jobTitle: '',
     company: '',
     linkedin: '',
@@ -177,6 +178,7 @@ export default function Profile({ user, onUpdateUser }) {
     bloodGroup: '',
     admissionYear: '',
     passoutYear: '',
+    diplomaNotCompleted: false,
     jobTitle: '',
     company: '',
     linkedin: '',
@@ -266,6 +268,7 @@ export default function Profile({ user, onUpdateUser }) {
               bloodGroup: data.bloodGroup || user.bloodGroup || '',
               admissionYear: data.admissionYear || '',
               passoutYear: data.passoutYear || data.batch || '',
+              diplomaNotCompleted: data.diplomaNotCompleted || false,
               jobTitle: data.jobTitle || '',
               company: data.company || '',
               linkedin: data.linkedin || '',
@@ -335,6 +338,7 @@ export default function Profile({ user, onUpdateUser }) {
               bloodGroup: user.bloodGroup || '',
               admissionYear: user.admissionYear || '',
               passoutYear: user.passoutYear || user.batch || '',
+              diplomaNotCompleted: user.diplomaNotCompleted || false,
               jobTitle: '',
               company: '',
               linkedin: '',
@@ -415,6 +419,7 @@ export default function Profile({ user, onUpdateUser }) {
               bloodGroup: parsed.bloodGroup || '',
               admissionYear: parsed.admissionYear || '',
               passoutYear: parsed.passoutYear || parsed.batch || '',
+              diplomaNotCompleted: parsed.diplomaNotCompleted || false,
               jobTitle: parsed.jobTitle || '',
               company: parsed.company || '',
               linkedin: parsed.linkedin || '',
@@ -488,6 +493,7 @@ export default function Profile({ user, onUpdateUser }) {
           bloodGroup: user.bloodGroup || '',
           admissionYear: user.admissionYear || '',
           passoutYear: user.passoutYear || user.batch || '',
+          diplomaNotCompleted: user.diplomaNotCompleted || false,
           jobTitle: user.jobTitle || '',
           company: user.company || '',
           linkedin: user.linkedin || '',
@@ -535,17 +541,29 @@ export default function Profile({ user, onUpdateUser }) {
     }
   }, [success])
 
+  // Auto-clear error toast after 5 seconds to match fade-out animation
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError('')
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [error])
+
   const handleInputChange = (e) => {
-    const { name, value } = e.target
+    const { name, value, type, checked } = e.target // Extract type and checked
     const cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name)
       ? value.replace(/\D/g, '')
       : value;
+
     setProfileForm(prev => {
       const updated = {
         ...prev,
-        [name]: cleanValue
+        [name]: type === 'checkbox' ? checked : cleanValue // Handle checkbox
       }
-      if (name === 'admissionYear' && cleanValue) {
+      // Calculate target passout year only if diploma is not checked
+      if (name === 'admissionYear' && cleanValue && !prev.diplomaNotCompleted) {
         const parsedYear = parseInt(cleanValue, 10)
         if (!isNaN(parsedYear)) {
           const targetPassout = parsedYear + 3
@@ -555,6 +573,10 @@ export default function Profile({ user, onUpdateUser }) {
             updated.passoutYear = '2040'
           }
         }
+      }
+      // Clear passout year if checkbox gets ticked
+      if (name === 'diplomaNotCompleted' && checked) {
+        updated.passoutYear = ''
       }
       return updated
     })
@@ -692,14 +714,17 @@ export default function Profile({ user, onUpdateUser }) {
       return
     }
 
-    if (isNaN(passYear) || passYear < 1970 || passYear > currentYear + 6) {
-      setError(`Please enter a valid DFT Passout Year (e.g. 1970 - ${currentYear + 6}).`)
-      return
-    }
+    // Only validate passout year if the checkbox is NOT ticked
+    if (!profileForm.diplomaNotCompleted) {
+      if (isNaN(passYear) || passYear < 1970 || passYear > currentYear + 6) {
+        setError(`Please enter a valid DFT Passout Year (e.g. 1970 - ${currentYear + 6}).`)
+        return
+      }
 
-    if (admYear > passYear) {
-      setError('DFT Admission Year cannot be after DFT Passout Year.')
-      return
+      if (admYear > passYear) {
+        setError('DFT Admission Year cannot be after DFT Passout Year.')
+        return
+      }
     }
 
     setLoading(true)
@@ -717,6 +742,7 @@ export default function Profile({ user, onUpdateUser }) {
       bloodGroup: profileForm.bloodGroup,
       admissionYear: profileForm.admissionYear,
       passoutYear: profileForm.passoutYear,
+      diplomaNotCompleted: profileForm.diplomaNotCompleted || false,
       batch: profileForm.passoutYear,
       degrees: profileForm.degrees || [],
       jobTitle: profileForm.jobTitle.trim(),
@@ -843,6 +869,7 @@ export default function Profile({ user, onUpdateUser }) {
     profileForm.bloodGroup !== originalForm.bloodGroup ||
     profileForm.admissionYear !== originalForm.admissionYear ||
     profileForm.passoutYear !== originalForm.passoutYear ||
+    profileForm.diplomaNotCompleted !== originalForm.diplomaNotCompleted ||
     profileForm.jobTitle !== originalForm.jobTitle ||
     profileForm.company !== originalForm.company ||
     profileForm.linkedin !== originalForm.linkedin ||
@@ -897,25 +924,43 @@ export default function Profile({ user, onUpdateUser }) {
       <div className="profile-page__decor profile-page__decor--1"></div>
       <div className="profile-page__decor profile-page__decor--2"></div>
 
+      <div className="profile-toast-container">
+        {error && (
+          <div className="profile-alert profile-alert--error" role="alert">
+            <FaTimesCircle className="profile-alert__icon" />
+            <span>{error}</span>
+            <button
+              type="button"
+              className="profile-alert__close"
+              onClick={() => setError('')}
+              aria-label="Dismiss"
+            >
+              &times;
+            </button>
+          </div>
+        )}
+
+        {success && (
+          <div className="profile-alert profile-alert--success" role="status">
+            <FaCheckCircle className="profile-alert__icon" />
+            <span>{success}</span>
+            <button
+              type="button"
+              className="profile-alert__close"
+              onClick={() => setSuccess('')}
+              aria-label="Dismiss"
+            >
+              &times;
+            </button>
+          </div>
+        )}
+      </div>
+
       <div className="profile-container">
         {/* Back Link */}
         <button className="profile-back-link" onClick={() => navigate(-1)}>
           <FaArrowLeft /> Back
         </button>
-
-        {error && (
-          <div className="profile-alert profile-alert--error">
-            <FaTimesCircle className="profile-alert__icon" />
-            <span>{error}</span>
-          </div>
-        )}
-
-        {success && (
-          <div className="profile-alert profile-alert--success">
-            <FaCheckCircle className="profile-alert__icon" />
-            <span>{success}</span>
-          </div>
-        )}
 
         <div className="profile-grid">
           {/* Left Column */}
@@ -1294,7 +1339,10 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-passout">DFT Passout Year <span className="profile-field__required">*</span></label>
+                    <label htmlFor="prof-passout">
+                      DFT Passout Year
+                      {!profileForm.diplomaNotCompleted && <span className="profile-field__required">*</span>}
+                    </label>
                     <div className="profile-field__input-wrap">
                       <FaCalendarAlt className="profile-field__icon" />
                       <select
@@ -1302,13 +1350,24 @@ export default function Profile({ user, onUpdateUser }) {
                         name="passoutYear"
                         value={profileForm.passoutYear}
                         onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        required
+                        disabled={!isEditing || loading || profileForm.diplomaNotCompleted}
+                        required={!profileForm.diplomaNotCompleted}
                       >
                         <option value="">Select Year</option>
                         {ACADEMIC_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
                       </select>
                     </div>
+
+                    <label className="checkbox-option" style={{ marginTop: '10px' }}>
+                      <input
+                        type="checkbox"
+                        name="diplomaNotCompleted"
+                        checked={profileForm.diplomaNotCompleted || false}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      />
+                      <span>I have not yet completed my diploma / Passout Year is not applicable</span>
+                    </label>
                   </div>
                 </div>
 

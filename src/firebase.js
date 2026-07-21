@@ -12,8 +12,8 @@ const firebaseConfig = {
 }
 
 // Check if Firebase keys are provided and not placeholders
-export const isFirebaseConfigured = 
-  import.meta.env.VITE_FIREBASE_API_KEY && 
+export const isFirebaseConfigured =
+  import.meta.env.VITE_FIREBASE_API_KEY &&
   import.meta.env.VITE_FIREBASE_API_KEY !== 'YOUR_FIREBASE_API_KEY_HERE'
 
 let app
