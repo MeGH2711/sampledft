@@ -1026,7 +1026,7 @@ export default function Login({ user, onLoginSuccess }) {
       <div className="login-container">
         {/* Back Button */}
         <button className="login-container__back-btn" onClick={() => navigate('/')}>
-          <FaHome /> BACK TO HOME
+          <FaHome /> <span className="login-container__back-btn-text">BACK TO HOME</span>
         </button>
 
         <div className="login-card">
@@ -1049,6 +1049,17 @@ export default function Login({ user, onLoginSuccess }) {
 
           {/* Right: Form Column */}
           <div className="login-card__form-panel">
+
+            {/* Compact Header for Mobile/Portrait Screens (Hidden on Desktop) */}
+            <div className="login-card__mobile-brand">
+              <div className="login-card__mobile-logo-wrap">
+                <img src={alumniLogo} alt="Alumni Logo" className="login-card__mobile-logo" />
+              </div>
+              <div>
+                <h2 className="login-card__mobile-title">Alumni Portal</h2>
+                <p className="login-card__mobile-tagline">Together · United · Stronger</p>
+              </div>
+            </div>
 
             {/* Sliding Tab Control */}
             <div className="login-tabs">
@@ -1082,17 +1093,6 @@ export default function Login({ user, onLoginSuccess }) {
 
             {/* Card Body containing Form */}
             <div className="login-card__body">
-
-              {/* Compact Header for Mobile/Portrait Screens (Hidden on Desktop) */}
-              <div className="login-card__mobile-brand">
-                <div className="login-card__mobile-logo-wrap">
-                  <img src={alumniLogo} alt="Alumni Logo" className="login-card__mobile-logo" />
-                </div>
-                <div>
-                  <h2 className="login-card__mobile-title">Alumni Portal</h2>
-                  <p className="login-card__mobile-tagline">Together · United · Stronger</p>
-                </div>
-              </div>
 
               {activeTab === 'login' ? (
                 /* SIGN IN VIEW */

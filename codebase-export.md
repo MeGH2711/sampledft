@@ -1,6 +1,6 @@
 # 📁 dft-alumni — Codebase Export
 
-> Generated on: 7/21/2026, 4:08:23 PM
+> Generated on: 7/21/2026, 6:54:04 PM
 
 > Root: `c:\Users\meghp\Desktop\DFT Alumni\DFTWebsite\New_Website\dft-alumni`
 
@@ -2655,7 +2655,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview"
@@ -7875,25 +7875,6 @@ export default function Footer() {
               </ul>
             </div>
           ))}
-
-          {/* Newsletter */}
-          <div className="footer__newsletter">
-            <h4 className="footer__col-heading">Stay Updated</h4>
-            <p className="footer__newsletter-text">
-              Subscribe for the latest events, reunions, and updates from the DFT Alumni community.
-            </p>
-            <form className="footer__newsletter-form" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                id="footer-email"
-                placeholder="your@email.com"
-                className="footer__newsletter-input"
-              />
-              <button type="submit" className="footer__newsletter-btn">
-                JOIN
-              </button>
-            </form>
-          </div>
 
         </div>
       </div>
@@ -19828,6 +19809,7 @@ export { auth, db }
 html {
   scroll-behavior: smooth;
   font-size: 18px;
+  overflow-x: hidden !important;
 }
 
 body {

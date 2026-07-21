@@ -718,9 +718,9 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    margin-bottom: 20px;
-    padding-bottom: 16px;
+    padding: 20px 24px;
     border-bottom: 1px solid var(--line-grey);
+    flex-shrink: 0;
   }
 
   .login-card__mobile-logo-wrap {
@@ -785,6 +785,153 @@
   .login-container__back-btn {
     display: none;
     /* conserve vertical space */
+  }
+}
+
+/* ============================================
+   TRUE MOBILE — Full-Screen App-Style Layout
+   Deliberately distinct from the Desktop split-card
+   and the Tablet stacked-card: no card chrome at all,
+   the UI bleeds edge-to-edge with a hero banner up top
+   and a floating tab sheet below it.
+   ============================================ */
+@media (max-width: 640px) {
+
+  .login-page {
+    height: 100vh;
+    height: 100dvh;
+    padding: 0;
+    align-items: stretch;
+    justify-content: stretch;
+    overflow: hidden;
+  }
+
+  /* Decorative blur circles read as "card" polish — drop them for the flat, full-bleed mobile look */
+  .login-page__decor-circle {
+    display: none;
+  }
+
+  .login-container {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    gap: 0;
+  }
+
+  /* Back button becomes a floating circular icon over the hero banner instead of a text link above the card */
+  .login-container__back-btn {
+    position: absolute;
+    top: max(14px, env(safe-area-inset-top));
+    left: 14px;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .login-container__back-btn-text {
+    display: none;
+    /* icon-only on mobile to keep the hero uncluttered */
+  }
+
+  /* No card box at all — it IS the screen */
+  .login-card {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+  }
+
+  .login-card__brand-panel {
+    display: none;
+  }
+
+  .login-card__form-panel {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* Hero banner replaces the plain horizontal mobile-brand bar used on tablet */
+  .login-card__mobile-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+    margin: 0;
+    padding: calc(env(safe-area-inset-top) + 44px) 24px 32px;
+    background: linear-gradient(135deg, var(--navy-deep), var(--navy-mid));
+    border-bottom: none;
+    border-radius: 0 0 28px 28px;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .login-card__mobile-brand::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 82% 15%, rgba(232, 48, 42, 0.28), transparent 55%);
+    pointer-events: none;
+  }
+
+  .login-card__mobile-logo-wrap {
+    width: 68px;
+    height: 68px;
+    background: var(--paper-white);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+  }
+
+  .login-card__mobile-title {
+    color: var(--paper-white);
+    font-size: 1.4rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .login-card__mobile-tagline {
+    color: var(--signal-red);
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Tabs float as a rounded pill sheet overlapping the hero, rather than a flush top bar */
+  .login-tabs {
+    margin: -18px 16px 0;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+    position: relative;
+    z-index: 5;
+    border-bottom: none;
+    flex-shrink: 0;
+  }
+
+  .login-card__body {
+    padding: 24px 20px 32px;
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
