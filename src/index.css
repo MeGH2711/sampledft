@@ -63,6 +63,17 @@ body {
   overflow-x: hidden;
 }
 
+/* ── Global Select Dropdown Styling ── */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none !important;
+  padding-right: 36px;
+  cursor: pointer;
+  transition: border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
 /* Add this to src/App.css or src/index.css */
 
 html,

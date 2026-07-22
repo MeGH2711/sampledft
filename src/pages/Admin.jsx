@@ -869,16 +869,18 @@ service cloud.firestore {
                           </span>
                         </td>
                         <td>
-                          <select
-                            value={item.account_type || 'alumni'}
-                            onChange={(e) => handleRoleChange(item.uid, e.target.value)}
-                            className={`admin-role-select ${item.account_type || 'alumni'}`}
-                            disabled={String(item.email || '').toLowerCase() === 'patelmeghmahesh2701@gmail.com'}
-                          >
-                            <option value="alumni">Alumni (Normal User)</option>
-                            <option value="admin">Admin</option>
-                            <option value="developer">Developer</option>
-                          </select>
+                          <div className="admin-select-wrap">
+                            <select
+                              value={item.account_type || 'alumni'}
+                              onChange={(e) => handleRoleChange(item.uid, e.target.value)}
+                              className={`admin-role-select ${item.account_type || 'alumni'}`}
+                              disabled={String(item.email || '').toLowerCase() === 'patelmeghmahesh2701@gmail.com'}
+                            >
+                              <option value="alumni">Alumni (Normal User)</option>
+                              <option value="admin">Admin</option>
+                              <option value="developer">Developer</option>
+                            </select>
+                          </div>
                         </td>
                         <td style={{ fontSize: '11px', fontFamily: 'monospace', color: 'var(--slate)' }}>
                           {item.uid}

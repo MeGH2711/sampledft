@@ -413,19 +413,37 @@
 }
 
 .profile-field__input-wrap select {
-  appearance: none;
-  -webkit-appearance: none;
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235B6478'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-image: none !important;
+}
+
+.profile-field__input-wrap:not(.phone-input-wrap):has(select)::after {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  transform: translateY(-50%) rotate(0deg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%2364748b'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 14px center;
-  background-size: 18px;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 3;
+  transition: transform 0.25s ease, background-image 0.25s ease;
+}
+
+.profile-field__input-wrap:not(.phone-input-wrap):has(select:focus)::after,
+.profile-field__input-wrap:not(.phone-input-wrap):has(select:active)::after {
+  transform: translateY(-50%) rotate(180deg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%23e8302a'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E");
 }
 
 .profile-field__input-wrap input:focus,
 .profile-field__input-wrap select:focus {
   border-color: var(--navy-deep);
-  background: var(--paper-white);
+  background-color: var(--paper-white);
   box-shadow: 0 0 0 4px rgba(11, 27, 63, 0.08);
 }
 
@@ -553,14 +571,11 @@
 
 .phone-country-select {
   padding: 12px 20px 12px 38px !important;
-  /* space on left for flag icon */
   border: none !important;
   border-right: 1px solid var(--line-grey) !important;
   border-radius: 0 !important;
   background: transparent !important;
-  background-position: right 4px center !important;
-  /* shift arrow slightly left */
-  background-size: 12px !important;
+  background-image: none !important;
   height: 100% !important;
   outline: none !important;
   box-shadow: none !important;
