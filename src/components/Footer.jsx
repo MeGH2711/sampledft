@@ -1,7 +1,8 @@
 import { useLocation, Link as RouterLink } from 'react-router-dom'
 import { Link as ScrollLink } from 'react-scroll'
-import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
+import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube, FaEye } from 'react-icons/fa'
 import dftLogo from '../assets/Logo/dft-logo.avif'
+import useVisitorCount from '../hooks/useVisitorCount'
 import './Footer.css'
 
 const footerLinks = [
@@ -35,6 +36,7 @@ const socials = [
 export default function Footer() {
   const location = useLocation()
   const isHome = location.pathname === '/'
+  const visitorCount = useVisitorCount()
 
   return (
     <footer className="footer">
@@ -104,6 +106,12 @@ export default function Footer() {
           <p className="footer__copy">
             &copy; {new Date().getFullYear()} DFT Alumni Association · Bhavnagar · Gujarat · <RouterLink to="/terms" style={{ color: 'rgba(255, 255, 255, 0.5)', textDecoration: 'none', transition: 'color 0.2s', marginLeft: '6px' }} onMouseOver={(e) => e.target.style.color = '#fff'} onMouseOut={(e) => e.target.style.color = 'rgba(255, 255, 255, 0.5)'}>Terms & Conditions</RouterLink>
           </p>
+          {visitorCount > 0 && (
+            <div className="footer__visitor-badge">
+              <FaEye className="footer__visitor-icon" />
+              <span>Total Visits: <strong>{visitorCount.toLocaleString()}</strong></span>
+            </div>
+          )}
           <p className="footer__design">
             Designed and Developed with 💙 by <a href="https://meghpatel.vercel.app" target="_blank" rel="noopener noreferrer">Megh Patel</a>
           </p>

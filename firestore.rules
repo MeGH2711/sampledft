@@ -70,5 +70,10 @@ service cloud.firestore {
       // Anyone can create a new company entry if non-empty, or logged in users can write
       allow create, update: if true;
     }
+
+    match /stats/{statId} {
+      // Anyone can read and update site visitor stats
+      allow read, write: if true;
+    }
   }
 }
