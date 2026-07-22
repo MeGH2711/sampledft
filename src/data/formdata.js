@@ -55,6 +55,39 @@ export const PRODUCT_SERVICE_OPTIONS = [
   "Others",
 ]
 
+export const PLACEHOLDERS = {
+  loginEmail: 'your@email.com',
+  loginPassword: '••••••••',
+  firstName: 'First Name',
+  middleName: 'Middle Name',
+  lastName: 'Last Name',
+  regEmail: 'john.doe@example.com',
+  phone: '98765 43210',
+  secondaryPhone: 'Optional',
+  whatsapp: '98765 43210',
+  city: 'Ahmedabad',
+  state: 'Gujarat',
+  country: 'India',
+  degreeDomain: 'Domain (e.g. Textile Technology)',
+  company: 'Arvind Mills',
+  department: 'e.g. Sales, Quality Assurance',
+  division: 'e.g. Woven, Knits',
+  jobTitle: 'Senior Merchandiser',
+  companyWebsite: 'https://example.com',
+  linkedin: 'https://linkedin.com/in/username',
+  companyCity: 'e.g. Mumbai',
+  companyState: 'e.g. Maharashtra',
+  companyCountry: 'e.g. India',
+  otherProductServices: 'Enter details of other products/services offered',
+  lastPromotionDesignation: 'e.g. Team Lead',
+  certificationDetail: 'Detail (e.g. AWS Certified Developer)',
+  awardDetail: 'Award Details (e.g. Best Employee 2025)',
+  regPassword: 'Min 6 characters',
+  confirmPassword: 'Re-type password',
+  captcha: 'Type the characters shown above (case-sensitive)',
+  verifyPhone: 'Enter phone number'
+}
+
 export const HOBBY_OPTIONS = [
   "Playing Sports",
   "Reading",

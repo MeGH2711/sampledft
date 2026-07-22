@@ -39,7 +39,8 @@ import {
   DEGREE_OPTIONS,
   CERTIFICATION_OPTIONS,
   PRODUCT_SERVICE_OPTIONS,
-  HOBBY_OPTIONS
+  HOBBY_OPTIONS,
+  PLACEHOLDERS
 } from '../data/formdata'
 import { hashEmail, hashPhoneDigits } from '../utils/hash'
 
@@ -148,6 +149,7 @@ export default function Login({ user, onLoginSuccess }) {
     productServices: [],
     otherProductServices: '',
     department: '',
+    division: '',
     workingSince: '',
     companyCity: '',
     companyState: '',
@@ -483,6 +485,7 @@ export default function Login({ user, onLoginSuccess }) {
             productServices: loadedProductServices,
             otherProductServices: profileData.otherProductServices || '',
             department: profileData.department || '',
+            division: profileData.division || '',
             workingSince: profileData.workingSince || '',
             companyCity: profileData.companyCity || '',
             companyState: profileData.companyState || '',
@@ -522,6 +525,7 @@ export default function Login({ user, onLoginSuccess }) {
             certifications: [],
             productServices: [],
             department: '',
+            division: '',
             workingSince: '',
             companyCity: '',
             companyState: '',
@@ -720,6 +724,7 @@ export default function Login({ user, onLoginSuccess }) {
           productServices: registerForm.productServices || [],
           otherProductServices: registerForm.productServices.includes('Others') ? registerForm.otherProductServices || '' : '',
           department: registerForm.department || '',
+          division: registerForm.division || '',
           workingSince: registerForm.workingSince || '',
           companyCity: registerForm.companyCity || '',
           companyState: registerForm.companyState || '',
@@ -779,6 +784,7 @@ export default function Login({ user, onLoginSuccess }) {
           productServices: registerForm.productServices || [],
           otherProductServices: registerForm.productServices.includes('Others') ? registerForm.otherProductServices || '' : '',
           department: registerForm.department || '',
+          division: registerForm.division || '',
           workingSince: registerForm.workingSince || '',
           companyCity: registerForm.companyCity || '',
           companyState: registerForm.companyState || '',
@@ -841,6 +847,7 @@ export default function Login({ user, onLoginSuccess }) {
           productServices: registerForm.productServices || [],
           otherProductServices: registerForm.productServices.includes('Others') ? registerForm.otherProductServices || '' : '',
           department: registerForm.department || '',
+          division: registerForm.division || '',
           workingSince: registerForm.workingSince || '',
           companyCity: registerForm.companyCity || '',
           companyState: registerForm.companyState || '',
@@ -885,6 +892,7 @@ export default function Login({ user, onLoginSuccess }) {
           productServices: newUser.productServices || [],
           otherProductServices: newUser.otherProductServices || '',
           department: newUser.department || '',
+          division: newUser.division || '',
           workingSince: newUser.workingSince || '',
           companyCity: newUser.companyCity || '',
           companyState: newUser.companyState || '',
@@ -1105,7 +1113,7 @@ export default function Login({ user, onLoginSuccess }) {
                         id="login-email"
                         type="email"
                         name="email"
-                        placeholder="your@email.com"
+                        placeholder={PLACEHOLDERS.loginEmail}
                         value={loginForm.email}
                         onChange={handleLoginChange}
                         required
@@ -1122,7 +1130,7 @@ export default function Login({ user, onLoginSuccess }) {
                         id="login-password"
                         type={showLoginPassword ? "text" : "password"}
                         name="password"
-                        placeholder="••••••••"
+                        placeholder={PLACEHOLDERS.loginPassword}
                         value={loginForm.password}
                         onChange={handleLoginChange}
                         required
@@ -1190,7 +1198,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-first-name"
                           type="text"
                           name="firstName"
-                          placeholder="John"
+                          placeholder={PLACEHOLDERS.firstName}
                           value={registerForm.firstName}
                           onChange={handleRegisterChange}
                           required
@@ -1206,7 +1214,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-middle-name"
                           type="text"
                           name="middleName"
-                          placeholder="Kumar"
+                          placeholder={PLACEHOLDERS.middleName}
                           value={registerForm.middleName}
                           onChange={handleRegisterChange}
                           required
@@ -1222,7 +1230,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-last-name"
                           type="text"
                           name="lastName"
-                          placeholder="Doe"
+                          placeholder={PLACEHOLDERS.lastName}
                           value={registerForm.lastName}
                           onChange={handleRegisterChange}
                           required
@@ -1241,7 +1249,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-email"
                           type="email"
                           name="email"
-                          placeholder="john.doe@example.com"
+                          placeholder={PLACEHOLDERS.regEmail}
                           value={registerForm.email}
                           onChange={handleRegisterChange}
                           required
@@ -1330,7 +1338,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-phone"
                           type="tel"
                           name="phone"
-                          placeholder="98765 43210"
+                          placeholder={PLACEHOLDERS.phone}
                           value={registerForm.phone}
                           onChange={handleRegisterChange}
                           required
@@ -1360,7 +1368,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-sec-phone"
                           type="tel"
                           name="secondaryPhone"
-                          placeholder="Optional"
+                          placeholder={PLACEHOLDERS.secondaryPhone}
                           value={registerForm.secondaryPhone}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -1389,7 +1397,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-whatsapp"
                           type="tel"
                           name="whatsapp"
-                          placeholder="98765 43210"
+                          placeholder={PLACEHOLDERS.whatsapp}
                           value={registerForm.whatsapp}
                           onChange={handleRegisterChange}
                           required
@@ -1410,7 +1418,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-city"
                           type="text"
                           name="city"
-                          placeholder="Ahmedabad"
+                          placeholder={PLACEHOLDERS.city}
                           value={registerForm.city}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -1425,7 +1433,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-state"
                           type="text"
                           name="state"
-                          placeholder="Gujarat"
+                          placeholder={PLACEHOLDERS.state}
                           value={registerForm.state}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -1440,7 +1448,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-country"
                           type="text"
                           name="country"
-                          placeholder="India"
+                          placeholder={PLACEHOLDERS.country}
                           value={registerForm.country}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -1557,7 +1565,7 @@ export default function Login({ user, onLoginSuccess }) {
                               <input
                                 id={`reg-deg-domain-${index}`}
                                 type="text"
-                                placeholder="Domain (e.g. Textile Technology)"
+                                placeholder={PLACEHOLDERS.degreeDomain}
                                 value={deg.domain}
                                 onChange={(e) => handleDegreeChange(index, 'domain', e.target.value)}
                                 required
@@ -1631,7 +1639,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-company"
                           type="text"
                           name="company"
-                          placeholder="Arvind Mills"
+                          placeholder={PLACEHOLDERS.company}
                           value={registerForm.company}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -1647,8 +1655,24 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-department"
                           type="text"
                           name="department"
-                          placeholder="e.g. Sales, Quality Assurance"
+                          placeholder={PLACEHOLDERS.department}
                           value={registerForm.department}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="login-field">
+                      <label htmlFor="reg-division">Division</label>
+                      <div className="login-field__input-wrap">
+                        <FaSitemap className="login-field__icon" />
+                        <input
+                          id="reg-division"
+                          type="text"
+                          name="division"
+                          placeholder={PLACEHOLDERS.division}
+                          value={registerForm.division}
                           onChange={handleRegisterChange}
                           disabled={loading}
                         />
@@ -1663,7 +1687,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-job"
                           type="text"
                           name="jobTitle"
-                          placeholder="Senior Merchandiser"
+                          placeholder={PLACEHOLDERS.jobTitle}
                           value={registerForm.jobTitle}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -1694,7 +1718,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-company-website"
                           type="url"
                           name="companyWebsite"
-                          placeholder="https://example.com"
+                          placeholder={PLACEHOLDERS.companyWebsite}
                           value={registerForm.companyWebsite}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -1710,7 +1734,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-linkedin"
                           type="url"
                           name="linkedin"
-                          placeholder="https://linkedin.com/in/username"
+                          placeholder={PLACEHOLDERS.linkedin}
                           value={registerForm.linkedin}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -1728,7 +1752,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-company-city"
                           type="text"
                           name="companyCity"
-                          placeholder="e.g. Mumbai"
+                          placeholder={PLACEHOLDERS.companyCity}
                           value={registerForm.companyCity}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -1743,7 +1767,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-company-state"
                           type="text"
                           name="companyState"
-                          placeholder="e.g. Maharashtra"
+                          placeholder={PLACEHOLDERS.companyState}
                           value={registerForm.companyState}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -1758,7 +1782,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-company-country"
                           type="text"
                           name="companyCountry"
-                          placeholder="e.g. India"
+                          placeholder={PLACEHOLDERS.companyCountry}
                           value={registerForm.companyCountry}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -1797,7 +1821,7 @@ export default function Login({ user, onLoginSuccess }) {
                             id="reg-other-product-services"
                             type="text"
                             name="otherProductServices"
-                            placeholder="Enter details of other products/services offered"
+                            placeholder={PLACEHOLDERS.otherProductServices}
                             value={registerForm.otherProductServices}
                             onChange={handleRegisterChange}
                             required
@@ -1815,7 +1839,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-last-promotion"
                           type="text"
                           name="lastPromotionDesignation"
-                          placeholder="e.g. Team Lead"
+                          placeholder={PLACEHOLDERS.lastPromotionDesignation}
                           value={registerForm.lastPromotionDesignation}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -1888,7 +1912,7 @@ export default function Login({ user, onLoginSuccess }) {
                               <input
                                 id={`reg-cert-detail-${index}`}
                                 type="text"
-                                placeholder="Detail (e.g. AWS Certified Developer)"
+                                placeholder={PLACEHOLDERS.certificationDetail}
                                 value={cert.detail}
                                 onChange={(e) => handleCertificationChange(index, 'detail', e.target.value)}
                                 disabled={loading}
@@ -1948,7 +1972,7 @@ export default function Login({ user, onLoginSuccess }) {
                               <FaAward className="login-field__icon" />
                               <input
                                 type="text"
-                                placeholder="Award Details (e.g. Best Employee 2025)"
+                                placeholder={PLACEHOLDERS.awardDetail}
                                 value={award}
                                 onChange={(e) => handleAwardChange(index, e.target.value)}
                                 disabled={loading}
@@ -2025,7 +2049,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-password"
                           type={showRegPassword ? "text" : "password"}
                           name="password"
-                          placeholder="Min 6 characters"
+                          placeholder={PLACEHOLDERS.regPassword}
                           value={registerForm.password}
                           onChange={handleRegisterChange}
                           required
@@ -2050,7 +2074,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-confirm"
                           type={showRegConfirmPassword ? "text" : "password"}
                           name="confirmPassword"
-                          placeholder="Re-type password"
+                          placeholder={PLACEHOLDERS.confirmPassword}
                           value={registerForm.confirmPassword}
                           onChange={handleRegisterChange}
                           required
@@ -2094,7 +2118,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-captcha"
                           type="text"
                           name="captcha"
-                          placeholder="Type the characters shown above (case-sensitive)"
+                          placeholder={PLACEHOLDERS.captcha}
                           value={captchaInput}
                           onChange={(e) => setCaptchaInput(e.target.value)}
                           required
@@ -2156,7 +2180,7 @@ export default function Login({ user, onLoginSuccess }) {
                   <input
                     id="verify-phone"
                     type="tel"
-                    placeholder="Enter phone number"
+                    placeholder={PLACEHOLDERS.verifyPhone}
                     value={verifyPhoneInput}
                     onChange={(e) => setVerifyPhoneInput(e.target.value)}
                     disabled={loading}

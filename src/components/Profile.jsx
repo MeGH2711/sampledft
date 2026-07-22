@@ -152,6 +152,7 @@ export default function Profile({ user, onUpdateUser }) {
     productServices: [],
     otherProductServices: '',
     department: '',
+    division: '',
     workingSince: '',
     companyCity: '',
     companyState: '',
@@ -198,6 +199,7 @@ export default function Profile({ user, onUpdateUser }) {
     productServices: [],
     otherProductServices: '',
     department: '',
+    division: '',
     workingSince: '',
     companyCity: '',
     companyState: '',
@@ -288,6 +290,7 @@ export default function Profile({ user, onUpdateUser }) {
               productServices: loadedProductServices,
               otherProductServices: data.otherProductServices || user.otherProductServices || '',
               department: data.department || user.department || '',
+              division: data.division || user.division || '',
               workingSince: formatDob(data.workingSince || user.workingSince || ''),
               companyCity: data.companyCity || user.companyCity || '',
               companyState: data.companyState || user.companyState || '',
@@ -358,6 +361,7 @@ export default function Profile({ user, onUpdateUser }) {
               productServices: loadedProductServices,
               otherProductServices: user.otherProductServices || '',
               department: user.department || '',
+              division: user.division || '',
               workingSince: formatDob(user.workingSince || ''),
               companyCity: user.companyCity || '',
               companyState: user.companyState || '',
@@ -439,6 +443,7 @@ export default function Profile({ user, onUpdateUser }) {
               productServices: loadedProductServices,
               otherProductServices: parsed.otherProductServices || '',
               department: parsed.department || '',
+              division: parsed.division || '',
               workingSince: formatDob(parsed.workingSince || ''),
               companyCity: parsed.companyCity || '',
               companyState: parsed.companyState || '',
@@ -513,6 +518,7 @@ export default function Profile({ user, onUpdateUser }) {
           productServices: loadedProductServices,
           otherProductServices: user.otherProductServices || '',
           department: user.department || '',
+          division: user.division || '',
           workingSince: formatDob(user.workingSince || ''),
           companyCity: user.companyCity || '',
           companyState: user.companyState || '',
@@ -761,6 +767,7 @@ export default function Profile({ user, onUpdateUser }) {
       productServices: profileForm.productServices || [],
       otherProductServices: profileForm.productServices.includes('Others') ? profileForm.otherProductServices || '' : '',
       department: profileForm.department.trim(),
+      division: profileForm.division.trim(),
       workingSince: profileForm.workingSince,
       companyCity: profileForm.companyCity.trim(),
       companyState: profileForm.companyState.trim(),
@@ -862,6 +869,7 @@ export default function Profile({ user, onUpdateUser }) {
               productServices: updatedProfile.productServices,
               otherProductServices: updatedProfile.otherProductServices,
               department: updatedProfile.department,
+              division: updatedProfile.division,
               workingSince: updatedProfile.workingSince,
               companyCity: updatedProfile.companyCity,
               companyState: updatedProfile.companyState,
@@ -913,6 +921,7 @@ export default function Profile({ user, onUpdateUser }) {
     profileForm.state !== originalForm.state ||
     profileForm.country !== originalForm.country ||
     profileForm.department !== originalForm.department ||
+    profileForm.division !== originalForm.division ||
     profileForm.workingSince !== originalForm.workingSince ||
     profileForm.companyCity !== originalForm.companyCity ||
     profileForm.companyState !== originalForm.companyState ||
@@ -1545,6 +1554,22 @@ export default function Profile({ user, onUpdateUser }) {
                         type="text"
                         name="department"
                         value={profileForm.department}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="profile-field">
+                    <label htmlFor="prof-division">Division</label>
+                    <div className="profile-field__input-wrap">
+                      <FaSitemap className="profile-field__icon" />
+                      <input
+                        id="prof-division"
+                        type="text"
+                        name="division"
+                        value={profileForm.division}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                         placeholder="No Data Provided"
