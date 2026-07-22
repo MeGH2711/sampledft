@@ -30,6 +30,11 @@
   opacity: 0.5;
 }
 
+.company-autocomplete__arrow-btn:disabled .company-autocomplete__arrow {
+  transform: none !important;
+  color: var(--slate, #64748b) !important;
+}
+
 .company-autocomplete__arrow {
   font-size: 0.75rem;
   transition: transform 0.25s ease, color 0.25s ease;
