@@ -1395,7 +1395,7 @@ export default function Profile({ user, onUpdateUser }) {
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                       >
-                        {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                        {countryCodes.map((c, idx) => <option key={`${c.code}-${c.iso || idx}`} value={c.code}>{c.label}</option>)}
                       </select>
                       <input
                         id="prof-phone"
@@ -1425,7 +1425,7 @@ export default function Profile({ user, onUpdateUser }) {
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                       >
-                        {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                        {countryCodes.map((c, idx) => <option key={`${c.code}-${c.iso || idx}`} value={c.code}>{c.label}</option>)}
                       </select>
                       <input
                         id="prof-sec-phone"
@@ -1456,7 +1456,7 @@ export default function Profile({ user, onUpdateUser }) {
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                       >
-                        {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                        {countryCodes.map((c, idx) => <option key={`${c.code}-${c.iso || idx}`} value={c.code}>{c.label}</option>)}
                       </select>
                       <input
                         id="prof-whatsapp"

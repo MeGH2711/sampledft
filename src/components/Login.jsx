@@ -1501,7 +1501,7 @@ export default function Login({ user, onLoginSuccess }) {
                           onChange={handleRegisterChange}
                           disabled={loading}
                         >
-                          {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                          {countryCodes.map((c, idx) => <option key={`${c.code}-${c.iso || idx}`} value={c.code}>{c.label}</option>)}
                         </select>
                         <input
                           id="reg-phone"
@@ -1531,7 +1531,7 @@ export default function Login({ user, onLoginSuccess }) {
                           onChange={handleRegisterChange}
                           disabled={loading}
                         >
-                          {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                          {countryCodes.map((c, idx) => <option key={`${c.code}-${c.iso || idx}`} value={c.code}>{c.label}</option>)}
                         </select>
                         <input
                           id="reg-sec-phone"
@@ -1560,7 +1560,7 @@ export default function Login({ user, onLoginSuccess }) {
                           onChange={handleRegisterChange}
                           disabled={loading}
                         >
-                          {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                          {countryCodes.map((c, idx) => <option key={`${c.code}-${c.iso || idx}`} value={c.code}>{c.label}</option>)}
                         </select>
                         <input
                           id="reg-whatsapp"
