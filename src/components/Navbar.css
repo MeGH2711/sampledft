@@ -18,11 +18,14 @@
   align-items: center;
   justify-content: space-between;
   height: 110px;
-  padding: 0 4% 0 4%;
+  padding: 0 max(16px, 2.5%);
+  max-width: 1600px;
+  margin: 0 auto;
   background: var(--navy-deep);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
 }
 
 .navbar--scrolled .navbar__container {
@@ -65,20 +68,21 @@
 
 /* ── Desktop Navigation (Center/Center-Left) ── */
 .navbar__nav {
-  flex: 1;
+  flex: 1 1 auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: clamp(16px, 2.2vw, 36px);
-  padding: 0 24px;
+  gap: clamp(8px, 1.4vw, 28px);
+  padding: 0 12px;
+  min-width: 0;
 }
 
 .navbar__link {
   position: relative;
   font-family: var(--font-body);
-  font-size: clamp(0.72rem, 0.85vw, 0.8rem);
+  font-size: clamp(0.68rem, 0.78vw, 0.8rem);
   font-weight: 600;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
@@ -119,7 +123,8 @@
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: clamp(8px, 1.1vw, 14px);
+  white-space: nowrap;
 }
 
 .navbar__cta {
@@ -127,13 +132,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 24px;
+  padding: 9px 18px;
   background: linear-gradient(135deg, var(--signal-red), var(--red-deep));
   border-radius: 100px;
   text-decoration: none;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 4px 15px rgba(232, 48, 42, 0.25);
+  white-space: nowrap;
 }
 
 .navbar__cta-text {
@@ -434,8 +440,41 @@
    RESPONSIVE BREAKPOINTS (PREVENT OVERLAPPING)
    ============================================ */
 
+/* Laptop Resolution Optimization (1200px - 1400px) */
+@media (max-width: 1400px) {
+  .navbar__container {
+    padding: 0 16px;
+  }
+
+  .navbar__nav {
+    gap: clamp(6px, 1vw, 16px);
+    padding: 0 6px;
+  }
+
+  .navbar__link {
+    font-size: 0.72rem;
+    letter-spacing: 0.3px;
+  }
+
+  .navbar__cta {
+    padding: 8px 14px;
+  }
+
+  .navbar__cta-text {
+    font-size: 0.68rem;
+    letter-spacing: 0.8px;
+  }
+
+  .navbar__login-btn {
+    padding: 8px 14px;
+    font-size: 0.68rem;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+  }
+}
+
 /* Trigger Hamburger earlier to avoid squeezing large list of links */
-@media (max-width: 1150px) {
+@media (max-width: 1200px) {
   .navbar__nav {
     display: none;
   }
@@ -503,7 +542,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 22px;
+  padding: 9px 18px;
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 100px;
@@ -515,6 +554,7 @@
   text-decoration: none;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
 }
 
 .navbar__login-btn:hover {
@@ -780,7 +820,7 @@
 }
 
 /* Hide desktop auth features at responsive breakpoint */
-@media (max-width: 1150px) {
+@media (max-width: 1200px) {
 
   .navbar__login-btn,
   .navbar__user-menu {
