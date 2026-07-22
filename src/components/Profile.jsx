@@ -26,9 +26,12 @@ import {
 } from 'react-icons/fa'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
+import CountryAutocomplete from './CountryAutocomplete'
+import StateAutocomplete from './StateAutocomplete'
+import CityAutocomplete from './CityAutocomplete'
 import './Profile.css'
+import { countryCodes } from '../data/countryData'
 import {
-  countryCodes,
   ACADEMIC_YEARS,
   DEGREE_OPTIONS,
   CERTIFICATION_OPTIONS,
@@ -1474,48 +1477,41 @@ export default function Profile({ user, onUpdateUser }) {
                 <div className="profile-form__grid-3" style={{ marginTop: '15px' }}>
                   <div className="profile-field">
                     <label htmlFor="prof-city">City</label>
-                    <div className="profile-field__input-wrap">
-                      <FaMapMarkerAlt className="profile-field__icon" />
-                      <input
-                        id="prof-city"
-                        type="text"
-                        name="city"
-                        value={profileForm.city}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
+                    <CityAutocomplete
+                      id="prof-city"
+                      name="city"
+                      value={profileForm.city}
+                      state={profileForm.state}
+                      onChange={handleInputChange}
+                      disabled={!isEditing || loading}
+                      placeholder="No Data Provided"
+                      wrapClassName="profile-field__input-wrap"
+                    />
                   </div>
                   <div className="profile-field">
                     <label htmlFor="prof-state">State</label>
-                    <div className="profile-field__input-wrap">
-                      <FaMapMarkerAlt className="profile-field__icon" />
-                      <input
-                        id="prof-state"
-                        type="text"
-                        name="state"
-                        value={profileForm.state}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
+                    <StateAutocomplete
+                      id="prof-state"
+                      name="state"
+                      value={profileForm.state}
+                      country={profileForm.country}
+                      onChange={handleInputChange}
+                      disabled={!isEditing || loading}
+                      placeholder="No Data Provided"
+                      wrapClassName="profile-field__input-wrap"
+                    />
                   </div>
                   <div className="profile-field">
                     <label htmlFor="prof-country">Country</label>
-                    <div className="profile-field__input-wrap">
-                      <FaGlobe className="profile-field__icon" />
-                      <input
-                        id="prof-country"
-                        type="text"
-                        name="country"
-                        value={profileForm.country}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
+                    <CountryAutocomplete
+                      id="prof-country"
+                      name="country"
+                      value={profileForm.country}
+                      onChange={handleInputChange}
+                      disabled={!isEditing || loading}
+                      placeholder="No Data Provided"
+                      wrapClassName="profile-field__input-wrap"
+                    />
                   </div>
                 </div>
 
@@ -1811,48 +1807,41 @@ export default function Profile({ user, onUpdateUser }) {
                 <div className="profile-form__grid-3" style={{ marginTop: '10px' }}>
                   <div className="profile-field">
                     <label htmlFor="prof-company-city">Company Location (City)</label>
-                    <div className="profile-field__input-wrap">
-                      <FaMapMarkerAlt className="profile-field__icon" />
-                      <input
-                        id="prof-company-city"
-                        type="text"
-                        name="companyCity"
-                        value={profileForm.companyCity}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
+                    <CityAutocomplete
+                      id="prof-company-city"
+                      name="companyCity"
+                      value={profileForm.companyCity}
+                      state={profileForm.companyState}
+                      onChange={handleInputChange}
+                      disabled={!isEditing || loading}
+                      placeholder="No Data Provided"
+                      wrapClassName="profile-field__input-wrap"
+                    />
                   </div>
                   <div className="profile-field">
                     <label htmlFor="prof-company-state">Company Location (State)</label>
-                    <div className="profile-field__input-wrap">
-                      <FaMapMarkerAlt className="profile-field__icon" />
-                      <input
-                        id="prof-company-state"
-                        type="text"
-                        name="companyState"
-                        value={profileForm.companyState}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
+                    <StateAutocomplete
+                      id="prof-company-state"
+                      name="companyState"
+                      value={profileForm.companyState}
+                      country={profileForm.companyCountry}
+                      onChange={handleInputChange}
+                      disabled={!isEditing || loading}
+                      placeholder="No Data Provided"
+                      wrapClassName="profile-field__input-wrap"
+                    />
                   </div>
                   <div className="profile-field">
                     <label htmlFor="prof-company-country">Company Location (Country)</label>
-                    <div className="profile-field__input-wrap">
-                      <FaGlobe className="profile-field__icon" />
-                      <input
-                        id="prof-company-country"
-                        type="text"
-                        name="companyCountry"
-                        value={profileForm.companyCountry}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
+                    <CountryAutocomplete
+                      id="prof-company-country"
+                      name="companyCountry"
+                      value={profileForm.companyCountry}
+                      onChange={handleInputChange}
+                      disabled={!isEditing || loading}
+                      placeholder="No Data Provided"
+                      wrapClassName="profile-field__input-wrap"
+                    />
                   </div>
                 </div>
 

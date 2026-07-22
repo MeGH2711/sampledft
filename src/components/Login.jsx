@@ -29,12 +29,15 @@ import {
   FaAward
 } from 'react-icons/fa'
 import alumniLogo from '../assets/Logo/dft-logo-dark.avif'
+import CountryAutocomplete from './CountryAutocomplete'
+import StateAutocomplete from './StateAutocomplete'
+import CityAutocomplete from './CityAutocomplete'
 import './Login.css'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
 import { doc, setDoc, getDoc, collection, query, where, getDocs } from 'firebase/firestore'
+import { countryCodes } from '../data/countryData'
 import {
-  countryCodes,
   ACADEMIC_YEARS,
   DEGREE_OPTIONS,
   CERTIFICATION_OPTIONS,
@@ -1578,48 +1581,41 @@ export default function Login({ user, onLoginSuccess }) {
                   <div className="login-form__grid-3" style={{ marginTop: '15px' }}>
                     <div className="login-field">
                       <label htmlFor="reg-city">City</label>
-                      <div className="login-field__input-wrap">
-                        <FaMapMarkerAlt className="login-field__icon" />
-                        <input
-                          id="reg-city"
-                          type="text"
-                          name="city"
-                          placeholder={PLACEHOLDERS.city}
-                          value={registerForm.city}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
+                      <CityAutocomplete
+                        id="reg-city"
+                        name="city"
+                        placeholder={PLACEHOLDERS.city}
+                        value={registerForm.city}
+                        state={registerForm.state}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                        wrapClassName="login-field__input-wrap"
+                      />
                     </div>
                     <div className="login-field">
                       <label htmlFor="reg-state">State</label>
-                      <div className="login-field__input-wrap">
-                        <FaMapMarkerAlt className="login-field__icon" />
-                        <input
-                          id="reg-state"
-                          type="text"
-                          name="state"
-                          placeholder={PLACEHOLDERS.state}
-                          value={registerForm.state}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
+                      <StateAutocomplete
+                        id="reg-state"
+                        name="state"
+                        placeholder={PLACEHOLDERS.state}
+                        value={registerForm.state}
+                        country={registerForm.country}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                        wrapClassName="login-field__input-wrap"
+                      />
                     </div>
                     <div className="login-field">
                       <label htmlFor="reg-country">Country</label>
-                      <div className="login-field__input-wrap">
-                        <FaGlobe className="login-field__icon" />
-                        <input
-                          id="reg-country"
-                          type="text"
-                          name="country"
-                          placeholder={PLACEHOLDERS.country}
-                          value={registerForm.country}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
+                      <CountryAutocomplete
+                        id="reg-country"
+                        name="country"
+                        placeholder={PLACEHOLDERS.country}
+                        value={registerForm.country}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                        wrapClassName="login-field__input-wrap"
+                      />
                     </div>
                   </div>
 
@@ -1912,48 +1908,41 @@ export default function Login({ user, onLoginSuccess }) {
                   <div className="login-form__grid-3" style={{ marginTop: '10px' }}>
                     <div className="login-field">
                       <label htmlFor="reg-company-city">Company Location (City)</label>
-                      <div className="login-field__input-wrap">
-                        <FaMapMarkerAlt className="login-field__icon" />
-                        <input
-                          id="reg-company-city"
-                          type="text"
-                          name="companyCity"
-                          placeholder={PLACEHOLDERS.companyCity}
-                          value={registerForm.companyCity}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
+                      <CityAutocomplete
+                        id="reg-company-city"
+                        name="companyCity"
+                        placeholder={PLACEHOLDERS.companyCity}
+                        value={registerForm.companyCity}
+                        state={registerForm.companyState}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                        wrapClassName="login-field__input-wrap"
+                      />
                     </div>
                     <div className="login-field">
                       <label htmlFor="reg-company-state">Company Location (State)</label>
-                      <div className="login-field__input-wrap">
-                        <FaMapMarkerAlt className="login-field__icon" />
-                        <input
-                          id="reg-company-state"
-                          type="text"
-                          name="companyState"
-                          placeholder={PLACEHOLDERS.companyState}
-                          value={registerForm.companyState}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
+                      <StateAutocomplete
+                        id="reg-company-state"
+                        name="companyState"
+                        placeholder={PLACEHOLDERS.companyState}
+                        value={registerForm.companyState}
+                        country={registerForm.companyCountry}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                        wrapClassName="login-field__input-wrap"
+                      />
                     </div>
                     <div className="login-field">
                       <label htmlFor="reg-company-country">Company Location (Country)</label>
-                      <div className="login-field__input-wrap">
-                        <FaGlobe className="login-field__icon" />
-                        <input
-                          id="reg-company-country"
-                          type="text"
-                          name="companyCountry"
-                          placeholder={PLACEHOLDERS.companyCountry}
-                          value={registerForm.companyCountry}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
+                      <CountryAutocomplete
+                        id="reg-company-country"
+                        name="companyCountry"
+                        placeholder={PLACEHOLDERS.companyCountry}
+                        value={registerForm.companyCountry}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                        wrapClassName="login-field__input-wrap"
+                      />
                     </div>
                   </div>
 
