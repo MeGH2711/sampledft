@@ -1009,13 +1009,11 @@ service cloud.firestore {
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Directory Search Consent</span>
                     <span className="admin-modal-info-value">
-                      {selectedUser.consentAlumniSearch ? 'Yes (Opted In)' : 'No (Opted Out)'}
-                    </span>
-                  </div>
-                  <div className="admin-modal-info-item">
-                    <span className="admin-modal-info-label">Registration Date</span>
-                    <span className="admin-modal-info-value">
-                      {formatDateFormatted(selectedUser.createdAt)}
+                      {[
+                        selectedUser.consentEmail && 'Email ID',
+                        selectedUser.consentPhone && 'Mobile Number',
+                        selectedUser.consentWhatsapp && 'WhatsApp Number'
+                      ].filter(Boolean).join(', ') || 'No Consent Given'}
                     </span>
                   </div>
                 </div>

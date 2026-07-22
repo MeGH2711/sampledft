@@ -112,3 +112,23 @@ export function getStatesByCountry(countryName) {
 
   return ALL_STATES;
 }
+
+export const STATE_TO_COUNTRY_MAP = {};
+INDIAN_STATES.forEach(st => { STATE_TO_COUNTRY_MAP[st.toLowerCase()] = "India"; });
+US_STATES.forEach(st => { STATE_TO_COUNTRY_MAP[st.toLowerCase()] = "United States"; });
+CANADA_PROVINCES.forEach(st => { STATE_TO_COUNTRY_MAP[st.toLowerCase()] = "Canada"; });
+AUSTRALIA_STATES.forEach(st => { STATE_TO_COUNTRY_MAP[st.toLowerCase()] = "Australia"; });
+UK_REGIONS.forEach(st => { STATE_TO_COUNTRY_MAP[st.toLowerCase()] = "United Kingdom"; });
+UAE_EMIRATES.forEach(st => { STATE_TO_COUNTRY_MAP[st.toLowerCase()] = "United Arab Emirates"; });
+GERMANY_STATES.forEach(st => { STATE_TO_COUNTRY_MAP[st.toLowerCase()] = "Germany"; });
+
+export function getCountryByState(stateName) {
+  if (!stateName || typeof stateName !== 'string') return '';
+  const cleanState = stateName.trim().toLowerCase();
+  for (const key in STATE_TO_COUNTRY_MAP) {
+    if (cleanState === key || cleanState.includes(key) || key.includes(cleanState)) {
+      return STATE_TO_COUNTRY_MAP[key];
+    }
+  }
+  return '';
+}

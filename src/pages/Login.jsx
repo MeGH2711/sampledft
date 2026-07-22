@@ -26,7 +26,8 @@ import {
   FaBoxOpen,
   FaMapMarkerAlt,
   FaSitemap,
-  FaAward
+  FaAward,
+  FaExclamationTriangle
 } from 'react-icons/fa'
 import alumniLogo from '../assets/Logo/dft-logo-dark.avif'
 import CountryAutocomplete from '../components/CountryAutocomplete'
@@ -38,6 +39,8 @@ import { auth, db, isFirebaseConfigured } from '../firebase'
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
 import { doc, setDoc, getDoc, collection, query, where, getDocs } from 'firebase/firestore'
 import { countryCodes } from '../data/countryData'
+import { getCountryByState } from '../data/stateData'
+import { getStateAndCountryByCity } from '../data/cityData'
 import {
   ACADEMIC_YEARS,
   DEGREE_OPTIONS,
@@ -323,6 +326,8 @@ export default function Login({ user, onLoginSuccess }) {
     department: '',
     division: '',
     workingSince: '',
+    workingSinceMonth: '',
+    workingSinceYear: '',
     companyCity: '',
     companyState: '',
     companyCountry: '',
@@ -333,7 +338,9 @@ export default function Login({ user, onLoginSuccess }) {
     hobbies: [],
     otherHobbies: '',
     workExperience: '',
-    consentAlumniSearch: false
+    consentEmail: false,
+    consentPhone: false,
+    consentWhatsapp: false
   })
 
   const [showPhoneModal, setShowPhoneModal] = useState(false)
@@ -366,9 +373,10 @@ export default function Login({ user, onLoginSuccess }) {
     setCaptchaInput('')
   }
 
-  // Auto-hide general errors after 10 seconds
+  // Auto-hide general errors after 10 seconds & scroll to top to show error banner
   useEffect(() => {
     if (error) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       const timer = setTimeout(() => {
         setError('');
       }, 10000);
@@ -495,6 +503,33 @@ export default function Login({ user, onLoginSuccess }) {
         ...prev,
         [name]: type === 'checkbox' ? checked : cleanValue
       }
+
+      // Auto populate state & country when personal city changes
+      if (name === 'city' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const { state: autoState, country: autoCountry } = getStateAndCountryByCity(cleanValue);
+        if (autoState) updated.state = autoState;
+        if (autoCountry) updated.country = autoCountry;
+      }
+
+      // Auto populate country when personal state changes
+      if (name === 'state' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const autoCountry = getCountryByState(cleanValue);
+        if (autoCountry) updated.country = autoCountry;
+      }
+
+      // Auto populate state & country when company city changes
+      if (name === 'companyCity' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const { state: autoState, country: autoCountry } = getStateAndCountryByCity(cleanValue);
+        if (autoState) updated.companyState = autoState;
+        if (autoCountry) updated.companyCountry = autoCountry;
+      }
+
+      // Auto populate country when company state changes
+      if (name === 'companyState' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const autoCountry = getCountryByState(cleanValue);
+        if (autoCountry) updated.companyCountry = autoCountry;
+      }
+
       if (name === 'admissionYear' && cleanValue && !prev.diplomaNotCompleted) {
         const parsedYear = parseInt(cleanValue, 10)
         if (!isNaN(parsedYear)) {
@@ -671,6 +706,8 @@ export default function Login({ user, onLoginSuccess }) {
             department: profileData.department || '',
             division: profileData.division || '',
             workingSince: profileData.workingSince || '',
+            workingSinceMonth: profileData.workingSinceMonth || '',
+            workingSinceYear: profileData.workingSinceYear || '',
             companyCity: profileData.companyCity || '',
             companyState: profileData.companyState || '',
             companyCountry: profileData.companyCountry || '',
@@ -711,6 +748,8 @@ export default function Login({ user, onLoginSuccess }) {
             department: '',
             division: '',
             workingSince: '',
+            workingSinceMonth: '',
+            workingSinceYear: '',
             companyCity: '',
             companyState: '',
             companyCountry: '',
@@ -827,12 +866,22 @@ export default function Login({ user, onLoginSuccess }) {
     }
 
     if (!registerForm.phone.trim()) {
-      setError('Contact number is compulsory.')
+      setError('Primary Contact number is compulsory.')
       return
     }
 
     if (!registerForm.whatsapp.trim()) {
       setError('WhatsApp number is compulsory.')
+      return
+    }
+
+    if (!registerForm.gender) {
+      setError('Gender is compulsory.')
+      return
+    }
+
+    if (!registerForm.consentEmail && !registerForm.consentPhone && !registerForm.consentWhatsapp) {
+      setError('Please select at least one detail (Email ID, Mobile Number, or WhatsApp Number) to show on the Alumni Portal.')
       return
     }
 
@@ -888,6 +937,7 @@ export default function Login({ user, onLoginSuccess }) {
           email: registerForm.email,
           gender: registerForm.gender || '',
           dob: registerForm.dob,
+          dom: registerForm.dom || '',
           phone: `${registerForm.phoneCode} ${registerForm.phone}`.trim(),
           secondaryPhone: registerForm.secondaryPhone ? `${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`.trim() : '',
           whatsapp: `${registerForm.whatsappCode} ${registerForm.whatsapp}`.trim(),
@@ -915,7 +965,9 @@ export default function Login({ user, onLoginSuccess }) {
           otherProductServices: registerForm.productServices.includes('Others') ? registerForm.otherProductServices || '' : '',
           department: registerForm.department || '',
           division: registerForm.division || '',
-          workingSince: registerForm.workingSince || '',
+          workingSinceMonth: registerForm.workingSinceMonth || '',
+          workingSinceYear: registerForm.workingSinceYear || '',
+          workingSince: (registerForm.workingSinceMonth && registerForm.workingSinceYear) ? `${registerForm.workingSinceMonth} ${registerForm.workingSinceYear}` : (registerForm.workingSince || ''),
           companyCity: registerForm.companyCity || '',
           companyState: registerForm.companyState || '',
           companyCountry: registerForm.companyCountry || '',
@@ -926,7 +978,9 @@ export default function Login({ user, onLoginSuccess }) {
           hobbies: registerForm.hobbies || [],
           otherHobbies: registerForm.hobbies.includes('Others') ? registerForm.otherHobbies || '' : '',
           workExperience: registerForm.workExperience || '',
-          consentAlumniSearch: registerForm.consentAlumniSearch || false
+          consentEmail: registerForm.consentEmail || false,
+          consentPhone: registerForm.consentPhone || false,
+          consentWhatsapp: registerForm.consentWhatsapp || false
         })
 
         if (registerForm.company && registerForm.company.trim()) {
@@ -940,19 +994,23 @@ export default function Login({ user, onLoginSuccess }) {
         }
 
         // Write the password-reset lookup doc (hashes only, no plaintext phone data)
-        const emailHashKey = await hashEmail(registerForm.email)
-        const phoneHash = await hashPhoneDigits(`${registerForm.phoneCode} ${registerForm.phone}`)
-        const secPhoneHash = registerForm.secondaryPhone
-          ? await hashPhoneDigits(`${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`)
-          : ''
-        const whatsappHash = await hashPhoneDigits(`${registerForm.whatsappCode} ${registerForm.whatsapp}`)
+        try {
+          const emailHashKey = await hashEmail(registerForm.email)
+          const phoneHash = await hashPhoneDigits(`${registerForm.phoneCode} ${registerForm.phone}`)
+          const secPhoneHash = registerForm.secondaryPhone
+            ? await hashPhoneDigits(`${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`)
+            : ''
+          const whatsappHash = await hashPhoneDigits(`${registerForm.whatsappCode} ${registerForm.whatsapp}`)
 
-        await setDoc(doc(db, 'passwordResetLookup', emailHashKey), {
-          uid: user.uid,
-          phoneHash,
-          secPhoneHash,
-          whatsappHash
-        })
+          await setDoc(doc(db, 'passwordResetLookup', emailHashKey), {
+            uid: user.uid,
+            phoneHash: phoneHash || '',
+            secPhoneHash: secPhoneHash || '',
+            whatsappHash: whatsappHash || ''
+          })
+        } catch (lookupErr) {
+          console.warn('Failed to save passwordResetLookup doc:', lookupErr)
+        }
 
         const newUser = {
           uid: user.uid,
@@ -991,7 +1049,9 @@ export default function Login({ user, onLoginSuccess }) {
           otherProductServices: registerForm.productServices.includes('Others') ? registerForm.otherProductServices || '' : '',
           department: registerForm.department || '',
           division: registerForm.division || '',
-          workingSince: registerForm.workingSince || '',
+          workingSinceMonth: registerForm.workingSinceMonth || '',
+          workingSinceYear: registerForm.workingSinceYear || '',
+          workingSince: (registerForm.workingSinceMonth && registerForm.workingSinceYear) ? `${registerForm.workingSinceMonth} ${registerForm.workingSinceYear}` : (registerForm.workingSince || ''),
           companyCity: registerForm.companyCity || '',
           companyState: registerForm.companyState || '',
           companyCountry: registerForm.companyCountry || '',
@@ -1002,7 +1062,9 @@ export default function Login({ user, onLoginSuccess }) {
           hobbies: registerForm.hobbies || [],
           otherHobbies: registerForm.hobbies.includes('Others') ? registerForm.otherHobbies || '' : '',
           workExperience: registerForm.workExperience || '',
-          consentAlumniSearch: registerForm.consentAlumniSearch || false
+          consentEmail: registerForm.consentEmail || false,
+          consentPhone: registerForm.consentPhone || false,
+          consentWhatsapp: registerForm.consentWhatsapp || false
         }
 
         setRegisteredUserObj(newUser)
@@ -1015,6 +1077,8 @@ export default function Login({ user, onLoginSuccess }) {
           setError('An account with this email address already exists.')
         } else if (err.code === 'auth/invalid-email') {
           setError('Please enter a valid email address.')
+        } else if (err.code === 'permission-denied' || (err.message && err.message.toLowerCase().includes('permission'))) {
+          setError('Database permission denied. Please verify your Firestore Security Rules in Firebase Console.')
         } else {
           setError(err.message || 'An error occurred during registration. Please try again.')
         }
@@ -1059,7 +1123,9 @@ export default function Login({ user, onLoginSuccess }) {
           otherProductServices: registerForm.productServices.includes('Others') ? registerForm.otherProductServices || '' : '',
           department: registerForm.department || '',
           division: registerForm.division || '',
-          workingSince: registerForm.workingSince || '',
+          workingSinceMonth: registerForm.workingSinceMonth || '',
+          workingSinceYear: registerForm.workingSinceYear || '',
+          workingSince: (registerForm.workingSinceMonth && registerForm.workingSinceYear) ? `${registerForm.workingSinceMonth} ${registerForm.workingSinceYear}` : (registerForm.workingSince || ''),
           companyCity: registerForm.companyCity || '',
           companyState: registerForm.companyState || '',
           companyCountry: registerForm.companyCountry || '',
@@ -1068,7 +1134,9 @@ export default function Login({ user, onLoginSuccess }) {
           lastPromotionYear: registerForm.lastPromotionYear || '',
           awards: registerForm.awards || [],
           hobbies: registerForm.hobbies || [],
-          consentAlumniSearch: registerForm.consentAlumniSearch || false
+          consentEmail: registerForm.consentEmail || false,
+          consentPhone: registerForm.consentPhone || false,
+          consentWhatsapp: registerForm.consentWhatsapp || false
         }
 
         localStorage.setItem('mockRegisteredAlumni', JSON.stringify(newUser))
@@ -1313,6 +1381,13 @@ export default function Login({ user, onLoginSuccess }) {
             {/* Card Body containing Form */}
             <div className="login-card__body">
 
+              {error && (
+                <div className="login-error-banner">
+                  <FaExclamationTriangle className="login-error-banner__icon" />
+                  <span>{error}</span>
+                </div>
+              )}
+
               {activeTab === 'login' ? (
                 /* SIGN IN VIEW */
                 <form className="login-form" onSubmit={handleLoginSubmit}>
@@ -1399,6 +1474,9 @@ export default function Login({ user, onLoginSuccess }) {
                 /* REGISTRATION VIEW */
                 <form className="login-form" onSubmit={handleRegisterSubmit}>
 
+                  <p style={{ fontSize: '13px', color: 'var(--slate)', marginBottom: '14px', fontWeight: '500' }}>
+                    Fields marked with <span style={{ color: 'var(--signal-red)', fontWeight: 'bold' }}>*</span> are mandatory
+                  </p>
                   <h4 className="login-section-title">Personal Details</h4>
                   <div className="login-form__grid-3">
                     <div className="login-field">
@@ -1470,7 +1548,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-gender">Gender</label>
+                      <label htmlFor="reg-gender">Gender <span className="login-field__required">*</span></label>
                       <div className="login-field__input-wrap">
                         <FaUser className="login-field__icon" />
                         <select
@@ -1478,6 +1556,7 @@ export default function Login({ user, onLoginSuccess }) {
                           name="gender"
                           value={registerForm.gender}
                           onChange={handleRegisterChange}
+                          required
                           disabled={loading}
                         >
                           <option value="">Select Gender</option>
@@ -1550,7 +1629,7 @@ export default function Login({ user, onLoginSuccess }) {
 
                   <div className="login-form__grid">
                     <div className="login-field">
-                      <label htmlFor="reg-phone">Contact Number <span className="login-field__required">*</span></label>
+                      <label htmlFor="reg-phone">Primary Contact Number <span className="login-field__required">*</span></label>
                       <div className="login-field__input-wrap phone-input-wrap">
                         <span className={`fi fi-${getCountryIso(registerForm.phoneCode)} login-field__icon`}></span>
 
@@ -1642,7 +1721,7 @@ export default function Login({ user, onLoginSuccess }) {
 
                   <div className="login-form__grid-3" style={{ marginTop: '15px' }}>
                     <div className="login-field">
-                      <label htmlFor="reg-city">City</label>
+                      <label htmlFor="reg-city">Native (City)</label>
                       <CityAutocomplete
                         id="reg-city"
                         name="city"
@@ -1655,7 +1734,7 @@ export default function Login({ user, onLoginSuccess }) {
                       />
                     </div>
                     <div className="login-field">
-                      <label htmlFor="reg-state">State</label>
+                      <label htmlFor="reg-state">Native (State)</label>
                       <StateAutocomplete
                         id="reg-state"
                         name="state"
@@ -1668,7 +1747,7 @@ export default function Login({ user, onLoginSuccess }) {
                       />
                     </div>
                     <div className="login-field">
-                      <label htmlFor="reg-country">Country</label>
+                      <label htmlFor="reg-country">Native (Country)</label>
                       <CountryAutocomplete
                         id="reg-country"
                         name="country"
@@ -1856,6 +1935,42 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
+                      <label htmlFor="reg-work-experience">Total Work Experience (Years)</label>
+                      <div className="login-field__input-wrap">
+                        <FaBriefcase className="login-field__icon" />
+                        <input
+                          id="reg-work-experience"
+                          type="text"
+                          inputMode="numeric"
+                          name="workExperience"
+                          placeholder={PLACEHOLDERS.workExperience}
+                          value={registerForm.workExperience}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="login-field">
+                      <label htmlFor="reg-linkedin">LinkedIn Profile Link</label>
+                      <div className="login-field__input-wrap">
+                        <FaLinkedin className="login-field__icon" style={{ color: '#0077b5' }} />
+                        <input
+                          id="reg-linkedin"
+                          type="text"
+                          name="linkedin"
+                          placeholder={PLACEHOLDERS.linkedin}
+                          value={registerForm.linkedin}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <h4 className="login-section-title" style={{ marginTop: '24px' }}>Company Details</h4>
+                  <div className="login-form__grid">
+                    <div className="login-field login-field--full">
                       <label htmlFor="reg-company">Current Organization</label>
                       <CompanyAutocomplete
                         id="reg-company"
@@ -1917,34 +2032,34 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-working-since">Working Since</label>
-                      <div className="login-field__input-wrap">
-                        <FaCalendarAlt className="login-field__icon" />
-                        <input
-                          id="reg-working-since"
-                          type="date"
-                          name="workingSince"
-                          value={registerForm.workingSince}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="login-field">
-                      <label htmlFor="reg-work-experience">Total Work Experience (Years)</label>
-                      <div className="login-field__input-wrap">
-                        <FaBriefcase className="login-field__icon" />
-                        <input
-                          id="reg-work-experience"
-                          type="text"
-                          inputMode="numeric"
-                          name="workExperience"
-                          placeholder={PLACEHOLDERS.workExperience}
-                          value={registerForm.workExperience}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
+                      <label>Working Since (Month / Year)</label>
+                      <div className="login-form__row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', padding: 0, margin: 0, border: 'none' }}>
+                        <div className="login-field__input-wrap">
+                          <FaCalendarAlt className="login-field__icon" />
+                          <select
+                            name="workingSinceMonth"
+                            value={registerForm.workingSinceMonth}
+                            onChange={handleRegisterChange}
+                            disabled={loading}
+                            style={{ paddingLeft: '42px' }}
+                          >
+                            <option value="">Select Month</option>
+                            {MONTH_OPTIONS.map(m => <option key={m} value={m}>{m}</option>)}
+                          </select>
+                        </div>
+                        <div className="login-field__input-wrap">
+                          <FaCalendarAlt className="login-field__icon" />
+                          <select
+                            name="workingSinceYear"
+                            value={registerForm.workingSinceYear}
+                            onChange={handleRegisterChange}
+                            disabled={loading}
+                            style={{ paddingLeft: '42px' }}
+                          >
+                            <option value="">Select Year</option>
+                            {PROMOTION_YEAR_OPTIONS.map(y => <option key={y} value={y}>{y}</option>)}
+                          </select>
+                        </div>
                       </div>
                     </div>
 
@@ -1954,26 +2069,10 @@ export default function Login({ user, onLoginSuccess }) {
                         <FaGlobe className="login-field__icon" />
                         <input
                           id="reg-company-website"
-                          type="url"
+                          type="text"
                           name="companyWebsite"
                           placeholder={PLACEHOLDERS.companyWebsite}
                           value={registerForm.companyWebsite}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="login-field login-field--full">
-                      <label htmlFor="reg-linkedin">LinkedIn Profile Link</label>
-                      <div className="login-field__input-wrap">
-                        <FaLinkedin className="login-field__icon" style={{ color: '#0077b5' }} />
-                        <input
-                          id="reg-linkedin"
-                          type="url"
-                          name="linkedin"
-                          placeholder={PLACEHOLDERS.linkedin}
-                          value={registerForm.linkedin}
                           onChange={handleRegisterChange}
                           disabled={loading}
                         />
@@ -2372,20 +2471,47 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
                   </div>
 
-                  <div className="login-field" style={{ margin: '10px 0 20px' }}>
-                    <label className="login-checkbox">
-                      <input
-                        type="checkbox"
-                        name="consentAlumniSearch"
-                        checked={registerForm.consentAlumniSearch}
-                        onChange={handleRegisterChange}
-                        disabled={loading}
-                      />
-                      <span className="login-checkbox__box"></span>
-                      <span className="login-checkbox__label">
-                        I have given consent to show my details below on the alumni search section: mobile number, email id, & WhatsApp number
-                      </span>
+                  <div className="login-field" style={{ margin: '20px 0', padding: '16px', backgroundColor: 'rgba(241, 245, 249, 0.6)', borderRadius: '12px', border: '1px solid var(--line-grey)' }}>
+                    <label style={{ fontSize: '0.88rem', fontWeight: '600', color: 'var(--navy)', display: 'block', marginBottom: '12px' }}>
+                      I give my consent to show my below-mentioned details on the Alumni Portal (Click at least one) <span className="login-field__required">*</span>
                     </label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <label className="login-checkbox">
+                        <input
+                          type="checkbox"
+                          name="consentEmail"
+                          checked={registerForm.consentEmail}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                        <span className="login-checkbox__box"></span>
+                        <span className="login-checkbox__label" style={{ fontSize: '0.85rem', color: 'var(--charcoal)', fontWeight: '500' }}>Email ID</span>
+                      </label>
+
+                      <label className="login-checkbox">
+                        <input
+                          type="checkbox"
+                          name="consentPhone"
+                          checked={registerForm.consentPhone}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                        <span className="login-checkbox__box"></span>
+                        <span className="login-checkbox__label" style={{ fontSize: '0.85rem', color: 'var(--charcoal)', fontWeight: '500' }}>Mobile Number</span>
+                      </label>
+
+                      <label className="login-checkbox">
+                        <input
+                          type="checkbox"
+                          name="consentWhatsapp"
+                          checked={registerForm.consentWhatsapp}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                        <span className="login-checkbox__box"></span>
+                        <span className="login-checkbox__label" style={{ fontSize: '0.85rem', color: 'var(--charcoal)', fontWeight: '500' }}>WhatsApp Number</span>
+                      </label>
+                    </div>
                   </div>
 
                   <button

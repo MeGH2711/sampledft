@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
-import { getFirestore } from 'firebase/firestore'
+import { getFirestore, initializeFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -24,9 +24,14 @@ if (isFirebaseConfigured) {
   try {
     app = initializeApp(firebaseConfig)
     auth = getAuth(app)
-    db = getFirestore(app)
+    db = initializeFirestore(app, {
+      experimentalAutoDetectLongPolling: true
+    })
   } catch (error) {
-    console.error('Failed to initialize Firebase:', error)
+    console.error('Failed to initialize Firestore with long-polling autodetect, falling back to default:', error)
+    if (app) {
+      db = getFirestore(app)
+    }
   }
 }
 

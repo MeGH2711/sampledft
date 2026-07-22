@@ -503,6 +503,28 @@
   flex: 1;
 }
 
+/* Error Banner Styling */
+.login-error-banner {
+  padding: 14px 18px;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  color: #dc2626;
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.08);
+}
+
+.login-error-banner__icon {
+  color: #dc2626;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
 .login-forgot-link {
   background: none;
   border: none;
@@ -1056,7 +1078,6 @@
   color: var(--navy-deep);
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-top: 24px;
   margin-bottom: 12px;
   border-bottom: 2px solid var(--signal-red);
   padding-bottom: 4px;

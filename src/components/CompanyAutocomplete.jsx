@@ -168,9 +168,8 @@ export default function CompanyAutocomplete({
         aria-label="Toggle company dropdown"
       >
         <FaChevronDown
-          className={`company-autocomplete__arrow ${
-            isOpen ? 'company-autocomplete__arrow--open' : ''
-          }`}
+          className={`company-autocomplete__arrow ${isOpen ? 'company-autocomplete__arrow--open' : ''
+            }`}
         />
       </button>
 
@@ -183,9 +182,8 @@ export default function CompanyAutocomplete({
               return (
                 <li
                   key={company}
-                  className={`company-autocomplete__item ${
-                    isHighlighted ? 'company-autocomplete__item--highlighted' : ''
-                  } ${isSelected ? 'company-autocomplete__item--selected' : ''}`}
+                  className={`company-autocomplete__item ${isHighlighted ? 'company-autocomplete__item--highlighted' : ''
+                    } ${isSelected ? 'company-autocomplete__item--selected' : ''}`}
                   onClick={() => handleSelectCompany(company)}
                   onMouseEnter={() => setHighlightedIndex(index)}
                 >
@@ -195,7 +193,7 @@ export default function CompanyAutocomplete({
             })
           ) : (
             <li className="company-autocomplete__no-results">
-              No matching company found. You can keep typing to enter a custom company.
+              No matching company found.<br /> You can keep typing to enter a new company.
             </li>
           )}
         </ul>

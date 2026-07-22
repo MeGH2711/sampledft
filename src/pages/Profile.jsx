@@ -32,6 +32,8 @@ import CityAutocomplete from '../components/CityAutocomplete'
 import CompanyAutocomplete from '../components/CompanyAutocomplete'
 import './Profile.css'
 import { countryCodes } from '../data/countryData'
+import { getCountryByState } from '../data/stateData'
+import { getStateAndCountryByCity } from '../data/cityData'
 import {
   ACADEMIC_YEARS,
   DEGREE_OPTIONS,
@@ -45,6 +47,32 @@ import { hashEmail, hashPhoneDigits } from '../utils/hash'
 
 const MONTH_OPTIONS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const PROMOTION_YEAR_OPTIONS = Array.from({ length: new Date().getFullYear() - 1980 + 1 }, (_, i) => String(new Date().getFullYear() - i));
+
+const parseWorkingSince = (dataObj) => {
+  if (!dataObj) return { workingSinceMonth: '', workingSinceYear: '' };
+  const m = dataObj.workingSinceMonth || '';
+  const y = dataObj.workingSinceYear || '';
+  if (m || y) {
+    return { workingSinceMonth: m, workingSinceYear: y };
+  }
+  const str = dataObj.workingSince || '';
+  if (!str) return { workingSinceMonth: '', workingSinceYear: '' };
+
+  const parts = str.trim().split(/[\s\-]+/);
+  if (parts.length >= 2) {
+    if (/^\d{4}$/.test(parts[0])) {
+      const year = parts[0];
+      const mNum = parseInt(parts[1], 10);
+      const month = (!isNaN(mNum) && mNum >= 1 && mNum <= 12) ? MONTH_OPTIONS[mNum - 1] : parts[1];
+      return { workingSinceMonth: month, workingSinceYear: year };
+    } else if (/^\d{4}$/.test(parts[1])) {
+      return { workingSinceMonth: parts[0], workingSinceYear: parts[1] };
+    }
+  } else if (parts.length === 1 && /^\d{4}$/.test(parts[0])) {
+    return { workingSinceMonth: '', workingSinceYear: parts[0] };
+  }
+  return { workingSinceMonth: '', workingSinceYear: '' };
+};
 
 const parsePhoneNumber = (fullPhone) => {
   if (!fullPhone) return { code: '+91', number: '' }
@@ -326,6 +354,8 @@ export default function Profile({ user, onUpdateUser }) {
     department: '',
     division: '',
     workingSince: '',
+    workingSinceMonth: '',
+    workingSinceYear: '',
     companyCity: '',
     companyState: '',
     companyCountry: '',
@@ -335,7 +365,10 @@ export default function Profile({ user, onUpdateUser }) {
     awards: [],
     hobbies: [],
     otherHobbies: '',
-    workExperience: ''
+    workExperience: '',
+    consentEmail: false,
+    consentPhone: false,
+    consentWhatsapp: false
   })
 
   const [originalForm, setOriginalForm] = useState({
@@ -375,6 +408,8 @@ export default function Profile({ user, onUpdateUser }) {
     department: '',
     division: '',
     workingSince: '',
+    workingSinceMonth: '',
+    workingSinceYear: '',
     companyCity: '',
     companyState: '',
     companyCountry: '',
@@ -384,7 +419,10 @@ export default function Profile({ user, onUpdateUser }) {
     awards: [],
     hobbies: [],
     otherHobbies: '',
-    workExperience: ''
+    workExperience: '',
+    consentEmail: false,
+    consentPhone: false,
+    consentWhatsapp: false
   })
 
   // Load user data on mount
@@ -468,7 +506,9 @@ export default function Profile({ user, onUpdateUser }) {
               otherProductServices: data.otherProductServices || user.otherProductServices || '',
               department: data.department || user.department || '',
               division: data.division || user.division || '',
-              workingSince: formatDob(data.workingSince || user.workingSince || ''),
+              workingSince: data.workingSince || user.workingSince || '',
+              workingSinceMonth: parseWorkingSince(data).workingSinceMonth || parseWorkingSince(user).workingSinceMonth || '',
+              workingSinceYear: parseWorkingSince(data).workingSinceYear || parseWorkingSince(user).workingSinceYear || '',
               companyCity: data.companyCity || user.companyCity || '',
               companyState: data.companyState || user.companyState || '',
               companyCountry: data.companyCountry || user.companyCountry || '',
@@ -478,7 +518,10 @@ export default function Profile({ user, onUpdateUser }) {
               awards: data.awards || user.awards || [],
               hobbies: data.hobbies || user.hobbies || [],
               otherHobbies: data.otherHobbies || user.otherHobbies || '',
-              workExperience: data.workExperience || user.workExperience || ''
+              workExperience: data.workExperience || user.workExperience || '',
+              consentEmail: (data.consentEmail !== undefined || data.consentPhone !== undefined || data.consentWhatsapp !== undefined) ? Boolean(data.consentEmail) : Boolean(data.consentAlumniSearch ?? user.consentAlumniSearch ?? false),
+              consentPhone: (data.consentEmail !== undefined || data.consentPhone !== undefined || data.consentWhatsapp !== undefined) ? Boolean(data.consentPhone) : Boolean(data.consentAlumniSearch ?? user.consentAlumniSearch ?? false),
+              consentWhatsapp: (data.consentEmail !== undefined || data.consentPhone !== undefined || data.consentWhatsapp !== undefined) ? Boolean(data.consentWhatsapp) : Boolean(data.consentAlumniSearch ?? user.consentAlumniSearch ?? false)
             }
             setProfileForm(loadedData)
             setOriginalForm(loadedData)
@@ -542,7 +585,9 @@ export default function Profile({ user, onUpdateUser }) {
               otherProductServices: user.otherProductServices || '',
               department: user.department || '',
               division: user.division || '',
-              workingSince: formatDob(user.workingSince || ''),
+              workingSince: user.workingSince || '',
+              workingSinceMonth: parseWorkingSince(user).workingSinceMonth || '',
+              workingSinceYear: parseWorkingSince(user).workingSinceYear || '',
               companyCity: user.companyCity || '',
               companyState: user.companyState || '',
               companyCountry: user.companyCountry || '',
@@ -552,7 +597,10 @@ export default function Profile({ user, onUpdateUser }) {
               awards: user.awards || [],
               hobbies: user.hobbies || [],
               otherHobbies: user.otherHobbies || '',
-              workExperience: user.workExperience || ''
+              workExperience: user.workExperience || '',
+              consentEmail: (user.consentEmail !== undefined || user.consentPhone !== undefined || user.consentWhatsapp !== undefined) ? Boolean(user.consentEmail) : Boolean(user.consentAlumniSearch ?? false),
+              consentPhone: (user.consentEmail !== undefined || user.consentPhone !== undefined || user.consentWhatsapp !== undefined) ? Boolean(user.consentPhone) : Boolean(user.consentAlumniSearch ?? false),
+              consentWhatsapp: (user.consentEmail !== undefined || user.consentPhone !== undefined || user.consentWhatsapp !== undefined) ? Boolean(user.consentWhatsapp) : Boolean(user.consentAlumniSearch ?? false)
             }
             setProfileForm(seedData)
             setOriginalForm(seedData)
@@ -627,7 +675,9 @@ export default function Profile({ user, onUpdateUser }) {
               otherProductServices: parsed.otherProductServices || '',
               department: parsed.department || '',
               division: parsed.division || '',
-              workingSince: formatDob(parsed.workingSince || ''),
+              workingSince: parsed.workingSince || '',
+              workingSinceMonth: parseWorkingSince(parsed).workingSinceMonth || '',
+              workingSinceYear: parseWorkingSince(parsed).workingSinceYear || '',
               companyCity: parsed.companyCity || '',
               companyState: parsed.companyState || '',
               companyCountry: parsed.companyCountry || '',
@@ -635,7 +685,10 @@ export default function Profile({ user, onUpdateUser }) {
               lastPromotionMonth: parsed.lastPromotionMonth || '',
               lastPromotionYear: parsed.lastPromotionYear || '',
               awards: parsed.awards || [],
-              hobbies: parsed.hobbies || []
+              hobbies: parsed.hobbies || [],
+              consentEmail: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined) ? Boolean(parsed.consentEmail) : Boolean(parsed.consentAlumniSearch ?? false),
+              consentPhone: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined) ? Boolean(parsed.consentPhone) : Boolean(parsed.consentAlumniSearch ?? false),
+              consentWhatsapp: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined) ? Boolean(parsed.consentWhatsapp) : Boolean(parsed.consentAlumniSearch ?? false)
             }
             setProfileForm(mockData)
             setOriginalForm(mockData)
@@ -764,6 +817,33 @@ export default function Profile({ user, onUpdateUser }) {
         ...prev,
         [name]: type === 'checkbox' ? checked : cleanValue // Handle checkbox
       }
+
+      // Auto populate state & country when personal city changes
+      if (name === 'city' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const { state: autoState, country: autoCountry } = getStateAndCountryByCity(cleanValue);
+        if (autoState) updated.state = autoState;
+        if (autoCountry) updated.country = autoCountry;
+      }
+
+      // Auto populate country when personal state changes
+      if (name === 'state' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const autoCountry = getCountryByState(cleanValue);
+        if (autoCountry) updated.country = autoCountry;
+      }
+
+      // Auto populate state & country when company city changes
+      if (name === 'companyCity' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const { state: autoState, country: autoCountry } = getStateAndCountryByCity(cleanValue);
+        if (autoState) updated.companyState = autoState;
+        if (autoCountry) updated.companyCountry = autoCountry;
+      }
+
+      // Auto populate country when company state changes
+      if (name === 'companyState' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const autoCountry = getCountryByState(cleanValue);
+        if (autoCountry) updated.companyCountry = autoCountry;
+      }
+
       // Calculate target passout year only if diploma is not checked
       if (name === 'admissionYear' && cleanValue && !prev.diplomaNotCompleted) {
         const parsedYear = parseInt(cleanValue, 10)
@@ -893,7 +973,17 @@ export default function Profile({ user, onUpdateUser }) {
     }
 
     if (!profileForm.phone.trim()) {
-      setError('Contact number is compulsory.')
+      setError('Primary Contact number is compulsory.')
+      return
+    }
+
+    if (!profileForm.gender) {
+      setError('Gender is compulsory.')
+      return
+    }
+
+    if (!profileForm.consentEmail && !profileForm.consentPhone && !profileForm.consentWhatsapp) {
+      setError('Please select at least one detail (Email ID, Mobile Number, or WhatsApp Number) to show on the Alumni Portal.')
       return
     }
 
@@ -964,7 +1054,9 @@ export default function Profile({ user, onUpdateUser }) {
       otherProductServices: profileForm.productServices.includes('Others') ? profileForm.otherProductServices || '' : '',
       department: profileForm.department.trim(),
       division: profileForm.division.trim(),
-      workingSince: profileForm.workingSince,
+      workingSinceMonth: profileForm.workingSinceMonth || '',
+      workingSinceYear: profileForm.workingSinceYear || '',
+      workingSince: (profileForm.workingSinceMonth && profileForm.workingSinceYear) ? `${profileForm.workingSinceMonth} ${profileForm.workingSinceYear}` : (profileForm.workingSince || ''),
       companyCity: profileForm.companyCity.trim(),
       companyState: profileForm.companyState.trim(),
       companyCountry: profileForm.companyCountry.trim(),
@@ -974,7 +1066,10 @@ export default function Profile({ user, onUpdateUser }) {
       awards: profileForm.awards || [],
       hobbies: profileForm.hobbies || [],
       otherHobbies: profileForm.hobbies.includes('Others') ? profileForm.otherHobbies || '' : '',
-      workExperience: profileForm.workExperience ? profileForm.workExperience.trim() : ''
+      workExperience: profileForm.workExperience ? profileForm.workExperience.trim() : '',
+      consentEmail: profileForm.consentEmail || false,
+      consentPhone: profileForm.consentPhone || false,
+      consentWhatsapp: profileForm.consentWhatsapp || false
     }
 
     const uid = user.uid || (auth.currentUser ? auth.currentUser.uid : null)
@@ -1131,7 +1226,8 @@ export default function Profile({ user, onUpdateUser }) {
     profileForm.country !== originalForm.country ||
     profileForm.department !== originalForm.department ||
     profileForm.division !== originalForm.division ||
-    profileForm.workingSince !== originalForm.workingSince ||
+    profileForm.workingSinceMonth !== originalForm.workingSinceMonth ||
+    profileForm.workingSinceYear !== originalForm.workingSinceYear ||
     profileForm.companyCity !== originalForm.companyCity ||
     profileForm.companyState !== originalForm.companyState ||
     profileForm.companyCountry !== originalForm.companyCountry ||
@@ -1145,6 +1241,9 @@ export default function Profile({ user, onUpdateUser }) {
     JSON.stringify(profileForm.awards || []) !== JSON.stringify(originalForm.awards || []) ||
     JSON.stringify(profileForm.hobbies || []) !== JSON.stringify(originalForm.hobbies || []) ||
     profileForm.otherHobbies !== originalForm.otherHobbies ||
+    profileForm.consentEmail !== originalForm.consentEmail ||
+    profileForm.consentPhone !== originalForm.consentPhone ||
+    profileForm.consentWhatsapp !== originalForm.consentWhatsapp ||
     profileForm.workExperience !== originalForm.workExperience
   ) : false
 
@@ -1258,7 +1357,7 @@ export default function Profile({ user, onUpdateUser }) {
                 <span className="profile-meta-value" title={profileForm.email}>{profileForm.email}</span>
               </div>
               <div className="profile-meta-item">
-                <span className="profile-meta-label">Contact Number</span>
+                <span className="profile-meta-label">Primary Contact Number</span>
                 <span className="profile-meta-value">{profileForm.phone || 'Not Provided'}</span>
               </div>
               <div className="profile-meta-item">
@@ -1292,6 +1391,9 @@ export default function Profile({ user, onUpdateUser }) {
               </div>
             ) : (
               <form className="profile-form" onSubmit={handleSubmit}>
+                <p style={{ fontSize: '13px', color: 'var(--slate)', marginBottom: '14px', fontWeight: '500' }}>
+                  Fields marked with <span style={{ color: 'var(--signal-red)', fontWeight: 'bold' }}>*</span> are mandatory
+                </p>
                 <h4 className="profile-form__section-title">Personal Details</h4>
                 <div className="profile-form__grid-3">
                   <div className="profile-field">
@@ -1363,7 +1465,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-gender">Gender</label>
+                    <label htmlFor="prof-gender">Gender <span className="profile-field__required">*</span></label>
                     <div className="profile-field__input-wrap">
                       <FaUser className="profile-field__icon" />
                       <select
@@ -1371,6 +1473,7 @@ export default function Profile({ user, onUpdateUser }) {
                         name="gender"
                         value={profileForm.gender}
                         onChange={handleInputChange}
+                        required
                         disabled={!isEditing || loading}
                       >
                         <option value="">Select Gender</option>
@@ -1444,7 +1547,7 @@ export default function Profile({ user, onUpdateUser }) {
 
                 <div className="profile-form__grid">
                   <div className="profile-field">
-                    <label htmlFor="prof-phone">Contact Number <span className="profile-field__required">*</span></label>
+                    <label htmlFor="prof-phone">Primary Contact Number <span className="profile-field__required">*</span></label>
                     <div className="profile-field__input-wrap phone-input-wrap">
                       <span className={`fi fi-${getCountryIso(profileForm.phoneCode)} profile-field__icon`}></span>
 
@@ -1538,7 +1641,7 @@ export default function Profile({ user, onUpdateUser }) {
 
                 <div className="profile-form__grid-3" style={{ marginTop: '15px' }}>
                   <div className="profile-field">
-                    <label htmlFor="prof-city">City</label>
+                    <label htmlFor="prof-city">Native (City)</label>
                     <CityAutocomplete
                       id="prof-city"
                       name="city"
@@ -1551,7 +1654,7 @@ export default function Profile({ user, onUpdateUser }) {
                     />
                   </div>
                   <div className="profile-field">
-                    <label htmlFor="prof-state">State</label>
+                    <label htmlFor="prof-state">Native (State)</label>
                     <StateAutocomplete
                       id="prof-state"
                       name="state"
@@ -1564,7 +1667,7 @@ export default function Profile({ user, onUpdateUser }) {
                     />
                   </div>
                   <div className="profile-field">
-                    <label htmlFor="prof-country">Country</label>
+                    <label htmlFor="prof-country">Native (Country)</label>
                     <CountryAutocomplete
                       id="prof-country"
                       name="country"
@@ -1754,6 +1857,42 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
+                    <label htmlFor="prof-work-experience">Total Work Experience (Years)</label>
+                    <div className="profile-field__input-wrap">
+                      <FaBriefcase className="profile-field__icon" />
+                      <input
+                        id="prof-work-experience"
+                        type="text"
+                        inputMode="numeric"
+                        name="workExperience"
+                        value={profileForm.workExperience}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder={!isEditing && !profileForm.workExperience ? "No Data Provided" : PLACEHOLDERS.workExperience}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="profile-field">
+                    <label htmlFor="prof-linkedin">LinkedIn Profile Link</label>
+                    <div className="profile-field__input-wrap">
+                      <FaLinkedin className="profile-field__icon" style={{ color: isEditing ? '#0077b5' : 'var(--slate)' }} />
+                      <input
+                        id="prof-linkedin"
+                        type="text"
+                        name="linkedin"
+                        value={profileForm.linkedin}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <h4 className="profile-form__section-title" style={{ marginTop: '24px' }}>Company Details</h4>
+                <div className="profile-form__grid">
+                  <div className="profile-field">
                     <label htmlFor="prof-company">Company</label>
                     <CompanyAutocomplete
                       id="prof-company"
@@ -1815,35 +1954,34 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-working-since">Working Since</label>
-                    <div className="profile-field__input-wrap">
-                      <FaCalendarAlt className="profile-field__icon" />
-                      <input
-                        id="prof-working-since"
-                        type="date"
-                        name="workingSince"
-                        value={profileForm.workingSince}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="profile-field">
-                    <label htmlFor="prof-work-experience">Total Work Experience (Years)</label>
-                    <div className="profile-field__input-wrap">
-                      <FaBriefcase className="profile-field__icon" />
-                      <input
-                        id="prof-work-experience"
-                        type="text"
-                        inputMode="numeric"
-                        name="workExperience"
-                        value={profileForm.workExperience}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder={!isEditing && !profileForm.workExperience ? "No Data Provided" : PLACEHOLDERS.workExperience}
-                      />
+                    <label>Working Since (Month / Year)</label>
+                    <div className="profile-form__row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', padding: 0, margin: 0, border: 'none' }}>
+                      <div className="profile-field__input-wrap">
+                        <FaCalendarAlt className="profile-field__icon" />
+                        <select
+                          name="workingSinceMonth"
+                          value={profileForm.workingSinceMonth}
+                          onChange={handleInputChange}
+                          disabled={!isEditing || loading}
+                          style={{ paddingLeft: '42px' }}
+                        >
+                          <option value="">Select Month</option>
+                          {MONTH_OPTIONS.map(m => <option key={m} value={m}>{m}</option>)}
+                        </select>
+                      </div>
+                      <div className="profile-field__input-wrap">
+                        <FaCalendarAlt className="profile-field__icon" />
+                        <select
+                          name="workingSinceYear"
+                          value={profileForm.workingSinceYear}
+                          onChange={handleInputChange}
+                          disabled={!isEditing || loading}
+                          style={{ paddingLeft: '42px' }}
+                        >
+                          <option value="">Select Year</option>
+                          {PROMOTION_YEAR_OPTIONS.map(y => <option key={y} value={y}>{y}</option>)}
+                        </select>
+                      </div>
                     </div>
                   </div>
 
@@ -1853,25 +1991,9 @@ export default function Profile({ user, onUpdateUser }) {
                       <FaGlobe className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
                       <input
                         id="prof-company-website"
-                        type="url"
+                        type="text"
                         name="companyWebsite"
                         value={profileForm.companyWebsite}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="profile-field profile-field--full">
-                    <label htmlFor="prof-linkedin">LinkedIn Profile Link</label>
-                    <div className="profile-field__input-wrap">
-                      <FaLinkedin className="profile-field__icon" style={{ color: isEditing ? '#0077b5' : 'var(--slate)' }} />
-                      <input
-                        id="prof-linkedin"
-                        type="url"
-                        name="linkedin"
-                        value={profileForm.linkedin}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                         placeholder="No Data Provided"
@@ -2226,6 +2348,51 @@ export default function Profile({ user, onUpdateUser }) {
                         )}
                       </div>
                     )}
+                  </div>
+                </div>
+
+                {/* Privacy Consent Section */}
+                <h4 className="profile-form__section-title" style={{ marginTop: '24px' }}>Alumni Portal Privacy Consent</h4>
+                <div className="profile-field" style={{ margin: '15px 0 20px', padding: '16px', backgroundColor: 'rgba(241, 245, 249, 0.6)', borderRadius: '12px', border: '1px solid var(--line-grey)' }}>
+                  <label style={{ fontSize: '0.88rem', fontWeight: '600', color: 'var(--navy)', display: 'block', marginBottom: '12px' }}>
+                    I give my consent to show my below-mentioned details on the Alumni Portal (Click at least one) <span className="profile-field__required">*</span>
+                  </label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <label className="profile-checkbox" style={{ cursor: (!isEditing || loading) ? 'not-allowed' : 'pointer' }}>
+                      <input
+                        type="checkbox"
+                        name="consentEmail"
+                        checked={profileForm.consentEmail}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      />
+                      <span className="profile-checkbox__box"></span>
+                      <span className="profile-checkbox__label">Email ID</span>
+                    </label>
+
+                    <label className="profile-checkbox" style={{ cursor: (!isEditing || loading) ? 'not-allowed' : 'pointer' }}>
+                      <input
+                        type="checkbox"
+                        name="consentPhone"
+                        checked={profileForm.consentPhone}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      />
+                      <span className="profile-checkbox__box"></span>
+                      <span className="profile-checkbox__label">Mobile Number</span>
+                    </label>
+
+                    <label className="profile-checkbox" style={{ cursor: (!isEditing || loading) ? 'not-allowed' : 'pointer' }}>
+                      <input
+                        type="checkbox"
+                        name="consentWhatsapp"
+                        checked={profileForm.consentWhatsapp}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      />
+                      <span className="profile-checkbox__box"></span>
+                      <span className="profile-checkbox__label">WhatsApp Number</span>
+                    </label>
                   </div>
                 </div>
 

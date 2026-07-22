@@ -139,3 +139,72 @@ export function getCitiesByState(stateName) {
 
   return ALL_CITIES;
 }
+
+import { getCountryByState } from './stateData';
+
+export const STATE_NAME_FORMATTED = {
+  "gujarat": "Gujarat",
+  "maharashtra": "Maharashtra",
+  "delhi": "Delhi",
+  "karnataka": "Karnataka",
+  "tamil nadu": "Tamil Nadu",
+  "telangana": "Telangana",
+  "uttar pradesh": "Uttar Pradesh",
+  "rajasthan": "Rajasthan",
+  "west bengal": "West Bengal",
+  "madhya pradesh": "Madhya Pradesh",
+  "punjab": "Punjab",
+  "haryana": "Haryana",
+  "kerala": "Kerala",
+  "bihar": "Bihar",
+  "andhra pradesh": "Andhra Pradesh",
+  "goa": "Goa",
+  "odisha": "Odisha",
+  "uttarakhand": "Uttarakhand",
+  "jharkhand": "Jharkhand",
+  "assam": "Assam",
+  "california": "California",
+  "new york": "New York",
+  "texas": "Texas",
+  "florida": "Florida",
+  "illinois": "Illinois",
+  "ontario": "Ontario",
+  "british columbia": "British Columbia",
+  "england": "England",
+  "dubai": "Dubai",
+  "abu dhabi": "Abu Dhabi",
+  "sharjah": "Sharjah",
+  "bavaria": "Bavaria",
+  "berlin": "Berlin",
+  "new south wales": "New South Wales",
+  "victoria": "Victoria"
+};
+
+export function getStateAndCountryByCity(cityName) {
+  if (!cityName || typeof cityName !== 'string') {
+    return { state: '', country: '' };
+  }
+  const cleanCity = cityName.trim().toLowerCase();
+
+  for (const [stateKey, cityList] of Object.entries(CITIES_BY_STATE)) {
+    const foundCity = cityList.find(c => c.toLowerCase() === cleanCity);
+    if (foundCity) {
+      const state = STATE_NAME_FORMATTED[stateKey] || stateKey.charAt(0).toUpperCase() + stateKey.slice(1);
+      const country = getCountryByState(state);
+      return { state, country };
+    }
+  }
+
+  if (cleanCity.length >= 3) {
+    for (const [stateKey, cityList] of Object.entries(CITIES_BY_STATE)) {
+      const foundCity = cityList.find(c => c.toLowerCase().startsWith(cleanCity));
+      if (foundCity) {
+        const state = STATE_NAME_FORMATTED[stateKey] || stateKey.charAt(0).toUpperCase() + stateKey.slice(1);
+        const country = getCountryByState(state);
+        return { state, country };
+      }
+    }
+  }
+
+  return { state: '', country: '' };
+}
