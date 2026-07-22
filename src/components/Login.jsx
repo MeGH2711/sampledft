@@ -470,11 +470,21 @@ export default function Login({ user, onLoginSuccess }) {
     }))
   }
 
+  const capitalizeWords = (str) => {
+    if (!str || typeof str !== 'string') return str;
+    return str.replace(/\b[a-zA-Z]+/g, (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+  };
+
   const handleRegisterChange = (e) => {
     const { name, value, type, checked } = e.target
-    const cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name)
+    let cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name)
       ? value.replace(/\D/g, '')
       : value;
+
+    if (['firstName', 'middleName', 'lastName'].includes(name) && typeof cleanValue === 'string') {
+      cleanValue = capitalizeWords(cleanValue);
+    }
+
     setRegisterForm(prev => {
       const updated = {
         ...prev,
@@ -854,6 +864,11 @@ export default function Login({ user, onLoginSuccess }) {
 
     setLoading(true)
 
+    const cleanFirstName = capitalizeWords(registerForm.firstName.trim());
+    const cleanMiddleName = capitalizeWords(registerForm.middleName.trim());
+    const cleanLastName = capitalizeWords(registerForm.lastName.trim());
+    const cleanFullName = [cleanFirstName, cleanMiddleName, cleanLastName].filter(Boolean).join(' ');
+
     if (isFirebaseConfigured) {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, registerForm.email, registerForm.password)
@@ -861,10 +876,10 @@ export default function Login({ user, onLoginSuccess }) {
 
         // Save additional profile details to Firestore
         await setDoc(doc(db, 'users', user.uid), {
-          firstName: registerForm.firstName,
-          middleName: registerForm.middleName,
-          lastName: registerForm.lastName,
-          name: [registerForm.firstName.trim(), registerForm.middleName.trim(), registerForm.lastName.trim()].filter(Boolean).join(' '),
+          firstName: cleanFirstName,
+          middleName: cleanMiddleName,
+          lastName: cleanLastName,
+          name: cleanFullName,
           email: registerForm.email,
           dob: registerForm.dob,
           phone: `${registerForm.phoneCode} ${registerForm.phone}`.trim(),
@@ -923,7 +938,10 @@ export default function Login({ user, onLoginSuccess }) {
 
         const newUser = {
           uid: user.uid,
-          name: [registerForm.firstName.trim(), registerForm.middleName.trim(), registerForm.lastName.trim()].filter(Boolean).join(' '),
+          firstName: cleanFirstName,
+          middleName: cleanMiddleName,
+          lastName: cleanLastName,
+          name: cleanFullName,
           email: registerForm.email,
           dob: registerForm.dob,
           phone: `${registerForm.phoneCode} ${registerForm.phone}`.trim(),
@@ -985,7 +1003,10 @@ export default function Login({ user, onLoginSuccess }) {
       setTimeout(() => {
         const newUser = {
           uid: 'mock-uid-registered',
-          name: [registerForm.firstName.trim(), registerForm.middleName.trim(), registerForm.lastName.trim()].filter(Boolean).join(' '),
+          firstName: cleanFirstName,
+          middleName: cleanMiddleName,
+          lastName: cleanLastName,
+          name: cleanFullName,
           email: registerForm.email,
           dob: registerForm.dob,
           phone: `${registerForm.phoneCode} ${registerForm.phone}`.trim(),

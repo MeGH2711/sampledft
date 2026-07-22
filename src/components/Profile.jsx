@@ -727,11 +727,20 @@ export default function Profile({ user, onUpdateUser }) {
     }
   }, [error])
 
+  const capitalizeWords = (str) => {
+    if (!str || typeof str !== 'string') return str;
+    return str.replace(/\b[a-zA-Z]+/g, (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+  };
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target // Extract type and checked
-    const cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name)
+    let cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name)
       ? value.replace(/\D/g, '')
       : value;
+
+    if (['firstName', 'middleName', 'lastName'].includes(name) && typeof cleanValue === 'string') {
+      cleanValue = capitalizeWords(cleanValue);
+    }
 
     setProfileForm(prev => {
       const updated = {
@@ -905,11 +914,16 @@ export default function Profile({ user, onUpdateUser }) {
 
     setLoading(true)
 
+    const cleanFirstName = capitalizeWords(profileForm.firstName.trim());
+    const cleanMiddleName = capitalizeWords(profileForm.middleName.trim());
+    const cleanLastName = capitalizeWords(profileForm.lastName.trim());
+    const cleanFullName = [cleanFirstName, cleanMiddleName, cleanLastName].filter(Boolean).join(' ');
+
     const updatedProfile = {
-      firstName: profileForm.firstName.trim(),
-      middleName: profileForm.middleName.trim(),
-      lastName: profileForm.lastName.trim(),
-      name: [profileForm.firstName.trim(), profileForm.middleName.trim(), profileForm.lastName.trim()].filter(Boolean).join(' '),
+      firstName: cleanFirstName,
+      middleName: cleanMiddleName,
+      lastName: cleanLastName,
+      name: cleanFullName,
       dob: profileForm.dob,
       phone: `${profileForm.phoneCode} ${profileForm.phone}`.trim(),
       secondaryPhone: profileForm.secondaryPhone ? `${profileForm.secondaryPhoneCode} ${profileForm.secondaryPhone}`.trim() : '',
