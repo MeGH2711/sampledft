@@ -85,6 +85,7 @@ export const HOBBY_OPTIONS = [
   "Yoga / Fitness",
   "Camping / Trekking",
 ]
+
 export const COMPANY_OPTIONS = [
   "AARTI INDUSTRIES LIMITED",
   "ACCENTURE INDIA PVT LIMITED",
