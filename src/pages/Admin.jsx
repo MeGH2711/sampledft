@@ -14,7 +14,8 @@ import {
   FaPlus,
   FaMapMarkerAlt,
   FaCopy,
-  FaEye
+  FaEye,
+  FaFilePdf
 } from 'react-icons/fa'
 import { db } from '../firebase'
 import { collection, getDocs, doc, updateDoc, deleteDoc, addDoc } from 'firebase/firestore'
@@ -1111,6 +1112,22 @@ service cloud.firestore {
                       {selectedUser.linkedin ? (
                         <a href={selectedUser.linkedin.startsWith('http') ? selectedUser.linkedin : `https://${selectedUser.linkedin}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--navy-mid)', textDecoration: 'underline' }}>
                           {selectedUser.linkedin}
+                        </a>
+                      ) : 'N/A'}
+                    </span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Resume / CV (PDF)</span>
+                    <span className="admin-modal-info-value">
+                      {(selectedUser.cvUrl || selectedUser.cvBase64) ? (
+                        <a
+                          href={selectedUser.cvUrl || selectedUser.cvBase64}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          download={selectedUser.cvFileName || `${selectedUser.name || 'Alumni'}_CV.pdf`}
+                          style={{ color: '#dc2626', fontWeight: '600', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                        >
+                          <FaFilePdf style={{ color: '#dc2626' }} /> Download / View PDF CV
                         </a>
                       ) : 'N/A'}
                     </span>

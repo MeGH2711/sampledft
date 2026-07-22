@@ -1,6 +1,6 @@
 # 📁 dft-alumni — Codebase Export
 
-> Generated on: 7/21/2026, 8:50:01 PM
+> Generated on: 7/22/2026, 11:14:43 PM
 
 > Root: `c:\Users\meghp\Desktop\DFT Alumni\DFTWebsite\New_Website\dft-alumni`
 
@@ -15,58 +15,68 @@
 5. [`README.md`](#file-5)
 6. [`src\App.css`](#file-6)
 7. [`src\App.jsx`](#file-7)
-8. [`src\components\About.css`](#file-8)
-9. [`src\components\About.jsx`](#file-9)
-10. [`src\components\Admin.css`](#file-10)
-11. [`src\components\Admin.jsx`](#file-11)
-12. [`src\components\AlumniSpotlight.css`](#file-12)
-13. [`src\components\AlumniSpotlight.jsx`](#file-13)
-14. [`src\components\Committee.css`](#file-14)
-15. [`src\components\Committee.jsx`](#file-15)
-16. [`src\components\Contact.css`](#file-16)
-17. [`src\components\Contact.jsx`](#file-17)
-18. [`src\components\DftAlumniMeet2023.css`](#file-18)
-19. [`src\components\DftAlumniMeet2023.jsx`](#file-19)
-20. [`src\components\Events.css`](#file-20)
-21. [`src\components\Events.jsx`](#file-21)
-22. [`src\components\Footer.css`](#file-22)
-23. [`src\components\Footer.jsx`](#file-23)
-24. [`src\components\FounderDesk.css`](#file-24)
-25. [`src\components\FounderDesk.jsx`](#file-25)
-26. [`src\components\Gallery.css`](#file-26)
-27. [`src\components\Gallery.jsx`](#file-27)
-28. [`src\components\Hero.css`](#file-28)
-29. [`src\components\Hero.jsx`](#file-29)
-30. [`src\components\ImageWithSkeleton.css`](#file-30)
-31. [`src\components\ImageWithSkeleton.jsx`](#file-31)
-32. [`src\components\Login.css`](#file-32)
-33. [`src\components\Login.jsx`](#file-33)
-34. [`src\components\Navbar.css`](#file-34)
-35. [`src\components\Navbar.jsx`](#file-35)
-36. [`src\components\NewsletterSection.jsx`](#file-36)
-37. [`src\components\Newsroom.css`](#file-37)
-38. [`src\components\Newsroom.jsx`](#file-38)
-39. [`src\components\Profile.css`](#file-39)
-40. [`src\components\Profile.jsx`](#file-40)
-41. [`src\components\Sangaath2024.jsx`](#file-41)
-42. [`src\components\Sangam2026.css`](#file-42)
-43. [`src\components\Sangam2026.jsx`](#file-43)
-44. [`src\components\Stats.css`](#file-44)
-45. [`src\components\Stats.jsx`](#file-45)
-46. [`src\components\TermsAndConditions.css`](#file-46)
-47. [`src\components\TermsAndConditions.jsx`](#file-47)
-48. [`src\components\VisionMission.css`](#file-48)
-49. [`src\components\VisionMission.jsx`](#file-49)
-50. [`src\data\committeeData.js`](#file-50)
-51. [`src\data\formdata.js`](#file-51)
-52. [`src\data\newslettersData.js`](#file-52)
-53. [`src\data\SponserData.js`](#file-53)
-54. [`src\firebase.js`](#file-54)
-55. [`src\index.css`](#file-55)
-56. [`src\main.jsx`](#file-56)
-57. [`src\utils\hash.js`](#file-57)
-58. [`vercel.json`](#file-58)
-59. [`vite.config.js`](#file-59)
+8. [`src\components\CityAutocomplete.jsx`](#file-8)
+9. [`src\components\CompanyAutocomplete.css`](#file-9)
+10. [`src\components\CompanyAutocomplete.jsx`](#file-10)
+11. [`src\components\CountryAutocomplete.css`](#file-11)
+12. [`src\components\CountryAutocomplete.jsx`](#file-12)
+13. [`src\components\Footer.css`](#file-13)
+14. [`src\components\Footer.jsx`](#file-14)
+15. [`src\components\ImageWithSkeleton.css`](#file-15)
+16. [`src\components\ImageWithSkeleton.jsx`](#file-16)
+17. [`src\components\Navbar.css`](#file-17)
+18. [`src\components\Navbar.jsx`](#file-18)
+19. [`src\components\StateAutocomplete.jsx`](#file-19)
+20. [`src\data\cityData.js`](#file-20)
+21. [`src\data\committeeData.js`](#file-21)
+22. [`src\data\countryData.js`](#file-22)
+23. [`src\data\formdata.js`](#file-23)
+24. [`src\data\newslettersData.js`](#file-24)
+25. [`src\data\SponserData.js`](#file-25)
+26. [`src\data\stateData.js`](#file-26)
+27. [`src\firebase.js`](#file-27)
+28. [`src\hooks\useVisitorCount.js`](#file-28)
+29. [`src\index.css`](#file-29)
+30. [`src\main.jsx`](#file-30)
+31. [`src\pages\About.css`](#file-31)
+32. [`src\pages\About.jsx`](#file-32)
+33. [`src\pages\Admin.css`](#file-33)
+34. [`src\pages\Admin.jsx`](#file-34)
+35. [`src\pages\AlumniSpotlight.css`](#file-35)
+36. [`src\pages\AlumniSpotlight.jsx`](#file-36)
+37. [`src\pages\Committee.css`](#file-37)
+38. [`src\pages\Committee.jsx`](#file-38)
+39. [`src\pages\Contact.css`](#file-39)
+40. [`src\pages\Contact.jsx`](#file-40)
+41. [`src\pages\DftAlumniMeet2023.css`](#file-41)
+42. [`src\pages\DftAlumniMeet2023.jsx`](#file-42)
+43. [`src\pages\Events.css`](#file-43)
+44. [`src\pages\Events.jsx`](#file-44)
+45. [`src\pages\FounderDesk.css`](#file-45)
+46. [`src\pages\FounderDesk.jsx`](#file-46)
+47. [`src\pages\Gallery.css`](#file-47)
+48. [`src\pages\Gallery.jsx`](#file-48)
+49. [`src\pages\Hero.css`](#file-49)
+50. [`src\pages\Hero.jsx`](#file-50)
+51. [`src\pages\Login.css`](#file-51)
+52. [`src\pages\Login.jsx`](#file-52)
+53. [`src\pages\NewsletterSection.jsx`](#file-53)
+54. [`src\pages\Newsroom.css`](#file-54)
+55. [`src\pages\Newsroom.jsx`](#file-55)
+56. [`src\pages\Profile.css`](#file-56)
+57. [`src\pages\Profile.jsx`](#file-57)
+58. [`src\pages\Sangaath2024.jsx`](#file-58)
+59. [`src\pages\Sangam2026.css`](#file-59)
+60. [`src\pages\Sangam2026.jsx`](#file-60)
+61. [`src\pages\Stats.css`](#file-61)
+62. [`src\pages\Stats.jsx`](#file-62)
+63. [`src\pages\TermsAndConditions.css`](#file-63)
+64. [`src\pages\TermsAndConditions.jsx`](#file-64)
+65. [`src\pages\VisionMission.css`](#file-65)
+66. [`src\pages\VisionMission.jsx`](#file-66)
+67. [`src\utils\hash.js`](#file-67)
+68. [`vercel.json`](#file-68)
+69. [`vite.config.js`](#file-69)
 
 ---
 
@@ -2727,27 +2737,27 @@ import { useEffect, useState } from 'react'
 import { useLocation, Routes, Route } from 'react-router-dom'
 import { scroller } from 'react-scroll'
 import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import About from './components/About'
-import VisionMission from './components/VisionMission'
-import Stats from './components/Stats'
-import AlumniSpotlight from './components/AlumniSpotlight'
-import Committee from './components/Committee'
-import Gallery from './components/Gallery'
-import Events from './components/Events'
-import Contact from './components/Contact'
+import Hero from './pages/Hero'
+import About from './pages/About'
+import VisionMission from './pages/VisionMission'
+import Stats from './pages/Stats'
+import AlumniSpotlight from './pages/AlumniSpotlight'
+import Committee from './pages/Committee'
+import Gallery from './pages/Gallery'
+import Events from './pages/Events'
+import Contact from './pages/Contact'
 import Footer from './components/Footer'
-import Sangam2026 from './components/Sangam2026'
+import Sangam2026 from './pages/Sangam2026'
 
-import FounderDesk from './components/FounderDesk'
-import DftAlumniMeet2023 from './components/DftAlumniMeet2023'
-import Sangaath2024 from './components/Sangaath2024'
-import NewsletterSection from './components/NewsletterSection'
-import Newsroom from './components/Newsroom'
-import Login from './components/Login'
-import Profile from './components/Profile'
-import Admin from './components/Admin'
-import TermsAndConditions from './components/TermsAndConditions'
+import FounderDesk from './pages/FounderDesk'
+import DftAlumniMeet2023 from './pages/DftAlumniMeet2023'
+import Sangaath2024 from './pages/Sangaath2024'
+import NewsletterSection from './pages/NewsletterSection'
+import Newsroom from './pages/Newsroom'
+import Login from './pages/Login'
+import Profile from './pages/Profile'
+import Admin from './pages/Admin'
+import TermsAndConditions from './pages/TermsAndConditions'
 import { auth, isFirebaseConfigured } from './firebase'
 import { signOut } from 'firebase/auth'
 
@@ -2885,7 +2895,4950 @@ export default App
 
 ## File 8 {#file-8}
 
-**📄 Path:** `src\components\About.css`
+**📄 Path:** `src\components\CityAutocomplete.jsx`
+
+```jsx
+import React, { useState, useEffect, useRef } from 'react';
+import { FaCity, FaChevronDown } from 'react-icons/fa';
+import { getCitiesByState } from '../data/cityData';
+import './CountryAutocomplete.css';
+
+export default function CityAutocomplete({
+  id,
+  name,
+  value = '',
+  onChange,
+  state = '',
+  placeholder = 'Select or type city',
+  disabled = false,
+  wrapClassName = '',
+  icon: Icon = FaCity,
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const wrapperRef = useRef(null);
+  const listRef = useRef(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const availableCities = getCitiesByState(state);
+  const searchValue = (value || '').trim().toLowerCase();
+
+  const filteredCities = availableCities.filter((ct) =>
+    ct.toLowerCase().includes(searchValue)
+  ).sort((a, b) => {
+    const aStartsWith = a.toLowerCase().startsWith(searchValue);
+    const bStartsWith = b.toLowerCase().startsWith(searchValue);
+    if (aStartsWith && !bStartsWith) return -1;
+    if (!aStartsWith && bStartsWith) return 1;
+    return a.localeCompare(b);
+  });
+
+  const handleInputChange = (e) => {
+    if (onChange) {
+      onChange(e);
+    }
+    setIsOpen(true);
+    setHighlightedIndex(-1);
+  };
+
+  const handleSelectCity = (cityName) => {
+    if (onChange) {
+      onChange({
+        target: {
+          name,
+          value: cityName,
+        },
+      });
+    }
+    setIsOpen(false);
+    setHighlightedIndex(-1);
+  };
+
+  const handleKeyDown = (e) => {
+    if (disabled) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (!isOpen) {
+        setIsOpen(true);
+        setHighlightedIndex(0);
+      } else {
+        setHighlightedIndex((prev) =>
+          prev < filteredCities.length - 1 ? prev + 1 : 0
+        );
+      }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (isOpen) {
+        setHighlightedIndex((prev) =>
+          prev > 0 ? prev - 1 : filteredCities.length - 1
+        );
+      }
+    } else if (e.key === 'Enter') {
+      if (isOpen && highlightedIndex >= 0 && highlightedIndex < filteredCities.length) {
+        e.preventDefault();
+        handleSelectCity(filteredCities[highlightedIndex]);
+      }
+    } else if (e.key === 'Escape') {
+      setIsOpen(false);
+      setHighlightedIndex(-1);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen && listRef.current && highlightedIndex >= 0) {
+      const highlightedEl = listRef.current.children[highlightedIndex];
+      if (highlightedEl) {
+        highlightedEl.scrollIntoView({ block: 'nearest' });
+      }
+    }
+  }, [highlightedIndex, isOpen]);
+
+  return (
+    <div className={`country-autocomplete-wrap ${wrapClassName}`} ref={wrapperRef}>
+      {Icon && <Icon className="country-autocomplete__icon login-field__icon profile-field__icon" />}
+      <input
+        id={id}
+        type="text"
+        name={name}
+        value={value}
+        onChange={handleInputChange}
+        onFocus={() => !disabled && setIsOpen(true)}
+        onKeyDown={handleKeyDown}
+        placeholder={placeholder}
+        disabled={disabled}
+        autoComplete="off"
+        className="country-autocomplete__input"
+      />
+      <button
+        type="button"
+        className="country-autocomplete__arrow-btn"
+        onClick={() => !disabled && setIsOpen(!isOpen)}
+        disabled={disabled}
+        tabIndex={-1}
+        aria-label="Toggle city dropdown"
+      >
+        <FaChevronDown
+          className={`country-autocomplete__arrow ${
+            isOpen ? 'country-autocomplete__arrow--open' : ''
+          }`}
+        />
+      </button>
+
+      {isOpen && !disabled && (
+        <ul className="country-autocomplete__dropdown" ref={listRef}>
+          {filteredCities.length > 0 ? (
+            filteredCities.map((ct, index) => {
+              const isSelected = ct.toLowerCase() === (value || '').trim().toLowerCase();
+              const isHighlighted = index === highlightedIndex;
+              return (
+                <li
+                  key={ct}
+                  className={`country-autocomplete__item ${
+                    isHighlighted ? 'country-autocomplete__item--highlighted' : ''
+                  } ${isSelected ? 'country-autocomplete__item--selected' : ''}`}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    handleSelectCity(ct);
+                  }}
+                  onMouseEnter={() => setHighlightedIndex(index)}
+                >
+                  {ct}
+                </li>
+              );
+            })
+          ) : (
+            <li className="country-autocomplete__no-results">No cities found</li>
+          )}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+```
+
+---
+
+## File 9 {#file-9}
+
+**📄 Path:** `src\components\CompanyAutocomplete.css`
+
+```css
+.company-autocomplete-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.company-autocomplete__input {
+  width: 100%;
+  padding-right: 38px !important;
+}
+
+.company-autocomplete__arrow-btn {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--slate, #64748b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  z-index: 3;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.company-autocomplete__arrow-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.company-autocomplete__arrow-btn:disabled .company-autocomplete__arrow {
+  transform: none !important;
+  color: var(--slate, #64748b) !important;
+}
+
+.company-autocomplete__arrow {
+  font-size: 0.75rem;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.company-autocomplete__arrow--open {
+  transform: rotate(180deg);
+  color: var(--signal-red, #e8302a);
+}
+
+.company-autocomplete__dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--paper-white, #ffffff);
+  border: 1px solid var(--line-grey, #e2e8f0);
+  border-radius: 6px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+}
+
+.company-autocomplete__dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.company-autocomplete__dropdown::-webkit-scrollbar-track {
+  background: var(--fog-grey, #f8fafc);
+  border-radius: 0 6px 6px 0;
+}
+
+.company-autocomplete__dropdown::-webkit-scrollbar-thumb {
+  background: var(--slate, #cbd5e1);
+  border-radius: 3px;
+}
+
+.company-autocomplete__dropdown::-webkit-scrollbar-thumb:hover {
+  background: var(--navy-mid, #94a3b8);
+}
+
+.company-autocomplete__item {
+  padding: 9px 14px;
+  font-size: 0.82rem;
+  font-family: var(--font-body, inherit);
+  color: var(--navy-deep, #0b1b3f);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.company-autocomplete__item--highlighted {
+  background: rgba(232, 48, 42, 0.08);
+  color: var(--signal-red, #e8302a);
+  font-weight: 600;
+}
+
+.company-autocomplete__item--selected {
+  background: rgba(11, 27, 63, 0.06);
+  font-weight: 700;
+}
+
+.company-autocomplete__no-results {
+  padding: 12px 14px;
+  font-size: 0.82rem;
+  color: var(--slate, #64748b);
+  font-style: italic;
+  text-align: center;
+}
+
+```
+
+---
+
+## File 10 {#file-10}
+
+**📄 Path:** `src\components\CompanyAutocomplete.jsx`
+
+```jsx
+import React, { useState, useEffect, useRef } from 'react';
+import { FaBuilding, FaChevronDown } from 'react-icons/fa';
+import { COMPANY_OPTIONS } from '../data/formdata';
+import { db, isFirebaseConfigured } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
+import './CompanyAutocomplete.css';
+
+export default function CompanyAutocomplete({
+  id,
+  name,
+  value = '',
+  onChange,
+  placeholder = 'Select or type company name',
+  disabled = false,
+  wrapClassName = '',
+  icon: Icon = FaBuilding,
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [allCompanies, setAllCompanies] = useState(COMPANY_OPTIONS);
+  const wrapperRef = useRef(null);
+  const listRef = useRef(null);
+
+  // Fetch dynamic companies from Firebase collection if configured
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchDynamicCompanies() {
+      if (!isFirebaseConfigured || !db) return;
+      try {
+        const querySnapshot = await getDocs(collection(db, 'companies'));
+        const dynamicList = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          if (data && data.name && typeof data.name === 'string') {
+            dynamicList.push(data.name.trim());
+          }
+        });
+
+        if (dynamicList.length > 0 && isMounted) {
+          const combined = Array.from(new Set([...COMPANY_OPTIONS, ...dynamicList])).sort((a, b) =>
+            a.localeCompare(b)
+          );
+          setAllCompanies(combined);
+        }
+      } catch (err) {
+        // Silently fallback to static COMPANY_OPTIONS if firestore rules or network restrict reading
+        if (err?.code !== 'permission-denied') {
+          console.warn('Failed to fetch dynamic companies list:', err);
+        }
+      }
+    }
+
+    fetchDynamicCompanies();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const searchValue = (value || '').trim().toLowerCase();
+
+  const filteredCompanies = allCompanies.filter((company) =>
+    company.toLowerCase().includes(searchValue)
+  ).sort((a, b) => {
+    const aStartsWith = a.toLowerCase().startsWith(searchValue);
+    const bStartsWith = b.toLowerCase().startsWith(searchValue);
+    if (aStartsWith && !bStartsWith) return -1;
+    if (!aStartsWith && bStartsWith) return 1;
+    return a.localeCompare(b);
+  });
+
+  const handleInputChange = (e) => {
+    if (onChange) {
+      onChange(e);
+    }
+    setIsOpen(true);
+    setHighlightedIndex(-1);
+  };
+
+  const handleSelectCompany = (companyName) => {
+    if (onChange) {
+      onChange({
+        target: {
+          name,
+          value: companyName,
+        },
+      });
+    }
+    setIsOpen(false);
+    setHighlightedIndex(-1);
+  };
+
+  const handleKeyDown = (e) => {
+    if (disabled) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (!isOpen) {
+        setIsOpen(true);
+        setHighlightedIndex(0);
+      } else {
+        setHighlightedIndex((prev) =>
+          prev < filteredCompanies.length - 1 ? prev + 1 : 0
+        );
+      }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (isOpen) {
+        setHighlightedIndex((prev) =>
+          prev > 0 ? prev - 1 : filteredCompanies.length - 1
+        );
+      }
+    } else if (e.key === 'Enter') {
+      if (isOpen && highlightedIndex >= 0 && highlightedIndex < filteredCompanies.length) {
+        e.preventDefault();
+        handleSelectCompany(filteredCompanies[highlightedIndex]);
+      }
+    } else if (e.key === 'Escape') {
+      setIsOpen(false);
+      setHighlightedIndex(-1);
+    }
+  };
+
+  // Scroll highlighted item into view
+  useEffect(() => {
+    if (isOpen && listRef.current && highlightedIndex >= 0) {
+      const highlightedEl = listRef.current.children[highlightedIndex];
+      if (highlightedEl) {
+        highlightedEl.scrollIntoView({ block: 'nearest' });
+      }
+    }
+  }, [highlightedIndex, isOpen]);
+
+  return (
+    <div className={`company-autocomplete-wrap ${wrapClassName}`} ref={wrapperRef}>
+      {Icon && <Icon className="company-autocomplete__icon login-field__icon profile-field__icon" />}
+      <input
+        id={id}
+        type="text"
+        name={name}
+        value={value}
+        onChange={handleInputChange}
+        onFocus={() => !disabled && setIsOpen(true)}
+        onKeyDown={handleKeyDown}
+        placeholder={placeholder}
+        disabled={disabled}
+        autoComplete="off"
+        className="company-autocomplete__input"
+      />
+      <button
+        type="button"
+        className="company-autocomplete__arrow-btn"
+        onClick={() => !disabled && setIsOpen(!isOpen)}
+        disabled={disabled}
+        tabIndex={-1}
+        aria-label="Toggle company dropdown"
+      >
+        <FaChevronDown
+          className={`company-autocomplete__arrow ${isOpen ? 'company-autocomplete__arrow--open' : ''
+            }`}
+        />
+      </button>
+
+      {isOpen && !disabled && (
+        <ul className="company-autocomplete__dropdown" ref={listRef}>
+          {filteredCompanies.length > 0 ? (
+            filteredCompanies.map((company, index) => {
+              const isSelected = company.toLowerCase() === (value || '').trim().toLowerCase();
+              const isHighlighted = index === highlightedIndex;
+              return (
+                <li
+                  key={company}
+                  className={`company-autocomplete__item ${isHighlighted ? 'company-autocomplete__item--highlighted' : ''
+                    } ${isSelected ? 'company-autocomplete__item--selected' : ''}`}
+                  onClick={() => handleSelectCompany(company)}
+                  onMouseEnter={() => setHighlightedIndex(index)}
+                >
+                  {company}
+                </li>
+              );
+            })
+          ) : (
+            <li className="company-autocomplete__no-results">
+              No matching company found.<br /> You can keep typing to enter a new company.
+            </li>
+          )}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+```
+
+---
+
+## File 11 {#file-11}
+
+**📄 Path:** `src\components\CountryAutocomplete.css`
+
+```css
+.country-autocomplete-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.country-autocomplete__input {
+  width: 100%;
+  padding-right: 38px !important;
+}
+
+.country-autocomplete__arrow-btn {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--slate, #64748b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  z-index: 3;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.country-autocomplete__arrow-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.country-autocomplete__arrow-btn:disabled .country-autocomplete__arrow {
+  transform: none !important;
+  color: var(--slate, #64748b) !important;
+}
+
+.country-autocomplete__arrow {
+  font-size: 0.75rem;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.country-autocomplete__arrow--open {
+  transform: rotate(180deg);
+  color: var(--signal-red, #e8302a);
+}
+
+.country-autocomplete__dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--paper-white, #ffffff);
+  border: 1px solid var(--line-grey, #e2e8f0);
+  border-radius: 6px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+}
+
+.country-autocomplete__dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.country-autocomplete__dropdown::-webkit-scrollbar-track {
+  background: var(--fog-grey, #f8fafc);
+  border-radius: 0 6px 6px 0;
+}
+
+.country-autocomplete__dropdown::-webkit-scrollbar-thumb {
+  background: var(--slate, #cbd5e1);
+  border-radius: 3px;
+}
+
+.country-autocomplete__dropdown::-webkit-scrollbar-thumb:hover {
+  background: var(--navy-mid, #94a3b8);
+}
+
+.country-autocomplete__item {
+  padding: 9px 14px;
+  font-size: 0.82rem;
+  font-family: var(--font-body, inherit);
+  color: var(--navy-deep, #0b1b3f);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.country-autocomplete__item--highlighted {
+  background: rgba(232, 48, 42, 0.08);
+  color: var(--signal-red, #e8302a);
+  font-weight: 600;
+}
+
+.country-autocomplete__item--selected {
+  background: rgba(11, 27, 63, 0.06);
+  font-weight: 700;
+}
+
+.country-autocomplete__no-results {
+  padding: 12px 14px;
+  font-size: 0.82rem;
+  color: var(--slate, #64748b);
+  text-align: center;
+  font-style: italic;
+}
+
+```
+
+---
+
+## File 12 {#file-12}
+
+**📄 Path:** `src\components\CountryAutocomplete.jsx`
+
+```jsx
+import React, { useState, useEffect, useRef } from 'react';
+import { FaGlobe, FaChevronDown } from 'react-icons/fa';
+import { COUNTRIES } from '../data/countryData';
+import './CountryAutocomplete.css';
+
+export default function CountryAutocomplete({
+  id,
+  name,
+  value = '',
+  onChange,
+  placeholder = 'Select or type country',
+  disabled = false,
+  wrapClassName = '',
+  icon: Icon = FaGlobe,
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const wrapperRef = useRef(null);
+  const listRef = useRef(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const searchValue = (value || '').trim().toLowerCase();
+
+  const filteredCountries = COUNTRIES.filter((country) =>
+    country.toLowerCase().includes(searchValue)
+  ).sort((a, b) => {
+    if (a === 'India') return -1;
+    if (b === 'India') return 1;
+    const aStartsWith = a.toLowerCase().startsWith(searchValue);
+    const bStartsWith = b.toLowerCase().startsWith(searchValue);
+    if (aStartsWith && !bStartsWith) return -1;
+    if (!aStartsWith && bStartsWith) return 1;
+    return a.localeCompare(b);
+  });
+
+  const handleInputChange = (e) => {
+    if (onChange) {
+      onChange(e);
+    }
+    setIsOpen(true);
+    setHighlightedIndex(-1);
+  };
+
+  const handleSelectCountry = (countryName) => {
+    if (onChange) {
+      onChange({
+        target: {
+          name,
+          value: countryName,
+        },
+      });
+    }
+    setIsOpen(false);
+    setHighlightedIndex(-1);
+  };
+
+  const handleKeyDown = (e) => {
+    if (disabled) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (!isOpen) {
+        setIsOpen(true);
+        setHighlightedIndex(0);
+      } else {
+        setHighlightedIndex((prev) =>
+          prev < filteredCountries.length - 1 ? prev + 1 : 0
+        );
+      }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (isOpen) {
+        setHighlightedIndex((prev) =>
+          prev > 0 ? prev - 1 : filteredCountries.length - 1
+        );
+      }
+    } else if (e.key === 'Enter') {
+      if (isOpen && highlightedIndex >= 0 && highlightedIndex < filteredCountries.length) {
+        e.preventDefault();
+        handleSelectCountry(filteredCountries[highlightedIndex]);
+      }
+    } else if (e.key === 'Escape') {
+      setIsOpen(false);
+      setHighlightedIndex(-1);
+    }
+  };
+
+  // Scroll highlighted item into view
+  useEffect(() => {
+    if (isOpen && listRef.current && highlightedIndex >= 0) {
+      const highlightedEl = listRef.current.children[highlightedIndex];
+      if (highlightedEl) {
+        highlightedEl.scrollIntoView({ block: 'nearest' });
+      }
+    }
+  }, [highlightedIndex, isOpen]);
+
+  return (
+    <div className={`country-autocomplete-wrap ${wrapClassName}`} ref={wrapperRef}>
+      {Icon && <Icon className="country-autocomplete__icon login-field__icon profile-field__icon" />}
+      <input
+        id={id}
+        type="text"
+        name={name}
+        value={value}
+        onChange={handleInputChange}
+        onFocus={() => !disabled && setIsOpen(true)}
+        onKeyDown={handleKeyDown}
+        placeholder={placeholder}
+        disabled={disabled}
+        autoComplete="off"
+        className="country-autocomplete__input"
+      />
+      <button
+        type="button"
+        className="country-autocomplete__arrow-btn"
+        onClick={() => !disabled && setIsOpen(!isOpen)}
+        disabled={disabled}
+        tabIndex={-1}
+        aria-label="Toggle country dropdown"
+      >
+        <FaChevronDown
+          className={`country-autocomplete__arrow ${
+            isOpen ? 'country-autocomplete__arrow--open' : ''
+          }`}
+        />
+      </button>
+
+      {isOpen && !disabled && (
+        <ul className="country-autocomplete__dropdown" ref={listRef}>
+          {filteredCountries.length > 0 ? (
+            filteredCountries.map((country, index) => {
+              const isSelected = country.toLowerCase() === (value || '').trim().toLowerCase();
+              const isHighlighted = index === highlightedIndex;
+              return (
+                <li
+                  key={country}
+                  className={`country-autocomplete__item ${
+                    isHighlighted ? 'country-autocomplete__item--highlighted' : ''
+                  } ${isSelected ? 'country-autocomplete__item--selected' : ''}`}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    handleSelectCountry(country);
+                  }}
+                  onMouseEnter={() => setHighlightedIndex(index)}
+                >
+                  {country}
+                </li>
+              );
+            })
+          ) : (
+            <li className="country-autocomplete__no-results">No countries found</li>
+          )}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+```
+
+---
+
+## File 13 {#file-13}
+
+**📄 Path:** `src\components\Footer.css`
+
+```css
+.footer {
+  background: var(--navy-deep);
+  color: #C7CEE0;
+  position: relative;
+}
+
+/* Signal-red top accent bar */
+.footer__top-bar {
+  height: 4px;
+  background: var(--signal-red);
+  width: 100%;
+}
+
+.footer__body {
+  padding: 70px 0 50px;
+  /* Repeating line texture from design-system masthead */
+  background-image: repeating-linear-gradient(115deg,
+      rgba(255, 255, 255, 0.03) 0px,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 26px);
+}
+
+.footer__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 48px;
+}
+
+.footer__brand {
+  max-width: 460px;
+  flex: 1 1 350px;
+}
+
+.footer__col {
+  min-width: 160px;
+}
+
+/* Brand */
+.footer__logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.footer__logo-img {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.footer__logo-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: var(--paper-white);
+  letter-spacing: 2px;
+}
+
+.footer__logo-sub {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+.footer__brand-text {
+  font-size: 0.88rem;
+  color: #C7CEE0;
+  line-height: 1.75;
+  margin-bottom: 22px;
+}
+
+.footer__socials {
+  display: flex;
+  gap: 8px;
+}
+
+.footer__social {
+  width: 34px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  transition: var(--transition);
+}
+
+.footer__social:hover {
+  background: var(--signal-red);
+  color: var(--paper-white);
+  border-color: var(--signal-red);
+  transform: translateY(-3px);
+}
+
+/* Link columns */
+.footer__col-heading {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--paper-white);
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--signal-red);
+  display: inline-block;
+}
+
+.footer__col-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer__link {
+  font-size: 0.88rem;
+  color: #C7CEE0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+.footer__link-arrow {
+  color: var(--signal-red);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.footer__link:hover {
+  color: var(--paper-white);
+  padding-left: 4px;
+}
+
+/* Newsletter */
+.footer__newsletter-text {
+  font-size: 0.85rem;
+  color: #C7CEE0;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.footer__newsletter-form {
+  display: flex;
+  gap: 0;
+}
+
+.footer__newsletter-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-right: none;
+  padding: 11px 14px;
+  color: var(--paper-white);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  outline: none;
+  border-radius: 0;
+  transition: var(--transition);
+}
+
+.footer__newsletter-input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.footer__newsletter-input:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.footer__newsletter-btn {
+  background: var(--signal-red);
+  color: var(--paper-white);
+  border: none;
+  padding: 11px 20px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: 0;
+}
+
+.footer__newsletter-btn:hover {
+  background: var(--red-deep);
+}
+
+/* Bottom bar */
+.footer__bottom {
+  padding: 18px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--navy-mid);
+}
+
+.footer__bottom-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer__copy,
+.footer__design {
+  font-size: 0.78rem;
+  color: rgba(199, 206, 224, 0.6);
+  font-family: var(--font-body);
+}
+
+.footer__design a {
+  color: var(--paper-white);
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.footer__design a:hover {
+  color: var(--signal-red);
+}
+
+.footer__visitor-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 4px 14px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.footer__visitor-badge:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.footer__visitor-icon {
+  color: var(--signal-red);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 1024px) {
+  .footer__inner {
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+
+  .footer__brand {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer__inner {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .footer__bottom-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 6px;
+  }
+}
+```
+
+---
+
+## File 14 {#file-14}
+
+**📄 Path:** `src\components\Footer.jsx`
+
+```jsx
+import { useLocation, Link as RouterLink } from 'react-router-dom'
+import { Link as ScrollLink } from 'react-scroll'
+import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube, FaEye } from 'react-icons/fa'
+import dftLogo from '../assets/Logo/dft-logo.avif'
+import useVisitorCount from '../hooks/useVisitorCount'
+import './Footer.css'
+
+const footerLinks = [
+  {
+    heading: 'Quick Links',
+    links: [
+      { label: 'Home', to: 'home' },
+      { label: 'About', to: 'about' },
+      { label: 'Vision & Mission', to: 'vision' },
+      { label: 'Committee', to: 'committee' },
+      { label: 'Newsletter', to: 'newsletter' },
+    ],
+  },
+  {
+    heading: 'Explore',
+    links: [
+      { label: 'Gallery', to: 'gallery' },
+      { label: 'Sangam 2026', to: '/sangam2026', isRouter: true },
+      { label: 'Contact Us', to: 'contact' },
+    ],
+  },
+]
+
+const socials = [
+  { icon: <FaFacebook />, label: 'Facebook', href: 'https://www.facebook.com/dftalumnifamily' },
+  { icon: <FaInstagram />, label: 'Instagram', href: 'https://www.instagram.com/dftalumnifamily/' },
+  { icon: <FaLinkedin />, label: 'LinkedIn', href: 'https://www.linkedin.com/company/dft-alumni/posts/?feedView=all' },
+  { icon: <FaYoutube />, label: 'YouTube', href: 'https://www.youtube.com/@DFTAlumniFamily' },
+]
+
+export default function Footer() {
+  const location = useLocation()
+  const isHome = location.pathname === '/'
+  const visitorCount = useVisitorCount()
+
+  return (
+    <footer className="footer">
+      {/* Red accent top line */}
+      <div className="footer__top-bar" />
+
+      <div className="footer__body">
+        <div className="container footer__inner">
+
+          {/* Brand */}
+          <div className="footer__brand">
+            <div className="footer__logo">
+              <img src={dftLogo} alt="DFT Logo" className="footer__logo-img" />
+              <div>
+                <div className="footer__logo-title">DFT ALUMNI</div>
+                <div className="footer__logo-sub">Sir Bhavsinhji Polytechnic, Bhavnagar</div>
+              </div>
+            </div>
+            <p className="footer__brand-text">
+              A proud community of graduates united by the legacy of the Diploma in Fabrication
+              Technology — connecting, inspiring, and giving back generation after generation.
+            </p>
+            <div className="footer__socials">
+              {socials.map((s) => (
+                <a key={s.label} href={s.href} className="footer__social" target='__blank' aria-label={s.label}>
+                  {s.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Link columns */}
+          {footerLinks.map((col) => (
+            <div key={col.heading} className="footer__col">
+              <h4 className="footer__col-heading">{col.heading}</h4>
+              <ul className="footer__col-links">
+                {col.links.map((link) => (
+                  <li key={link.label}>
+                    {link.isRouter ? (
+                      <RouterLink to={link.to} className="footer__link">
+                        <span className="footer__link-arrow">›</span>
+                        {link.label}
+                      </RouterLink>
+                    ) : isHome ? (
+                      <ScrollLink to={link.to} smooth duration={600} offset={-80} className="footer__link">
+                        <span className="footer__link-arrow">›</span>
+                        {link.label}
+                      </ScrollLink>
+                    ) : (
+                      <RouterLink to="/" state={{ scrollTo: link.to }} className="footer__link">
+                        <span className="footer__link-arrow">›</span>
+                        {link.label}
+                      </RouterLink>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="footer__bottom">
+        <div className="container footer__bottom-inner">
+          <p className="footer__copy">
+            &copy; {new Date().getFullYear()} DFT Alumni Association · Bhavnagar · Gujarat · <RouterLink to="/terms" style={{ color: 'rgba(255, 255, 255, 0.5)', textDecoration: 'none', transition: 'color 0.2s', marginLeft: '6px' }} onMouseOver={(e) => e.target.style.color = '#fff'} onMouseOut={(e) => e.target.style.color = 'rgba(255, 255, 255, 0.5)'}>Terms & Conditions</RouterLink>
+          </p>
+          {visitorCount > 0 && (
+            <div className="footer__visitor-badge">
+              <FaEye className="footer__visitor-icon" />
+              <span>Total Visits: <strong>{visitorCount.toLocaleString()}</strong></span>
+            </div>
+          )}
+          <p className="footer__design">
+            Designed and Developed with 💙 by <a href="https://meghpatel.vercel.app" target="_blank" rel="noopener noreferrer">Megh Patel</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+```
+
+---
+
+## File 15 {#file-15}
+
+**📄 Path:** `src\components\ImageWithSkeleton.css`
+
+```css
+.image-skeleton-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Base Shimmer for light themes (covers most page sections) */
+.image-skeleton-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(215, 219, 227, 0.4) 25%,
+    rgba(243, 244, 247, 0.7) 37%,
+    rgba(215, 219, 227, 0.4) 63%
+  );
+  background-size: 400% 100%;
+  animation: image-skeleton-pulse 1.4s ease infinite;
+  z-index: 1;
+}
+
+/* Dark Theme Shimmer for dark sections (like Hero) */
+.image-skeleton-wrapper--dark .image-skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(19, 42, 86, 0.5) 25%,
+    rgba(27, 58, 115, 0.7) 37%,
+    rgba(19, 42, 86, 0.5) 63%
+  );
+  background-size: 400% 100%;
+}
+
+@keyframes image-skeleton-pulse {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Image styles inside wrapper */
+.image-skeleton-img {
+  width: 100%;
+  height: 100%;
+  object-fit: inherit;
+  object-position: inherit;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.image-skeleton-img--loaded {
+  opacity: 1;
+}
+
+```
+
+---
+
+## File 16 {#file-16}
+
+**📄 Path:** `src\components\ImageWithSkeleton.jsx`
+
+```jsx
+import { useState, useEffect, useRef } from 'react'
+import './ImageWithSkeleton.css'
+
+export default function ImageWithSkeleton({
+  src,
+  alt,
+  className,
+  wrapperClassName,
+  style,
+  theme = 'light',
+  ...props
+}) {
+  const [loaded, setLoaded] = useState(false)
+  const [error, setError] = useState(false)
+  const imgRef = useRef(null)
+
+  useEffect(() => {
+    // Reset state for new src
+    setLoaded(false)
+    setError(false)
+
+    // Check cached state
+    if (imgRef.current && imgRef.current.complete) {
+      setLoaded(true)
+    }
+  }, [src])
+
+  const handleLoad = () => {
+    setLoaded(true)
+  }
+
+  const handleError = () => {
+    setError(true)
+  }
+
+  const isLoaded = loaded && !error;
+
+  return (
+    <div
+      className={`image-skeleton-wrapper ${theme === 'dark' ? 'image-skeleton-wrapper--dark' : ''} ${className || ''} ${wrapperClassName || ''}`}
+      style={style}
+    >
+      {!isLoaded && (
+        <div className="image-skeleton-shimmer" />
+      )}
+      <img
+        ref={imgRef}
+        src={src}
+        alt={alt}
+        className={`image-skeleton-img ${isLoaded ? 'image-skeleton-img--loaded' : ''}`}
+        onLoad={handleLoad}
+        onError={handleError}
+        style={{
+          opacity: isLoaded ? undefined : 0, // inline opacity overrides stylesheet while loading
+          ...props.style
+        }}
+        {...props}
+      />
+    </div>
+  )
+}
+
+```
+
+---
+
+## File 17 {#file-17}
+
+**📄 Path:** `src\components\Navbar.css`
+
+```css
+/* ============================================
+   NAVBAR — PREMIUM FULL-WIDTH GLASS HEADER
+   ============================================ */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Edge-to-Edge Container ── */
+.navbar__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 110px;
+  padding: 0 max(16px, 2.5%);
+  max-width: 1600px;
+  margin: 0 auto;
+  background: var(--navy-deep);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.navbar--scrolled .navbar__container {
+  height: 88px;
+  background: rgba(11, 27, 63, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Brand / Logo ── */
+.navbar__brand {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.navbar__logo:hover {
+  transform: scale(1.02);
+}
+
+.navbar__logo-img {
+  height: 95px;
+  width: auto;
+  object-fit: contain;
+  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar--scrolled .navbar__logo-img {
+  height: 75px;
+}
+
+/* ── Desktop Navigation (Center/Center-Left) ── */
+.navbar__nav {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(14px, 1.8vw, 32px);
+  padding: 0 12px;
+  min-width: 0;
+}
+
+.navbar__link {
+  position: relative;
+  font-family: var(--font-body);
+  font-size: clamp(0.78rem, 0.9vw, 0.92rem);
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  text-decoration: none;
+  padding: 8px 0;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.navbar__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--signal-red);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(232, 48, 42, 0.6);
+}
+
+.navbar__link:hover,
+.navbar__link.active {
+  color: var(--paper-white);
+}
+
+.navbar__link:hover::after,
+.navbar__link.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ── Actions & CTA ── */
+.navbar__actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.1vw, 14px);
+  white-space: nowrap;
+}
+
+.navbar__cta {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 18px;
+  background: linear-gradient(135deg, var(--signal-red), var(--red-deep));
+  border-radius: 100px;
+  text-decoration: none;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 15px rgba(232, 48, 42, 0.25);
+  white-space: nowrap;
+}
+
+.navbar__cta-text {
+  position: relative;
+  z-index: 2;
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 1.2px;
+}
+
+.navbar__cta-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #ff4d4d, var(--signal-red));
+  opacity: 0;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+.navbar__cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(232, 48, 42, 0.4);
+}
+
+.navbar__cta:hover .navbar__cta-glow {
+  opacity: 1;
+}
+
+.navbar--scrolled .navbar__cta {
+  padding: 8px 20px;
+}
+
+/* ── Hamburger Icon ── */
+.navbar__hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  color: var(--paper-white);
+  font-size: 1.25rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.navbar__hamburger:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(1.05);
+}
+
+.navbar__hamburger:active {
+  transform: scale(0.95);
+}
+
+/* ── Mobile Overlay & Drawer ── */
+.navbar__mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 27, 63, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+
+.navbar__mobile-overlay--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.navbar__mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 340px;
+  max-width: 85vw;
+  background: var(--navy-deep);
+  z-index: 999;
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar__mobile-drawer--open {
+  transform: translateX(0);
+}
+
+.navbar__mobile-drawer-inner {
+  padding: 100px 40px 40px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.navbar__mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.navbar__mobile-item {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar__mobile-drawer--open .navbar__mobile-item {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.navbar__mobile-link {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.3s ease, padding-left 0.3s ease;
+  display: inline-block;
+  letter-spacing: 1px;
+}
+
+.navbar__mobile-link:hover,
+.navbar__mobile-link.active {
+  color: var(--paper-white);
+  padding-left: 6px;
+}
+
+.navbar__mobile-footer {
+  margin-top: auto;
+  padding-top: 40px;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar__mobile-drawer--open .navbar__mobile-footer {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.navbar__mobile-cta-btn {
+  display: block;
+  text-align: center;
+  padding: 14px;
+  background: var(--signal-red);
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  clip-path: polygon(0 0, 94% 0, 100% 50%, 94% 100%, 0 100%);
+  transition: background 0.3s ease;
+}
+
+.navbar__mobile-cta-btn:hover {
+  background: var(--red-deep);
+}
+
+/* ── Dropdown Box (Desktop) ── */
+.navbar__dropdown-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.navbar__link--dropdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.navbar__dropdown-icon {
+  font-size: 0.65rem;
+  transition: transform 0.3s ease;
+  color: inherit;
+}
+
+.navbar__dropdown-container:hover .navbar__dropdown-icon {
+  transform: rotate(180deg);
+}
+
+.navbar__dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(15px);
+  background: rgba(11, 27, 63, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px 0;
+  width: 260px;
+  box-shadow: 0 12px 36px rgba(11, 27, 63, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 1010;
+}
+
+/* Hover safe-zone bridge to prevent closing on gap transition */
+.navbar__dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: 0;
+  right: 0;
+  height: 15px;
+}
+
+.navbar__dropdown-container:hover .navbar__dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.navbar__dropdown-item {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.3s ease;
+}
+
+.navbar__dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.navbar__dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.navbar__dropdown-item-title {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--paper-white);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.navbar__dropdown-item-desc {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 4px;
+}
+
+.navbar__dropdown-item:hover .navbar__dropdown-item-title {
+  color: var(--signal-red);
+}
+
+/* ── Mobile Submenu ── */
+.navbar__mobile-submenu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px 0 10px 16px;
+  margin-top: 8px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar__mobile-sublink {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color 0.3s ease, padding-left 0.2s ease;
+}
+
+.navbar__mobile-sublink:hover {
+  color: var(--signal-red);
+  padding-left: 4px;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS (PREVENT OVERLAPPING)
+   ============================================ */
+
+/* Laptop Resolution Optimization (1200px - 1400px) */
+@media (max-width: 1400px) {
+  .navbar__container {
+    padding: 0 16px;
+  }
+
+  .navbar__nav {
+    gap: clamp(10px, 1.3vw, 22px);
+    padding: 0 6px;
+  }
+
+  .navbar__link {
+    font-size: 0.78rem;
+    letter-spacing: 0.5px;
+  }
+
+  .navbar__cta {
+    padding: 8px 14px;
+  }
+
+  .navbar__cta-text {
+    font-size: 0.72rem;
+    letter-spacing: 0.8px;
+  }
+
+  .navbar__login-btn {
+    padding: 8px 14px;
+    font-size: 0.72rem;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+  }
+}
+
+/* Trigger Hamburger earlier to avoid squeezing large list of links */
+@media (max-width: 1200px) {
+  .navbar__nav {
+    display: none;
+  }
+
+  .navbar__cta {
+    display: none;
+  }
+
+  .navbar__hamburger {
+    display: flex;
+  }
+
+  .navbar__container {
+    height: 88px;
+    padding: 0 24px;
+  }
+
+  .navbar--scrolled .navbar__container {
+    height: 72px;
+  }
+
+  .navbar__logo-img {
+    height: 70px;
+  }
+
+  .navbar--scrolled .navbar__logo-img {
+    height: 56px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar__container {
+    height: 76px;
+    padding: 0 16px;
+  }
+
+  .navbar--scrolled .navbar__container {
+    height: 64px;
+  }
+
+  .navbar__logo-img {
+    height: 60px;
+  }
+
+  .navbar--scrolled .navbar__logo-img {
+    height: 48px;
+  }
+
+  .navbar__mobile-drawer {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .navbar__mobile-drawer-inner {
+    padding: 90px 24px 30px;
+  }
+
+  .navbar__mobile-link {
+    font-size: 1.2rem;
+  }
+}
+
+/* ── Secondary Portal Login Button ── */
+.navbar__login-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 18px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.navbar__login-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--signal-red);
+  color: var(--paper-white);
+  transform: translateY(-1px);
+}
+
+.navbar--scrolled .navbar__login-btn {
+  padding: 8px 18px;
+}
+
+/* ── Desktop User Profile Dropdown Menu ── */
+.navbar__user-menu {
+  position: relative;
+}
+
+.navbar__user-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--paper-white);
+  outline: none;
+}
+
+.navbar__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--signal-red), var(--red-deep));
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(232, 48, 42, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.navbar__user-btn:hover .navbar__avatar {
+  transform: scale(1.05);
+}
+
+.navbar__user-name {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  transition: color 0.3s ease;
+}
+
+.navbar__user-btn:hover .navbar__user-name {
+  color: var(--paper-white);
+}
+
+.navbar__dropdown-arrow {
+  font-size: 0.65rem;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.navbar__dropdown-arrow.open {
+  transform: rotate(180deg);
+  color: var(--paper-white);
+}
+
+.navbar__user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  transform: translateY(15px);
+  background: linear-gradient(135deg, rgba(15, 32, 67, 0.98) 0%, rgba(11, 27, 63, 0.99) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 18px;
+  width: 250px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 1020;
+}
+
+.navbar__user-dropdown--open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(10px);
+  pointer-events: auto;
+}
+
+.navbar__dropdown-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.navbar__dropdown-name {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--paper-white);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.navbar__dropdown-sub {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  color: #a0aec0;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.navbar__user-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  width: fit-content;
+  margin-top: 6px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.navbar__user-badge:hover {
+  transform: translateY(-1px);
+}
+
+.navbar__user-badge--verified {
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(46, 204, 113, 0.2) 100%);
+  color: #2ecc71;
+  border: 1px solid rgba(46, 204, 113, 0.35);
+}
+
+.navbar__user-badge--unverified {
+  background: linear-gradient(135deg, rgba(241, 196, 15, 0.08) 0%, rgba(241, 196, 15, 0.16) 100%);
+  color: #f1c40f;
+  border: 1px solid rgba(241, 196, 15, 0.3);
+}
+
+.navbar__user-badge-icon {
+  font-size: 0.68rem;
+}
+
+/* Tooltip container */
+.navbar__user-badge-tooltip {
+  visibility: hidden;
+  width: 200px;
+  background-color: rgba(15, 32, 67, 0.99);
+  color: var(--paper-white);
+  text-align: center;
+  border-radius: 8px;
+  padding: 10px 14px;
+  position: absolute;
+  z-index: 1050;
+  bottom: 135%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 500;
+  line-height: 1.4;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  text-transform: none;
+  letter-spacing: 0px;
+}
+
+/* Tooltip arrow */
+.navbar__user-badge-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(15, 32, 67, 0.99) transparent transparent transparent;
+}
+
+/* Show the tooltip on hover */
+.navbar__user-badge:hover .navbar__user-badge-tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+.navbar__dropdown-divider {
+  border: none;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 2px 0;
+}
+
+.navbar__user-dropdown-item {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+  outline: none;
+  padding: 8px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 6px;
+}
+
+.navbar__user-dropdown-item:hover {
+  color: var(--paper-white);
+  background: rgba(255, 255, 255, 0.06);
+  border-left-color: var(--signal-red);
+}
+
+.navbar__user-dropdown-logout {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-sizing: border-box;
+  border-radius: 6px;
+}
+
+.navbar__user-dropdown-logout:hover {
+  color: var(--signal-red);
+  background: rgba(232, 48, 42, 0.08);
+  border-left-color: var(--signal-red);
+}
+
+/* Hide desktop auth features at responsive breakpoint */
+@media (max-width: 1200px) {
+
+  .navbar__login-btn,
+  .navbar__user-menu {
+    display: none;
+  }
+}
+
+/* ── Mobile User session elements ── */
+.navbar__mobile-user {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.navbar__mobile-user-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.navbar__mobile-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--signal-red), var(--red-deep));
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(232, 48, 42, 0.3);
+}
+
+.navbar__mobile-user-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: var(--paper-white);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.navbar__mobile-user-class {
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  color: var(--slate);
+  margin-top: 2px;
+}
+
+.navbar__mobile-profile-btn {
+  display: block;
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.76rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+  margin-bottom: -4px;
+}
+
+.navbar__mobile-profile-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.navbar__mobile-logout-btn {
+  width: 100%;
+  padding: 10px;
+  background: rgba(232, 48, 42, 0.1);
+  border: 1px solid var(--signal-red);
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.76rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.navbar__mobile-logout-btn:hover {
+  background: var(--signal-red);
+}
+
+.navbar__mobile-login-btn {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--paper-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+.navbar__mobile-login-btn:hover {
+  border-color: var(--signal-red);
+  background: rgba(255, 255, 255, 0.02);
+}
+```
+
+---
+
+## File 18 {#file-18}
+
+**📄 Path:** `src\components\Navbar.jsx`
+
+```jsx
+import { useState, useEffect } from 'react'
+import { useLocation, Link as RouterLink } from 'react-router-dom'
+import { Link as ScrollLink } from 'react-scroll'
+import { FaBars, FaTimes, FaChevronDown, FaCheckCircle, FaClock } from 'react-icons/fa'
+import dftLogo from '../assets/Logo/dft-logo.avif'
+import './Navbar.css'
+
+const navLinks = [
+  { label: 'Home', to: 'home' },
+  { label: 'About Us', to: 'about' },
+  { label: 'Alumni Spotlight', to: 'spotlight' },
+  { label: 'Committee', to: 'committee' },
+  { label: 'Gallery', to: 'gallery' },
+  { label: 'Events', to: 'events' },
+  { label: 'Newsletter', to: 'newsletter' },
+  { label: 'Contact', to: 'contact' },
+]
+
+export default function Navbar({ user, onLogout }) {
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const location = useLocation()
+  const isHome = location.pathname === '/'
+
+  const getDropdownDisplayName = () => {
+    if (!user) return '';
+    if (user.firstName || user.lastName) {
+      return `${user.firstName || ''} ${user.lastName || ''}`.trim();
+    }
+    const parts = (user.name || '').trim().split(/\s+/);
+    if (parts.length <= 2) return user.name;
+    const titles = ['dr', 'dr.', 'prof', 'prof.', 'mr', 'mr.', 'ms', 'ms.', 'mrs', 'mrs.'];
+    let startIndex = 0;
+    if (titles.includes(parts[0].toLowerCase()) && parts.length > 2) {
+      startIndex = 1;
+    }
+    const prefix = startIndex === 1 ? parts[0] + ' ' : '';
+    const first = parts[startIndex];
+    const last = parts[parts.length - 1];
+    return `${prefix}${first} ${last}`.trim();
+  };
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    if (!userMenuOpen) return
+    const closeMenu = () => setUserMenuOpen(false)
+    window.addEventListener('click', closeMenu)
+    return () => window.removeEventListener('click', closeMenu)
+  }, [userMenuOpen])
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [menuOpen]);
+
+  return (
+    <>
+      <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
+        <div className="navbar__container">
+
+          {/* Left: Logo */}
+          <div className="navbar__brand">
+            <RouterLink to="/" className="navbar__logo" onClick={() => setMenuOpen(false)}>
+              <img src={dftLogo} alt="DFT Alumni Logo" className="navbar__logo-img" />
+            </RouterLink>
+          </div>
+
+          {/* Center: Desktop nav */}
+          <nav className="navbar__nav">
+            {navLinks.map((link) => {
+              const isAbout = link.label === 'About Us';
+              if (isAbout) {
+                return (
+                  <div key={link.to} className="navbar__dropdown-container">
+                    {isHome ? (
+                      <ScrollLink
+                        to="about"
+                        smooth
+                        duration={600}
+                        offset={-90}
+                        spy
+                        activeClass="active"
+                        className="navbar__link navbar__link--dropdown"
+                      >
+                        About Us <FaChevronDown className="navbar__dropdown-icon" />
+                      </ScrollLink>
+                    ) : (
+                      <RouterLink
+                        to="/"
+                        state={{ scrollTo: 'about' }}
+                        className="navbar__link navbar__link--dropdown"
+                      >
+                        About Us <FaChevronDown className="navbar__dropdown-icon" />
+                      </RouterLink>
+                    )}
+                    <div className="navbar__dropdown-menu">
+                      {isHome ? (
+                        <ScrollLink
+                          to="about"
+                          smooth
+                          duration={600}
+                          offset={-90}
+                          className="navbar__dropdown-item"
+                        >
+                          <span className="navbar__dropdown-item-title">About DFT</span>
+                          <span className="navbar__dropdown-item-desc">Learn about our association</span>
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink
+                          to="/"
+                          state={{ scrollTo: 'about' }}
+                          className="navbar__dropdown-item"
+                        >
+                          <span className="navbar__dropdown-item-title">About DFT</span>
+                          <span className="navbar__dropdown-item-desc">Learn about our association</span>
+                        </RouterLink>
+                      )}
+
+                      {isHome ? (
+                        <ScrollLink
+                          to="vision"
+                          smooth
+                          duration={600}
+                          offset={-90}
+                          className="navbar__dropdown-item"
+                        >
+                          <span className="navbar__dropdown-item-title">Vision & Mission</span>
+                          <span className="navbar__dropdown-item-desc">Our goals & vision statements</span>
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink
+                          to="/"
+                          state={{ scrollTo: 'vision' }}
+                          className="navbar__dropdown-item"
+                        >
+                          <span className="navbar__dropdown-item-title">Vision & Mission</span>
+                          <span className="navbar__dropdown-item-desc">Our goals & vision statements</span>
+                        </RouterLink>
+                      )}
+
+                      {isHome ? (
+                        <ScrollLink
+                          to="founder-desk"
+                          smooth
+                          duration={600}
+                          offset={-90}
+                          className="navbar__dropdown-item"
+                        >
+                          <span className="navbar__dropdown-item-title">Founder Desk</span>
+                          <span className="navbar__dropdown-item-desc">A message from our founder</span>
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink
+                          to="/"
+                          state={{ scrollTo: 'founder-desk' }}
+                          className="navbar__dropdown-item"
+                        >
+                          <span className="navbar__dropdown-item-title">Founder Desk</span>
+                          <span className="navbar__dropdown-item-desc">A message from our founder</span>
+                        </RouterLink>
+                      )}
+                    </div>
+                  </div>
+                );
+              }
+
+              const isEvents = link.label === 'Events';
+              if (isEvents) {
+                return (
+                  <div key={link.to} className="navbar__dropdown-container">
+                    {isHome ? (
+                      <ScrollLink
+                        to={link.to}
+                        smooth
+                        duration={600}
+                        offset={-90}
+                        spy
+                        activeClass="active"
+                        className="navbar__link navbar__link--dropdown"
+                      >
+                        {link.label} <FaChevronDown className="navbar__dropdown-icon" />
+                      </ScrollLink>
+                    ) : (
+                      <RouterLink
+                        to="/"
+                        state={{ scrollTo: link.to }}
+                        className="navbar__link navbar__link--dropdown"
+                      >
+                        {link.label} <FaChevronDown className="navbar__dropdown-icon" />
+                      </RouterLink>
+                    )}
+                    <div className="navbar__dropdown-menu">
+                      <RouterLink to="/sangam2026" className="navbar__dropdown-item">
+                        <span className="navbar__dropdown-item-title">Sangam 2026</span>
+                        <span className="navbar__dropdown-item-desc">Vadodara (Upcoming)</span>
+                        <span className="navbar__dropdown-item-status"></span>
+                      </RouterLink>
+                      <RouterLink to="/sangaath2024" className="navbar__dropdown-item">
+                        <span className="navbar__dropdown-item-title">Sangaath 2024</span>
+                        <span className="navbar__dropdown-item-desc">Surat</span>
+                      </RouterLink>
+                      <RouterLink to="/dftalumnimeet2023" className="navbar__dropdown-item">
+                        <span className="navbar__dropdown-item-title">DFT Alumni Meet 2023</span>
+                        <span className="navbar__dropdown-item-desc">Ahmedabad</span>
+                      </RouterLink>
+                    </div>
+                  </div>
+                );
+              }
+              return isHome ? (
+                <ScrollLink
+                  key={link.to}
+                  to={link.to}
+                  smooth
+                  duration={600}
+                  offset={-90}
+                  spy
+                  activeClass="active"
+                  className="navbar__link"
+                >
+                  {link.label}
+                </ScrollLink>
+              ) : (
+                <RouterLink
+                  key={link.to}
+                  to="/"
+                  state={{ scrollTo: link.to }}
+                  className="navbar__link"
+                >
+                  {link.label}
+                </RouterLink>
+              );
+            })}
+          </nav>
+
+          {/* Right: CTA & Hamburger */}
+          <div className="navbar__actions">
+            <RouterLink to="/sangam2026" className="navbar__cta">
+              <span className="navbar__cta-text">SANGAM 2026</span>
+              <div className="navbar__cta-glow"></div>
+            </RouterLink>
+
+            {user ? (
+              <div className="navbar__user-menu">
+                <button
+                  className="navbar__user-btn"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setUserMenuOpen(!userMenuOpen)
+                  }}
+                  aria-label="User menu"
+                >
+                  <span className="navbar__avatar">{user.name.charAt(0).toUpperCase()}</span>
+                  <span className="navbar__user-name">Hi, {user.name.split(' ')[0]}</span>
+                  <FaChevronDown className={`navbar__dropdown-arrow ${userMenuOpen ? 'open' : ''}`} />
+                </button>
+                <div className={`navbar__user-dropdown ${userMenuOpen ? 'navbar__user-dropdown--open' : ''}`}>
+                  <div className="navbar__dropdown-header">
+                    <strong className="navbar__dropdown-name">{getDropdownDisplayName()}</strong>
+                    <div className={`navbar__user-badge ${user.verification_status ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`}>
+                      {user.verification_status ? (
+                        <>
+                          <FaCheckCircle className="navbar__user-badge-icon" /> Verified Alumni
+                          <span className="navbar__user-badge-tooltip">Your account has been successfully verified by the Administrator.</span>
+                        </>
+                      ) : (
+                        <>
+                          <FaClock className="navbar__user-badge-icon" /> Pending Verification
+                          <span className="navbar__user-badge-tooltip">Admin will verify the account, this might take 1-2 days</span>
+                        </>
+                      )}
+                    </div>
+                    <span className="navbar__dropdown-sub">Class of {user.degree ? `${user.degree} · ` : ''}{user.passoutYear || user.batch}</span>
+                  </div>
+                  <hr className="navbar__dropdown-divider" />
+                  <RouterLink
+                    to="/profile"
+                    className="navbar__user-dropdown-item"
+                    onClick={() => setUserMenuOpen(false)}
+                  >
+                    My Profile
+                  </RouterLink>
+                  {/* <hr className="navbar__dropdown-divider" /> */}
+                  {(user.account_type === 'admin' || user.account_type === 'developer') && (
+                    <>
+                      <RouterLink
+                        to="/admin"
+                        className="navbar__user-dropdown-item navbar__user-dropdown-admin"
+                        onClick={() => setUserMenuOpen(false)}
+                        style={{ color: 'var(--signal-red)', fontWeight: 'bold' }}
+                      >
+                        Admin Dashboard
+                      </RouterLink>
+                      {/* <hr className="navbar__dropdown-divider" /> */}
+                    </>
+                  )}
+                  <button
+                    onClick={() => {
+                      onLogout()
+                      setUserMenuOpen(false)
+                    }}
+                    className="navbar__user-dropdown-item navbar__user-dropdown-logout"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <RouterLink to="/login" className="navbar__login-btn">
+                Alumni Portal
+              </RouterLink>
+            )}
+
+            <button
+              className={`navbar__hamburger ${menuOpen ? 'navbar__hamburger--active' : ''}`}
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+            >
+              {menuOpen ? <FaTimes /> : <FaBars />}
+            </button>
+          </div>
+
+        </div>
+      </header>
+
+      {/* Mobile Drawer Overlay */}
+      <div
+        className={`navbar__mobile-overlay ${menuOpen ? 'navbar__mobile-overlay--open' : ''}`}
+        onClick={() => setMenuOpen(false)}
+      ></div>
+
+      {/* Mobile Drawer */}
+      <div className={`navbar__mobile-drawer ${menuOpen ? 'navbar__mobile-drawer--open' : ''}`}>
+        <div className="navbar__mobile-drawer-inner">
+          <nav className="navbar__mobile-nav">
+            {navLinks.map((link, index) => (
+              <div
+                key={link.to}
+                className="navbar__mobile-item"
+                style={{ transitionDelay: `${0.05 + (index * 0.05)}s` }}
+              >
+                {link.label === 'About Us' ? (
+                  <>
+                    {isHome ? (
+                      <ScrollLink
+                        to="about"
+                        smooth
+                        duration={600}
+                        offset={-90}
+                        className="navbar__mobile-link"
+                        activeClass="active"
+                        spy
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        About Us
+                      </ScrollLink>
+                    ) : (
+                      <RouterLink
+                        to="/"
+                        state={{ scrollTo: 'about' }}
+                        className="navbar__mobile-link"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        About Us
+                      </RouterLink>
+                    )}
+                    <div className="navbar__mobile-submenu">
+                      {isHome ? (
+                        <ScrollLink
+                          to="about"
+                          smooth
+                          duration={600}
+                          offset={-90}
+                          className="navbar__mobile-sublink"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          About DFT
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink
+                          to="/"
+                          state={{ scrollTo: 'about' }}
+                          className="navbar__mobile-sublink"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          About DFT
+                        </RouterLink>
+                      )}
+
+                      {isHome ? (
+                        <ScrollLink
+                          to="vision"
+                          smooth
+                          duration={600}
+                          offset={-90}
+                          className="navbar__mobile-sublink"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          Vision & Mission
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink
+                          to="/"
+                          state={{ scrollTo: 'vision' }}
+                          className="navbar__mobile-sublink"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          Vision & Mission
+                        </RouterLink>
+                      )}
+
+                      {isHome ? (
+                        <ScrollLink
+                          to="founder-desk"
+                          smooth
+                          duration={600}
+                          offset={-90}
+                          className="navbar__mobile-sublink"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          Founder Desk
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink
+                          to="/"
+                          state={{ scrollTo: 'founder-desk' }}
+                          className="navbar__mobile-sublink"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          Founder Desk
+                        </RouterLink>
+                      )}
+                    </div>
+                  </>
+                ) : link.label === 'Events' ? (
+                  <>
+                    {isHome ? (
+                      <ScrollLink
+                        to={link.to}
+                        smooth
+                        duration={600}
+                        offset={-90}
+                        className="navbar__mobile-link"
+                        activeClass="active"
+                        spy
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        {link.label}
+                      </ScrollLink>
+                    ) : (
+                      <RouterLink
+                        to="/"
+                        state={{ scrollTo: link.to }}
+                        className="navbar__mobile-link"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        {link.label}
+                      </RouterLink>
+                    )}
+                    <div className="navbar__mobile-submenu">
+                      <RouterLink
+                        to="/sangam2026"
+                        className="navbar__mobile-sublink"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        Sangam 2026
+                      </RouterLink>
+                      <RouterLink
+                        to="/sangaath2024"
+                        className="navbar__mobile-sublink"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        Sangaath 2024
+                      </RouterLink>
+                      <RouterLink
+                        to="/dftalumnimeet2023"
+                        className="navbar__mobile-sublink"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        DFT Alumni Meet 2023
+                      </RouterLink>
+                    </div>
+                  </>
+                ) : isHome ? (
+                  <ScrollLink
+                    to={link.to}
+                    smooth
+                    duration={600}
+                    offset={-90}
+                    className="navbar__mobile-link"
+                    activeClass="active"
+                    spy
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {link.label}
+                  </ScrollLink>
+                ) : (
+                  <RouterLink
+                    to="/"
+                    state={{ scrollTo: link.to }}
+                    className="navbar__mobile-link"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {link.label}
+                  </RouterLink>
+                )}
+              </div>
+            ))}
+          </nav>
+
+          <div
+            className="navbar__mobile-footer"
+            style={{ transitionDelay: `${0.05 + (navLinks.length * 0.05)}s` }}
+          >
+            {user ? (
+              <div className="navbar__mobile-user">
+                <div className="navbar__mobile-user-info">
+                  <span className="navbar__mobile-avatar">{user.name.charAt(0).toUpperCase()}</span>
+                  <div style={{ textAlign: 'left' }}>
+                    <div className="navbar__mobile-user-name">{getDropdownDisplayName()}</div>
+                    <div className={`navbar__user-badge ${user.verification_status ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`}>
+                      {user.verification_status ? (
+                        <>
+                          <FaCheckCircle className="navbar__user-badge-icon" /> Verified Alumni
+                          <span className="navbar__user-badge-tooltip">Your account has been successfully verified by the Administrator.</span>
+                        </>
+                      ) : (
+                        <>
+                          <FaClock className="navbar__user-badge-icon" /> Pending Verification
+                          <span className="navbar__user-badge-tooltip">Admin will verify the account, this might take 1-2 days</span>
+                        </>
+                      )}
+                    </div>
+                    <div className="navbar__mobile-user-class">{user.passoutYear || user.batch}</div>
+                  </div>
+                </div>
+                <RouterLink
+                  to="/profile"
+                  className="navbar__mobile-profile-btn"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  My Profile
+                </RouterLink>
+                {(user.account_type === 'admin' || user.account_type === 'developer') && (
+                  <RouterLink
+                    to="/admin"
+                    className="navbar__mobile-profile-btn"
+                    onClick={() => setMenuOpen(false)}
+                    style={{ background: 'var(--navy-deep)', color: 'var(--paper-white)', border: 'none', marginTop: '8px', marginBottom: '8px' }}
+                  >
+                    Admin Dashboard
+                  </RouterLink>
+                )}
+                <button
+                  onClick={() => {
+                    onLogout()
+                    setMenuOpen(false)
+                  }}
+                  className="navbar__mobile-logout-btn"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <RouterLink
+                to="/login"
+                className="navbar__mobile-login-btn"
+                onClick={() => setMenuOpen(false)}
+              >
+                Alumni Portal
+              </RouterLink>
+            )}
+
+            <RouterLink
+              to="/sangam2026"
+              className="navbar__mobile-cta-btn"
+              onClick={() => setMenuOpen(false)}
+            >
+              SANGAM 2026
+            </RouterLink>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+```
+
+---
+
+## File 19 {#file-19}
+
+**📄 Path:** `src\components\StateAutocomplete.jsx`
+
+```jsx
+import React, { useState, useEffect, useRef } from 'react';
+import { FaMapMarkerAlt, FaChevronDown } from 'react-icons/fa';
+import { getStatesByCountry } from '../data/stateData';
+import './CountryAutocomplete.css';
+
+export default function StateAutocomplete({
+  id,
+  name,
+  value = '',
+  onChange,
+  country = '',
+  placeholder = 'Select or type state',
+  disabled = false,
+  wrapClassName = '',
+  icon: Icon = FaMapMarkerAlt,
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const wrapperRef = useRef(null);
+  const listRef = useRef(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const availableStates = getStatesByCountry(country);
+  const searchValue = (value || '').trim().toLowerCase();
+
+  const filteredStates = availableStates.filter((st) =>
+    st.toLowerCase().includes(searchValue)
+  ).sort((a, b) => {
+    const aStartsWith = a.toLowerCase().startsWith(searchValue);
+    const bStartsWith = b.toLowerCase().startsWith(searchValue);
+    if (aStartsWith && !bStartsWith) return -1;
+    if (!aStartsWith && bStartsWith) return 1;
+    return a.localeCompare(b);
+  });
+
+  const handleInputChange = (e) => {
+    if (onChange) {
+      onChange(e);
+    }
+    setIsOpen(true);
+    setHighlightedIndex(-1);
+  };
+
+  const handleSelectState = (stateName) => {
+    if (onChange) {
+      onChange({
+        target: {
+          name,
+          value: stateName,
+        },
+      });
+    }
+    setIsOpen(false);
+    setHighlightedIndex(-1);
+  };
+
+  const handleKeyDown = (e) => {
+    if (disabled) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (!isOpen) {
+        setIsOpen(true);
+        setHighlightedIndex(0);
+      } else {
+        setHighlightedIndex((prev) =>
+          prev < filteredStates.length - 1 ? prev + 1 : 0
+        );
+      }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (isOpen) {
+        setHighlightedIndex((prev) =>
+          prev > 0 ? prev - 1 : filteredStates.length - 1
+        );
+      }
+    } else if (e.key === 'Enter') {
+      if (isOpen && highlightedIndex >= 0 && highlightedIndex < filteredStates.length) {
+        e.preventDefault();
+        handleSelectState(filteredStates[highlightedIndex]);
+      }
+    } else if (e.key === 'Escape') {
+      setIsOpen(false);
+      setHighlightedIndex(-1);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen && listRef.current && highlightedIndex >= 0) {
+      const highlightedEl = listRef.current.children[highlightedIndex];
+      if (highlightedEl) {
+        highlightedEl.scrollIntoView({ block: 'nearest' });
+      }
+    }
+  }, [highlightedIndex, isOpen]);
+
+  return (
+    <div className={`country-autocomplete-wrap ${wrapClassName}`} ref={wrapperRef}>
+      {Icon && <Icon className="country-autocomplete__icon login-field__icon profile-field__icon" />}
+      <input
+        id={id}
+        type="text"
+        name={name}
+        value={value}
+        onChange={handleInputChange}
+        onFocus={() => !disabled && setIsOpen(true)}
+        onKeyDown={handleKeyDown}
+        placeholder={placeholder}
+        disabled={disabled}
+        autoComplete="off"
+        className="country-autocomplete__input"
+      />
+      <button
+        type="button"
+        className="country-autocomplete__arrow-btn"
+        onClick={() => !disabled && setIsOpen(!isOpen)}
+        disabled={disabled}
+        tabIndex={-1}
+        aria-label="Toggle state dropdown"
+      >
+        <FaChevronDown
+          className={`country-autocomplete__arrow ${
+            isOpen ? 'country-autocomplete__arrow--open' : ''
+          }`}
+        />
+      </button>
+
+      {isOpen && !disabled && (
+        <ul className="country-autocomplete__dropdown" ref={listRef}>
+          {filteredStates.length > 0 ? (
+            filteredStates.map((st, index) => {
+              const isSelected = st.toLowerCase() === (value || '').trim().toLowerCase();
+              const isHighlighted = index === highlightedIndex;
+              return (
+                <li
+                  key={st}
+                  className={`country-autocomplete__item ${
+                    isHighlighted ? 'country-autocomplete__item--highlighted' : ''
+                  } ${isSelected ? 'country-autocomplete__item--selected' : ''}`}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    handleSelectState(st);
+                  }}
+                  onMouseEnter={() => setHighlightedIndex(index)}
+                >
+                  {st}
+                </li>
+              );
+            })
+          ) : (
+            <li className="country-autocomplete__no-results">No states found</li>
+          )}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+```
+
+---
+
+## File 20 {#file-20}
+
+**📄 Path:** `src\data\cityData.js`
+
+```javascript
+export const CITIES_BY_STATE = {
+  // Gujarat
+  "gujarat": [
+    "Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Jamnagar", "Junagadh",
+    "Gandhinagar", "Anand", "Navsari", "Morbi", "Nadiad", "Surendranagar", "Bharuch",
+    "Mehsana", "Bhuj", "Porbandar", "Vapi", "Veraval", "Godhra", "Patan", "Dahod",
+    "Botad", "Amreli", "Deesa", "Jetpur", "Somnath", "Ankleshwar", "Bardoli", "Gandhidham"
+  ],
+  // Maharashtra
+  "maharashtra": [
+    "Mumbai", "Pune", "Nagpur", "Thane", "Pimpri-Chinchwad", "Nashik", "Kalyan-Dombivli",
+    "Vasai-Virar", "Aurangabad", "Navi Mumbai", "Solapur", "Mira-Bhayandar", "Bhiwandi",
+    "Amravati", "Nanded", "Kolhapur", "Ulhasnagar", "Sangli", "Malegaon", "Jalgaon",
+    "Akola", "Latur", "Dhule", "Ahmednagar", "Chandrapur", "Parbhani", "Ichalkaranji",
+    "Jalna", "Ambarnath", "Bhusawal", "Panvel", "Satara", "Beed", "Yavatmal", "Gondia"
+  ],
+  // Delhi
+  "delhi": [
+    "New Delhi", "Central Delhi", "East Delhi", "North Delhi", "North East Delhi",
+    "North West Delhi", "South Delhi", "South East Delhi", "South West Delhi", "West Delhi", "Dwarka", "Rohini"
+  ],
+  // Karnataka
+  "karnataka": [
+    "Bengaluru", "Mysuru", "Hubballi-Dharwad", "Mangaluru", "Belagavi", "Kalaburagi",
+    "Davanagere", "Ballari", "Vijayapura", "Shivamogga", "Tumakuru", "Raichur",
+    "Bidar", "Udupi", "Hospet", "Gadag-Betageri", "Robertsonpet", "Hassan", "Bhadravati"
+  ],
+  // Tamil Nadu
+  "tamil nadu": [
+    "Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Tiruppur", "Salem",
+    "Erode", "Tirunelveli", "Vellore", "Thoothukudi", "Nagercoil", "Thanjavur",
+    "Dindigul", "Kanchipuram", "Cuddalore", "Tiruvannamalai", "Kumbakonam"
+  ],
+  // Telangana
+  "telangana": [
+    "Hyderabad", "Warangal", "Nizamabad", "Khammam", "Karimnagar", "Ramagundam",
+    "Mahbubnagar", "Nalgonda", "Adilabad", "Suryapet", "Siddipet", "Miryalaguda"
+  ],
+  // Uttar Pradesh
+  "uttar pradesh": [
+    "Lucknow", "Kanpur", "Ghaziabad", "Agra", "Meerut", "Varanasi", "Noida", "Prayagraj",
+    "Bareilly", "Aligarh", "Moradabad", "Saharanpur", "Gorakhpur", "Greater Noida",
+    "Jhansi", "Muzaffarnagar", "Mathura", "Rampur", "Shahjahanpur", "Farrukhabad", "Firozabad"
+  ],
+  // Rajasthan
+  "rajasthan": [
+    "Jaipur", "Jodhpur", "Kota", "Bikaner", "Ajmer", "Udaipur", "Bhilwara", "Alwar",
+    "Bharatpur", "Sikar", "Pali", "Sri Ganganagar", "Churu", "Jhunjhunu", "Barmer"
+  ],
+  // West Bengal
+  "west bengal": [
+    "Kolkata", "Howrah", "Asansol", "Siliguri", "Durgapur", "Bardhaman", "Malda",
+    "Baharampur", "Habra", "Kharagpur", "Shantipur", "Dankuni", "Dhulian", "Ranaghat"
+  ],
+  // Madhya Pradesh
+  "madhya pradesh": [
+    "Indore", "Bhopal", "Jabalpur", "Gwalior", "Ujjain", "Sagar", "Dewas", "Satna",
+    "Ratlam", "Rewa", "Katni", "Singrauli", "Burhanpur", "Khandwa", "Morena", "Bhind"
+  ],
+  // Punjab
+  "punjab": [
+    "Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda", "Mohali", "Hoshiarpur",
+    "Batala", "Pathankot", "Moga", "Abohar", "Malerkotla", "Khanna", "Phagwara"
+  ],
+  // Haryana
+  "haryana": [
+    "Gurugram", "Faridabad", "Panipat", "Ambala", "Yamunanagar", "Rohtak", "Hisar",
+    "Karnal", "Sonipat", "Panchkula", "Bhiwani", "Sirsa", "Bahadurgarh", "Jind"
+  ],
+  // Kerala
+  "kerala": [
+    "Thiruvananthapuram", "Kochi", "Kozhikode", "Kollam", "Thrissur", "Kannur",
+    "Alappuzha", "Kottayam", "Palakkad", "Manjeri", "Thalassery", "Ponnani"
+  ],
+  // Bihar
+  "bihar": [
+    "Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Purnia", "Darbhanga", "Bihar Sharif",
+    "Arrah", "Begusarai", "Katihar", "Munger", "Chhapra", "Danapur", "Bettiah"
+  ],
+  // Andhra Pradesh
+  "andhra pradesh": [
+    "Visakhapatnam", "Vijayawada", "Guntur", "Nellore", "Kurnool", "Kakinada",
+    "Rajahmundry", "Tirupati", "Kadapa", "Anantapur", "Vizianagaram", "Eluru"
+  ],
+  // Goa
+  "goa": [
+    "Panaji", "Margao", "Vasco da Gama", "Mapusa", "Ponda", "Bicholim", "Curchorem"
+  ],
+  // Odisha
+  "odisha": [
+    "Bhubaneswar", "Cuttack", "Rourkela", "Berhampur", "Sambalpur", "Puri", "Balasore",
+    "Bhadrak", "Baripada", "Jharsuguda"
+  ],
+  // Uttarakhand
+  "uttarakhand": [
+    "Dehradun", "Haridwar", "Roorkee", "Haldwani", "Rudraprayag", "Kashipur", "Rishikesh", "Nainital"
+  ],
+  // Jharkhand
+  "jharkhand": [
+    "Ranchi", "Jamshedpur", "Dhanbad", "Bokaro Steel City", "Deoghar", "Phusro", "Hazaribagh", "Giridih"
+  ],
+  // Assam
+  "assam": [
+    "Guwahati", "Silchar", "Dibrugarh", "Jorhat", "Nagaon", "Tinsukia", "Tezpur"
+  ],
+  // Major International Cities
+  "california": ["Los Angeles", "San Francisco", "San Diego", "San Jose", "Fresno", "Sacramento", "Long Beach", "Oakland"],
+  "new york": ["New York City", "Buffalo", "Rochester", "Yonkers", "Syracuse", "Albany"],
+  "texas": ["Houston", "San Antonio", "Dallas", "Austin", "Fort Worth", "El Paso", "Arlington"],
+  "florida": ["Miami", "Orlando", "Tampa", "Jacksonville", "St. Petersburg", "Hialeah"],
+  "illinois": ["Chicago", "Aurora", "Joliet", "Naperville", "Rockford", "Springfield"],
+  "ontario": ["Toronto", "Ottawa", "Mississauga", "Brampton", "Hamilton", "London", "Markham"],
+  "british columbia": ["Vancouver", "Surrey", "Burnaby", "Richmond", "Abbotsford", "Victoria"],
+  "england": ["London", "Birmingham", "Manchester", "Liverpool", "Leeds", "Sheffield", "Bristol"],
+  "dubai": ["Dubai", "Jebel Ali", "Deira", "Bur Dubai", "Dubai Marina"],
+  "abu dhabi": ["Abu Dhabi", "Al Ain", "Al Dhafra"],
+  "sharjah": ["Sharjah", "Khor Fakkan", "Kalba"],
+  "bavaria": ["Munich", "Nuremberg", "Augsburg", "Regensburg", "Ingolstadt"],
+  "berlin": ["Berlin"],
+  "new south wales": ["Sydney", "Newcastle", "Central Coast", "Wollongong", "Maitland"],
+  "victoria": ["Melbourne", "Geelong", "Ballarat", "Bendigo"]
+};
+
+export const ALL_CITIES = Array.from(new Set(
+  Object.values(CITIES_BY_STATE).flat()
+)).sort((a, b) => a.localeCompare(b));
+
+export function getCitiesByState(stateName) {
+  if (!stateName || typeof stateName !== 'string') {
+    return ALL_CITIES;
+  }
+  const cleanState = stateName.trim().toLowerCase();
+
+  for (const key in CITIES_BY_STATE) {
+    if (cleanState === key || cleanState.includes(key) || key.includes(cleanState)) {
+      return CITIES_BY_STATE[key];
+    }
+  }
+
+  return ALL_CITIES;
+}
+
+import { getCountryByState } from './stateData';
+
+export const STATE_NAME_FORMATTED = {
+  "gujarat": "Gujarat",
+  "maharashtra": "Maharashtra",
+  "delhi": "Delhi",
+  "karnataka": "Karnataka",
+  "tamil nadu": "Tamil Nadu",
+  "telangana": "Telangana",
+  "uttar pradesh": "Uttar Pradesh",
+  "rajasthan": "Rajasthan",
+  "west bengal": "West Bengal",
+  "madhya pradesh": "Madhya Pradesh",
+  "punjab": "Punjab",
+  "haryana": "Haryana",
+  "kerala": "Kerala",
+  "bihar": "Bihar",
+  "andhra pradesh": "Andhra Pradesh",
+  "goa": "Goa",
+  "odisha": "Odisha",
+  "uttarakhand": "Uttarakhand",
+  "jharkhand": "Jharkhand",
+  "assam": "Assam",
+  "california": "California",
+  "new york": "New York",
+  "texas": "Texas",
+  "florida": "Florida",
+  "illinois": "Illinois",
+  "ontario": "Ontario",
+  "british columbia": "British Columbia",
+  "england": "England",
+  "dubai": "Dubai",
+  "abu dhabi": "Abu Dhabi",
+  "sharjah": "Sharjah",
+  "bavaria": "Bavaria",
+  "berlin": "Berlin",
+  "new south wales": "New South Wales",
+  "victoria": "Victoria"
+};
+
+export function getStateAndCountryByCity(cityName) {
+  if (!cityName || typeof cityName !== 'string') {
+    return { state: '', country: '' };
+  }
+  const cleanCity = cityName.trim().toLowerCase();
+
+  for (const [stateKey, cityList] of Object.entries(CITIES_BY_STATE)) {
+    const foundCity = cityList.find(c => c.toLowerCase() === cleanCity);
+    if (foundCity) {
+      const state = STATE_NAME_FORMATTED[stateKey] || stateKey.charAt(0).toUpperCase() + stateKey.slice(1);
+      const country = getCountryByState(state);
+      return { state, country };
+    }
+  }
+
+  if (cleanCity.length >= 3) {
+    for (const [stateKey, cityList] of Object.entries(CITIES_BY_STATE)) {
+      const foundCity = cityList.find(c => c.toLowerCase().startsWith(cleanCity));
+      if (foundCity) {
+        const state = STATE_NAME_FORMATTED[stateKey] || stateKey.charAt(0).toUpperCase() + stateKey.slice(1);
+        const country = getCountryByState(state);
+        return { state, country };
+      }
+    }
+  }
+
+  return { state: '', country: '' };
+}
+
+```
+
+---
+
+## File 21 {#file-21}
+
+**📄 Path:** `src\data\committeeData.js`
+
+```javascript
+import member1 from '../assets/CoreTeam/Haresh_Mandaliya.avif'
+import member2 from '../assets/CoreTeam/Ashok_Pansuriya.avif'
+import member3 from '../assets/CoreTeam/Mahesh_Patel.avif'
+import sangam1 from '../assets/Sangam_Team/Darshak_Maru.avif'
+import sangam2 from '../assets/Sangam_Team/Keyur_Darji.avif'
+import sangam3 from '../assets/Sangam_Team/Pratik_Patel.avif'
+import sangam4 from '../assets/Sangam_Team/Ramdevsinh_Gohil.avif'
+import sangam5 from '../assets/Sangam_Team/Tarak_Pandya.avif'
+
+export const sangamCoreTeam = [
+  { name: 'Darshak Maru', role: 'Core Committee Member', batch: 'Batch of 2002', img: sangam1, gmail: 'darshakmaru@yahoo.co.in', linkedin: 'https://www.linkedin.com/in/darshak-maru-b588b878' },
+  { name: 'Keyur Darji', role: 'Core Committee Member', batch: 'Batch of 2003', img: sangam2, gmail: 'keyurjdarji@gmail.com', linkedin: 'https://www.linkedin.com/in/keyur-darji-23255973/' },
+  { name: 'Pratik Patel', role: 'Core Committee Member', batch: 'Batch of 2008', img: sangam3, gmail: 'pdpatel07@gmail.com', linkedin: 'https://www.linkedin.com/in/pratik-patel-32957317/' },
+  { name: 'Ramdevsinh Gohil', role: 'Core Committee Member', batch: 'Batch of 2014', img: sangam4, gmail: 'ramdevsinh.gohil007@yahoo.com', linkedin: 'https://www.linkedin.com/in/ramdevsinh-gohil-9b7b63105/' },
+  { name: 'Tarak Pandya', role: 'Core Committee Member', batch: 'Batch of 2004', img: sangam5, gmail: 'tarak@indotecheng.com', linkedin: 'https://www.linkedin.com/in/tarak-pandya-14a50419a/' },
+]
+
+export const members = [
+  { name: 'Haresh Mandaliya', role: 'PRESIDENT', batch: 'Batch of 1987', img: member1, gmail: 'haresh.dd@yahoo.com', linkedin: 'https://www.linkedin.com/in/haresh-mandalia-b83854242?' },
+  { name: 'Mahesh Patel', role: 'SECRETARY', batch: 'Batch of 1995', img: member3, gmail: 'pmaheshpatel@gmail.com', linkedin: 'https://www.linkedin.com/in/mahesh-patel-b34aa87/' },
+  { name: 'Ashok Pansuriya', role: 'Treasurer', batch: 'Batch of 1993', img: member2, gmail: 'Akpansuriya26@gmail.com', linkedin: '' },
+]
+
+```
+
+---
+
+## File 22 {#file-22}
+
+**📄 Path:** `src\data\countryData.js`
+
+```javascript
+export const countryCodes = [
+  { code: '+91', label: '🇮🇳 +91 (India)' },
+  { code: '+93', label: '🇦🇫 +93 (Afghanistan)' },
+  { code: '+355', label: '🇦🇱 +355 (Albania)' },
+  { code: '+213', label: '🇩🇿 +213 (Algeria)' },
+  { code: '+376', label: '🇦🇩 +376 (Andorra)' },
+  { code: '+244', label: '🇦🇴 +244 (Angola)' },
+  { code: '+1', label: '🇦🇬 +1 (Antigua and Barbuda)' },
+  { code: '+54', label: '🇦🇷 +54 (Argentina)' },
+  { code: '+374', label: '🇦🇲 +374 (Armenia)' },
+  { code: '+61', label: '🇦🇺 +61 (Australia)' },
+  { code: '+43', label: '🇦🇹 +43 (Austria)' },
+  { code: '+994', label: '🇦🇿 +994 (Azerbaijan)' },
+  { code: '+1', label: '🇧🇸 +1 (Bahamas)' },
+  { code: '+973', label: '🇧🇭 +973 (Bahrain)' },
+  { code: '+880', label: '🇧🇩 +880 (Bangladesh)' },
+  { code: '+1', label: '🇧🇧 +1 (Barbados)' },
+  { code: '+375', label: '🇧🇾 +375 (Belarus)' },
+  { code: '+32', label: '🇧🇪 +32 (Belgium)' },
+  { code: '+501', label: '🇧🇿 +501 (Belize)' },
+  { code: '+229', label: '🇧🇯 +229 (Benin)' },
+  { code: '+975', label: '🇧🇹 +975 (Bhutan)' },
+  { code: '+591', label: '🇧🇴 +591 (Bolivia)' },
+  { code: '+387', label: '🇧🇦 +387 (Bosnia and Herzegovina)' },
+  { code: '+267', label: '🇧🇼 +267 (Botswana)' },
+  { code: '+55', label: '🇧🇷 +55 (Brazil)' },
+  { code: '+673', label: '🇧🇳 +673 (Brunei)' },
+  { code: '+359', label: '🇧🇬 +359 (Bulgaria)' },
+  { code: '+226', label: '🇧🇫 +226 (Burkina Faso)' },
+  { code: '+257', label: '🇧🇮 +257 (Burundi)' },
+  { code: '+238', label: '🇨🇻 +238 (Cabo Verde)' },
+  { code: '+855', label: '🇰🇭 +855 (Cambodia)' },
+  { code: '+237', label: '🇨🇲 +237 (Cameroon)' },
+  { code: '+1', label: '🇨🇦 +1 (Canada)' },
+  { code: '+236', label: '🇨🇫 +236 (Central African Republic)' },
+  { code: '+235', label: '🇹🇩 +235 (Chad)' },
+  { code: '+56', label: '🇨🇱 +56 (Chile)' },
+  { code: '+86', label: '🇨🇳 +86 (China)' },
+  { code: '+57', label: '🇨🇴 +57 (Colombia)' },
+  { code: '+269', label: '🇰🇲 +269 (Comoros)' },
+  { code: '+242', label: '🇨🇬 +242 (Congo (Republic of the))' },
+  { code: '+506', label: '🇨🇷 +506 (Costa Rica)' },
+  { code: '+385', label: '🇭🇷 +385 (Croatia)' },
+  { code: '+53', label: '🇨🇺 +53 (Cuba)' },
+  { code: '+357', label: '🇨🇾 +357 (Cyprus)' },
+  { code: '+420', label: '🇨🇿 +420 (Czechia)' },
+  { code: '+225', label: '🇨🇮 +225 (Côte d\'Ivoire) ' },
+  { code: '+243', label: '🇨🇩 +243 (DR Congo)' },
+  { code: '+45', label: '🇩🇰 +45 (Denmark)' },
+  { code: '+253', label: '🇩🇯 +253 (Djibouti)' },
+  { code: '+1', label: '🇩🇲 +1 (Dominica)' },
+  { code: '+1', label: '🇩🇴 +1 (Dominican Republic)' },
+  { code: '+593', label: '🇪🇨 +593 (Ecuador)' },
+  { code: '+20', label: '🇪🇬 +20 (Egypt)' },
+  { code: '+503', label: '🇸🇻 +503 (El Salvador)' },
+  { code: '+240', label: '🇬🇶 +240 (Equatorial Guinea)' },
+  { code: '+291', label: '🇪🇷 +291 (Eritrea)' },
+  { code: '+372', label: '🇪🇪 +372 (Estonia)' },
+  { code: '+268', label: '🇸🇿 +268 (Eswatini)' },
+  { code: '+251', label: '🇪🇹 +251 (Ethiopia)' },
+  { code: '+679', label: '🇫🇯 +679 (Fiji)' },
+  { code: '+358', label: '🇫🇮 +358 (Finland)' },
+  { code: '+33', label: '🇫🇷 +33 (France)' },
+  { code: '+241', label: '🇬🇦 +241 (Gabon)' },
+  { code: '+220', label: '🇬🇲 +220 (Gambia)' },
+  { code: '+995', label: '🇬🇪 +995 (Georgia)' },
+  { code: '+49', label: '🇩🇪 +49 (Germany)' },
+  { code: '+233', label: '🇬🇭 +233 (Ghana)' },
+  { code: '+30', label: '🇬🇷 +30 (Greece)' },
+  { code: '+1', label: '🇬🇩 +1 (Grenada)' },
+  { code: '+502', label: '🇬🇹 +502 (Guatemala)' },
+  { code: '+224', label: '🇬🇳 +224 (Guinea)' },
+  { code: '+245', label: '🇬🇼 +245 (Guinea-Bissau)' },
+  { code: '+592', label: '🇬🇾 +592 (Guyana)' },
+  { code: '+509', label: '🇭🇹 +509 (Haiti)' },
+  { code: '+504', label: '🇭🇳 +504 (Honduras)' },
+  { code: '+36', label: '🇭🇺 +36 (Hungary)' },
+  { code: '+354', label: '🇮🇸 +354 (Iceland)' },
+  { code: '+62', label: '🇮🇩 +62 (Indonesia)' },
+  { code: '+98', label: '🇮🇷 +98 (Iran)' },
+  { code: '+964', label: '🇮🇶 +964 (Iraq)' },
+  { code: '+353', label: '🇮🇪 +353 (Ireland)' },
+  { code: '+972', label: '🇮🇱 +972 (Israel)' },
+  { code: '+39', label: '🇮🇹 +39 (Italy)' },
+  { code: '+1', label: '🇯🇲 +1 (Jamaica)' },
+  { code: '+81', label: '🇯🇵 +81 (Japan)' },
+  { code: '+962', label: '🇯🇴 +962 (Jordan)' },
+  { code: '+7', label: '🇰🇿 +7 (Kazakhstan)' },
+  { code: '+254', label: '🇰🇪 +254 (Kenya)' },
+  { code: '+686', label: '🇰🇮 +686 (Kiribati)' },
+  { code: '+965', label: '🇰🇼 +965 (Kuwait)' },
+  { code: '+996', label: '🇰🇬 +996 (Kyrgyzstan)' },
+  { code: '+856', label: '🇱🇦 +856 (Laos)' },
+  { code: '+371', label: '🇱🇻 +371 (Latvia)' },
+  { code: '+961', label: '🇱🇧 +961 (Lebanon)' },
+  { code: '+266', label: '🇱🇸 +266 (Lesotho)' },
+  { code: '+231', label: '🇱🇷 +231 (Liberia)' },
+  { code: '+218', label: '🇱🇾 +218 (Libya)' },
+  { code: '+423', label: '🇱🇮 +423 (Liechtenstein)' },
+  { code: '+370', label: '🇱🇹 +370 (Lithuania)' },
+  { code: '+352', label: '🇱🇺 +352 (Luxembourg)' },
+  { code: '+261', label: '🇲🇬 +261 (Madagascar)' },
+  { code: '+265', label: '🇲🇼 +265 (Malawi)' },
+  { code: '+60', label: '🇲🇾 +60 (Malaysia)' },
+  { code: '+960', label: '🇲🇻 +960 (Maldives)' },
+  { code: '+223', label: '🇲🇱 +223 (Mali)' },
+  { code: '+356', label: '🇲🇹 +356 (Malta)' },
+  { code: '+692', label: '🇲🇭 +692 (Marshall Islands)' },
+  { code: '+222', label: '🇲🇷 +222 (Mauritania)' },
+  { code: '+230', label: '🇲🇺 +230 (Mauritius)' },
+  { code: '+52', label: '🇲🇽 +52 (Mexico)' },
+  { code: '+691', label: '🇫🇲 +691 (Micronesia)' },
+  { code: '+373', label: '🇲🇩 +373 (Moldova)' },
+  { code: '+377', label: '🇲🇨 +377 (Monaco)' },
+  { code: '+976', label: '🇲🇳 +976 (Mongolia)' },
+  { code: '+382', label: '🇲🇪 +382 (Montenegro)' },
+  { code: '+212', label: '🇲🇦 +212 (Morocco)' },
+  { code: '+258', label: '🇲🇿 +258 (Mozambique)' },
+  { code: '+95', label: '🇲🇲 +95 (Myanmar)' },
+  { code: '+264', label: '🇳🇦 +264 (Namibia)' },
+  { code: '+674', label: '🇳🇷 +674 (Nauru)' },
+  { code: '+977', label: '🇳🇵 +977 (Nepal)' },
+  { code: '+31', label: '🇳🇱 +31 (Netherlands)' },
+  { code: '+64', label: '🇳🇿 +64 (New Zealand)' },
+  { code: '+505', label: '🇳🇮 +505 (Nicaragua)' },
+  { code: '+227', label: '🇳🇪 +227 (Niger)' },
+  { code: '+234', label: '🇳🇬 +234 (Nigeria)' },
+  { code: '+850', label: '🇰🇵 +850 (North Korea)' },
+  { code: '+389', label: '🇲🇰 +389 (North Macedonia)' },
+  { code: '+47', label: '🇳🇴 +47 (Norway)' },
+  { code: '+968', label: '🇴🇲 +968 (Oman)' },
+  { code: '+92', label: '🇵🇰 +92 (Pakistan)' },
+  { code: '+680', label: '🇵🇼 +680 (Palau)' },
+  { code: '+970', label: '🇵🇸 +970 (Palestine)' },
+  { code: '+507', label: '🇵🇦 +507 (Panama)' },
+  { code: '+675', label: '🇵🇬 +675 (Papua New Guinea)' },
+  { code: '+595', label: '🇵🇾 +595 (Paraguay)' },
+  { code: '+51', label: '🇵🇪 +51 (Peru)' },
+  { code: '+63', label: '🇵🇭 +63 (Philippines)' },
+  { code: '+48', label: '🇵🇱 +48 (Poland)' },
+  { code: '+351', label: '🇵🇹 +351 (Portugal)' },
+  { code: '+974', label: '🇶🇦 +974 (Qatar)' },
+  { code: '+40', label: '🇷🇴 +40 (Romania)' },
+  { code: '+7', label: '🇷🇺 +7 (Russia)' },
+  { code: '+250', label: '🇷🇼 +250 (Rwanda)' },
+  { code: '+1', label: '🇰🇳 +1 (Saint Kitts and Nevis)' },
+  { code: '+1', label: '🇱🇨 +1 (Saint Lucia)' },
+  { code: '+1', label: '🇻🇨 +1 (Saint Vincent and the Grenadines)' },
+  { code: '+685', label: '🇼🇸 +685 (Samoa)' },
+  { code: '+378', label: '🇸🇲 +378 (San Marino)' },
+  { code: '+239', label: '🇸🇹 +239 (Sao Tome and Principe)' },
+  { code: '+966', label: '🇸🇦 +966 (Saudi Arabia)' },
+  { code: '+221', label: '🇸🇳 +221 (Senegal)' },
+  { code: '+381', label: '🇷🇸 +381 (Serbia)' },
+  { code: '+248', label: '🇸🇨 +248 (Seychelles)' },
+  { code: '+232', label: '🇸🇱 +232 (Sierra Leone)' },
+  { code: '+65', label: '🇸🇬 +65 (Singapore)' },
+  { code: '+421', label: '🇸🇰 +421 (Slovakia)' },
+  { code: '+386', label: '🇸🇮 +386 (Slovenia)' },
+  { code: '+677', label: '🇸🇧 +677 (Solomon Islands)' },
+  { code: '+252', label: '🇸🇴 +252 (Somalia)' },
+  { code: '+27', label: '🇿🇦 +27 (South Africa)' },
+  { code: '+82', label: '🇰🇷 +82 (South Korea)' },
+  { code: '+211', label: '🇸🇸 +211 (South Sudan)' },
+  { code: '+34', label: '🇪🇸 +34 (Spain)' },
+  { code: '+94', label: '🇱🇰 +94 (Sri Lanka)' },
+  { code: '+249', label: '🇸🇩 +249 (Sudan)' },
+  { code: '+597', label: '🇸🇷 +597 (Suriname)' },
+  { code: '+46', label: '🇸🇪 +46 (Sweden)' },
+  { code: '+41', label: '🇨🇭 +41 (Switzerland)' },
+  { code: '+963', label: '🇸🇾 +963 (Syria)' },
+  { code: '+992', label: '🇹🇯 +992 (Tajikistan)' },
+  { code: '+255', label: '🇹🇿 +255 (Tanzania)' },
+  { code: '+66', label: '🇹🇭 +66 (Thailand)' },
+  { code: '+670', label: '🇹🇱 +670 (Timor-Leste)' },
+  { code: '+228', label: '🇹🇬 +228 (Togo)' },
+  { code: '+676', label: '🇹🇴 +676 (Tonga)' },
+  { code: '+1', label: '🇹🇹 +1 (Trinidad and Tobago)' },
+  { code: '+216', label: '🇹🇳 +216 (Tunisia)' },
+  { code: '+90', label: '🇹🇷 +90 (Turkey)' },
+  { code: '+993', label: '🇹🇲 +993 (Turkmenistan)' },
+  { code: '+688', label: '🇹🇻 +688 (Tuvalu)' },
+  { code: '+256', label: '🇺🇬 +256 (Uganda)' },
+  { code: '+380', label: '🇺🇦 +380 (Ukraine)' },
+  { code: '+971', label: '🇦🇪 +971 (United Arab Emirates)' },
+  { code: '+44', label: '🇬🇧 +44 (United Kingdom)' },
+  { code: '+1', label: '🇺🇸 +1 (United States)' },
+  { code: '+598', label: '🇺🇾 +598 (Uruguay)' },
+  { code: '+998', label: '🇺🇿 +998 (Uzbekistan)' },
+  { code: '+678', label: '🇻🇺 +678 (Vanuatu)' },
+  { code: '+39', label: '🇻🇦 +39 (Vatican City)' },
+  { code: '+58', label: '🇻🇪 +58 (Venezuela)' },
+  { code: '+84', label: '🇻🇳 +84 (Vietnam)' },
+  { code: '+967', label: '🇾🇪 +967 (Yemen)' },
+  { code: '+260', label: '🇿🇲 +260 (Zambia)' },
+  { code: '+263', label: '🇿🇼 +263 (Zimbabwe)' }
+]
+
+export const COUNTRIES = Array.from(new Set(
+  countryCodes.map(c => {
+    const start = c.label.indexOf('(');
+    const end = c.label.lastIndexOf(')');
+    if (start !== -1 && end !== -1 && end > start) {
+      return c.label.substring(start + 1, end).trim();
+    }
+    return '';
+  }).filter(Boolean)
+)).sort((a, b) => {
+  if (a === 'India') return -1;
+  if (b === 'India') return 1;
+  return a.localeCompare(b);
+});
+
+```
+
+---
+
+## File 23 {#file-23}
+
+**📄 Path:** `src\data\formdata.js`
+
+```javascript
+export const ACADEMIC_YEARS = Array.from({ length: 2040 - 1983 + 1 }, (_, i) => String(1983 + i))
+
+export const DEGREE_OPTIONS = [
+  "Associate Degree",
+  "Bachelor’s Degree",
+  "Master’s Degree",
+  "Doctoral Degree (PhD / Ed.D.)",
+  "Other"
+]
+
+export const GENDER_OPTIONS = [
+  "Male",
+  "Female",
+  "Other",
+  "Prefer not to say"
+]
+
+export const CERTIFICATION_OPTIONS = [
+  "Non-Destructive Testing (NDT)",
+  "Welding",
+  "Corrosion Protection",
+  "Piping",
+  "Project Management",
+  "Quality",
+  "Other"
+]
+
+export const PRODUCT_SERVICE_OPTIONS = [
+  "Process Equipments, Heat Exchanger, Piping",
+  "Skid Mounted Equipments",
+  "Renewable Energy Products",
+  "Cryogenic Equipments",
+  "Boiler / Steam Products",
+  "Daily / Cold Storage Products",
+  "Structural Fabrication / PEB",
+  "Defence Products",
+  "Pharma Equipments",
+  "Automobile Products",
+  "Manpower Supplier / Job Work",
+  "Inspection & Certification Services",
+  "Electrical Equipment",
+  "Food / Beverage Equipment",
+  "NDT Services",
+  "Others",
+]
+
+export const PLACEHOLDERS = {
+  loginEmail: 'your@email.com',
+  loginPassword: '••••••••',
+  firstName: 'First Name',
+  middleName: 'Middle Name',
+  lastName: 'Last Name',
+  regEmail: 'Email Address',
+  phone: 'Contact Number',
+  secondaryPhone: 'Secondary Contact Number',
+  whatsapp: 'Whatsapp Number',
+  city: 'City',
+  state: 'State',
+  country: 'Country',
+  degreeDomain: 'Degree Domain',
+  company: 'Company Name',
+  department: 'Department',
+  division: 'Division',
+  jobTitle: 'Designation',
+  companyWebsite: 'https://example.com',
+  linkedin: 'https://linkedin.com/in/username',
+  companyCity: 'City',
+  companyState: 'State',
+  companyCountry: 'Country',
+  otherProductServices: 'Enter details of other products/services offered',
+  lastPromotionDesignation: 'e.g. Team Lead',
+  certificationDetail: 'Detail about Certifications / Qualifications',
+  awardDetail: 'Award Details (e.g. Best Employee 2025)',
+  regPassword: 'Min 6 characters',
+  confirmPassword: 'Re-type password',
+  captcha: 'Type the characters shown above (case-sensitive)',
+  verifyPhone: 'Enter phone number',
+  otherHobbies: 'Enter other interests (comma-separated)',
+  workExperience: 'e.g. 5'
+}
+
+export const HOBBY_OPTIONS = [
+  "Art & Craft",
+  "Camping / Trekking",
+  "Cooking",
+  "Dancing",
+  "Music Instrument",
+  "Photography & Videography",
+  "Playing Sports",
+  "Poetry",
+  "Reading",
+  "Singing",
+  "Social Media Content Creation",
+  "Social Work",
+  "Yoga / Fitness",
+  "Others"
+]
+
+export const COMPANY_OPTIONS = [
+  "AARTI INDUSTRIES LIMITED",
+  "ACCENTURE INDIA PVT LIMITED",
+  "ACME INDUSTRIES",
+  "ADANI ENTERPRISE LIMITED",
+  "ADANI KUTCH COPPER LIMITED",
+  "ADANI NEW INDUSTRIES LIMITED",
+  "ADANI SOLAR PVT LIMITED",
+  "ADNOC OFFSHORE",
+  "AERO ENGINEERS PVT LIMITED",
+  "AEROTHERM PRODUCTS",
+  "AGARWAL TANKS AND ALLIED WORKS",
+  "AIA ENGINEERING LIMITED",
+  "AIROIL FLAREGAS PVT LIMITED",
+  "AKURAI PEB LLP",
+  "AL ZAMIL HEAVY INDUSTRIES LIMITED",
+  "ALLMARC INDUSTRIES PVT LIMITED",
+  "ALSTOM RAIL TRANSPORTATION INDIA PVT LIMITED",
+  "AMMANN INDIA PVT LIMITED",
+  "AMNEX INFOTECHNOLODGIES PVT LIMITED",
+  "AMNS INDIA LIMITED",
+  "ANUP ENGINEERING LIMITED",
+  "ARC ENGINEERS",
+  "ARD SYSTEMS INC",
+  "ASC TECHNOLOGY SOLUTIONS LLC",
+  "ASHTAVINAYAKA TECHNO CRAFT PVT LIMITED",
+  "ASIAN ENERGY LIMITED",
+  "ATE ENTERPRISES PVT LIMITED",
+  "AXTEL INDUSTRIES LIMITED",
+  "BAHRAIN PETROLEUM COMPANY",
+  "BAJAJ FINANCE LIMITED",
+  "BAJAJ FINSERV LIMITED",
+  "BALAJI WAFERS PVT LIMITED",
+  "BAPU'S SHIPPING JAMNAGAR PVT LIMITED",
+  "BARODA EQUIPMENT AND VESSELS PVT LIMITED",
+  "BELFROST INTERNATIONAL LLP",
+  "BEW ENGINEERING LIMITED",
+  "BIOSTADT INDIA LIMITED",
+  "BITSCAPE INFOTECH PRIVATE LIMITED",
+  "BLUE STAR LIMITED",
+  "BRADY AND MORRIS ENGINEERING CO LIMITED",
+  "BRIGHTECH CONTROL VALVE PRIVATE LIMITED",
+  "BUREAU VERITAS (I) PVT LIMITED",
+  "BUREAU VERITAS INDIA PVT LIMITED",
+  "CARYSIL STEEL PVT LIMITED",
+  "CB DOCTOR VENTILATORS PVT LIMITED",
+  "CHEM PROCESS SYSTEMS PVT LIMITED",
+  "COMFIT & VALVE PVT LIMITED",
+  "CREATIVE PRODUCT PVT LIMITED",
+  "CRYOGAS EQUIPMENT PVT LIMITED",
+  "CU-BUILT RENEWABLE ENERGY PVTLIMITED",
+  "DEE FABRICOM PVT LIMITED",
+  "DEEPAK PHENOLICS LIMITED",
+  "DHYEY CONSULTING SERVICES PVT LIMITED",
+  "DNV",
+  "EAST PIPES",
+  "EHES LIMITED",
+  "ELCO INTERNATIONAL ENGINEERING CO LLC",
+  "ELECON ENGG PVT LIMITED",
+  "ELECTROTHERM INDIA LIMITED",
+  "EPSILON ENGINEERING PVT LIMITED",
+  "ESAB INDIA LIMITED",
+  "ETS KIVU KWETU LIMITED",
+  "FABTECH INTERNATIONAL LIMITED",
+  "FILSEP EQUIPMENT PRIVATE LIMITED",
+  "FLEXICO ENGITECH",
+  "FLIPKART INDIA PRIVATE LIMITED",
+  "FLOURISH CREATIONS PVT LIMITED",
+  "GE RENEWABLE ENERGY",
+  "GEA PROCESS ENGINEERING INDIA PVT LIMITED",
+  "GMM PFAUDLER LIMITED",
+  "GODREJ & BOYCE MFG CO LIMITED",
+  "GUJARAT FLOUROCHEMICALS LIMITED",
+  "GUJARAT GAS LIMITED",
+  "GUJARAT INFRAPIPES  PVT LIMITED",
+  "GUJARAT NARMADA VALLY FERTILIZER AND CHEMICALS LIMITED",
+  "GULF LLOYED INDUSTRIAL SERVICES PVT LIMITED",
+  "HARSHA ENGINEERS INTERNATIONAL LIMITED",
+  "HI TECH ELASTOMERS LIMITED",
+  "HI TECH INVESTMENT CASTINGS PRIVATE LIMITED",
+  "HIGHLY INDIA PVT LIMITED",
+  "HLE GLASCOAT LIMITED",
+  "HOLTECASIA PVT LIMITED",
+  "HOOPER WELDING ENTERPRISES",
+  "HUANXUN SUPERHARD MATERIAL PRIVATE LIMITED",
+  "HYDCO ENGINEERING PVT LIMITED",
+  "I TECH PLAST INDIA LIMITED",
+  "IDMC LIMITED",
+  "INARCO PVT LIMITED",
+  "INFINITY QUALITY",
+  "INOX CVA LIMITED",
+  "INOX INDIA LIMITED",
+  "INOX WIND LIMITED",
+  "INTEGRA ENGINEERING INDIA LIMITED",
+  "IPCL",
+  "IRM OFFSHORE & MARINE ENGINEERS PVT LIMITED",
+  "ISGEC HITACHI ZOSEN LIMITED",
+  "ISHAN EQUIPMENTS PVT LIMITED",
+  "ISOTEX CORPORATION PVT LIMITED",
+  "JORD INTERNATIONAL PTY LIMITED",
+  "JOULE ENGINEERING WORKS",
+  "KAESER COMPRESSORS INDIA PVT LIMITED",
+  "KALPATARU POWER TRANSMISSION LIMITED",
+  "KEPCO PLANT SERVICE AND ENGINEERING CO LIMITED",
+  "KEVIN PROCESS TECHNOLOGY PVT LIMITED",
+  "KHS MACHINERY PVT LIMITED",
+  "KOCH FERTILIZER",
+  "KRISLUR CASTOMECH PVT LIMITED",
+  "LAKSHYA POWERTECH PVT LIMITED",
+  "LALIT ENGINEERS",
+  "LARSEN & TOUBRO LIMITED",
+  "LAXMIPATI ENGINEERING WORKS LIMITED",
+  "LINDE ENGINEERING INDIA PVT LIMITED",
+  "LOYAL EQUIPMENTS LIMITED",
+  "MADHAV COPPER LIMITED",
+  "MADHUSILICA PVT LIMITED",
+  "MAGNAM NETLINK PVT LIMITED",
+  "MAN INDUSTRIES INDIA LIMITED",
+  "MAZDA LIMITED",
+  "MCDERMOTT INTERNATIONAL",
+  "MODEST INFRASTRUCTURE PVT LIMITED",
+  "NARANLALA PRIVATE LIMITED",
+  "NATURAL STORAGE SOLUTIONS PVTLIMITED",
+  "NEEL METAL PRODUCTS LIMITED",
+  "NOBLE ELEVATOR GUJRAT PVT LIMITED",
+  "NUBERG ENGINEERING LIMITED",
+  "ONACTUATE CONSULTING PVT LIMITED",
+  "OSWAL INFRASTRUCTURE LIMITED",
+  "PATELS AIRTEMP INDIA LIMITED",
+  "PHARMATECH PROCESS EQUIPMENTS",
+  "PHILLIPS MACHINE TOOLS INDIA PVT, LIMITED",
+  "PINAKIN TECHNOLOGY SOLUTIONS",
+  "PLASSER INDIA PVT LIMITED",
+  "POWER BUILD PVT LIMITED",
+  "PRAJ INDUSTRIES LIMITED",
+  "PRASHANT GROUP OF INDUSTRIES",
+  "PRECISION GASIFICATION SERVICE PVT LIMITED",
+  "PRITI MARINE PVT LIMITED",
+  "PRIYA BLUE INDUSTRIES PRIVATE LIMITED",
+  "QATAR ENERGY",
+  "RATNAMANI METAL & TUBES LIMITED",
+  "RELAY ENGINEERING",
+  "RELIANCE INDUSTRIES LIMITED",
+  "RINA GLOBAL PVT LIMITED",
+  "RISHI LASER LIMITED",
+  "RITESH ENGINEERING WORKS",
+  "ROLEX FABRICATOR",
+  "ROTEX AUTOMATION PRIVATE LIMITED",
+  "RUPARAIL PVT LIMITED",
+  "S K ENGINEERING",
+  "SAHJANAND TECHNOLOGY PVT LIMITED",
+  "SAJJAN INDIA LIMITED",
+  "SAMARPAN CONSTRUCTION",
+  "SAVANNAH TANK & EQUIPMENT",
+  "SCHNEIDER ELECTRIC",
+  "SCORPIO ENGINEERING CO",
+  "SEFORGE LIMITED",
+  "SEPTECHNIK ENGINEERS",
+  "SERAP INDIA PVT LIMITED",
+  "SGS INDIA PVT LIMITED",
+  "SHAKTICHEM PVT LIMITED",
+  "SHELL ENERGY INDIA PVT LIMITED",
+  "SHPERO HEALTH LLP",
+  "SHREE PREFAB STEEL PVT LIMITED",
+  "SHREEJI ENGINEERING",
+  "SHRENO ENGINEERING LIMITED",
+  "SIR BHAVSINHJI POLYTECHNIC INSTITUTE",
+  "SMITH STRUCTURE INDIA PVT LIMITED",
+  "SOPAN O & M CO PVT LIMITED",
+  "STAR ENGINEERING WORKS",
+  "STEEL CAST LIMITED",
+  "STEELFIT ENGINEERING CO",
+  "STOVEC INDUSTRIES LIMITED",
+  "SUPREME TREON PVT LIMITED",
+  "SUZLON ENERGY LIMITED",
+  "SUZUKI MOTOR GUJRAT PVT LIMITED",
+  "SYNERGY ENGINEERING",
+  "TAMBOLI CASTINGS LIMITED",
+  "TATA MOTORS LIMITED",
+  "TATA PROJECTS LIMITED",
+  "TEADIT INDIA",
+  "TECHNIP ENERGIES INDIA LIMITED",
+  "TECHNITHON TECHNOLOGIES PVT LIMITED",
+  "TEGA INDUSTRY LIMITED",
+  "TEMA INDIA LIMITED",
+  "TEXSPIN BEARINGS LIMITED",
+  "THEMAX LIMITED",
+  "TIRTH AGRO INDUSTRIES",
+  "TOYOTA FORMS INDIA PVT LIMITED",
+  "TRUSHAP PRECISION CASTING PVT LIMITED",
+  "TUV INDIA PVT LIMITED",
+  "TUV NORD",
+  "TUV RHEINLAND INDIA PVT LIMITED",
+  "TUV SUD SOUTH ASIA PVT LIMITED",
+  "UNIMECH INDUSTRIES",
+  "VASANT FABRICATORS PVT LIMITED",
+  "VEGAZVA ENGINEERING PVT LIMITED",
+  "VESTAS WIND TECHNOLOGY",
+  "VIVIDH HI FAB PVT LIMITED",
+  "VOITH HYDRO",
+  "VOLTA ENGINEERING DESIGN PVT LIMITED",
+  "VOLTAS BEKO",
+  "WALTER PACK INDIA",
+  "WELSPUN CORP LIMITED",
+  "WINDAR RENEWABLE ENERGY PVT LIMITED",
+  "YESHA ENGINEERING",
+  "ZEECO INDIA PRIVATE LIMITED",
+  "ZION ENGINEERING WORKS"
+]
+
+```
+
+---
+
+## File 24 {#file-24}
+
+**📄 Path:** `src\data\newslettersData.js`
+
+```javascript
+import newsletterJanMar2025 from '../assets/Newsletter/Newsletter Jan-Mar 2025.pdf'
+import newsletterAugust2024 from '../assets/Newsletter/Newsletter August 2024.pdf'
+import newsletterJuly2024 from '../assets/Newsletter/Newsletter July 2024.pdf'
+import newsletterJune2024 from '../assets/Newsletter/Newsletter June 2024.pdf'
+
+export const newsletters = [
+  {
+    title: 'DFT Alumni Newsletter - Reunion 2025',
+    date: 'January - March 2025',
+    description: 'Highlights from the recent alumni meetups, an interview with our distinguished alumni, and updates on the Sangam 2026 preparations. Discover the future of our expanding network.',
+    link: newsletterJanMar2025,
+  },
+  {
+    title: 'DFT Alumni Newsletter - Reunion 2024',
+    date: 'August 2024',
+    description: 'Insights from the monsoon season, highlights of key alumni milestones, and preparations for upcoming networking events. Read about our community’s latest accomplishments.',
+    link: newsletterAugust2024,
+  },
+  {
+    title: 'DFT Alumni Newsletter - Reunion 2024',
+    date: 'July 2024',
+    description: 'A detailed recap of the mid-year alumni meetups, professional growth stories, and announcements on regional chapter expansion plans.',
+    link: newsletterJuly2024,
+  },
+  {
+    title: 'DFT Alumni Newsletter - Reunion 2024',
+    date: 'June 2024',
+    description: 'Launch of the summer initiatives, showcasing prominent alumni entrepreneurs, and memories shared during the local city get-togethers.',
+    link: newsletterJune2024,
+  }
+]
+
+```
+
+---
+
+## File 25 {#file-25}
+
+**📄 Path:** `src\data\SponserData.js`
+
+```javascript
+import indotechLogo from '../assets/Sponser_Logo/Indotech_Logo.png'
+
+export const sponsorTiers = [
+  // Future Expansion tiers can be added here easily:
+  /*
+  {
+    id: 'diamond',
+    name: 'DIAMOND SPONSOR',
+    className: 'diamond-tier',
+    badgeClass: 'diamond',
+    sponsors: []
+  },
+  {
+    id: 'gold',
+    name: 'GOLD SPONSOR',
+    className: 'gold-tier',
+    badgeClass: 'gold',
+    sponsors: []
+  },
+  */
+  {
+    id: 'silver',
+    name: 'SILVER SPONSOR',
+    className: 'silver-tier',
+    badgeClass: 'silver',
+    sponsors: [
+      {
+        id: 'indotech',
+        name: 'Indotech Logo',
+        logo: indotechLogo,
+        cardClass: 'silver'
+      }
+    ]
+  }
+]
+
+```
+
+---
+
+## File 26 {#file-26}
+
+**📄 Path:** `src\data\stateData.js`
+
+```javascript
+export const INDIAN_STATES = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+  "Andaman and Nicobar Islands",
+  "Chandigarh",
+  "Dadra and Nagar Haveli and Daman and Diu",
+  "Delhi",
+  "Jammu and Kashmir",
+  "Ladakh",
+  "Lakshadweep",
+  "Puducherry"
+];
+
+export const US_STATES = [
+  "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut",
+  "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois",
+  "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts",
+  "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada",
+  "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota",
+  "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
+  "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia",
+  "Wisconsin", "Wyoming"
+];
+
+export const CANADA_PROVINCES = [
+  "Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador",
+  "Northwest Territories", "Nova Scotia", "Nunavut", "Ontario", "Prince Edward Island",
+  "Quebec", "Saskatchewan", "Yukon"
+];
+
+export const AUSTRALIA_STATES = [
+  "Australian Capital Territory", "New South Wales", "Northern Territory", "Queensland",
+  "South Australia", "Tasmania", "Victoria", "Western Australia"
+];
+
+export const UK_REGIONS = [
+  "England", "Scotland", "Wales", "Northern Ireland", "Greater London", "West Midlands",
+  "Greater Manchester", "Yorkshire"
+];
+
+export const UAE_EMIRATES = [
+  "Abu Dhabi", "Ajman", "Dubai", "Fujairah", "Ras Al Khaimah", "Sharjah", "Umm Al Quwain"
+];
+
+export const GERMANY_STATES = [
+  "Baden-Württemberg", "Bavaria", "Berlin", "Brandenburg", "Bremen", "Hamburg", "Hesse",
+  "Lower Saxony", "Mecklenburg-Vorpommern", "North Rhine-Westphalia", "Rhineland-Palatinate",
+  "Saarland", "Saxony", "Saxony-Anhalt", "Schleswig-Holstein", "Thuringia"
+];
+
+export const STATES_BY_COUNTRY = {
+  "india": INDIAN_STATES,
+  "united states": US_STATES,
+  "usa": US_STATES,
+  "us": US_STATES,
+  "canada": CANADA_PROVINCES,
+  "australia": AUSTRALIA_STATES,
+  "united kingdom": UK_REGIONS,
+  "uk": UK_REGIONS,
+  "united arab emirates": UAE_EMIRATES,
+  "uae": UAE_EMIRATES,
+  "germany": GERMANY_STATES,
+};
+
+export const ALL_STATES = Array.from(new Set([
+  ...INDIAN_STATES,
+  ...US_STATES,
+  ...CANADA_PROVINCES,
+  ...AUSTRALIA_STATES,
+  ...UK_REGIONS,
+  ...UAE_EMIRATES,
+  ...GERMANY_STATES,
+]));
+
+export function getStatesByCountry(countryName) {
+  if (!countryName || typeof countryName !== 'string') {
+    return ALL_STATES;
+  }
+  const cleanCountry = countryName.trim().toLowerCase();
+
+  for (const key in STATES_BY_COUNTRY) {
+    if (cleanCountry === key || cleanCountry.includes(key) || key.includes(cleanCountry)) {
+      return STATES_BY_COUNTRY[key];
+    }
+  }
+
+  return ALL_STATES;
+}
+
+export const STATE_TO_COUNTRY_MAP = {};
+INDIAN_STATES.forEach(st => { STATE_TO_COUNTRY_MAP[st.toLowerCase()] = "India"; });
+US_STATES.forEach(st => { STATE_TO_COUNTRY_MAP[st.toLowerCase()] = "United States"; });
+CANADA_PROVINCES.forEach(st => { STATE_TO_COUNTRY_MAP[st.toLowerCase()] = "Canada"; });
+AUSTRALIA_STATES.forEach(st => { STATE_TO_COUNTRY_MAP[st.toLowerCase()] = "Australia"; });
+UK_REGIONS.forEach(st => { STATE_TO_COUNTRY_MAP[st.toLowerCase()] = "United Kingdom"; });
+UAE_EMIRATES.forEach(st => { STATE_TO_COUNTRY_MAP[st.toLowerCase()] = "United Arab Emirates"; });
+GERMANY_STATES.forEach(st => { STATE_TO_COUNTRY_MAP[st.toLowerCase()] = "Germany"; });
+
+export function getCountryByState(stateName) {
+  if (!stateName || typeof stateName !== 'string') return '';
+  const cleanState = stateName.trim().toLowerCase();
+  for (const key in STATE_TO_COUNTRY_MAP) {
+    if (cleanState === key || cleanState.includes(key) || key.includes(cleanState)) {
+      return STATE_TO_COUNTRY_MAP[key];
+    }
+  }
+  return '';
+}
+
+```
+
+---
+
+## File 27 {#file-27}
+
+**📄 Path:** `src\firebase.js`
+
+```javascript
+import { initializeApp } from 'firebase/app'
+import { getAuth } from 'firebase/auth'
+import { getFirestore, initializeFirestore } from 'firebase/firestore'
+
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
+}
+
+// Check if Firebase keys are provided and not placeholders
+export const isFirebaseConfigured =
+  import.meta.env.VITE_FIREBASE_API_KEY &&
+  import.meta.env.VITE_FIREBASE_API_KEY !== 'YOUR_FIREBASE_API_KEY_HERE'
+
+let app
+let auth
+let db
+
+if (isFirebaseConfigured) {
+  try {
+    app = initializeApp(firebaseConfig)
+    auth = getAuth(app)
+    db = initializeFirestore(app, {
+      experimentalAutoDetectLongPolling: true
+    })
+  } catch (error) {
+    console.error('Failed to initialize Firestore with long-polling autodetect, falling back to default:', error)
+    if (app) {
+      db = getFirestore(app)
+    }
+  }
+}
+
+export { auth, db }
+
+```
+
+---
+
+## File 28 {#file-28}
+
+**📄 Path:** `src\hooks\useVisitorCount.js`
+
+```javascript
+import { useEffect, useState } from 'react'
+import { doc, setDoc, onSnapshot, increment } from 'firebase/firestore'
+import { db, isFirebaseConfigured } from '../firebase'
+
+// Global in-memory lock to prevent concurrent component mounts from double-incrementing
+let hasIncrementedInSession = typeof window !== 'undefined' && !!sessionStorage.getItem('dft_session_visited')
+let isIncrementingLock = false
+
+function recordVisitOnce() {
+  if (hasIncrementedInSession || isIncrementingLock || !isFirebaseConfigured || !db) {
+    return
+  }
+
+  // Acquire lock synchronously before any async call
+  isIncrementingLock = true
+  hasIncrementedInSession = true
+  try {
+    sessionStorage.setItem('dft_session_visited', 'true')
+  } catch (e) {
+    console.warn('sessionStorage error:', e)
+  }
+
+  const statDocRef = doc(db, 'stats', 'site_visits')
+  setDoc(statDocRef, { count: increment(1) }, { merge: true })
+    .catch((err) => {
+      console.warn('Failed to increment visitor count:', err)
+    })
+    .finally(() => {
+      isIncrementingLock = false
+    })
+}
+
+export default function useVisitorCount() {
+  const [visitorCount, setVisitorCount] = useState(0)
+
+  useEffect(() => {
+    if (!isFirebaseConfigured || !db) return
+
+    // Record visit ONCE per browser session globally
+    recordVisitOnce()
+
+    const statDocRef = doc(db, 'stats', 'site_visits')
+
+    // Subscribe to real-time updates from Firestore
+    const unsubscribe = onSnapshot(
+      statDocRef,
+      (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data()
+          if (typeof data.count === 'number') {
+            setVisitorCount(data.count)
+          }
+        }
+      },
+      (error) => {
+        console.warn('Visitor counter subscription warning:', error)
+      }
+    )
+
+    return () => unsubscribe()
+  }, [])
+
+  return visitorCount
+}
+
+```
+
+---
+
+## File 29 {#file-29}
+
+**📄 Path:** `src\index.css`
+
+```css
+/* ============================================
+   DFT ALUMNI — DESIGN SYSTEM
+   Based on: design-system.html
+   Navy Authority · Signal Red Accent · Diagonal Confidence
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&display=swap');
+
+/* ── CSS Custom Properties (from design-system.html) ── */
+:root {
+  /* Brand Colours */
+  --navy-deep: #0B1B3F;
+  --navy-mid: #132A56;
+  --signal-red: #E8302A;
+  --red-deep: #B71F1F;
+  --paper-white: #FFFFFF;
+  --fog-grey: #F3F4F7;
+  --slate: #5B6478;
+  --line-grey: #D7DBE3;
+
+  /* Typography */
+  --font-display: 'Montserrat', sans-serif;
+  --font-display-weight: 800;
+  --font-body: 'Poppins', sans-serif;
+
+  /* Spacing */
+  --section-px: 8vw;
+
+  /* Geometry */
+  --diagonal-clip: polygon(0 0, 100% 0, 94% 100%, 0 100%);
+  --ribbon-clip: polygon(0 0, 92% 0, 100% 50%, 92% 100%, 0 100%);
+
+  /* Shadows */
+  --shadow-card: 0 6px 18px rgba(11, 27, 63, 0.08);
+  --shadow-elevated: 0 12px 36px rgba(11, 27, 63, 0.14);
+
+  /* Transitions */
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 18px;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--fog-grey);
+  color: var(--navy-deep);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ── Global Select Dropdown Styling ── */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none !important;
+  padding-right: 36px;
+  cursor: pointer;
+  transition: border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Add this to src/App.css or src/index.css */
+
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Optional: You can also restrict it strictly to the main wrapper */
+@media (max-width: 768px) {
+
+  #root,
+  main {
+    overflow-x: hidden;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--fog-grey);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--signal-red), var(--navy-deep));
+  border-radius: 10px;
+}
+
+/* ── Layout ── */
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 var(--section-px);
+}
+
+.section {
+  padding: 80px 0;
+}
+
+/* ── Section Header ── */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.section-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 40px;
+  color: var(--line-grey);
+  line-height: 1;
+}
+
+.section-head h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+  letter-spacing: 0.5px;
+  color: var(--navy-deep);
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.section-head h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: var(--signal-red);
+  border-radius: 2px;
+}
+
+.section-head h2 span {
+  color: var(--signal-red);
+}
+
+.section-sub {
+  color: var(--slate);
+  font-size: 14px;
+  margin: 16px 0 36px 0;
+  max-width: 640px;
+  line-height: 1.7;
+}
+
+/* ── Typography Scale (from design-system) ── */
+.display-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.5px;
+}
+
+.label-text {
+  font-family: var(--font-body);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.body-text {
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: var(--slate);
+}
+
+.caption-text {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+/* ── Eyebrow / Tag ── */
+.eyebrow {
+  color: var(--signal-red);
+  font-family: var(--font-body);
+  font-weight: 800;
+  letter-spacing: 3px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  text-transform: uppercase;
+  border-radius: 0;
+}
+
+.btn-primary {
+  background: var(--signal-red);
+  color: var(--paper-white);
+  clip-path: var(--diagonal-clip);
+  padding-right: 42px;
+}
+
+.btn-primary:hover {
+  background: var(--red-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(232, 48, 42, 0.35);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--navy-deep);
+  border: 2px solid var(--navy-deep);
+}
+
+.btn-outline:hover {
+  background: var(--navy-deep);
+  color: var(--paper-white);
+  transform: translateY(-2px);
+}
+
+.btn-navy {
+  background: var(--navy-deep);
+  color: var(--paper-white);
+  clip-path: var(--diagonal-clip);
+  padding-right: 42px;
+}
+
+.btn-navy:hover {
+  background: var(--navy-mid);
+  transform: translateY(-2px);
+}
+
+/* ── Card ── */
+.card {
+  background: var(--paper-white);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-elevated);
+  transform: translateY(-3px);
+}
+
+/* ── Diagonal Divider Line ── */
+.diagonal-line {
+  width: 60px;
+  height: 4px;
+  background: var(--signal-red);
+  margin-bottom: 20px;
+  clip-path: var(--diagonal-clip);
+}
+
+/* ── Ribbon Banner Component (from design-system) ── */
+.ribbon {
+  background: var(--navy-deep);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 26px;
+  clip-path: var(--ribbon-clip);
+  color: var(--paper-white);
+}
+
+.ribbon .icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--paper-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ribbon .labels .l1 {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--line-grey);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ribbon .labels .l2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--signal-red);
+  letter-spacing: 0.3px;
+}
+
+/* ── Stat Block Component (from design-system) ── */
+.stat-block {
+  display: flex;
+  width: 100%;
+}
+
+.stat-col {
+  flex: 1;
+  text-align: center;
+  padding: 0 16px;
+}
+
+.stat-col .stat-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 52px;
+  color: var(--signal-red);
+  line-height: 1;
+}
+
+.stat-col .stat-lbl {
+  font-family: var(--font-body);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 14px;
+  margin-top: 4px;
+  color: var(--navy-deep);
+  letter-spacing: 0.5px;
+}
+
+.stat-col .stat-sub {
+  font-size: 12px;
+  color: var(--slate);
+  margin-top: 4px;
+}
+
+.stat-divider {
+  width: 1px;
+  background: var(--line-grey);
+  margin: 0 8px;
+}
+
+/* ── Waypoint Divider (from design-system) ── */
+.waypoint {
+  background: var(--navy-deep);
+  border-radius: 0;
+  padding: 50px 40px;
+  color: var(--paper-white);
+  text-align: center;
+  position: relative;
+}
+
+.wp-line {
+  position: relative;
+  height: 2px;
+  background: var(--signal-red);
+  width: 60%;
+  margin: 0 auto;
+}
+
+.wp-node {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 3px solid var(--paper-white);
+  background: var(--navy-deep);
+}
+
+.wp-node::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  background: var(--signal-red);
+  border-radius: 50%;
+}
+
+.wp-dash {
+  width: 2px;
+  height: 50px;
+  margin: 0 auto;
+  background-image: linear-gradient(var(--paper-white) 60%, transparent 40%);
+  background-size: 2px 12px;
+  background-repeat: repeat-y;
+  opacity: 0.5;
+}
+
+.wp-city {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--signal-red);
+  font-size: 28px;
+  margin-top: 14px;
+  letter-spacing: 2px;
+}
+
+.wp-date {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: var(--paper-white);
+  opacity: 0.85;
+}
+
+/* ── Ticket / Boarding Pass Component ── */
+.ticket {
+  border: 2px dashed var(--navy-deep);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  background: var(--paper-white);
+}
+
+.ticket::before,
+.ticket::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: var(--fog-grey);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.ticket::before {
+  left: -10px;
+}
+
+.ticket::after {
+  right: -10px;
+}
+
+/* ── Diagonal Cover Panel ── */
+.diagonal-panel {
+  background: var(--navy-deep);
+  clip-path: polygon(0 0, 100% 0, 78% 100%, 0 100%);
+  color: var(--paper-white);
+  padding: 32px;
+}
+
+/* ── Grid Utilities ── */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .section {
+    padding: 60px 0;
+  }
+
+  .section-sub {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Masthead repeating-line background ── */
+.masthead-bg-lines {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(115deg,
+      rgba(255, 255, 255, 0.05) 0px,
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 1px,
+      transparent 26px);
+  pointer-events: none;
+}
+
+/* ── Section alternate bg ── */
+.section-white {
+  background: var(--paper-white);
+}
+
+.section-navy {
+  background: var(--navy-deep);
+  color: var(--paper-white);
+}
+
+.section-fog {
+  background: var(--fog-grey);
+}
+
+/* ── Animations ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Scroll-reveal helpers ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── Red accent line ── */
+.red-accent-bar {
+  display: block;
+  width: 50px;
+  height: 4px;
+  background: var(--signal-red);
+  margin-bottom: 16px;
+}
+```
+
+---
+
+## File 30 {#file-30}
+
+**📄 Path:** `src\main.jsx`
+
+```jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter as Router } from 'react-router-dom'
+import App from './App.jsx'
+import './index.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <Router>
+      <App />
+    </Router>
+  </React.StrictMode>,
+)
+
+```
+
+---
+
+## File 31 {#file-31}
+
+**📄 Path:** `src\pages\About.css`
 
 ```css
 .about__inner {
@@ -3022,14 +7975,14 @@ export default App
 
 ---
 
-## File 9 {#file-9}
+## File 32 {#file-32}
 
-**📄 Path:** `src\components\About.jsx`
+**📄 Path:** `src\pages\About.jsx`
 
 ```jsx
 import aboutImg from '../assets/About.avif'
 import './About.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 const highlights = [
   'Connecting alumni across India and the world',
@@ -3092,9 +8045,9 @@ export default function About() {
 
 ---
 
-## File 10 {#file-10}
+## File 33 {#file-33}
 
-**📄 Path:** `src\components\Admin.css`
+**📄 Path:** `src\pages\Admin.css`
 
 ```css
 /* ==========================================================================
@@ -3544,7 +8497,7 @@ export default function About() {
 
 /* Select element styling inside table */
 .admin-role-select {
-  padding: 6px 12px;
+  padding: 6px 32px 6px 12px !important;
   border-radius: 6px;
   border: 1px solid var(--line-grey);
   font-family: var(--font-body);
@@ -3655,6 +8608,42 @@ export default function About() {
 .admin-form-textarea:focus {
   border-color: var(--navy-mid);
   box-shadow: 0 0 0 3px rgba(19, 42, 86, 0.08);
+}
+
+.admin-select-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+}
+
+.admin-select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translateY(-50%) rotate(0deg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%2364748b'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 3;
+  transition: transform 0.25s ease, background-image 0.25s ease;
+}
+
+.admin-select-wrap:has(select:enabled:focus)::after,
+.admin-select-wrap:has(select:enabled:active)::after {
+  transform: translateY(-50%) rotate(180deg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%23e8302a'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E");
+}
+
+.admin-select-wrap:has(select:disabled)::after {
+  transform: translateY(-50%) rotate(0deg) !important;
+  opacity: 0.5 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%2364748b'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E") !important;
 }
 
 .admin-form-textarea {
@@ -4257,9 +9246,9 @@ export default function About() {
 
 ---
 
-## File 11 {#file-11}
+## File 34 {#file-34}
 
-**📄 Path:** `src\components\Admin.jsx`
+**📄 Path:** `src\pages\Admin.jsx`
 
 ```jsx
 import { useState, useEffect } from 'react'
@@ -4277,14 +9266,59 @@ import {
   FaArrowLeft,
   FaPlus,
   FaMapMarkerAlt,
-  FaCopy
+  FaCopy,
+  FaEye,
+  FaFilePdf
 } from 'react-icons/fa'
 import { db } from '../firebase'
 import { collection, getDocs, doc, updateDoc, deleteDoc, addDoc } from 'firebase/firestore'
+import useVisitorCount from '../hooks/useVisitorCount'
 import './Admin.css'
+
+const formatDateFormatted = (dateStr) => {
+  if (!dateStr) return 'N/A'
+  try {
+    const cleanStr = String(dateStr).trim()
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ]
+    // Match YYYY-MM-DD
+    const match = cleanStr.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+    if (match) {
+      const year = parseInt(match[1], 10)
+      const monthIndex = parseInt(match[2], 10) - 1
+      const day = parseInt(match[3], 10)
+      if (monthIndex >= 0 && monthIndex < 12) {
+        return `${day} ${months[monthIndex]} ${year}`
+      }
+    }
+
+    // Match DD-MM-YYYY or DD/MM/YYYY
+    const matchAlt = cleanStr.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})$/)
+    if (matchAlt) {
+      const day = parseInt(matchAlt[1], 10)
+      const monthIndex = parseInt(matchAlt[2], 10) - 1
+      const year = parseInt(matchAlt[3], 10)
+      if (monthIndex >= 0 && monthIndex < 12) {
+        return `${day} ${months[monthIndex]} ${year}`
+      }
+    }
+
+    // Standard ISO parse fallback
+    const d = new Date(cleanStr)
+    if (!isNaN(d.getTime())) {
+      return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`
+    }
+  } catch (e) {
+    console.warn("Date formatting error:", e)
+  }
+  return dateStr
+}
 
 export default function Admin({ user, onUpdateUser }) {
   const navigate = useNavigate()
+  const visitorCount = useVisitorCount()
   const [activeTab, setActiveTab] = useState('verification')
   const [loading, setLoading] = useState(true)
   const [usersList, setUsersList] = useState([])
@@ -4516,6 +9550,7 @@ export default function Admin({ user, onUpdateUser }) {
     const nameMatch = String(u.name || '').toLowerCase().includes(query)
     const emailMatch = String(u.email || '').toLowerCase().includes(query)
     const batchMatch = String(u.batch || u.passoutYear || '').toLowerCase().includes(query)
+    const genderMatch = String(u.gender || '').toLowerCase().includes(query)
 
     // Check degrees array safely or fallback to degree string comparison
     const degreeMatch = Array.isArray(u.degrees)
@@ -4528,7 +9563,7 @@ export default function Admin({ user, onUpdateUser }) {
       })
       : String(u.degree || '').toLowerCase().includes(query)
 
-    const searchMatch = !query || nameMatch || emailMatch || batchMatch || degreeMatch
+    const searchMatch = !query || nameMatch || emailMatch || batchMatch || degreeMatch || genderMatch
 
     let statusMatch = true
     if (filterStatus === 'pending') statusMatch = !u.verification_status
@@ -4697,6 +9732,15 @@ service cloud.firestore {
               <span className="admin-stat-label">Job Opportunities</span>
             </div>
           </div>
+          <div className="admin-stat-card">
+            <div className="admin-stat-icon-wrapper" style={{ background: 'rgba(155, 89, 182, 0.12)', color: '#9b59b6' }}>
+              <FaEye />
+            </div>
+            <div className="admin-stat-info">
+              <span className="admin-stat-num">{visitorCount.toLocaleString()}</span>
+              <span className="admin-stat-label">Total Site Visits</span>
+            </div>
+          </div>
         </div>
 
         {/* Navigation Tabs */}
@@ -4773,6 +9817,7 @@ service cloud.firestore {
                     <th>Alumni User</th>
                     <th>Contact Number</th>
                     <th>Batch</th>
+                    <th>Registration Date</th>
                     <th>Status</th>
                     <th>Actions</th>
                   </tr>
@@ -4794,6 +9839,7 @@ service cloud.firestore {
                         </td>
                         <td>{item.phone || 'N/A'}</td>
                         <td>{item.batch || item.passoutYear || 'N/A'}</td>
+                        <td style={{ fontSize: '13px', color: 'var(--navy-mid)' }}>{formatDateFormatted(item.createdAt)}</td>
                         <td>
                           <span className={`admin-badge ${item.verification_status ? 'verified' : 'pending'}`}>
                             {item.verification_status ? (
@@ -4833,7 +9879,7 @@ service cloud.firestore {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="5" style={{ textAlign: 'center', padding: '40px 0', color: 'var(--slate)' }}>
+                      <td colSpan="6" style={{ textAlign: 'center', padding: '40px 0', color: 'var(--slate)' }}>
                         No user matching filters found.
                       </td>
                     </tr>
@@ -5077,16 +10123,18 @@ service cloud.firestore {
                           </span>
                         </td>
                         <td>
-                          <select
-                            value={item.account_type || 'alumni'}
-                            onChange={(e) => handleRoleChange(item.uid, e.target.value)}
-                            className={`admin-role-select ${item.account_type || 'alumni'}`}
-                            disabled={String(item.email || '').toLowerCase() === 'patelmeghmahesh2701@gmail.com'}
-                          >
-                            <option value="alumni">Alumni (Normal User)</option>
-                            <option value="admin">Admin</option>
-                            <option value="developer">Developer</option>
-                          </select>
+                          <div className="admin-select-wrap">
+                            <select
+                              value={item.account_type || 'alumni'}
+                              onChange={(e) => handleRoleChange(item.uid, e.target.value)}
+                              className={`admin-role-select ${item.account_type || 'alumni'}`}
+                              disabled={String(item.email || '').toLowerCase() === 'patelmeghmahesh2701@gmail.com'}
+                            >
+                              <option value="alumni">Alumni (Normal User)</option>
+                              <option value="admin">Admin</option>
+                              <option value="developer">Developer</option>
+                            </select>
+                          </div>
                         </td>
                         <td style={{ fontSize: '11px', fontFamily: 'monospace', color: 'var(--slate)' }}>
                           {item.uid}
@@ -5146,13 +10194,16 @@ service cloud.firestore {
                 <div className="admin-modal-user-meta">
                   <h3 className="admin-modal-user-name">{selectedUser.name || 'Unnamed User'}</h3>
                   <span className="admin-modal-user-email">{selectedUser.email}</span>
-                  <div style={{ marginTop: '6px' }}>
+                  <div style={{ marginTop: '6px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                     <span className={`admin-badge ${selectedUser.verification_status ? 'verified' : 'pending'}`}>
                       {selectedUser.verification_status ? "Verified Account" : "Pending Verification"}
                     </span>
-                    <span className={`admin-user-role-badge ${selectedUser.account_type || 'alumni'}`} style={{ marginLeft: '8px' }}>
+                    <span className={`admin-user-role-badge ${selectedUser.account_type || 'alumni'}`}>
                       {selectedUser.account_type || 'alumni'}
                     </span>
+                  </div>
+                  <div style={{ marginTop: '6px', fontSize: '0.8rem', color: 'var(--slate)', fontWeight: '500' }}>
+                    Registered: {formatDateFormatted(selectedUser.createdAt)}
                   </div>
                 </div>
               </div>
@@ -5166,8 +10217,18 @@ service cloud.firestore {
                     <span className="admin-modal-info-value">{selectedUser.name || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">First / Middle / Last Name</span>
+                    <span className="admin-modal-info-value">
+                      {[selectedUser.firstName, selectedUser.middleName, selectedUser.lastName].filter(Boolean).join(' ') || 'N/A'}
+                    </span>
+                  </div>
+                  <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Email Address</span>
                     <span className="admin-modal-info-value">{selectedUser.email || 'N/A'}</span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Gender</span>
+                    <span className="admin-modal-info-value">{selectedUser.gender || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Phone Number</span>
@@ -5183,7 +10244,11 @@ service cloud.firestore {
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Date of Birth</span>
-                    <span className="admin-modal-info-value">{selectedUser.dob || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{formatDateFormatted(selectedUser.dob)}</span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Date of Marriage / Anniversary</span>
+                    <span className="admin-modal-info-value">{formatDateFormatted(selectedUser.dom)}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Blood Group</span>
@@ -5193,6 +10258,16 @@ service cloud.firestore {
                     <span className="admin-modal-info-label">Location</span>
                     <span className="admin-modal-info-value">
                       {[selectedUser.city, selectedUser.state, selectedUser.country].filter(Boolean).join(', ') || 'N/A'}
+                    </span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Directory Search Consent</span>
+                    <span className="admin-modal-info-value">
+                      {[
+                        selectedUser.consentEmail && 'Email ID',
+                        selectedUser.consentPhone && 'Mobile Number',
+                        selectedUser.consentWhatsapp && 'WhatsApp Number'
+                      ].filter(Boolean).join(', ') || 'No Consent Given'}
                     </span>
                   </div>
                 </div>
@@ -5228,6 +10303,12 @@ service cloud.firestore {
                     <span className="admin-modal-info-value">{selectedUser.passoutYear || selectedUser.batch || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Course Completion Status</span>
+                    <span className="admin-modal-info-value">
+                      {selectedUser.diplomaNotCompleted ? 'Diploma / Course Not Completed' : 'Completed / Graduated'}
+                    </span>
+                  </div>
+                  <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Student Type / Classification</span>
                     <span className="admin-modal-info-value">{selectedUser.userType || 'N/A'}</span>
                   </div>
@@ -5239,7 +10320,7 @@ service cloud.firestore {
                 <h4 className="admin-modal-section-title">Professional Details</h4>
                 <div className="admin-modal-grid-2">
                   <div className="admin-modal-info-item">
-                    <span className="admin-modal-info-label">Job Title</span>
+                    <span className="admin-modal-info-label">Job Title / Designation</span>
                     <span className="admin-modal-info-value">{selectedUser.jobTitle || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
@@ -5251,11 +10332,55 @@ service cloud.firestore {
                     <span className="admin-modal-info-value">{selectedUser.profession || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Department</span>
+                    <span className="admin-modal-info-value">{selectedUser.department || 'N/A'}</span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Division</span>
+                    <span className="admin-modal-info-value">{selectedUser.division || 'N/A'}</span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Working Since</span>
+                    <span className="admin-modal-info-value">{formatDateFormatted(selectedUser.workingSince)}</span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Total Work Experience</span>
+                    <span className="admin-modal-info-value">
+                      {selectedUser.workExperience ? `${selectedUser.workExperience} ${parseInt(selectedUser.workExperience, 10) === 1 ? 'Year' : 'Years'}` : 'N/A'}
+                    </span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Last Promotion Designation</span>
+                    <span className="admin-modal-info-value">{selectedUser.lastPromotionDesignation || 'N/A'}</span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Date of Last Promotion</span>
+                    <span className="admin-modal-info-value">
+                      {[selectedUser.lastPromotionMonth, selectedUser.lastPromotionYear].filter(Boolean).join(' ') || 'N/A'}
+                    </span>
+                  </div>
+                  <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">LinkedIn Profile</span>
                     <span className="admin-modal-info-value">
                       {selectedUser.linkedin ? (
                         <a href={selectedUser.linkedin.startsWith('http') ? selectedUser.linkedin : `https://${selectedUser.linkedin}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--navy-mid)', textDecoration: 'underline' }}>
                           {selectedUser.linkedin}
+                        </a>
+                      ) : 'N/A'}
+                    </span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Resume / CV (PDF)</span>
+                    <span className="admin-modal-info-value">
+                      {selectedUser.cvBase64 ? (
+                        <a
+                          href={selectedUser.cvBase64}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          download={selectedUser.cvFileName || `${selectedUser.name || 'Alumni'}_CV.pdf`}
+                          style={{ color: '#dc2626', fontWeight: '600', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                        >
+                          <FaFilePdf style={{ color: '#dc2626' }} /> Download / View PDF CV
                         </a>
                       ) : 'N/A'}
                     </span>
@@ -5316,6 +10441,15 @@ service cloud.firestore {
                     </div>
                   </div>
 
+                  {selectedUser.otherProductServices && (
+                    <div className="admin-modal-info-item" style={{ gridColumn: 'span 2', marginTop: '14px' }}>
+                      <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Details of Other Products & Services</span>
+                      <div className="admin-modal-info-value" style={{ fontSize: '13px', color: 'var(--navy-deep)', background: 'var(--fog-grey)', padding: '10px 14px', borderRadius: '6px' }}>
+                        {selectedUser.otherProductServices}
+                      </div>
+                    </div>
+                  )}
+
                   <div className="admin-modal-info-item" style={{ gridColumn: 'span 2', marginTop: '14px' }}>
                     <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Awards & Achievements</span>
                     <div className="admin-modal-info-value">
@@ -5330,24 +10464,23 @@ service cloud.firestore {
                       )}
                     </div>
                   </div>
-                </div>
-              </div>
 
-              {/* Add this block inside .admin-modal-grid-2 in the Certifications & Skills section */}
-              <div className="admin-modal-info-item" style={{ gridColumn: 'span 2', marginTop: '14px' }}>
-                <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Interest / Hobbies</span>
-                <div className="admin-modal-info-value">
-                  {Array.isArray(selectedUser.hobbies) && selectedUser.hobbies.length > 0 ? (
-                    <div className="admin-modal-badge-list">
-                      {selectedUser.hobbies.map((hobby, i) => (
-                        <span key={i} className="admin-modal-badge-tag">
-                          {hobby}
-                        </span>
-                      ))}
+                  <div className="admin-modal-info-item" style={{ gridColumn: 'span 2', marginTop: '14px' }}>
+                    <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Interest / Hobbies</span>
+                    <div className="admin-modal-info-value">
+                      {Array.isArray(selectedUser.hobbies) && selectedUser.hobbies.length > 0 ? (
+                        <div className="admin-modal-badge-list">
+                          {selectedUser.hobbies.map((hobby, i) => (
+                            <span key={i} className="admin-modal-badge-tag">
+                              {hobby === 'Others' && selectedUser.otherHobbies ? `Others (${selectedUser.otherHobbies})` : hobby}
+                            </span>
+                          ))}
+                        </div>
+                      ) : (
+                        <span style={{ fontSize: '13px', color: 'var(--slate)' }}>No hobbies listed.</span>
+                      )}
                     </div>
-                  ) : (
-                    <span style={{ fontSize: '13px', color: 'var(--slate)' }}>No hobbies listed.</span>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -5424,9 +10557,9 @@ service cloud.firestore {
 
 ---
 
-## File 12 {#file-12}
+## File 35 {#file-35}
 
-**📄 Path:** `src\components\AlumniSpotlight.css`
+**📄 Path:** `src\pages\AlumniSpotlight.css`
 
 ```css
 .spotlight__intro {
@@ -5608,14 +10741,14 @@ service cloud.firestore {
 
 ---
 
-## File 13 {#file-13}
+## File 36 {#file-36}
 
-**📄 Path:** `src\components\AlumniSpotlight.jsx`
+**📄 Path:** `src\pages\AlumniSpotlight.jsx`
 
 ```jsx
 import { FaLinkedin, FaAward } from 'react-icons/fa'
 import './AlumniSpotlight.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 import prakashVaghImg from '../assets/Alumni_Spotlight/Prakash_Vagh.png'
 import snehaImg from '../assets/spotlight_sneha.png'
@@ -5720,9 +10853,9 @@ export default function AlumniSpotlight() {
 
 ---
 
-## File 14 {#file-14}
+## File 37 {#file-37}
 
-**📄 Path:** `src\components\Committee.css`
+**📄 Path:** `src\pages\Committee.css`
 
 ```css
 .committee__grid {
@@ -5882,14 +11015,14 @@ export default function AlumniSpotlight() {
 
 ---
 
-## File 15 {#file-15}
+## File 38 {#file-38}
 
-**📄 Path:** `src\components\Committee.jsx`
+**📄 Path:** `src\pages\Committee.jsx`
 
 ```jsx
 import { FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import './Committee.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 import { sangamCoreTeam, members } from '../data/committeeData'
 
@@ -5999,9 +11132,9 @@ export default function Committee() {
 
 ---
 
-## File 16 {#file-16}
+## File 39 {#file-39}
 
-**📄 Path:** `src\components\Contact.css`
+**📄 Path:** `src\pages\Contact.css`
 
 ```css
 .contact__grid {
@@ -6127,6 +11260,8 @@ export default function Committee() {
   border: 1px solid var(--line-grey);
   box-shadow: var(--shadow-card);
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Ribbon override */
@@ -6141,18 +11276,28 @@ export default function Committee() {
   flex-direction: column;
   gap: 18px;
   padding: 28px 30px 32px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .contact__form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .contact__field {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  width: 100%;
+  min-width: 0;
+  /* min-width:0 lets a flex/grid child shrink below
+     its content size instead of forcing the row to
+     overflow the container */
+  box-sizing: border-box;
 }
 
 .contact__field label {
@@ -6166,6 +11311,12 @@ export default function Committee() {
 
 .contact__field input,
 .contact__field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  /* without border-box, the field's padding + border
+     add on top of its 100% width and get clipped by
+     .contact__form-wrap's overflow:hidden, which is
+     what makes the right edge look cut off/overlapping */
   background: var(--fog-grey);
   border: 1px solid var(--line-grey);
   border-radius: 0;
@@ -6270,6 +11421,11 @@ export default function Committee() {
   .contact__grid {
     grid-template-columns: 1fr;
   }
+
+  .contact__btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 540px) {
@@ -6286,9 +11442,9 @@ export default function Committee() {
 
 ---
 
-## File 17 {#file-17}
+## File 40 {#file-40}
 
-**📄 Path:** `src\components\Contact.jsx`
+**📄 Path:** `src\pages\Contact.jsx`
 
 ```jsx
 import { useState, useRef } from 'react'
@@ -6487,9 +11643,9 @@ export default function Contact() {
 
 ---
 
-## File 18 {#file-18}
+## File 41 {#file-41}
 
-**📄 Path:** `src\components\DftAlumniMeet2023.css`
+**📄 Path:** `src\pages\DftAlumniMeet2023.css`
 
 ```css
 /* ============================================
@@ -6896,9 +12052,9 @@ export default function Contact() {
 
 ---
 
-## File 19 {#file-19}
+## File 42 {#file-42}
 
-**📄 Path:** `src\components\DftAlumniMeet2023.jsx`
+**📄 Path:** `src\pages\DftAlumniMeet2023.jsx`
 
 ```jsx
 import { useState, useEffect } from 'react'
@@ -7088,9 +12244,9 @@ export default function DftAlumniMeet2023() {
 
 ---
 
-## File 20 {#file-20}
+## File 43 {#file-43}
 
-**📄 Path:** `src\components\Events.css`
+**📄 Path:** `src\pages\Events.css`
 
 ```css
 /* ============================================
@@ -7376,9 +12532,9 @@ export default function DftAlumniMeet2023() {
 
 ---
 
-## File 21 {#file-21}
+## File 44 {#file-44}
 
-**📄 Path:** `src\components\Events.jsx`
+**📄 Path:** `src\pages\Events.jsx`
 
 ```jsx
 import { Link } from 'react-router-dom'
@@ -7387,7 +12543,7 @@ import eventAhmedabad from '../assets/Meet2023/img79.dcf15f8c3bf07d813ed0.avif'
 import eventSurat from '../assets/Sangaath2024/AJY_6380.avif'
 import eventVadodara from '../assets/event-vadodara.avif'
 import './Events.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 const events = [
   {
@@ -7518,389 +12674,9 @@ export default function Events() {
 
 ---
 
-## File 22 {#file-22}
+## File 45 {#file-45}
 
-**📄 Path:** `src\components\Footer.css`
-
-```css
-.footer {
-  background: var(--navy-deep);
-  color: #C7CEE0;
-  position: relative;
-}
-
-/* Signal-red top accent bar */
-.footer__top-bar {
-  height: 4px;
-  background: var(--signal-red);
-  width: 100%;
-}
-
-.footer__body {
-  padding: 70px 0 50px;
-  /* Repeating line texture from design-system masthead */
-  background-image: repeating-linear-gradient(115deg,
-      rgba(255, 255, 255, 0.03) 0px,
-      rgba(255, 255, 255, 0.03) 1px,
-      transparent 1px,
-      transparent 26px);
-}
-
-.footer__inner {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.6fr;
-  gap: 48px;
-}
-
-/* Brand */
-.footer__logo {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 18px;
-}
-
-.footer__logo-img {
-  height: 42px;
-  width: auto;
-  object-fit: contain;
-  display: block;
-}
-
-.footer__logo-title {
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: 1.1rem;
-  color: var(--paper-white);
-  letter-spacing: 2px;
-}
-
-.footer__logo-sub {
-  font-family: var(--font-body);
-  font-size: 0.6rem;
-  color: rgba(255, 255, 255, 0.45);
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  margin-top: 2px;
-}
-
-.footer__brand-text {
-  font-size: 0.88rem;
-  color: #C7CEE0;
-  line-height: 1.75;
-  margin-bottom: 22px;
-}
-
-.footer__socials {
-  display: flex;
-  gap: 8px;
-}
-
-.footer__social {
-  width: 34px;
-  height: 34px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.85rem;
-  transition: var(--transition);
-}
-
-.footer__social:hover {
-  background: var(--signal-red);
-  color: var(--paper-white);
-  border-color: var(--signal-red);
-  transform: translateY(-3px);
-}
-
-/* Link columns */
-.footer__col-heading {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.8rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--paper-white);
-  margin-bottom: 18px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--signal-red);
-  display: inline-block;
-}
-
-.footer__col-links {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.footer__link {
-  font-size: 0.88rem;
-  color: #C7CEE0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: var(--transition);
-  font-weight: 500;
-}
-
-.footer__link-arrow {
-  color: var(--signal-red);
-  font-size: 1rem;
-  line-height: 1;
-}
-
-.footer__link:hover {
-  color: var(--paper-white);
-  padding-left: 4px;
-}
-
-/* Newsletter */
-.footer__newsletter-text {
-  font-size: 0.85rem;
-  color: #C7CEE0;
-  line-height: 1.7;
-  margin-bottom: 16px;
-}
-
-.footer__newsletter-form {
-  display: flex;
-  gap: 0;
-}
-
-.footer__newsletter-input {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-right: none;
-  padding: 11px 14px;
-  color: var(--paper-white);
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  outline: none;
-  border-radius: 0;
-  transition: var(--transition);
-}
-
-.footer__newsletter-input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
-}
-
-.footer__newsletter-input:focus {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.footer__newsletter-btn {
-  background: var(--signal-red);
-  color: var(--paper-white);
-  border: none;
-  padding: 11px 20px;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.75rem;
-  letter-spacing: 1.5px;
-  cursor: pointer;
-  transition: var(--transition);
-  border-radius: 0;
-}
-
-.footer__newsletter-btn:hover {
-  background: var(--red-deep);
-}
-
-/* Bottom bar */
-.footer__bottom {
-  padding: 18px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: var(--navy-mid);
-}
-
-.footer__bottom-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.footer__copy,
-.footer__design {
-  font-size: 0.78rem;
-  color: rgba(199, 206, 224, 0.6);
-  font-family: var(--font-body);
-}
-
-.footer__design a {
-  color: var(--paper-white);
-  font-weight: 600;
-  transition: var(--transition);
-}
-
-.footer__design a:hover {
-  color: var(--signal-red);
-}
-
-@media (max-width: 1024px) {
-  .footer__inner {
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-  }
-
-  .footer__brand {
-    grid-column: span 2;
-  }
-}
-
-@media (max-width: 600px) {
-  .footer__inner {
-    grid-template-columns: 1fr;
-  }
-
-  .footer__brand {
-    grid-column: span 1;
-  }
-
-  .footer__bottom-inner {
-    flex-direction: column;
-    text-align: center;
-    gap: 6px;
-  }
-}
-```
-
----
-
-## File 23 {#file-23}
-
-**📄 Path:** `src\components\Footer.jsx`
-
-```jsx
-import { useLocation, Link as RouterLink } from 'react-router-dom'
-import { Link as ScrollLink } from 'react-scroll'
-import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
-import dftLogo from '../assets/Logo/dft-logo.avif'
-import './Footer.css'
-
-const footerLinks = [
-  {
-    heading: 'Quick Links',
-    links: [
-      { label: 'Home', to: 'home' },
-      { label: 'About', to: 'about' },
-      { label: 'Vision & Mission', to: 'vision' },
-      { label: 'Committee', to: 'committee' },
-      { label: 'Newsletter', to: 'newsletter' },
-    ],
-  },
-  {
-    heading: 'Explore',
-    links: [
-      { label: 'Gallery', to: 'gallery' },
-      { label: 'Sangam 2026', to: '/sangam2026', isRouter: true },
-      { label: 'Contact Us', to: 'contact' },
-    ],
-  },
-]
-
-const socials = [
-  { icon: <FaFacebook />, label: 'Facebook', href: 'https://www.facebook.com/dftalumnifamily' },
-  { icon: <FaInstagram />, label: 'Instagram', href: 'https://www.instagram.com/dftalumnifamily/' },
-  { icon: <FaLinkedin />, label: 'LinkedIn', href: 'https://www.linkedin.com/company/dft-alumni/posts/?feedView=all' },
-  { icon: <FaYoutube />, label: 'YouTube', href: 'https://www.youtube.com/@DFTAlumniFamily' },
-]
-
-export default function Footer() {
-  const location = useLocation()
-  const isHome = location.pathname === '/'
-
-  return (
-    <footer className="footer">
-      {/* Red accent top line */}
-      <div className="footer__top-bar" />
-
-      <div className="footer__body">
-        <div className="container footer__inner">
-
-          {/* Brand */}
-          <div className="footer__brand">
-            <div className="footer__logo">
-              <img src={dftLogo} alt="DFT Logo" className="footer__logo-img" />
-              <div>
-                <div className="footer__logo-title">DFT ALUMNI</div>
-                <div className="footer__logo-sub">Sir Bhavsinhji Polytechnic, Bhavnagar</div>
-              </div>
-            </div>
-            <p className="footer__brand-text">
-              A proud community of graduates united by the legacy of the Diploma in Fabrication
-              Technology — connecting, inspiring, and giving back generation after generation.
-            </p>
-            <div className="footer__socials">
-              {socials.map((s) => (
-                <a key={s.label} href={s.href} className="footer__social" target='__blank' aria-label={s.label}>
-                  {s.icon}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Link columns */}
-          {footerLinks.map((col) => (
-            <div key={col.heading} className="footer__col">
-              <h4 className="footer__col-heading">{col.heading}</h4>
-              <ul className="footer__col-links">
-                {col.links.map((link) => (
-                  <li key={link.label}>
-                    {link.isRouter ? (
-                      <RouterLink to={link.to} className="footer__link">
-                        <span className="footer__link-arrow">›</span>
-                        {link.label}
-                      </RouterLink>
-                    ) : isHome ? (
-                      <ScrollLink to={link.to} smooth duration={600} offset={-80} className="footer__link">
-                        <span className="footer__link-arrow">›</span>
-                        {link.label}
-                      </ScrollLink>
-                    ) : (
-                      <RouterLink to="/" state={{ scrollTo: link.to }} className="footer__link">
-                        <span className="footer__link-arrow">›</span>
-                        {link.label}
-                      </RouterLink>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-
-        </div>
-      </div>
-
-      {/* Bottom bar */}
-      <div className="footer__bottom">
-        <div className="container footer__bottom-inner">
-          <p className="footer__copy">
-            &copy; {new Date().getFullYear()} DFT Alumni Association · Bhavnagar · Gujarat · <RouterLink to="/terms" style={{ color: 'rgba(255, 255, 255, 0.5)', textDecoration: 'none', transition: 'color 0.2s', marginLeft: '6px' }} onMouseOver={(e) => e.target.style.color = '#fff'} onMouseOut={(e) => e.target.style.color = 'rgba(255, 255, 255, 0.5)'}>Terms & Conditions</RouterLink>
-          </p>
-          <p className="footer__design">
-            Designed and Developed with 💙 by <a href="https://meghpatel.vercel.app" target="_blank" rel="noopener noreferrer">Megh Patel</a>
-          </p>
-        </div>
-      </div>
-    </footer>
-  )
-}
-
-```
-
----
-
-## File 24 {#file-24}
-
-**📄 Path:** `src\components\FounderDesk.css`
+**📄 Path:** `src\pages\FounderDesk.css`
 
 ```css
 .founder-desk {
@@ -8107,14 +12883,14 @@ export default function Footer() {
 
 ---
 
-## File 25 {#file-25}
+## File 46 {#file-46}
 
-**📄 Path:** `src\components\FounderDesk.jsx`
+**📄 Path:** `src\pages\FounderDesk.jsx`
 
 ```jsx
 import founderImg from '../assets/G_D_Acharya.avif'
 import './FounderDesk.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 export default function FounderDesk() {
   return (
@@ -8186,9 +12962,9 @@ export default function FounderDesk() {
 
 ---
 
-## File 26 {#file-26}
+## File 47 {#file-47}
 
-**📄 Path:** `src\components\Gallery.css`
+**📄 Path:** `src\pages\Gallery.css`
 
 ```css
 .gallery__grid {
@@ -8364,9 +13140,9 @@ export default function FounderDesk() {
 
 ---
 
-## File 27 {#file-27}
+## File 48 {#file-48}
 
-**📄 Path:** `src\components\Gallery.jsx`
+**📄 Path:** `src\pages\Gallery.jsx`
 
 ```jsx
 import { useState, useEffect, useRef } from 'react'
@@ -8378,7 +13154,7 @@ import gallery4 from '../assets/Gallery_Images/Gallery_3.avif'
 import gallery5 from '../assets/Gallery_Images/Gallery_5.avif'
 import gallery6 from '../assets/Gallery_Images/Gallery_1.avif'
 import './Gallery.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 const items = [
   { src: gallery1 },
@@ -8487,9 +13263,9 @@ export default function Gallery() {
 
 ---
 
-## File 28 {#file-28}
+## File 49 {#file-49}
 
-**📄 Path:** `src\components\Hero.css`
+**📄 Path:** `src\pages\Hero.css`
 
 ```css
 /* ============================================
@@ -9148,9 +13924,9 @@ export default function Gallery() {
 
 ---
 
-## File 29 {#file-29}
+## File 50 {#file-50}
 
-**📄 Path:** `src\components\Hero.jsx`
+**📄 Path:** `src\pages\Hero.jsx`
 
 ```jsx
 import { useState, useEffect, useCallback } from 'react'
@@ -9160,7 +13936,7 @@ import heroSlide1 from '../assets/Meet2023/img90.7da26a7b0531a14f219e.avif'
 import heroSlide2 from '../assets/Sangaath2024/AJY_6412.avif'
 import heroSlide3 from '../assets/Meet2023/img34.9ab305e8ae48ca6fb887.avif'
 import './Hero.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 const slides = [
   {
@@ -9348,147 +14124,9 @@ export default function Hero() {
 
 ---
 
-## File 30 {#file-30}
+## File 51 {#file-51}
 
-**📄 Path:** `src\components\ImageWithSkeleton.css`
-
-```css
-.image-skeleton-wrapper {
-  position: relative;
-  overflow: hidden;
-}
-
-/* Base Shimmer for light themes (covers most page sections) */
-.image-skeleton-shimmer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(215, 219, 227, 0.4) 25%,
-    rgba(243, 244, 247, 0.7) 37%,
-    rgba(215, 219, 227, 0.4) 63%
-  );
-  background-size: 400% 100%;
-  animation: image-skeleton-pulse 1.4s ease infinite;
-  z-index: 1;
-}
-
-/* Dark Theme Shimmer for dark sections (like Hero) */
-.image-skeleton-wrapper--dark .image-skeleton-shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(19, 42, 86, 0.5) 25%,
-    rgba(27, 58, 115, 0.7) 37%,
-    rgba(19, 42, 86, 0.5) 63%
-  );
-  background-size: 400% 100%;
-}
-
-@keyframes image-skeleton-pulse {
-  0% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-/* Image styles inside wrapper */
-.image-skeleton-img {
-  width: 100%;
-  height: 100%;
-  object-fit: inherit;
-  object-position: inherit;
-  display: block;
-  opacity: 0;
-  transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.image-skeleton-img--loaded {
-  opacity: 1;
-}
-
-```
-
----
-
-## File 31 {#file-31}
-
-**📄 Path:** `src\components\ImageWithSkeleton.jsx`
-
-```jsx
-import { useState, useEffect, useRef } from 'react'
-import './ImageWithSkeleton.css'
-
-export default function ImageWithSkeleton({
-  src,
-  alt,
-  className,
-  wrapperClassName,
-  style,
-  theme = 'light',
-  ...props
-}) {
-  const [loaded, setLoaded] = useState(false)
-  const [error, setError] = useState(false)
-  const imgRef = useRef(null)
-
-  useEffect(() => {
-    // Reset state for new src
-    setLoaded(false)
-    setError(false)
-
-    // Check cached state
-    if (imgRef.current && imgRef.current.complete) {
-      setLoaded(true)
-    }
-  }, [src])
-
-  const handleLoad = () => {
-    setLoaded(true)
-  }
-
-  const handleError = () => {
-    setError(true)
-  }
-
-  const isLoaded = loaded && !error;
-
-  return (
-    <div
-      className={`image-skeleton-wrapper ${theme === 'dark' ? 'image-skeleton-wrapper--dark' : ''} ${className || ''} ${wrapperClassName || ''}`}
-      style={style}
-    >
-      {!isLoaded && (
-        <div className="image-skeleton-shimmer" />
-      )}
-      <img
-        ref={imgRef}
-        src={src}
-        alt={alt}
-        className={`image-skeleton-img ${isLoaded ? 'image-skeleton-img--loaded' : ''}`}
-        onLoad={handleLoad}
-        onError={handleError}
-        style={{
-          opacity: isLoaded ? undefined : 0, // inline opacity overrides stylesheet while loading
-          ...props.style
-        }}
-        {...props}
-      />
-    </div>
-  )
-}
-
-```
-
----
-
-## File 32 {#file-32}
-
-**📄 Path:** `src\components\Login.css`
+**📄 Path:** `src\pages\Login.css`
 
 ```css
 /* ============================================
@@ -9864,17 +14502,43 @@ export default function ImageWithSkeleton({
 
 .login-field select {
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235B6478'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-image: none !important;
+}
+
+.login-field__input-wrap:not(.phone-input-wrap):has(select)::after {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  transform: translateY(-50%) rotate(0deg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%2364748b'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 14px center;
-  background-size: 18px;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 3;
+  transition: transform 0.25s ease, background-image 0.25s ease;
+}
+
+.login-field__input-wrap:not(.phone-input-wrap):has(select:enabled:focus)::after,
+.login-field__input-wrap:not(.phone-input-wrap):has(select:enabled:active)::after {
+  transform: translateY(-50%) rotate(180deg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%23e8302a'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E");
+}
+
+.login-field__input-wrap:not(.phone-input-wrap):has(select:disabled)::after {
+  transform: translateY(-50%) rotate(0deg) !important;
+  opacity: 0.5 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%2364748b'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E") !important;
 }
 
 .login-field input:focus,
 .login-field select:focus {
   border-color: var(--navy-deep);
   border-left-color: var(--signal-red);
-  background: var(--paper-white);
+  background-color: var(--paper-white);
   box-shadow: 0 4px 10px rgba(11, 27, 63, 0.05);
 }
 
@@ -9968,6 +14632,28 @@ export default function ImageWithSkeleton({
   font-weight: 500;
   line-height: 1.5;
   flex: 1;
+}
+
+/* Error Banner Styling */
+.login-error-banner {
+  padding: 14px 18px;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  color: #dc2626;
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.08);
+}
+
+.login-error-banner__icon {
+  color: #dc2626;
+  font-size: 1.1rem;
+  flex-shrink: 0;
 }
 
 .login-forgot-link {
@@ -10450,18 +15136,44 @@ export default function ImageWithSkeleton({
 
 .phone-country-select {
   padding: 12px 20px 12px 38px !important;
-  /* space on left for flag icon */
   border: none !important;
   border-right: 1px solid var(--line-grey) !important;
   border-radius: 0 !important;
   background: transparent !important;
-  background-position: right 4px center !important;
-  /* shift arrow slightly left */
-  background-size: 12px !important;
+  background-image: none !important;
   height: 100% !important;
   outline: none !important;
   box-shadow: none !important;
   transition: border-color 0.3s ease !important;
+}
+
+.phone-input-wrap::after {
+  content: '';
+  position: absolute;
+  left: 92px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translateY(-50%) rotate(0deg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%2364748b'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 4;
+  transition: transform 0.25s ease, background-image 0.25s ease;
+}
+
+.phone-input-wrap:has(.phone-country-select:enabled:focus)::after,
+.phone-input-wrap:has(.phone-country-select:enabled:active)::after {
+  transform: translateY(-50%) rotate(180deg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%23e8302a'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E");
+}
+
+.phone-input-wrap:has(.phone-country-select:disabled)::after {
+  transform: translateY(-50%) rotate(0deg) !important;
+  opacity: 0.5 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%2364748b'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E") !important;
 }
 
 .phone-input-wrap:focus-within .phone-country-select {
@@ -10497,7 +15209,6 @@ export default function ImageWithSkeleton({
   color: var(--navy-deep);
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-top: 24px;
   margin-bottom: 12px;
   border-bottom: 2px solid var(--signal-red);
   padding-bottom: 4px;
@@ -10738,13 +15449,42 @@ export default function ImageWithSkeleton({
     transform: translateX(40px);
   }
 }
+
+/* ============================================
+   PHONE CODE DISPLAY FIX
+   ============================================ */
+/* Hide the text (and emoji) in the selected state of the select field */
+.phone-country-select {
+  color: transparent !important;
+}
+
+/* Ensure options inside the dropdown menu remain visible */
+.phone-country-select option {
+  color: var(--navy-deep) !important;
+}
+
+/* Overlay the raw country code text without the emoji */
+.phone-selected-text {
+  position: absolute;
+  left: 42px;
+  /* Places text right after the flag icon */
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  /* Allows clicks to pass through to the select field */
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--navy-deep);
+  z-index: 2;
+}
 ```
 
 ---
 
-## File 33 {#file-33}
+## File 52 {#file-52}
 
-**📄 Path:** `src\components\Login.jsx`
+**📄 Path:** `src\pages\Login.jsx`
 
 ```jsx
 import { useState, useEffect, useRef } from 'react'
@@ -10775,20 +15515,30 @@ import {
   FaBoxOpen,
   FaMapMarkerAlt,
   FaSitemap,
-  FaAward
+  FaAward,
+  FaExclamationTriangle,
+  FaFilePdf
 } from 'react-icons/fa'
 import alumniLogo from '../assets/Logo/dft-logo-dark.avif'
+import CountryAutocomplete from '../components/CountryAutocomplete'
+import StateAutocomplete from '../components/StateAutocomplete'
+import CityAutocomplete from '../components/CityAutocomplete'
+import CompanyAutocomplete from '../components/CompanyAutocomplete'
 import './Login.css'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
 import { doc, setDoc, getDoc, collection, query, where, getDocs } from 'firebase/firestore'
+import { countryCodes } from '../data/countryData'
+import { getCountryByState } from '../data/stateData'
+import { getStateAndCountryByCity } from '../data/cityData'
 import {
-  countryCodes,
   ACADEMIC_YEARS,
   DEGREE_OPTIONS,
+  GENDER_OPTIONS,
   CERTIFICATION_OPTIONS,
   PRODUCT_SERVICE_OPTIONS,
-  HOBBY_OPTIONS
+  HOBBY_OPTIONS,
+  PLACEHOLDERS
 } from '../data/formdata'
 import { hashEmail, hashPhoneDigits } from '../utils/hash'
 
@@ -10816,21 +15566,187 @@ const parsePhoneNumber = (fullPhone) => {
 
 const getCountryIso = (code) => {
   const map = {
-    '+91': 'in',
     '+1': 'us',
-    '+44': 'gb',
-    '+971': 'ae',
-    '+65': 'sg',
-    '+61': 'au',
-    '+49': 'de',
-    '+966': 'sa',
-    '+968': 'om',
-    '+974': 'qa',
-    '+965': 'kw',
-    '+973': 'bh',
+    '+7': 'ru',
+    '+20': 'eg',
     '+27': 'za',
+    '+30': 'gr',
+    '+31': 'nl',
+    '+32': 'be',
     '+33': 'fr',
-    '+81': 'jp'
+    '+34': 'es',
+    '+36': 'hu',
+    '+39': 'it',
+    '+40': 'ro',
+    '+41': 'ch',
+    '+43': 'at',
+    '+44': 'gb',
+    '+45': 'dk',
+    '+46': 'se',
+    '+47': 'no',
+    '+48': 'pl',
+    '+49': 'de',
+    '+51': 'pe',
+    '+52': 'mx',
+    '+53': 'cu',
+    '+54': 'ar',
+    '+55': 'br',
+    '+56': 'cl',
+    '+57': 'co',
+    '+58': 've',
+    '+60': 'my',
+    '+61': 'au',
+    '+62': 'id',
+    '+63': 'ph',
+    '+64': 'nz',
+    '+65': 'sg',
+    '+66': 'th',
+    '+81': 'jp',
+    '+82': 'kr',
+    '+84': 'vn',
+    '+86': 'cn',
+    '+90': 'tr',
+    '+91': 'in',
+    '+92': 'pk',
+    '+93': 'af',
+    '+94': 'lk',
+    '+95': 'mm',
+    '+98': 'ir',
+    '+211': 'ss',
+    '+212': 'ma',
+    '+213': 'dz',
+    '+216': 'tn',
+    '+218': 'ly',
+    '+220': 'gm',
+    '+221': 'sn',
+    '+222': 'mr',
+    '+223': 'ml',
+    '+224': 'gn',
+    '+225': 'ci',
+    '+226': 'bf',
+    '+227': 'ne',
+    '+228': 'tg',
+    '+229': 'bj',
+    '+230': 'mu',
+    '+231': 'lr',
+    '+232': 'sl',
+    '+233': 'gh',
+    '+234': 'ng',
+    '+235': 'td',
+    '+236': 'cf',
+    '+237': 'cm',
+    '+238': 'cv',
+    '+239': 'st',
+    '+240': 'gq',
+    '+241': 'ga',
+    '+242': 'cg',
+    '+243': 'cd',
+    '+244': 'ao',
+    '+245': 'gw',
+    '+248': 'sc',
+    '+249': 'sd',
+    '+250': 'rw',
+    '+251': 'et',
+    '+252': 'so',
+    '+253': 'dj',
+    '+254': 'ke',
+    '+255': 'tz',
+    '+256': 'ug',
+    '+257': 'bi',
+    '+258': 'mz',
+    '+260': 'zm',
+    '+261': 'mg',
+    '+263': 'zw',
+    '+264': 'na',
+    '+265': 'mw',
+    '+266': 'ls',
+    '+267': 'bw',
+    '+268': 'sz',
+    '+269': 'km',
+    '+291': 'er',
+    '+351': 'pt',
+    '+352': 'lu',
+    '+353': 'ie',
+    '+354': 'is',
+    '+355': 'al',
+    '+356': 'mt',
+    '+357': 'cy',
+    '+358': 'fi',
+    '+359': 'bg',
+    '+370': 'lt',
+    '+371': 'lv',
+    '+372': 'ee',
+    '+373': 'md',
+    '+374': 'am',
+    '+375': 'by',
+    '+376': 'ad',
+    '+377': 'mc',
+    '+378': 'sm',
+    '+380': 'ua',
+    '+381': 'rs',
+    '+382': 'me',
+    '+385': 'hr',
+    '+386': 'si',
+    '+387': 'ba',
+    '+389': 'mk',
+    '+420': 'cz',
+    '+421': 'sk',
+    '+423': 'li',
+    '+501': 'bz',
+    '+502': 'gt',
+    '+503': 'sv',
+    '+504': 'hn',
+    '+505': 'ni',
+    '+506': 'cr',
+    '+507': 'pa',
+    '+509': 'ht',
+    '+591': 'bo',
+    '+592': 'gy',
+    '+593': 'ec',
+    '+595': 'py',
+    '+597': 'sr',
+    '+598': 'uy',
+    '+670': 'tl',
+    '+673': 'bn',
+    '+674': 'nr',
+    '+675': 'pg',
+    '+676': 'to',
+    '+677': 'sb',
+    '+678': 'vu',
+    '+679': 'fj',
+    '+680': 'pw',
+    '+685': 'ws',
+    '+686': 'ki',
+    '+688': 'tv',
+    '+691': 'fm',
+    '+692': 'mh',
+    '+850': 'kp',
+    '+855': 'kh',
+    '+856': 'la',
+    '+880': 'bd',
+    '+960': 'mv',
+    '+961': 'lb',
+    '+962': 'jo',
+    '+963': 'sy',
+    '+964': 'iq',
+    '+965': 'kw',
+    '+966': 'sa',
+    '+967': 'ye',
+    '+968': 'om',
+    '+970': 'ps',
+    '+971': 'ae',
+    '+972': 'il',
+    '+973': 'bh',
+    '+974': 'qa',
+    '+975': 'bt',
+    '+976': 'mn',
+    '+977': 'np',
+    '+992': 'tj',
+    '+993': 'tm',
+    '+994': 'az',
+    '+995': 'ge',
+    '+996': 'kg',
+    '+998': 'uz'
   }
   return map[code] || 'in'
 }
@@ -10867,6 +15783,7 @@ export default function Login({ user, onLoginSuccess }) {
     middleName: '',
     lastName: '',
     email: '',
+    gender: '',
     dob: '',
     phoneCode: '+91',
     phone: '',
@@ -10897,7 +15814,10 @@ export default function Login({ user, onLoginSuccess }) {
     productServices: [],
     otherProductServices: '',
     department: '',
+    division: '',
     workingSince: '',
+    workingSinceMonth: '',
+    workingSinceYear: '',
     companyCity: '',
     companyState: '',
     companyCountry: '',
@@ -10906,7 +15826,13 @@ export default function Login({ user, onLoginSuccess }) {
     lastPromotionYear: '',
     awards: [],
     hobbies: [],
-    consentAlumniSearch: false
+    otherHobbies: '',
+    workExperience: '',
+    consentEmail: false,
+    consentPhone: false,
+    consentWhatsapp: false,
+    cvBase64: '',
+    cvFileName: ''
   })
 
   const [showPhoneModal, setShowPhoneModal] = useState(false)
@@ -10939,9 +15865,10 @@ export default function Login({ user, onLoginSuccess }) {
     setCaptchaInput('')
   }
 
-  // Auto-hide general errors after 10 seconds
+  // Auto-hide general errors after 10 seconds & scroll to top to show error banner
   useEffect(() => {
     if (error) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       const timer = setTimeout(() => {
         setError('');
       }, 10000);
@@ -11048,16 +15975,83 @@ export default function Login({ user, onLoginSuccess }) {
     }))
   }
 
+  const capitalizeWords = (str) => {
+    if (!str || typeof str !== 'string') return str;
+    return str.replace(/\b[a-zA-Z]+/g, (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+  };
+
+  const handleCvFileChange = (e) => {
+    const file = e.target.files && e.target.files[0]
+    if (!file) return
+
+    if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+      setError('Only PDF files are allowed for CV upload.')
+      e.target.value = ''
+      return
+    }
+
+    if (file.size > 700 * 1024) {
+      setError('PDF file size must be less than 700 KB for direct storage.')
+      e.target.value = ''
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      setRegisterForm(prev => ({
+        ...prev,
+        cvBase64: reader.result,
+        cvFileName: file.name
+      }))
+    }
+    reader.onerror = () => {
+      setError('Failed to read the uploaded PDF file.')
+    }
+    reader.readAsDataURL(file)
+  }
+
   const handleRegisterChange = (e) => {
     const { name, value, type, checked } = e.target
-    const cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name)
+    let cleanValue = ['phone', 'secondaryPhone', 'whatsapp', 'workExperience'].includes(name)
       ? value.replace(/\D/g, '')
       : value;
+
+    if (['firstName', 'middleName', 'lastName'].includes(name) && typeof cleanValue === 'string') {
+      cleanValue = capitalizeWords(cleanValue);
+    }
+
     setRegisterForm(prev => {
       const updated = {
         ...prev,
         [name]: type === 'checkbox' ? checked : cleanValue
       }
+
+      // Auto populate state & country when personal city changes
+      if (name === 'city' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const { state: autoState, country: autoCountry } = getStateAndCountryByCity(cleanValue);
+        if (autoState) updated.state = autoState;
+        if (autoCountry) updated.country = autoCountry;
+      }
+
+      // Auto populate country when personal state changes
+      if (name === 'state' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const autoCountry = getCountryByState(cleanValue);
+        if (autoCountry) updated.country = autoCountry;
+      }
+
+      // Auto populate state & country when company city changes
+      if (name === 'companyCity' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const { state: autoState, country: autoCountry } = getStateAndCountryByCity(cleanValue);
+        if (autoState) updated.companyState = autoState;
+        if (autoCountry) updated.companyCountry = autoCountry;
+      }
+
+      // Auto populate country when company state changes
+      if (name === 'companyState' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const autoCountry = getCountryByState(cleanValue);
+        if (autoCountry) updated.companyCountry = autoCountry;
+      }
+
       if (name === 'admissionYear' && cleanValue && !prev.diplomaNotCompleted) {
         const parsedYear = parseInt(cleanValue, 10)
         if (!isNaN(parsedYear)) {
@@ -11232,7 +16226,10 @@ export default function Login({ user, onLoginSuccess }) {
             productServices: loadedProductServices,
             otherProductServices: profileData.otherProductServices || '',
             department: profileData.department || '',
+            division: profileData.division || '',
             workingSince: profileData.workingSince || '',
+            workingSinceMonth: profileData.workingSinceMonth || '',
+            workingSinceYear: profileData.workingSinceYear || '',
             companyCity: profileData.companyCity || '',
             companyState: profileData.companyState || '',
             companyCountry: profileData.companyCountry || '',
@@ -11271,7 +16268,10 @@ export default function Login({ user, onLoginSuccess }) {
             certifications: [],
             productServices: [],
             department: '',
+            division: '',
             workingSince: '',
+            workingSinceMonth: '',
+            workingSinceYear: '',
             companyCity: '',
             companyState: '',
             companyCountry: '',
@@ -11388,12 +16388,22 @@ export default function Login({ user, onLoginSuccess }) {
     }
 
     if (!registerForm.phone.trim()) {
-      setError('Contact number is compulsory.')
+      setError('Primary Contact number is compulsory.')
       return
     }
 
     if (!registerForm.whatsapp.trim()) {
       setError('WhatsApp number is compulsory.')
+      return
+    }
+
+    if (!registerForm.gender) {
+      setError('Gender is compulsory.')
+      return
+    }
+
+    if (!registerForm.consentEmail && !registerForm.consentPhone && !registerForm.consentWhatsapp) {
+      setError('Please select at least one detail (Email ID, Mobile Number, or WhatsApp Number) to show on the Alumni Portal.')
       return
     }
 
@@ -11430,6 +16440,11 @@ export default function Login({ user, onLoginSuccess }) {
 
     setLoading(true)
 
+    const cleanFirstName = capitalizeWords(registerForm.firstName.trim());
+    const cleanMiddleName = capitalizeWords(registerForm.middleName.trim());
+    const cleanLastName = capitalizeWords(registerForm.lastName.trim());
+    const cleanFullName = [cleanFirstName, cleanMiddleName, cleanLastName].filter(Boolean).join(' ');
+
     if (isFirebaseConfigured) {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, registerForm.email, registerForm.password)
@@ -11437,12 +16452,14 @@ export default function Login({ user, onLoginSuccess }) {
 
         // Save additional profile details to Firestore
         await setDoc(doc(db, 'users', user.uid), {
-          firstName: registerForm.firstName,
-          middleName: registerForm.middleName,
-          lastName: registerForm.lastName,
-          name: [registerForm.firstName.trim(), registerForm.middleName.trim(), registerForm.lastName.trim()].filter(Boolean).join(' '),
+          firstName: cleanFirstName,
+          middleName: cleanMiddleName,
+          lastName: cleanLastName,
+          name: cleanFullName,
           email: registerForm.email,
+          gender: registerForm.gender || '',
           dob: registerForm.dob,
+          dom: registerForm.dom || '',
           phone: `${registerForm.phoneCode} ${registerForm.phone}`.trim(),
           secondaryPhone: registerForm.secondaryPhone ? `${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`.trim() : '',
           whatsapp: `${registerForm.whatsappCode} ${registerForm.whatsapp}`.trim(),
@@ -11469,7 +16486,10 @@ export default function Login({ user, onLoginSuccess }) {
           productServices: registerForm.productServices || [],
           otherProductServices: registerForm.productServices.includes('Others') ? registerForm.otherProductServices || '' : '',
           department: registerForm.department || '',
-          workingSince: registerForm.workingSince || '',
+          division: registerForm.division || '',
+          workingSinceMonth: registerForm.workingSinceMonth || '',
+          workingSinceYear: registerForm.workingSinceYear || '',
+          workingSince: (registerForm.workingSinceMonth && registerForm.workingSinceYear) ? `${registerForm.workingSinceMonth} ${registerForm.workingSinceYear}` : (registerForm.workingSince || ''),
           companyCity: registerForm.companyCity || '',
           companyState: registerForm.companyState || '',
           companyCountry: registerForm.companyCountry || '',
@@ -11478,28 +16498,52 @@ export default function Login({ user, onLoginSuccess }) {
           lastPromotionYear: registerForm.lastPromotionYear || '',
           awards: registerForm.awards || [],
           hobbies: registerForm.hobbies || [],
-          consentAlumniSearch: registerForm.consentAlumniSearch || false
+          otherHobbies: registerForm.hobbies.includes('Others') ? registerForm.otherHobbies || '' : '',
+          workExperience: registerForm.workExperience || '',
+          consentEmail: registerForm.consentEmail || false,
+          consentPhone: registerForm.consentPhone || false,
+          consentWhatsapp: registerForm.consentWhatsapp || false,
+          cvBase64: registerForm.cvBase64 || '',
+          cvFileName: registerForm.cvFileName || ''
         })
+
+        if (registerForm.company && registerForm.company.trim()) {
+          try {
+            await setDoc(doc(db, 'companies', registerForm.company.trim().toLowerCase()), {
+              name: registerForm.company.trim()
+            }, { merge: true })
+          } catch (compErr) {
+            console.warn('Failed to save company name to collection:', compErr)
+          }
+        }
 
         // Write the password-reset lookup doc (hashes only, no plaintext phone data)
-        const emailHashKey = await hashEmail(registerForm.email)
-        const phoneHash = await hashPhoneDigits(`${registerForm.phoneCode} ${registerForm.phone}`)
-        const secPhoneHash = registerForm.secondaryPhone
-          ? await hashPhoneDigits(`${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`)
-          : ''
-        const whatsappHash = await hashPhoneDigits(`${registerForm.whatsappCode} ${registerForm.whatsapp}`)
+        try {
+          const emailHashKey = await hashEmail(registerForm.email)
+          const phoneHash = await hashPhoneDigits(`${registerForm.phoneCode} ${registerForm.phone}`)
+          const secPhoneHash = registerForm.secondaryPhone
+            ? await hashPhoneDigits(`${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`)
+            : ''
+          const whatsappHash = await hashPhoneDigits(`${registerForm.whatsappCode} ${registerForm.whatsapp}`)
 
-        await setDoc(doc(db, 'passwordResetLookup', emailHashKey), {
-          uid: user.uid,
-          phoneHash,
-          secPhoneHash,
-          whatsappHash
-        })
+          await setDoc(doc(db, 'passwordResetLookup', emailHashKey), {
+            uid: user.uid,
+            phoneHash: phoneHash || '',
+            secPhoneHash: secPhoneHash || '',
+            whatsappHash: whatsappHash || ''
+          })
+        } catch (lookupErr) {
+          console.warn('Failed to save passwordResetLookup doc:', lookupErr)
+        }
 
         const newUser = {
           uid: user.uid,
-          name: [registerForm.firstName.trim(), registerForm.middleName.trim(), registerForm.lastName.trim()].filter(Boolean).join(' '),
+          firstName: cleanFirstName,
+          middleName: cleanMiddleName,
+          lastName: cleanLastName,
+          name: cleanFullName,
           email: registerForm.email,
+          gender: registerForm.gender || '',
           dob: registerForm.dob,
           phone: `${registerForm.phoneCode} ${registerForm.phone}`.trim(),
           secondaryPhone: registerForm.secondaryPhone ? `${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`.trim() : '',
@@ -11528,7 +16572,10 @@ export default function Login({ user, onLoginSuccess }) {
           productServices: registerForm.productServices || [],
           otherProductServices: registerForm.productServices.includes('Others') ? registerForm.otherProductServices || '' : '',
           department: registerForm.department || '',
-          workingSince: registerForm.workingSince || '',
+          division: registerForm.division || '',
+          workingSinceMonth: registerForm.workingSinceMonth || '',
+          workingSinceYear: registerForm.workingSinceYear || '',
+          workingSince: (registerForm.workingSinceMonth && registerForm.workingSinceYear) ? `${registerForm.workingSinceMonth} ${registerForm.workingSinceYear}` : (registerForm.workingSince || ''),
           companyCity: registerForm.companyCity || '',
           companyState: registerForm.companyState || '',
           companyCountry: registerForm.companyCountry || '',
@@ -11537,7 +16584,13 @@ export default function Login({ user, onLoginSuccess }) {
           lastPromotionYear: registerForm.lastPromotionYear || '',
           awards: registerForm.awards || [],
           hobbies: registerForm.hobbies || [],
-          consentAlumniSearch: registerForm.consentAlumniSearch || false
+          otherHobbies: registerForm.hobbies.includes('Others') ? registerForm.otherHobbies || '' : '',
+          workExperience: registerForm.workExperience || '',
+          consentEmail: registerForm.consentEmail || false,
+          consentPhone: registerForm.consentPhone || false,
+          consentWhatsapp: registerForm.consentWhatsapp || false,
+          cvBase64: registerForm.cvBase64 || '',
+          cvFileName: registerForm.cvFileName || ''
         }
 
         setRegisteredUserObj(newUser)
@@ -11550,6 +16603,8 @@ export default function Login({ user, onLoginSuccess }) {
           setError('An account with this email address already exists.')
         } else if (err.code === 'auth/invalid-email') {
           setError('Please enter a valid email address.')
+        } else if (err.code === 'permission-denied' || (err.message && err.message.toLowerCase().includes('permission'))) {
+          setError('Database permission denied. Please verify your Firestore Security Rules in Firebase Console.')
         } else {
           setError(err.message || 'An error occurred during registration. Please try again.')
         }
@@ -11559,7 +16614,10 @@ export default function Login({ user, onLoginSuccess }) {
       setTimeout(() => {
         const newUser = {
           uid: 'mock-uid-registered',
-          name: [registerForm.firstName.trim(), registerForm.middleName.trim(), registerForm.lastName.trim()].filter(Boolean).join(' '),
+          firstName: cleanFirstName,
+          middleName: cleanMiddleName,
+          lastName: cleanLastName,
+          name: cleanFullName,
           email: registerForm.email,
           dob: registerForm.dob,
           phone: `${registerForm.phoneCode} ${registerForm.phone}`.trim(),
@@ -11590,7 +16648,10 @@ export default function Login({ user, onLoginSuccess }) {
           productServices: registerForm.productServices || [],
           otherProductServices: registerForm.productServices.includes('Others') ? registerForm.otherProductServices || '' : '',
           department: registerForm.department || '',
-          workingSince: registerForm.workingSince || '',
+          division: registerForm.division || '',
+          workingSinceMonth: registerForm.workingSinceMonth || '',
+          workingSinceYear: registerForm.workingSinceYear || '',
+          workingSince: (registerForm.workingSinceMonth && registerForm.workingSinceYear) ? `${registerForm.workingSinceMonth} ${registerForm.workingSinceYear}` : (registerForm.workingSince || ''),
           companyCity: registerForm.companyCity || '',
           companyState: registerForm.companyState || '',
           companyCountry: registerForm.companyCountry || '',
@@ -11599,7 +16660,9 @@ export default function Login({ user, onLoginSuccess }) {
           lastPromotionYear: registerForm.lastPromotionYear || '',
           awards: registerForm.awards || [],
           hobbies: registerForm.hobbies || [],
-          consentAlumniSearch: registerForm.consentAlumniSearch || false
+          consentEmail: registerForm.consentEmail || false,
+          consentPhone: registerForm.consentPhone || false,
+          consentWhatsapp: registerForm.consentWhatsapp || false
         }
 
         localStorage.setItem('mockRegisteredAlumni', JSON.stringify(newUser))
@@ -11634,6 +16697,7 @@ export default function Login({ user, onLoginSuccess }) {
           productServices: newUser.productServices || [],
           otherProductServices: newUser.otherProductServices || '',
           department: newUser.department || '',
+          division: newUser.division || '',
           workingSince: newUser.workingSince || '',
           companyCity: newUser.companyCity || '',
           companyState: newUser.companyState || '',
@@ -11843,6 +16907,13 @@ export default function Login({ user, onLoginSuccess }) {
             {/* Card Body containing Form */}
             <div className="login-card__body">
 
+              {error && (
+                <div className="login-error-banner">
+                  <FaExclamationTriangle className="login-error-banner__icon" />
+                  <span>{error}</span>
+                </div>
+              )}
+
               {activeTab === 'login' ? (
                 /* SIGN IN VIEW */
                 <form className="login-form" onSubmit={handleLoginSubmit}>
@@ -11854,7 +16925,7 @@ export default function Login({ user, onLoginSuccess }) {
                         id="login-email"
                         type="email"
                         name="email"
-                        placeholder="your@email.com"
+                        placeholder={PLACEHOLDERS.loginEmail}
                         value={loginForm.email}
                         onChange={handleLoginChange}
                         required
@@ -11871,7 +16942,7 @@ export default function Login({ user, onLoginSuccess }) {
                         id="login-password"
                         type={showLoginPassword ? "text" : "password"}
                         name="password"
-                        placeholder="••••••••"
+                        placeholder={PLACEHOLDERS.loginPassword}
                         value={loginForm.password}
                         onChange={handleLoginChange}
                         required
@@ -11929,6 +17000,9 @@ export default function Login({ user, onLoginSuccess }) {
                 /* REGISTRATION VIEW */
                 <form className="login-form" onSubmit={handleRegisterSubmit}>
 
+                  <p style={{ fontSize: '13px', color: 'var(--slate)', marginBottom: '14px', fontWeight: '500' }}>
+                    Fields marked with <span style={{ color: 'var(--signal-red)', fontWeight: 'bold' }}>*</span> are mandatory
+                  </p>
                   <h4 className="login-section-title">Personal Details</h4>
                   <div className="login-form__grid-3">
                     <div className="login-field">
@@ -11939,7 +17013,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-first-name"
                           type="text"
                           name="firstName"
-                          placeholder="John"
+                          placeholder={PLACEHOLDERS.firstName}
                           value={registerForm.firstName}
                           onChange={handleRegisterChange}
                           required
@@ -11955,7 +17029,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-middle-name"
                           type="text"
                           name="middleName"
-                          placeholder="Kumar"
+                          placeholder={PLACEHOLDERS.middleName}
                           value={registerForm.middleName}
                           onChange={handleRegisterChange}
                           required
@@ -11971,7 +17045,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-last-name"
                           type="text"
                           name="lastName"
-                          placeholder="Doe"
+                          placeholder={PLACEHOLDERS.lastName}
                           value={registerForm.lastName}
                           onChange={handleRegisterChange}
                           required
@@ -11990,7 +17064,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-email"
                           type="email"
                           name="email"
-                          placeholder="john.doe@example.com"
+                          placeholder={PLACEHOLDERS.regEmail}
                           value={registerForm.email}
                           onChange={handleRegisterChange}
                           required
@@ -11999,6 +17073,26 @@ export default function Login({ user, onLoginSuccess }) {
                       </div>
                     </div>
 
+                    <div className="login-field">
+                      <label htmlFor="reg-gender">Gender <span className="login-field__required">*</span></label>
+                      <div className="login-field__input-wrap">
+                        <FaUser className="login-field__icon" />
+                        <select
+                          id="reg-gender"
+                          name="gender"
+                          value={registerForm.gender}
+                          onChange={handleRegisterChange}
+                          required
+                          disabled={loading}
+                        >
+                          <option value="">Select Gender</option>
+                          {GENDER_OPTIONS.map(g => <option key={g} value={g}>{g}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="login-form__grid">
                     <div className="login-field">
                       <label htmlFor="reg-bloodgroup">Blood Group</label>
                       <div className="login-field__input-wrap">
@@ -12022,9 +17116,7 @@ export default function Login({ user, onLoginSuccess }) {
                         </select>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="login-form__grid">
                     <div className="login-field">
                       <label htmlFor="reg-dob">Date of Birth <span className="login-field__required">*</span></label>
                       <div className="login-field__input-wrap">
@@ -12040,7 +17132,9 @@ export default function Login({ user, onLoginSuccess }) {
                         />
                       </div>
                     </div>
+                  </div>
 
+                  <div className="login-form__grid">
                     <div className="login-field">
                       <label htmlFor="reg-dom">Date of Marriage</label>
                       <div className="login-field__input-wrap">
@@ -12055,13 +17149,19 @@ export default function Login({ user, onLoginSuccess }) {
                         />
                       </div>
                     </div>
+
+                    <div className="login-field" style={{ visibility: 'hidden' }}></div>
                   </div>
 
                   <div className="login-form__grid">
                     <div className="login-field">
-                      <label htmlFor="reg-phone">Contact Number <span className="login-field__required">*</span></label>
+                      <label htmlFor="reg-phone">Primary Contact Number <span className="login-field__required">*</span></label>
                       <div className="login-field__input-wrap phone-input-wrap">
                         <span className={`fi fi-${getCountryIso(registerForm.phoneCode)} login-field__icon`}></span>
+
+                        {/* ADD THIS SPAN */}
+                        <span className="phone-selected-text">{registerForm.phoneCode}</span>
+
                         <select
                           className="phone-country-select"
                           name="phoneCode"
@@ -12069,13 +17169,13 @@ export default function Login({ user, onLoginSuccess }) {
                           onChange={handleRegisterChange}
                           disabled={loading}
                         >
-                          {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                          {countryCodes.map((c, idx) => <option key={`${c.code}-${c.iso || idx}`} value={c.code}>{c.label}</option>)}
                         </select>
                         <input
                           id="reg-phone"
                           type="tel"
                           name="phone"
-                          placeholder="98765 43210"
+                          placeholder={PLACEHOLDERS.phone}
                           value={registerForm.phone}
                           onChange={handleRegisterChange}
                           required
@@ -12088,6 +17188,10 @@ export default function Login({ user, onLoginSuccess }) {
                       <label htmlFor="reg-sec-phone">Secondary Contact Number</label>
                       <div className="login-field__input-wrap phone-input-wrap">
                         <span className={`fi fi-${getCountryIso(registerForm.secondaryPhoneCode)} login-field__icon`}></span>
+
+                        {/* ADD THIS SPAN */}
+                        <span className="phone-selected-text">{registerForm.secondaryPhoneCode}</span>
+
                         <select
                           className="phone-country-select"
                           name="secondaryPhoneCode"
@@ -12095,13 +17199,13 @@ export default function Login({ user, onLoginSuccess }) {
                           onChange={handleRegisterChange}
                           disabled={loading}
                         >
-                          {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                          {countryCodes.map((c, idx) => <option key={`${c.code}-${c.iso || idx}`} value={c.code}>{c.label}</option>)}
                         </select>
                         <input
                           id="reg-sec-phone"
                           type="tel"
                           name="secondaryPhone"
-                          placeholder="Optional"
+                          placeholder={PLACEHOLDERS.secondaryPhone}
                           value={registerForm.secondaryPhone}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -12110,9 +17214,13 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-whatsapp">WhatsApp Number <span className="login-field__required">*</span></label>
+                      <label htmlFor="reg-whatsapp">WhatsApp Number</label>
                       <div className="login-field__input-wrap phone-input-wrap">
                         <span className={`fi fi-${getCountryIso(registerForm.whatsappCode)} login-field__icon`}></span>
+
+                        {/* ADD THIS SPAN */}
+                        <span className="phone-selected-text">{registerForm.whatsappCode}</span>
+
                         <select
                           className="phone-country-select"
                           name="whatsappCode"
@@ -12120,16 +17228,15 @@ export default function Login({ user, onLoginSuccess }) {
                           onChange={handleRegisterChange}
                           disabled={loading}
                         >
-                          {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                          {countryCodes.map((c, idx) => <option key={`${c.code}-${c.iso || idx}`} value={c.code}>{c.label}</option>)}
                         </select>
                         <input
                           id="reg-whatsapp"
                           type="tel"
                           name="whatsapp"
-                          placeholder="98765 43210"
+                          placeholder={PLACEHOLDERS.whatsapp}
                           value={registerForm.whatsapp}
                           onChange={handleRegisterChange}
-                          required
                           disabled={loading}
                         />
                       </div>
@@ -12140,49 +17247,42 @@ export default function Login({ user, onLoginSuccess }) {
 
                   <div className="login-form__grid-3" style={{ marginTop: '15px' }}>
                     <div className="login-field">
-                      <label htmlFor="reg-city">City</label>
-                      <div className="login-field__input-wrap">
-                        <FaMapMarkerAlt className="login-field__icon" />
-                        <input
-                          id="reg-city"
-                          type="text"
-                          name="city"
-                          placeholder="Ahmedabad"
-                          value={registerForm.city}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
+                      <label htmlFor="reg-city">Native (City)</label>
+                      <CityAutocomplete
+                        id="reg-city"
+                        name="city"
+                        placeholder={PLACEHOLDERS.city}
+                        value={registerForm.city}
+                        state={registerForm.state}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                        wrapClassName="login-field__input-wrap"
+                      />
                     </div>
                     <div className="login-field">
-                      <label htmlFor="reg-state">State</label>
-                      <div className="login-field__input-wrap">
-                        <FaMapMarkerAlt className="login-field__icon" />
-                        <input
-                          id="reg-state"
-                          type="text"
-                          name="state"
-                          placeholder="Gujarat"
-                          value={registerForm.state}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
+                      <label htmlFor="reg-state">Native (State)</label>
+                      <StateAutocomplete
+                        id="reg-state"
+                        name="state"
+                        placeholder={PLACEHOLDERS.state}
+                        value={registerForm.state}
+                        country={registerForm.country}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                        wrapClassName="login-field__input-wrap"
+                      />
                     </div>
                     <div className="login-field">
-                      <label htmlFor="reg-country">Country</label>
-                      <div className="login-field__input-wrap">
-                        <FaGlobe className="login-field__icon" />
-                        <input
-                          id="reg-country"
-                          type="text"
-                          name="country"
-                          placeholder="India"
-                          value={registerForm.country}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
+                      <label htmlFor="reg-country">Native (Country)</label>
+                      <CountryAutocomplete
+                        id="reg-country"
+                        name="country"
+                        placeholder={PLACEHOLDERS.country}
+                        value={registerForm.country}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                        wrapClassName="login-field__input-wrap"
+                      />
                     </div>
                   </div>
 
@@ -12294,7 +17394,7 @@ export default function Login({ user, onLoginSuccess }) {
                               <input
                                 id={`reg-deg-domain-${index}`}
                                 type="text"
-                                placeholder="Domain (e.g. Textile Technology)"
+                                placeholder={PLACEHOLDERS.degreeDomain}
                                 value={deg.domain}
                                 onChange={(e) => handleDegreeChange(index, 'domain', e.target.value)}
                                 required
@@ -12361,19 +17461,71 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-company">Current Organization</label>
+                      <label htmlFor="reg-work-experience">Total Work Experience (Years)</label>
                       <div className="login-field__input-wrap">
-                        <FaBuilding className="login-field__icon" />
+                        <FaBriefcase className="login-field__icon" />
                         <input
-                          id="reg-company"
+                          id="reg-work-experience"
                           type="text"
-                          name="company"
-                          placeholder="Arvind Mills"
-                          value={registerForm.company}
+                          inputMode="numeric"
+                          name="workExperience"
+                          placeholder={PLACEHOLDERS.workExperience}
+                          value={registerForm.workExperience}
                           onChange={handleRegisterChange}
                           disabled={loading}
                         />
                       </div>
+                    </div>
+
+                    <div className="login-field">
+                      <label htmlFor="reg-linkedin">LinkedIn Profile Link</label>
+                      <div className="login-field__input-wrap">
+                        <FaLinkedin className="login-field__icon" style={{ color: '#0077b5' }} />
+                        <input
+                          id="reg-linkedin"
+                          type="text"
+                          name="linkedin"
+                          placeholder={PLACEHOLDERS.linkedin}
+                          value={registerForm.linkedin}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="login-field login-field--full">
+                      <label htmlFor="reg-cv">Upload Resume / CV (PDF - Max 700 KB)</label>
+                      <div className="login-field__input-wrap">
+                        <FaFilePdf className="login-field__icon" style={{ color: '#dc2626' }} />
+                        <input
+                          id="reg-cv"
+                          type="file"
+                          accept=".pdf,application/pdf"
+                          onChange={handleCvFileChange}
+                          disabled={loading}
+                        />
+                      </div>
+                      {registerForm.cvFileName && (
+                        <span style={{ fontSize: '0.78rem', color: 'var(--navy)', marginTop: '4px', display: 'block', fontWeight: '600' }}>
+                          Attached CV: {registerForm.cvFileName}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <h4 className="login-section-title" style={{ marginTop: '24px' }}>Company Details</h4>
+                  <div className="login-form__grid">
+                    <div className="login-field login-field--full">
+                      <label htmlFor="reg-company">Current Organization</label>
+                      <CompanyAutocomplete
+                        id="reg-company"
+                        name="company"
+                        value={registerForm.company}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                        placeholder={PLACEHOLDERS.company || 'Select or type company name'}
+                        wrapClassName="login-field__input-wrap"
+                      />
                     </div>
 
                     <div className="login-field">
@@ -12384,8 +17536,24 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-department"
                           type="text"
                           name="department"
-                          placeholder="e.g. Sales, Quality Assurance"
+                          placeholder={PLACEHOLDERS.department}
                           value={registerForm.department}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="login-field">
+                      <label htmlFor="reg-division">Division</label>
+                      <div className="login-field__input-wrap">
+                        <FaSitemap className="login-field__icon" />
+                        <input
+                          id="reg-division"
+                          type="text"
+                          name="division"
+                          placeholder={PLACEHOLDERS.division}
+                          value={registerForm.division}
                           onChange={handleRegisterChange}
                           disabled={loading}
                         />
@@ -12400,7 +17568,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-job"
                           type="text"
                           name="jobTitle"
-                          placeholder="Senior Merchandiser"
+                          placeholder={PLACEHOLDERS.jobTitle}
                           value={registerForm.jobTitle}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -12409,17 +17577,34 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-working-since">Working Since</label>
-                      <div className="login-field__input-wrap">
-                        <FaCalendarAlt className="login-field__icon" />
-                        <input
-                          id="reg-working-since"
-                          type="date"
-                          name="workingSince"
-                          value={registerForm.workingSince}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
+                      <label>Working Since (Month / Year)</label>
+                      <div className="login-form__row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', padding: 0, margin: 0, border: 'none' }}>
+                        <div className="login-field__input-wrap">
+                          <FaCalendarAlt className="login-field__icon" />
+                          <select
+                            name="workingSinceMonth"
+                            value={registerForm.workingSinceMonth}
+                            onChange={handleRegisterChange}
+                            disabled={loading}
+                            style={{ paddingLeft: '42px' }}
+                          >
+                            <option value="">Select Month</option>
+                            {MONTH_OPTIONS.map(m => <option key={m} value={m}>{m}</option>)}
+                          </select>
+                        </div>
+                        <div className="login-field__input-wrap">
+                          <FaCalendarAlt className="login-field__icon" />
+                          <select
+                            name="workingSinceYear"
+                            value={registerForm.workingSinceYear}
+                            onChange={handleRegisterChange}
+                            disabled={loading}
+                            style={{ paddingLeft: '42px' }}
+                          >
+                            <option value="">Select Year</option>
+                            {PROMOTION_YEAR_OPTIONS.map(y => <option key={y} value={y}>{y}</option>)}
+                          </select>
+                        </div>
                       </div>
                     </div>
 
@@ -12429,26 +17614,10 @@ export default function Login({ user, onLoginSuccess }) {
                         <FaGlobe className="login-field__icon" />
                         <input
                           id="reg-company-website"
-                          type="url"
+                          type="text"
                           name="companyWebsite"
-                          placeholder="https://example.com"
+                          placeholder={PLACEHOLDERS.companyWebsite}
                           value={registerForm.companyWebsite}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="login-field login-field--full">
-                      <label htmlFor="reg-linkedin">LinkedIn Profile Link</label>
-                      <div className="login-field__input-wrap">
-                        <FaLinkedin className="login-field__icon" style={{ color: '#0077b5' }} />
-                        <input
-                          id="reg-linkedin"
-                          type="url"
-                          name="linkedin"
-                          placeholder="https://linkedin.com/in/username"
-                          value={registerForm.linkedin}
                           onChange={handleRegisterChange}
                           disabled={loading}
                         />
@@ -12459,48 +17628,41 @@ export default function Login({ user, onLoginSuccess }) {
                   <div className="login-form__grid-3" style={{ marginTop: '10px' }}>
                     <div className="login-field">
                       <label htmlFor="reg-company-city">Company Location (City)</label>
-                      <div className="login-field__input-wrap">
-                        <FaMapMarkerAlt className="login-field__icon" />
-                        <input
-                          id="reg-company-city"
-                          type="text"
-                          name="companyCity"
-                          placeholder="e.g. Mumbai"
-                          value={registerForm.companyCity}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
+                      <CityAutocomplete
+                        id="reg-company-city"
+                        name="companyCity"
+                        placeholder={PLACEHOLDERS.companyCity}
+                        value={registerForm.companyCity}
+                        state={registerForm.companyState}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                        wrapClassName="login-field__input-wrap"
+                      />
                     </div>
                     <div className="login-field">
                       <label htmlFor="reg-company-state">Company Location (State)</label>
-                      <div className="login-field__input-wrap">
-                        <FaMapMarkerAlt className="login-field__icon" />
-                        <input
-                          id="reg-company-state"
-                          type="text"
-                          name="companyState"
-                          placeholder="e.g. Maharashtra"
-                          value={registerForm.companyState}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
+                      <StateAutocomplete
+                        id="reg-company-state"
+                        name="companyState"
+                        placeholder={PLACEHOLDERS.companyState}
+                        value={registerForm.companyState}
+                        country={registerForm.companyCountry}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                        wrapClassName="login-field__input-wrap"
+                      />
                     </div>
                     <div className="login-field">
                       <label htmlFor="reg-company-country">Company Location (Country)</label>
-                      <div className="login-field__input-wrap">
-                        <FaGlobe className="login-field__icon" />
-                        <input
-                          id="reg-company-country"
-                          type="text"
-                          name="companyCountry"
-                          placeholder="e.g. India"
-                          value={registerForm.companyCountry}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
+                      <CountryAutocomplete
+                        id="reg-company-country"
+                        name="companyCountry"
+                        placeholder={PLACEHOLDERS.companyCountry}
+                        value={registerForm.companyCountry}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                        wrapClassName="login-field__input-wrap"
+                      />
                     </div>
                   </div>
 
@@ -12534,7 +17696,7 @@ export default function Login({ user, onLoginSuccess }) {
                             id="reg-other-product-services"
                             type="text"
                             name="otherProductServices"
-                            placeholder="Enter details of other products/services offered"
+                            placeholder={PLACEHOLDERS.otherProductServices}
                             value={registerForm.otherProductServices}
                             onChange={handleRegisterChange}
                             required
@@ -12552,7 +17714,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-last-promotion"
                           type="text"
                           name="lastPromotionDesignation"
-                          placeholder="e.g. Team Lead"
+                          placeholder={PLACEHOLDERS.lastPromotionDesignation}
                           value={registerForm.lastPromotionDesignation}
                           onChange={handleRegisterChange}
                           disabled={loading}
@@ -12625,7 +17787,7 @@ export default function Login({ user, onLoginSuccess }) {
                               <input
                                 id={`reg-cert-detail-${index}`}
                                 type="text"
-                                placeholder="Detail (e.g. AWS Certified Developer)"
+                                placeholder={PLACEHOLDERS.certificationDetail}
                                 value={cert.detail}
                                 onChange={(e) => handleCertificationChange(index, 'detail', e.target.value)}
                                 disabled={loading}
@@ -12685,7 +17847,7 @@ export default function Login({ user, onLoginSuccess }) {
                               <FaAward className="login-field__icon" />
                               <input
                                 type="text"
-                                placeholder="Award Details (e.g. Best Employee 2025)"
+                                placeholder={PLACEHOLDERS.awardDetail}
                                 value={award}
                                 onChange={(e) => handleAwardChange(index, e.target.value)}
                                 disabled={loading}
@@ -12751,6 +17913,19 @@ export default function Login({ user, onLoginSuccess }) {
                         )
                       })}
                     </div>
+                    {(registerForm.hobbies || []).includes('Others') && (
+                      <div className="login-field__input-wrap" style={{ marginTop: '12px' }}>
+                        <FaHeart className="login-field__icon" />
+                        <input
+                          type="text"
+                          name="otherHobbies"
+                          placeholder={PLACEHOLDERS.otherHobbies}
+                          value={registerForm.otherHobbies}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    )}
                   </div>
 
                   <div className="login-form__row">
@@ -12762,7 +17937,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-password"
                           type={showRegPassword ? "text" : "password"}
                           name="password"
-                          placeholder="Min 6 characters"
+                          placeholder={PLACEHOLDERS.regPassword}
                           value={registerForm.password}
                           onChange={handleRegisterChange}
                           required
@@ -12787,7 +17962,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-confirm"
                           type={showRegConfirmPassword ? "text" : "password"}
                           name="confirmPassword"
-                          placeholder="Re-type password"
+                          placeholder={PLACEHOLDERS.confirmPassword}
                           value={registerForm.confirmPassword}
                           onChange={handleRegisterChange}
                           required
@@ -12831,7 +18006,7 @@ export default function Login({ user, onLoginSuccess }) {
                           id="reg-captcha"
                           type="text"
                           name="captcha"
-                          placeholder="Type the characters shown above (case-sensitive)"
+                          placeholder={PLACEHOLDERS.captcha}
                           value={captchaInput}
                           onChange={(e) => setCaptchaInput(e.target.value)}
                           required
@@ -12841,20 +18016,47 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
                   </div>
 
-                  <div className="login-field" style={{ margin: '10px 0 20px' }}>
-                    <label className="login-checkbox">
-                      <input
-                        type="checkbox"
-                        name="consentAlumniSearch"
-                        checked={registerForm.consentAlumniSearch}
-                        onChange={handleRegisterChange}
-                        disabled={loading}
-                      />
-                      <span className="login-checkbox__box"></span>
-                      <span className="login-checkbox__label">
-                        I have given consent to show my details below on the alumni search section: mobile number, email id, & WhatsApp number
-                      </span>
+                  <div className="login-field" style={{ margin: '20px 0', padding: '16px', backgroundColor: 'rgba(241, 245, 249, 0.6)', borderRadius: '12px', border: '1px solid var(--line-grey)' }}>
+                    <label style={{ fontSize: '0.88rem', fontWeight: '600', color: 'var(--navy)', display: 'block', marginBottom: '12px' }}>
+                      I give my consent to show my below-mentioned details on the Alumni Portal (Click at least one) <span className="login-field__required">*</span>
                     </label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <label className="login-checkbox">
+                        <input
+                          type="checkbox"
+                          name="consentEmail"
+                          checked={registerForm.consentEmail}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                        <span className="login-checkbox__box"></span>
+                        <span className="login-checkbox__label" style={{ fontSize: '0.85rem', color: 'var(--charcoal)', fontWeight: '500' }}>Email ID</span>
+                      </label>
+
+                      <label className="login-checkbox">
+                        <input
+                          type="checkbox"
+                          name="consentPhone"
+                          checked={registerForm.consentPhone}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                        <span className="login-checkbox__box"></span>
+                        <span className="login-checkbox__label" style={{ fontSize: '0.85rem', color: 'var(--charcoal)', fontWeight: '500' }}>Mobile Number</span>
+                      </label>
+
+                      <label className="login-checkbox">
+                        <input
+                          type="checkbox"
+                          name="consentWhatsapp"
+                          checked={registerForm.consentWhatsapp}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                        <span className="login-checkbox__box"></span>
+                        <span className="login-checkbox__label" style={{ fontSize: '0.85rem', color: 'var(--charcoal)', fontWeight: '500' }}>WhatsApp Number</span>
+                      </label>
+                    </div>
                   </div>
 
                   <button
@@ -12893,7 +18095,7 @@ export default function Login({ user, onLoginSuccess }) {
                   <input
                     id="verify-phone"
                     type="tel"
-                    placeholder="Enter phone number"
+                    placeholder={PLACEHOLDERS.verifyPhone}
                     value={verifyPhoneInput}
                     onChange={(e) => setVerifyPhoneInput(e.target.value)}
                     disabled={loading}
@@ -12990,1489 +18192,9 @@ export default function Login({ user, onLoginSuccess }) {
 
 ---
 
-## File 34 {#file-34}
+## File 53 {#file-53}
 
-**📄 Path:** `src\components\Navbar.css`
-
-```css
-/* ============================================
-   NAVBAR — PREMIUM FULL-WIDTH GLASS HEADER
-   ============================================ */
-
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  width: 100%;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* ── Edge-to-Edge Container ── */
-.navbar__container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 110px;
-  padding: 0 4% 0 4%;
-  background: var(--navy-deep);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-}
-
-.navbar--scrolled .navbar__container {
-  height: 88px;
-  background: rgba(11, 27, 63, 0.85);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-}
-
-/* ── Brand / Logo ── */
-.navbar__brand {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-}
-
-.navbar__logo {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  transition: transform 0.3s ease;
-}
-
-.navbar__logo:hover {
-  transform: scale(1.02);
-}
-
-.navbar__logo-img {
-  height: 95px;
-  width: auto;
-  object-fit: contain;
-  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.navbar--scrolled .navbar__logo-img {
-  height: 75px;
-}
-
-/* ── Desktop Navigation (Center/Center-Left) ── */
-.navbar__nav {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: clamp(16px, 2.2vw, 36px);
-  padding: 0 24px;
-}
-
-.navbar__link {
-  position: relative;
-  font-family: var(--font-body);
-  font-size: clamp(0.72rem, 0.85vw, 0.8rem);
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
-  cursor: pointer;
-  text-decoration: none;
-  padding: 8px 0;
-  transition: color 0.3s ease;
-  white-space: nowrap;
-}
-
-.navbar__link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: var(--signal-red);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 2px;
-  box-shadow: 0 0 10px rgba(232, 48, 42, 0.6);
-}
-
-.navbar__link:hover,
-.navbar__link.active {
-  color: var(--paper-white);
-}
-
-.navbar__link:hover::after,
-.navbar__link.active::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-/* ── Actions & CTA ── */
-.navbar__actions {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.navbar__cta {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 24px;
-  background: linear-gradient(135deg, var(--signal-red), var(--red-deep));
-  border-radius: 100px;
-  text-decoration: none;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 15px rgba(232, 48, 42, 0.25);
-}
-
-.navbar__cta-text {
-  position: relative;
-  z-index: 2;
-  color: var(--paper-white);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.72rem;
-  letter-spacing: 1.2px;
-}
-
-.navbar__cta-glow {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #ff4d4d, var(--signal-red));
-  opacity: 0;
-  z-index: 1;
-  transition: opacity 0.3s ease;
-}
-
-.navbar__cta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(232, 48, 42, 0.4);
-}
-
-.navbar__cta:hover .navbar__cta-glow {
-  opacity: 1;
-}
-
-.navbar--scrolled .navbar__cta {
-  padding: 8px 20px;
-}
-
-/* ── Hamburger Icon ── */
-.navbar__hamburger {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  background: rgba(255, 255, 255, 0.05);
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  padding: 0;
-  color: var(--paper-white);
-  font-size: 1.25rem;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.navbar__hamburger:hover {
-  background: rgba(255, 255, 255, 0.12);
-  transform: scale(1.05);
-}
-
-.navbar__hamburger:active {
-  transform: scale(0.95);
-}
-
-/* ── Mobile Overlay & Drawer ── */
-.navbar__mobile-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(11, 27, 63, 0.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 998;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.4s ease;
-}
-
-.navbar__mobile-overlay--open {
-  opacity: 1;
-  visibility: visible;
-}
-
-.navbar__mobile-drawer {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 340px;
-  max-width: 85vw;
-  background: var(--navy-deep);
-  z-index: 999;
-  transform: translateX(100%);
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
-}
-
-.navbar__mobile-drawer--open {
-  transform: translateX(0);
-}
-
-.navbar__mobile-drawer-inner {
-  padding: 100px 40px 40px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.navbar__mobile-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.navbar__mobile-item {
-  opacity: 0;
-  transform: translateX(20px);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.navbar__mobile-drawer--open .navbar__mobile-item {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.navbar__mobile-link {
-  font-family: var(--font-display);
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.65);
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: color 0.3s ease, padding-left 0.3s ease;
-  display: inline-block;
-  letter-spacing: 1px;
-}
-
-.navbar__mobile-link:hover,
-.navbar__mobile-link.active {
-  color: var(--paper-white);
-  padding-left: 6px;
-}
-
-.navbar__mobile-footer {
-  margin-top: auto;
-  padding-top: 40px;
-  opacity: 0;
-  transform: translateY(15px);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.navbar__mobile-drawer--open .navbar__mobile-footer {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.navbar__mobile-cta-btn {
-  display: block;
-  text-align: center;
-  padding: 14px;
-  background: var(--signal-red);
-  color: var(--paper-white);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.9rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  text-decoration: none;
-  clip-path: polygon(0 0, 94% 0, 100% 50%, 94% 100%, 0 100%);
-  transition: background 0.3s ease;
-}
-
-.navbar__mobile-cta-btn:hover {
-  background: var(--red-deep);
-}
-
-/* ── Dropdown Box (Desktop) ── */
-.navbar__dropdown-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.navbar__link--dropdown {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.navbar__dropdown-icon {
-  font-size: 0.65rem;
-  transition: transform 0.3s ease;
-  color: inherit;
-}
-
-.navbar__dropdown-container:hover .navbar__dropdown-icon {
-  transform: rotate(180deg);
-}
-
-.navbar__dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(15px);
-  background: rgba(11, 27, 63, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 12px 0;
-  width: 260px;
-  box-shadow: 0 12px 36px rgba(11, 27, 63, 0.4);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-  z-index: 1010;
-}
-
-/* Hover safe-zone bridge to prevent closing on gap transition */
-.navbar__dropdown-menu::before {
-  content: '';
-  position: absolute;
-  top: -15px;
-  left: 0;
-  right: 0;
-  height: 15px;
-}
-
-.navbar__dropdown-container:hover .navbar__dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(0);
-  pointer-events: auto;
-}
-
-.navbar__dropdown-item {
-  display: flex;
-  flex-direction: column;
-  padding: 12px 24px;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  transition: background 0.3s ease;
-}
-
-.navbar__dropdown-item:last-child {
-  border-bottom: none;
-}
-
-.navbar__dropdown-item:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.navbar__dropdown-item-title {
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--paper-white);
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  transition: color 0.3s ease;
-}
-
-.navbar__dropdown-item-desc {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin-top: 4px;
-}
-
-.navbar__dropdown-item:hover .navbar__dropdown-item-title {
-  color: var(--signal-red);
-}
-
-/* ── Mobile Submenu ── */
-.navbar__mobile-submenu {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 10px 0 10px 16px;
-  margin-top: 8px;
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.navbar__mobile-sublink {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
-  text-decoration: none;
-  transition: color 0.3s ease, padding-left 0.2s ease;
-}
-
-.navbar__mobile-sublink:hover {
-  color: var(--signal-red);
-  padding-left: 4px;
-}
-
-/* ============================================
-   RESPONSIVE BREAKPOINTS (PREVENT OVERLAPPING)
-   ============================================ */
-
-/* Trigger Hamburger earlier to avoid squeezing large list of links */
-@media (max-width: 1150px) {
-  .navbar__nav {
-    display: none;
-  }
-
-  .navbar__cta {
-    display: none;
-  }
-
-  .navbar__hamburger {
-    display: flex;
-  }
-
-  .navbar__container {
-    height: 88px;
-    padding: 0 24px;
-  }
-
-  .navbar--scrolled .navbar__container {
-    height: 72px;
-  }
-
-  .navbar__logo-img {
-    height: 70px;
-  }
-
-  .navbar--scrolled .navbar__logo-img {
-    height: 56px;
-  }
-}
-
-@media (max-width: 480px) {
-  .navbar__container {
-    height: 76px;
-    padding: 0 16px;
-  }
-
-  .navbar--scrolled .navbar__container {
-    height: 64px;
-  }
-
-  .navbar__logo-img {
-    height: 60px;
-  }
-
-  .navbar--scrolled .navbar__logo-img {
-    height: 48px;
-  }
-
-  .navbar__mobile-drawer {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .navbar__mobile-drawer-inner {
-    padding: 90px 24px 30px;
-  }
-
-  .navbar__mobile-link {
-    font-size: 1.2rem;
-  }
-}
-
-/* ── Secondary Portal Login Button ── */
-.navbar__login-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 22px;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 100px;
-  color: rgba(255, 255, 255, 0.9);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.72rem;
-  letter-spacing: 1px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.navbar__login-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--signal-red);
-  color: var(--paper-white);
-  transform: translateY(-1px);
-}
-
-.navbar--scrolled .navbar__login-btn {
-  padding: 8px 18px;
-}
-
-/* ── Desktop User Profile Dropdown Menu ── */
-.navbar__user-menu {
-  position: relative;
-}
-
-.navbar__user-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--paper-white);
-  outline: none;
-}
-
-.navbar__avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--signal-red), var(--red-deep));
-  color: var(--paper-white);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 10px rgba(232, 48, 42, 0.3);
-  transition: transform 0.3s ease;
-}
-
-.navbar__user-btn:hover .navbar__avatar {
-  transform: scale(1.05);
-}
-
-.navbar__user-name {
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  transition: color 0.3s ease;
-}
-
-.navbar__user-btn:hover .navbar__user-name {
-  color: var(--paper-white);
-}
-
-.navbar__dropdown-arrow {
-  font-size: 0.65rem;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.navbar__dropdown-arrow.open {
-  transform: rotate(180deg);
-  color: var(--paper-white);
-}
-
-.navbar__user-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  transform: translateY(15px);
-  background: linear-gradient(135deg, rgba(15, 32, 67, 0.98) 0%, rgba(11, 27, 63, 0.99) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  padding: 18px;
-  width: 250px;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-  z-index: 1020;
-}
-
-.navbar__user-dropdown--open {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(10px);
-  pointer-events: auto;
-}
-
-.navbar__dropdown-header {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: 4px;
-}
-
-.navbar__dropdown-name {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  font-weight: 800;
-  color: var(--paper-white);
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-
-.navbar__dropdown-sub {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  color: #a0aec0;
-  font-weight: 500;
-  line-height: 1.4;
-}
-
-.navbar__user-badge {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: var(--font-body);
-  font-size: 0.6rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  padding: 3px 8px;
-  border-radius: 20px;
-  width: fit-content;
-  margin-top: 6px;
-  margin-bottom: 4px;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.navbar__user-badge:hover {
-  transform: translateY(-1px);
-}
-
-.navbar__user-badge--verified {
-  background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(46, 204, 113, 0.2) 100%);
-  color: #2ecc71;
-  border: 1px solid rgba(46, 204, 113, 0.35);
-}
-
-.navbar__user-badge--unverified {
-  background: linear-gradient(135deg, rgba(241, 196, 15, 0.08) 0%, rgba(241, 196, 15, 0.16) 100%);
-  color: #f1c40f;
-  border: 1px solid rgba(241, 196, 15, 0.3);
-}
-
-.navbar__user-badge-icon {
-  font-size: 0.68rem;
-}
-
-/* Tooltip container */
-.navbar__user-badge-tooltip {
-  visibility: hidden;
-  width: 200px;
-  background-color: rgba(15, 32, 67, 0.99);
-  color: var(--paper-white);
-  text-align: center;
-  border-radius: 8px;
-  padding: 10px 14px;
-  position: absolute;
-  z-index: 1050;
-  bottom: 135%;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  font-family: var(--font-body);
-  font-size: 0.65rem;
-  font-weight: 500;
-  line-height: 1.4;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  pointer-events: none;
-  text-transform: none;
-  letter-spacing: 0px;
-}
-
-/* Tooltip arrow */
-.navbar__user-badge-tooltip::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: rgba(15, 32, 67, 0.99) transparent transparent transparent;
-}
-
-/* Show the tooltip on hover */
-.navbar__user-badge:hover .navbar__user-badge-tooltip {
-  visibility: visible;
-  opacity: 1;
-  transform: translateX(-50%) translateY(-2px);
-}
-
-.navbar__dropdown-divider {
-  border: none;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.1);
-  margin: 2px 0;
-}
-
-.navbar__user-dropdown-item {
-  display: block;
-  font-family: var(--font-body);
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.75);
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
-  outline: none;
-  padding: 8px 12px;
-  width: 100%;
-  box-sizing: border-box;
-  border-radius: 6px;
-}
-
-.navbar__user-dropdown-item:hover {
-  color: var(--paper-white);
-  background: rgba(255, 255, 255, 0.06);
-  border-left-color: var(--signal-red);
-}
-
-.navbar__user-dropdown-logout {
-  background: none;
-  border: none;
-  padding: 8px 12px;
-  margin: 0;
-  width: 100%;
-  text-align: left;
-  font-family: var(--font-body);
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.75);
-  cursor: pointer;
-  outline: none;
-  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-sizing: border-box;
-  border-radius: 6px;
-}
-
-.navbar__user-dropdown-logout:hover {
-  color: var(--signal-red);
-  background: rgba(232, 48, 42, 0.08);
-  border-left-color: var(--signal-red);
-}
-
-/* Hide desktop auth features at responsive breakpoint */
-@media (max-width: 1150px) {
-
-  .navbar__login-btn,
-  .navbar__user-menu {
-    display: none;
-  }
-}
-
-/* ── Mobile User session elements ── */
-.navbar__mobile-user {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 6px;
-  margin-bottom: 20px;
-}
-
-.navbar__mobile-user-info {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.navbar__mobile-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--signal-red), var(--red-deep));
-  color: var(--paper-white);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 10px rgba(232, 48, 42, 0.3);
-}
-
-.navbar__mobile-user-name {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.88rem;
-  color: var(--paper-white);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.navbar__mobile-user-class {
-  font-family: var(--font-body);
-  font-size: 0.74rem;
-  color: var(--slate);
-  margin-top: 2px;
-}
-
-.navbar__mobile-profile-btn {
-  display: block;
-  text-align: center;
-  width: 100%;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--paper-white);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.76rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.3s ease;
-  margin-bottom: -4px;
-}
-
-.navbar__mobile-profile-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.navbar__mobile-logout-btn {
-  width: 100%;
-  padding: 10px;
-  background: rgba(232, 48, 42, 0.1);
-  border: 1px solid var(--signal-red);
-  color: var(--paper-white);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.76rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.3s ease;
-}
-
-.navbar__mobile-logout-btn:hover {
-  background: var(--signal-red);
-}
-
-.navbar__mobile-login-btn {
-  display: block;
-  text-align: center;
-  padding: 12px;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: var(--paper-white);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.8rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  text-decoration: none;
-  margin-bottom: 16px;
-  transition: all 0.3s ease;
-}
-
-.navbar__mobile-login-btn:hover {
-  border-color: var(--signal-red);
-  background: rgba(255, 255, 255, 0.02);
-}
-```
-
----
-
-## File 35 {#file-35}
-
-**📄 Path:** `src\components\Navbar.jsx`
-
-```jsx
-import { useState, useEffect } from 'react'
-import { useLocation, Link as RouterLink } from 'react-router-dom'
-import { Link as ScrollLink } from 'react-scroll'
-import { FaBars, FaTimes, FaChevronDown, FaCheckCircle, FaClock } from 'react-icons/fa'
-import dftLogo from '../assets/Logo/dft-logo.avif'
-import './Navbar.css'
-
-const navLinks = [
-  { label: 'Home', to: 'home' },
-  { label: 'About Us', to: 'about' },
-  { label: 'Alumni Spotlight', to: 'spotlight' },
-  { label: 'Committee', to: 'committee' },
-  { label: 'Gallery', to: 'gallery' },
-  { label: 'Events', to: 'events' },
-  { label: 'Newsletter', to: 'newsletter' },
-  { label: 'Contact', to: 'contact' },
-]
-
-export default function Navbar({ user, onLogout }) {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [userMenuOpen, setUserMenuOpen] = useState(false)
-  const location = useLocation()
-  const isHome = location.pathname === '/'
-
-  const getDropdownDisplayName = () => {
-    if (!user) return '';
-    if (user.firstName || user.lastName) {
-      return `${user.firstName || ''} ${user.lastName || ''}`.trim();
-    }
-    const parts = (user.name || '').trim().split(/\s+/);
-    if (parts.length <= 2) return user.name;
-    const titles = ['dr', 'dr.', 'prof', 'prof.', 'mr', 'mr.', 'ms', 'ms.', 'mrs', 'mrs.'];
-    let startIndex = 0;
-    if (titles.includes(parts[0].toLowerCase()) && parts.length > 2) {
-      startIndex = 1;
-    }
-    const prefix = startIndex === 1 ? parts[0] + ' ' : '';
-    const first = parts[startIndex];
-    const last = parts[parts.length - 1];
-    return `${prefix}${first} ${last}`.trim();
-  };
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  // Close dropdown on click outside
-  useEffect(() => {
-    if (!userMenuOpen) return
-    const closeMenu = () => setUserMenuOpen(false)
-    window.addEventListener('click', closeMenu)
-    return () => window.removeEventListener('click', closeMenu)
-  }, [userMenuOpen])
-
-  // Lock body scroll when mobile menu is open
-  useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [menuOpen]);
-
-  return (
-    <>
-      <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
-        <div className="navbar__container">
-
-          {/* Left: Logo */}
-          <div className="navbar__brand">
-            <RouterLink to="/" className="navbar__logo" onClick={() => setMenuOpen(false)}>
-              <img src={dftLogo} alt="DFT Alumni Logo" className="navbar__logo-img" />
-            </RouterLink>
-          </div>
-
-          {/* Center: Desktop nav */}
-          <nav className="navbar__nav">
-            {navLinks.map((link) => {
-              const isAbout = link.label === 'About Us';
-              if (isAbout) {
-                return (
-                  <div key={link.to} className="navbar__dropdown-container">
-                    {isHome ? (
-                      <ScrollLink
-                        to="about"
-                        smooth
-                        duration={600}
-                        offset={-90}
-                        spy
-                        activeClass="active"
-                        className="navbar__link navbar__link--dropdown"
-                      >
-                        About Us <FaChevronDown className="navbar__dropdown-icon" />
-                      </ScrollLink>
-                    ) : (
-                      <RouterLink
-                        to="/"
-                        state={{ scrollTo: 'about' }}
-                        className="navbar__link navbar__link--dropdown"
-                      >
-                        About Us <FaChevronDown className="navbar__dropdown-icon" />
-                      </RouterLink>
-                    )}
-                    <div className="navbar__dropdown-menu">
-                      {isHome ? (
-                        <ScrollLink
-                          to="about"
-                          smooth
-                          duration={600}
-                          offset={-90}
-                          className="navbar__dropdown-item"
-                        >
-                          <span className="navbar__dropdown-item-title">About DFT</span>
-                          <span className="navbar__dropdown-item-desc">Learn about our association</span>
-                        </ScrollLink>
-                      ) : (
-                        <RouterLink
-                          to="/"
-                          state={{ scrollTo: 'about' }}
-                          className="navbar__dropdown-item"
-                        >
-                          <span className="navbar__dropdown-item-title">About DFT</span>
-                          <span className="navbar__dropdown-item-desc">Learn about our association</span>
-                        </RouterLink>
-                      )}
-
-                      {isHome ? (
-                        <ScrollLink
-                          to="vision"
-                          smooth
-                          duration={600}
-                          offset={-90}
-                          className="navbar__dropdown-item"
-                        >
-                          <span className="navbar__dropdown-item-title">Vision & Mission</span>
-                          <span className="navbar__dropdown-item-desc">Our goals & vision statements</span>
-                        </ScrollLink>
-                      ) : (
-                        <RouterLink
-                          to="/"
-                          state={{ scrollTo: 'vision' }}
-                          className="navbar__dropdown-item"
-                        >
-                          <span className="navbar__dropdown-item-title">Vision & Mission</span>
-                          <span className="navbar__dropdown-item-desc">Our goals & vision statements</span>
-                        </RouterLink>
-                      )}
-                    </div>
-                  </div>
-                );
-              }
-
-              const isEvents = link.label === 'Events';
-              if (isEvents) {
-                return (
-                  <div key={link.to} className="navbar__dropdown-container">
-                    {isHome ? (
-                      <ScrollLink
-                        to={link.to}
-                        smooth
-                        duration={600}
-                        offset={-90}
-                        spy
-                        activeClass="active"
-                        className="navbar__link navbar__link--dropdown"
-                      >
-                        {link.label} <FaChevronDown className="navbar__dropdown-icon" />
-                      </ScrollLink>
-                    ) : (
-                      <RouterLink
-                        to="/"
-                        state={{ scrollTo: link.to }}
-                        className="navbar__link navbar__link--dropdown"
-                      >
-                        {link.label} <FaChevronDown className="navbar__dropdown-icon" />
-                      </RouterLink>
-                    )}
-                    <div className="navbar__dropdown-menu">
-                      <RouterLink to="/sangam2026" className="navbar__dropdown-item">
-                        <span className="navbar__dropdown-item-title">Sangam 2026</span>
-                        <span className="navbar__dropdown-item-desc">Vadodara (Upcoming)</span>
-                        <span className="navbar__dropdown-item-status"></span>
-                      </RouterLink>
-                      <RouterLink to="/sangaath2024" className="navbar__dropdown-item">
-                        <span className="navbar__dropdown-item-title">Sangaath 2024</span>
-                        <span className="navbar__dropdown-item-desc">Surat</span>
-                      </RouterLink>
-                      <RouterLink to="/dftalumnimeet2023" className="navbar__dropdown-item">
-                        <span className="navbar__dropdown-item-title">DFT Alumni Meet 2023</span>
-                        <span className="navbar__dropdown-item-desc">Ahmedabad</span>
-                      </RouterLink>
-                    </div>
-                  </div>
-                );
-              }
-              return isHome ? (
-                <ScrollLink
-                  key={link.to}
-                  to={link.to}
-                  smooth
-                  duration={600}
-                  offset={-90}
-                  spy
-                  activeClass="active"
-                  className="navbar__link"
-                >
-                  {link.label}
-                </ScrollLink>
-              ) : (
-                <RouterLink
-                  key={link.to}
-                  to="/"
-                  state={{ scrollTo: link.to }}
-                  className="navbar__link"
-                >
-                  {link.label}
-                </RouterLink>
-              );
-            })}
-          </nav>
-
-          {/* Right: CTA & Hamburger */}
-          <div className="navbar__actions">
-            <RouterLink to="/sangam2026" className="navbar__cta">
-              <span className="navbar__cta-text">SANGAM 2026</span>
-              <div className="navbar__cta-glow"></div>
-            </RouterLink>
-
-            {user ? (
-              <div className="navbar__user-menu">
-                <button
-                  className="navbar__user-btn"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setUserMenuOpen(!userMenuOpen)
-                  }}
-                  aria-label="User menu"
-                >
-                  <span className="navbar__avatar">{user.name.charAt(0).toUpperCase()}</span>
-                  <span className="navbar__user-name">Hi, {user.name.split(' ')[0]}</span>
-                  <FaChevronDown className={`navbar__dropdown-arrow ${userMenuOpen ? 'open' : ''}`} />
-                </button>
-                <div className={`navbar__user-dropdown ${userMenuOpen ? 'navbar__user-dropdown--open' : ''}`}>
-                  <div className="navbar__dropdown-header">
-                    <strong className="navbar__dropdown-name">{getDropdownDisplayName()}</strong>
-                    <div className={`navbar__user-badge ${user.verification_status ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`}>
-                      {user.verification_status ? (
-                        <>
-                          <FaCheckCircle className="navbar__user-badge-icon" /> Verified Alumni
-                          <span className="navbar__user-badge-tooltip">Your account has been successfully verified by the Administrator.</span>
-                        </>
-                      ) : (
-                        <>
-                          <FaClock className="navbar__user-badge-icon" /> Pending Verification
-                          <span className="navbar__user-badge-tooltip">Admin will verify the account, this might take 1-2 days</span>
-                        </>
-                      )}
-                    </div>
-                    <span className="navbar__dropdown-sub">Class of {user.degree ? `${user.degree} · ` : ''}{user.passoutYear || user.batch}</span>
-                  </div>
-                  <hr className="navbar__dropdown-divider" />
-                  <RouterLink
-                    to="/profile"
-                    className="navbar__user-dropdown-item"
-                    onClick={() => setUserMenuOpen(false)}
-                  >
-                    My Profile
-                  </RouterLink>
-                  {/* <hr className="navbar__dropdown-divider" /> */}
-                  {(user.account_type === 'admin' || user.account_type === 'developer') && (
-                    <>
-                      <RouterLink
-                        to="/admin"
-                        className="navbar__user-dropdown-item navbar__user-dropdown-admin"
-                        onClick={() => setUserMenuOpen(false)}
-                        style={{ color: 'var(--signal-red)', fontWeight: 'bold' }}
-                      >
-                        Admin Dashboard
-                      </RouterLink>
-                      {/* <hr className="navbar__dropdown-divider" /> */}
-                    </>
-                  )}
-                  <button
-                    onClick={() => {
-                      onLogout()
-                      setUserMenuOpen(false)
-                    }}
-                    className="navbar__user-dropdown-item navbar__user-dropdown-logout"
-                  >
-                    Logout
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <RouterLink to="/login" className="navbar__login-btn">
-                Alumni Portal
-              </RouterLink>
-            )}
-
-            <button
-              className={`navbar__hamburger ${menuOpen ? 'navbar__hamburger--active' : ''}`}
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle menu"
-            >
-              {menuOpen ? <FaTimes /> : <FaBars />}
-            </button>
-          </div>
-
-        </div>
-      </header>
-
-      {/* Mobile Drawer Overlay */}
-      <div
-        className={`navbar__mobile-overlay ${menuOpen ? 'navbar__mobile-overlay--open' : ''}`}
-        onClick={() => setMenuOpen(false)}
-      ></div>
-
-      {/* Mobile Drawer */}
-      <div className={`navbar__mobile-drawer ${menuOpen ? 'navbar__mobile-drawer--open' : ''}`}>
-        <div className="navbar__mobile-drawer-inner">
-          <nav className="navbar__mobile-nav">
-            {navLinks.map((link, index) => (
-              <div
-                key={link.to}
-                className="navbar__mobile-item"
-                style={{ transitionDelay: `${0.05 + (index * 0.05)}s` }}
-              >
-                {link.label === 'About Us' ? (
-                  <>
-                    {isHome ? (
-                      <ScrollLink
-                        to="about"
-                        smooth
-                        duration={600}
-                        offset={-90}
-                        className="navbar__mobile-link"
-                        activeClass="active"
-                        spy
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        About Us
-                      </ScrollLink>
-                    ) : (
-                      <RouterLink
-                        to="/"
-                        state={{ scrollTo: 'about' }}
-                        className="navbar__mobile-link"
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        About Us
-                      </RouterLink>
-                    )}
-                    <div className="navbar__mobile-submenu">
-                      {isHome ? (
-                        <ScrollLink
-                          to="about"
-                          smooth
-                          duration={600}
-                          offset={-90}
-                          className="navbar__mobile-sublink"
-                          onClick={() => setMenuOpen(false)}
-                        >
-                          About DFT
-                        </ScrollLink>
-                      ) : (
-                        <RouterLink
-                          to="/"
-                          state={{ scrollTo: 'about' }}
-                          className="navbar__mobile-sublink"
-                          onClick={() => setMenuOpen(false)}
-                        >
-                          About DFT
-                        </RouterLink>
-                      )}
-
-                      {isHome ? (
-                        <ScrollLink
-                          to="vision"
-                          smooth
-                          duration={600}
-                          offset={-90}
-                          className="navbar__mobile-sublink"
-                          onClick={() => setMenuOpen(false)}
-                        >
-                          Vision & Mission
-                        </ScrollLink>
-                      ) : (
-                        <RouterLink
-                          to="/"
-                          state={{ scrollTo: 'vision' }}
-                          className="navbar__mobile-sublink"
-                          onClick={() => setMenuOpen(false)}
-                        >
-                          Vision & Mission
-                        </RouterLink>
-                      )}
-                    </div>
-                  </>
-                ) : link.label === 'Events' ? (
-                  <>
-                    {isHome ? (
-                      <ScrollLink
-                        to={link.to}
-                        smooth
-                        duration={600}
-                        offset={-90}
-                        className="navbar__mobile-link"
-                        activeClass="active"
-                        spy
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        {link.label}
-                      </ScrollLink>
-                    ) : (
-                      <RouterLink
-                        to="/"
-                        state={{ scrollTo: link.to }}
-                        className="navbar__mobile-link"
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        {link.label}
-                      </RouterLink>
-                    )}
-                    <div className="navbar__mobile-submenu">
-                      <RouterLink
-                        to="/sangam2026"
-                        className="navbar__mobile-sublink"
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        Sangam 2026
-                      </RouterLink>
-                      <RouterLink
-                        to="/sangaath2024"
-                        className="navbar__mobile-sublink"
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        Sangaath 2024
-                      </RouterLink>
-                      <RouterLink
-                        to="/dftalumnimeet2023"
-                        className="navbar__mobile-sublink"
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        DFT Alumni Meet 2023
-                      </RouterLink>
-                    </div>
-                  </>
-                ) : isHome ? (
-                  <ScrollLink
-                    to={link.to}
-                    smooth
-                    duration={600}
-                    offset={-90}
-                    className="navbar__mobile-link"
-                    activeClass="active"
-                    spy
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {link.label}
-                  </ScrollLink>
-                ) : (
-                  <RouterLink
-                    to="/"
-                    state={{ scrollTo: link.to }}
-                    className="navbar__mobile-link"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {link.label}
-                  </RouterLink>
-                )}
-              </div>
-            ))}
-          </nav>
-
-          <div
-            className="navbar__mobile-footer"
-            style={{ transitionDelay: `${0.05 + (navLinks.length * 0.05)}s` }}
-          >
-            {user ? (
-              <div className="navbar__mobile-user">
-                <div className="navbar__mobile-user-info">
-                  <span className="navbar__mobile-avatar">{user.name.charAt(0).toUpperCase()}</span>
-                  <div style={{ textAlign: 'left' }}>
-                    <div className="navbar__mobile-user-name">{getDropdownDisplayName()}</div>
-                    <div className={`navbar__user-badge ${user.verification_status ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`}>
-                      {user.verification_status ? (
-                        <>
-                          <FaCheckCircle className="navbar__user-badge-icon" /> Verified Alumni
-                          <span className="navbar__user-badge-tooltip">Your account has been successfully verified by the Administrator.</span>
-                        </>
-                      ) : (
-                        <>
-                          <FaClock className="navbar__user-badge-icon" /> Pending Verification
-                          <span className="navbar__user-badge-tooltip">Admin will verify the account, this might take 1-2 days</span>
-                        </>
-                      )}
-                    </div>
-                    <div className="navbar__mobile-user-class">{user.passoutYear || user.batch}</div>
-                  </div>
-                </div>
-                <RouterLink
-                  to="/profile"
-                  className="navbar__mobile-profile-btn"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  My Profile
-                </RouterLink>
-                {(user.account_type === 'admin' || user.account_type === 'developer') && (
-                  <RouterLink
-                    to="/admin"
-                    className="navbar__mobile-profile-btn"
-                    onClick={() => setMenuOpen(false)}
-                    style={{ background: 'var(--navy-deep)', color: 'var(--paper-white)', border: 'none', marginTop: '8px', marginBottom: '8px' }}
-                  >
-                    Admin Dashboard
-                  </RouterLink>
-                )}
-                <button
-                  onClick={() => {
-                    onLogout()
-                    setMenuOpen(false)
-                  }}
-                  className="navbar__mobile-logout-btn"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <RouterLink
-                to="/login"
-                className="navbar__mobile-login-btn"
-                onClick={() => setMenuOpen(false)}
-              >
-                Alumni Portal
-              </RouterLink>
-            )}
-
-            <RouterLink
-              to="/sangam2026"
-              className="navbar__mobile-cta-btn"
-              onClick={() => setMenuOpen(false)}
-            >
-              SANGAM 2026
-            </RouterLink>
-          </div>
-        </div>
-      </div>
-    </>
-  )
-}
-
-```
-
----
-
-## File 36 {#file-36}
-
-**📄 Path:** `src\components\NewsletterSection.jsx`
+**📄 Path:** `src\pages\NewsletterSection.jsx`
 
 ```jsx
 import { Link } from 'react-router-dom'
@@ -14525,9 +18247,9 @@ export default function NewsletterSection() {
 
 ---
 
-## File 37 {#file-37}
+## File 54 {#file-54}
 
-**📄 Path:** `src\components\Newsroom.css`
+**📄 Path:** `src\pages\Newsroom.css`
 
 ```css
 /* Newsletter Section on Homepage */
@@ -14552,7 +18274,8 @@ export default function NewsletterSection() {
 .newsletter__card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-elevated);
-  border-color: rgba(232, 48, 42, 0.3); /* signal-red with opacity */
+  border-color: rgba(232, 48, 42, 0.3);
+  /* signal-red with opacity */
 }
 
 .newsletter__icon {
@@ -14614,9 +18337,11 @@ export default function NewsletterSection() {
 .newsletter__link:hover {
   color: var(--signal-red);
 }
+
 .newsletter__link svg {
   transition: transform 0.3s ease;
 }
+
 .newsletter__link:hover svg {
   transform: translateX(4px);
 }
@@ -14626,6 +18351,7 @@ export default function NewsletterSection() {
     flex-direction: column;
     padding: 2rem;
   }
+
   .newsletter__icon {
     font-size: 2.5rem;
     padding: 1rem;
@@ -14637,7 +18363,8 @@ export default function NewsletterSection() {
    ================================ */
 
 .newsroom-page {
-  padding-top: 80px; /* navbar offset */
+  padding-top: 80px;
+  /* navbar offset */
   min-height: 100vh;
   background-color: var(--fog-grey);
   position: relative;
@@ -14653,7 +18380,7 @@ export default function NewsletterSection() {
   transform: translateX(-50%);
   width: 100vw;
   height: 80vh;
-  background: radial-gradient(circle, rgba(232, 48, 42, 0.05) 0%, rgba(0,0,0,0) 70%);
+  background: radial-gradient(circle, rgba(232, 48, 42, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
   z-index: 0;
   pointer-events: none;
 }
@@ -14717,6 +18444,7 @@ export default function NewsletterSection() {
 .newsroom-hero__title span {
   background: linear-gradient(135deg, var(--signal-red), #ff8a00);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -14743,7 +18471,7 @@ export default function NewsletterSection() {
 }
 
 .horizontal-card {
-  background: rgba(255, 255, 255, 0.7); 
+  background: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -14767,8 +18495,9 @@ export default function NewsletterSection() {
   bottom: 0;
   border-radius: 1.5rem;
   padding: 2px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
@@ -14902,7 +18631,7 @@ export default function NewsletterSection() {
 }
 
 .horizontal-card--featured::before {
-  background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
 }
 
 .horizontal-card--featured .newsroom-card__title {
@@ -14939,25 +18668,26 @@ export default function NewsletterSection() {
   .newsroom-hero__title {
     font-size: 3rem;
   }
+
   .horizontal-card {
     flex-direction: column;
     padding: 2rem;
     gap: 1.5rem;
   }
+
   .newsroom-card__icon {
     width: 60px;
     height: 60px;
     font-size: 1.8rem;
   }
 }
-
 ```
 
 ---
 
-## File 38 {#file-38}
+## File 55 {#file-55}
 
-**📄 Path:** `src\components\Newsroom.jsx`
+**📄 Path:** `src\pages\Newsroom.jsx`
 
 ```jsx
 import { useEffect } from 'react'
@@ -15033,9 +18763,9 @@ export default function Newsroom() {
 
 ---
 
-## File 39 {#file-39}
+## File 56 {#file-56}
 
-**📄 Path:** `src\components\Profile.css`
+**📄 Path:** `src\pages\Profile.css`
 
 ```css
 /* ============================================
@@ -15453,19 +19183,43 @@ export default function Newsroom() {
 }
 
 .profile-field__input-wrap select {
-  appearance: none;
-  -webkit-appearance: none;
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235B6478'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-image: none !important;
+}
+
+.profile-field__input-wrap:not(.phone-input-wrap):has(select)::after {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  transform: translateY(-50%) rotate(0deg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%2364748b'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 14px center;
-  background-size: 18px;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 3;
+  transition: transform 0.25s ease, background-image 0.25s ease;
+}
+
+.profile-field__input-wrap:not(.phone-input-wrap):has(select:enabled:focus)::after,
+.profile-field__input-wrap:not(.phone-input-wrap):has(select:enabled:active)::after {
+  transform: translateY(-50%) rotate(180deg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%23e8302a'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E");
+}
+
+.profile-field__input-wrap:not(.phone-input-wrap):has(select:disabled)::after {
+  transform: translateY(-50%) rotate(0deg) !important;
+  opacity: 0.5 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%2364748b'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E") !important;
 }
 
 .profile-field__input-wrap input:focus,
 .profile-field__input-wrap select:focus {
   border-color: var(--navy-deep);
-  background: var(--paper-white);
+  background-color: var(--paper-white);
   box-shadow: 0 0 0 4px rgba(11, 27, 63, 0.08);
 }
 
@@ -15593,19 +19347,45 @@ export default function Newsroom() {
 
 .phone-country-select {
   padding: 12px 20px 12px 38px !important;
-  /* space on left for flag icon */
   border: none !important;
   border-right: 1px solid var(--line-grey) !important;
   border-radius: 0 !important;
   background: transparent !important;
-  background-position: right 4px center !important;
-  /* shift arrow slightly left */
-  background-size: 12px !important;
+  background-image: none !important;
   height: 100% !important;
   outline: none !important;
   box-shadow: none !important;
   transition: border-color 0.3s ease !important;
   z-index: 1;
+}
+
+.phone-input-wrap::after {
+  content: '';
+  position: absolute;
+  left: 92px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translateY(-50%) rotate(0deg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%2364748b'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 4;
+  transition: transform 0.25s ease, background-image 0.25s ease;
+}
+
+.phone-input-wrap:has(.phone-country-select:enabled:focus)::after,
+.phone-input-wrap:has(.phone-country-select:enabled:active)::after {
+  transform: translateY(-50%) rotate(180deg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%23e8302a'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E");
+}
+
+.phone-input-wrap:has(.phone-country-select:disabled)::after {
+  transform: translateY(-50%) rotate(0deg) !important;
+  opacity: 0.5 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512' fill='%2364748b'%3E%3Cpath d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'/%3E%3C/svg%3E") !important;
 }
 
 .phone-input-wrap:focus-within .phone-country-select {
@@ -15707,13 +19487,299 @@ export default function Newsroom() {
   accent-color: var(--navy-deep);
   flex-shrink: 0;
 }
+
+/* ============================================
+   PHONE CODE DISPLAY FIX
+   ============================================ */
+/* Hide the text (and emoji) in the selected state of the select field */
+.phone-country-select {
+  color: transparent !important;
+}
+
+/* Ensure options inside the dropdown menu remain visible */
+.phone-country-select option {
+  color: var(--navy-deep) !important;
+}
+
+/* Overlay the raw country code text without the emoji */
+.phone-selected-text {
+  position: absolute;
+  left: 42px;
+  /* Places text right after the flag icon */
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  /* Allows clicks to pass through to the select field */
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--navy-deep);
+  z-index: 2;
+}
+
+/* ============================================
+   MOBILE LAYOUT — FULL-SCREEN, CARD-FREE
+   Distinct from the desktop/tablet card layout.
+   Content runs edge-to-edge like a native app
+   screen instead of floating white cards on
+   the navy background.
+   ============================================ */
+@media (max-width: 640px) {
+
+  /* Kill the ambient blur decor — not needed on a
+     flat, full-bleed mobile surface and it hurts
+     scroll performance on lower-end phones. */
+  .profile-page__decor {
+    display: none;
+  }
+
+  .profile-page {
+    padding: 84px 0 96px;
+    /* extra bottom padding reserves room for the
+       fixed mobile action bar defined below */
+    background: var(--fog-grey);
+  }
+
+  .profile-container {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    gap: 0;
+    animation: none;
+  }
+
+  /* Back link becomes a slim in-flow header bar
+     instead of a floating link above a card —
+     stretched edge-to-edge as a full-width button */
+  .profile-back-link {
+    background: var(--paper-white);
+    padding: 14px 16px;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    color: var(--navy-deep);
+    border-bottom: 1px solid var(--line-grey);
+    font-size: 0.68rem;
+  }
+
+  .profile-back-link:hover {
+    transform: none;
+  }
+
+  .profile-grid {
+    display: block;
+    gap: 0;
+  }
+
+  /* Cards lose all "card-ness": no radius, no
+     shadow, no floating margins — they become
+     stacked full-width panels separated by a
+     hairline, like native app sections. */
+  .profile-card-left,
+  .profile-card-right {
+    border-radius: 0;
+    box-shadow: none;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Left column becomes a compact profile header
+     strip (avatar + name inline) rather than a
+     tall centered card — a mobile-appropriate
+     pattern distinct from desktop's sidebar card.
+     Grid (not flex) so the avatar can span both
+     the name row and the badge row and center
+     against their combined height. */
+  .profile-card-left {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    column-gap: 16px;
+    row-gap: 4px;
+    text-align: left;
+    padding: 20px 16px;
+    border-bottom: 8px solid var(--fog-grey);
+  }
+
+  .profile-avatar-large {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: center;
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .profile-name {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+    text-align: left;
+  }
+
+  .profile-badge-row {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0;
+  }
+
+  .profile-badge-row,
+  .profile-class-sub {
+    text-align: left;
+  }
+
+  .profile-badge-row .navbar__user-badge {
+    margin: 0 !important;
+    /* the component sets inline margin:0 auto to
+       center it on desktop — force left alignment
+       here so it sits flush under the name */
+  }
+
+  .profile-class-sub,
+  .profile-divider,
+  .profile-meta-info {
+    grid-column: 1 / -1;
+  }
+
+  .profile-divider {
+    margin: 16px 0;
+  }
+
+  .profile-meta-info {
+    width: 100%;
+  }
+
+  .profile-card-right {
+    padding: 20px 16px 24px;
+  }
+
+  /* Header row (title + Edit Profile button). The
+     component renders title then button and sets
+     inline display:flex/justify-content:space-between/
+     align-items:center — override to a reversed
+     column so the button renders above the title,
+     stretched to full width. */
+  .profile-card-right>div:first-child {
+    flex-direction: column-reverse !important;
+    align-items: stretch !important;
+    gap: 12px;
+  }
+
+  .profile-card-right>div:first-child .profile-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .profile-section-title,
+  .profile-form__section-title {
+    width: 100%;
+  }
+
+  .profile-form__grid-3,
+  .previous-degree-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .product-services-checkbox-group {
+    grid-template-columns: 1fr;
+    max-height: 220px;
+  }
+
+  /* Sticky, full-width mobile action bar — replaces
+     the desktop's right-aligned inline buttons with
+     a native-app-style bottom bar */
+  .profile-actions {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 900;
+    margin-top: 0;
+    background: var(--paper-white);
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.12);
+    gap: 12px;
+  }
+
+  .profile-actions .profile-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .profile-btn--primary:hover {
+    transform: none;
+  }
+}
+
+/* Profile Checkbox Styling */
+.profile-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.profile-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.profile-checkbox__box {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  background: var(--fog-grey);
+  border: 1px solid var(--line-grey);
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.profile-checkbox input:checked ~ .profile-checkbox__box {
+  background: var(--navy-deep);
+  border-color: var(--navy-deep);
+}
+
+.profile-checkbox__box::after {
+  content: '';
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 2px;
+  width: 4px;
+  height: 9px;
+  border: solid var(--paper-white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.profile-checkbox input:checked ~ .profile-checkbox__box::after {
+  display: block;
+}
+
+.profile-checkbox__label {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--navy-deep);
+  font-weight: 500;
+  flex: 1;
+}
 ```
 
 ---
 
-## File 40 {#file-40}
+## File 57 {#file-57}
 
-**📄 Path:** `src\components\Profile.jsx`
+**📄 Path:** `src\pages\Profile.jsx`
 
 ```jsx
 import { useState, useEffect } from 'react'
@@ -15740,23 +19806,58 @@ import {
   FaBoxOpen,
   FaMapMarkerAlt,
   FaSitemap,
-  FaAward
+  FaAward,
+  FaFilePdf
 } from 'react-icons/fa'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
+import CountryAutocomplete from '../components/CountryAutocomplete'
+import StateAutocomplete from '../components/StateAutocomplete'
+import CityAutocomplete from '../components/CityAutocomplete'
+import CompanyAutocomplete from '../components/CompanyAutocomplete'
 import './Profile.css'
+import { countryCodes } from '../data/countryData'
+import { getCountryByState } from '../data/stateData'
+import { getStateAndCountryByCity } from '../data/cityData'
 import {
-  countryCodes,
   ACADEMIC_YEARS,
   DEGREE_OPTIONS,
+  GENDER_OPTIONS,
   CERTIFICATION_OPTIONS,
   PRODUCT_SERVICE_OPTIONS,
-  HOBBY_OPTIONS
+  HOBBY_OPTIONS,
+  PLACEHOLDERS
 } from '../data/formdata'
 import { hashEmail, hashPhoneDigits } from '../utils/hash'
 
 const MONTH_OPTIONS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const PROMOTION_YEAR_OPTIONS = Array.from({ length: new Date().getFullYear() - 1980 + 1 }, (_, i) => String(new Date().getFullYear() - i));
+
+const parseWorkingSince = (dataObj) => {
+  if (!dataObj) return { workingSinceMonth: '', workingSinceYear: '' };
+  const m = dataObj.workingSinceMonth || '';
+  const y = dataObj.workingSinceYear || '';
+  if (m || y) {
+    return { workingSinceMonth: m, workingSinceYear: y };
+  }
+  const str = dataObj.workingSince || '';
+  if (!str) return { workingSinceMonth: '', workingSinceYear: '' };
+
+  const parts = str.trim().split(/[\s\-]+/);
+  if (parts.length >= 2) {
+    if (/^\d{4}$/.test(parts[0])) {
+      const year = parts[0];
+      const mNum = parseInt(parts[1], 10);
+      const month = (!isNaN(mNum) && mNum >= 1 && mNum <= 12) ? MONTH_OPTIONS[mNum - 1] : parts[1];
+      return { workingSinceMonth: month, workingSinceYear: year };
+    } else if (/^\d{4}$/.test(parts[1])) {
+      return { workingSinceMonth: parts[0], workingSinceYear: parts[1] };
+    }
+  } else if (parts.length === 1 && /^\d{4}$/.test(parts[0])) {
+    return { workingSinceMonth: '', workingSinceYear: parts[0] };
+  }
+  return { workingSinceMonth: '', workingSinceYear: '' };
+};
 
 const parsePhoneNumber = (fullPhone) => {
   if (!fullPhone) return { code: '+91', number: '' }
@@ -15779,21 +19880,187 @@ const parsePhoneNumber = (fullPhone) => {
 
 const getCountryIso = (code) => {
   const map = {
-    '+91': 'in',
     '+1': 'us',
-    '+44': 'gb',
-    '+971': 'ae',
-    '+65': 'sg',
-    '+61': 'au',
-    '+49': 'de',
-    '+966': 'sa',
-    '+968': 'om',
-    '+974': 'qa',
-    '+965': 'kw',
-    '+973': 'bh',
+    '+7': 'ru',
+    '+20': 'eg',
     '+27': 'za',
+    '+30': 'gr',
+    '+31': 'nl',
+    '+32': 'be',
     '+33': 'fr',
-    '+81': 'jp'
+    '+34': 'es',
+    '+36': 'hu',
+    '+39': 'it',
+    '+40': 'ro',
+    '+41': 'ch',
+    '+43': 'at',
+    '+44': 'gb',
+    '+45': 'dk',
+    '+46': 'se',
+    '+47': 'no',
+    '+48': 'pl',
+    '+49': 'de',
+    '+51': 'pe',
+    '+52': 'mx',
+    '+53': 'cu',
+    '+54': 'ar',
+    '+55': 'br',
+    '+56': 'cl',
+    '+57': 'co',
+    '+58': 've',
+    '+60': 'my',
+    '+61': 'au',
+    '+62': 'id',
+    '+63': 'ph',
+    '+64': 'nz',
+    '+65': 'sg',
+    '+66': 'th',
+    '+81': 'jp',
+    '+82': 'kr',
+    '+84': 'vn',
+    '+86': 'cn',
+    '+90': 'tr',
+    '+91': 'in',
+    '+92': 'pk',
+    '+93': 'af',
+    '+94': 'lk',
+    '+95': 'mm',
+    '+98': 'ir',
+    '+211': 'ss',
+    '+212': 'ma',
+    '+213': 'dz',
+    '+216': 'tn',
+    '+218': 'ly',
+    '+220': 'gm',
+    '+221': 'sn',
+    '+222': 'mr',
+    '+223': 'ml',
+    '+224': 'gn',
+    '+225': 'ci',
+    '+226': 'bf',
+    '+227': 'ne',
+    '+228': 'tg',
+    '+229': 'bj',
+    '+230': 'mu',
+    '+231': 'lr',
+    '+232': 'sl',
+    '+233': 'gh',
+    '+234': 'ng',
+    '+235': 'td',
+    '+236': 'cf',
+    '+237': 'cm',
+    '+238': 'cv',
+    '+239': 'st',
+    '+240': 'gq',
+    '+241': 'ga',
+    '+242': 'cg',
+    '+243': 'cd',
+    '+244': 'ao',
+    '+245': 'gw',
+    '+248': 'sc',
+    '+249': 'sd',
+    '+250': 'rw',
+    '+251': 'et',
+    '+252': 'so',
+    '+253': 'dj',
+    '+254': 'ke',
+    '+255': 'tz',
+    '+256': 'ug',
+    '+257': 'bi',
+    '+258': 'mz',
+    '+260': 'zm',
+    '+261': 'mg',
+    '+263': 'zw',
+    '+264': 'na',
+    '+265': 'mw',
+    '+266': 'ls',
+    '+267': 'bw',
+    '+268': 'sz',
+    '+269': 'km',
+    '+291': 'er',
+    '+351': 'pt',
+    '+352': 'lu',
+    '+353': 'ie',
+    '+354': 'is',
+    '+355': 'al',
+    '+356': 'mt',
+    '+357': 'cy',
+    '+358': 'fi',
+    '+359': 'bg',
+    '+370': 'lt',
+    '+371': 'lv',
+    '+372': 'ee',
+    '+373': 'md',
+    '+374': 'am',
+    '+375': 'by',
+    '+376': 'ad',
+    '+377': 'mc',
+    '+378': 'sm',
+    '+380': 'ua',
+    '+381': 'rs',
+    '+382': 'me',
+    '+385': 'hr',
+    '+386': 'si',
+    '+387': 'ba',
+    '+389': 'mk',
+    '+420': 'cz',
+    '+421': 'sk',
+    '+423': 'li',
+    '+501': 'bz',
+    '+502': 'gt',
+    '+503': 'sv',
+    '+504': 'hn',
+    '+505': 'ni',
+    '+506': 'cr',
+    '+507': 'pa',
+    '+509': 'ht',
+    '+591': 'bo',
+    '+592': 'gy',
+    '+593': 'ec',
+    '+595': 'py',
+    '+597': 'sr',
+    '+598': 'uy',
+    '+670': 'tl',
+    '+673': 'bn',
+    '+674': 'nr',
+    '+675': 'pg',
+    '+676': 'to',
+    '+677': 'sb',
+    '+678': 'vu',
+    '+679': 'fj',
+    '+680': 'pw',
+    '+685': 'ws',
+    '+686': 'ki',
+    '+688': 'tv',
+    '+691': 'fm',
+    '+692': 'mh',
+    '+850': 'kp',
+    '+855': 'kh',
+    '+856': 'la',
+    '+880': 'bd',
+    '+960': 'mv',
+    '+961': 'lb',
+    '+962': 'jo',
+    '+963': 'sy',
+    '+964': 'iq',
+    '+965': 'kw',
+    '+966': 'sa',
+    '+967': 'ye',
+    '+968': 'om',
+    '+970': 'ps',
+    '+971': 'ae',
+    '+972': 'il',
+    '+973': 'bh',
+    '+974': 'qa',
+    '+975': 'bt',
+    '+976': 'mn',
+    '+977': 'np',
+    '+992': 'tj',
+    '+993': 'tm',
+    '+994': 'az',
+    '+995': 'ge',
+    '+996': 'kg',
+    '+998': 'uz'
   }
   return map[code] || 'in'
 }
@@ -15870,7 +20137,10 @@ export default function Profile({ user, onUpdateUser }) {
     productServices: [],
     otherProductServices: '',
     department: '',
+    division: '',
     workingSince: '',
+    workingSinceMonth: '',
+    workingSinceYear: '',
     companyCity: '',
     companyState: '',
     companyCountry: '',
@@ -15878,7 +20148,14 @@ export default function Profile({ user, onUpdateUser }) {
     lastPromotionMonth: '',
     lastPromotionYear: '',
     awards: [],
-    hobbies: []
+    hobbies: [],
+    otherHobbies: '',
+    workExperience: '',
+    consentEmail: false,
+    consentPhone: false,
+    consentWhatsapp: false,
+    cvBase64: '',
+    cvFileName: ''
   })
 
   const [originalForm, setOriginalForm] = useState({
@@ -15916,7 +20193,10 @@ export default function Profile({ user, onUpdateUser }) {
     productServices: [],
     otherProductServices: '',
     department: '',
+    division: '',
     workingSince: '',
+    workingSinceMonth: '',
+    workingSinceYear: '',
     companyCity: '',
     companyState: '',
     companyCountry: '',
@@ -15924,7 +20204,14 @@ export default function Profile({ user, onUpdateUser }) {
     lastPromotionMonth: '',
     lastPromotionYear: '',
     awards: [],
-    hobbies: []
+    hobbies: [],
+    otherHobbies: '',
+    workExperience: '',
+    consentEmail: false,
+    consentPhone: false,
+    consentWhatsapp: false,
+    cvBase64: '',
+    cvFileName: ''
   })
 
   // Load user data on mount
@@ -15976,6 +20263,7 @@ export default function Profile({ user, onUpdateUser }) {
               middleName: data.middleName || user.middleName || '',
               lastName: defaultLastName,
               email: data.email || user.email || '',
+              gender: data.gender || user.gender || '',
               dob: formatDob(data.dob),
               phoneCode: parsedPhone.code,
               phone: parsedPhone.number,
@@ -16006,7 +20294,10 @@ export default function Profile({ user, onUpdateUser }) {
               productServices: loadedProductServices,
               otherProductServices: data.otherProductServices || user.otherProductServices || '',
               department: data.department || user.department || '',
-              workingSince: formatDob(data.workingSince || user.workingSince || ''),
+              division: data.division || user.division || '',
+              workingSince: data.workingSince || user.workingSince || '',
+              workingSinceMonth: parseWorkingSince(data).workingSinceMonth || parseWorkingSince(user).workingSinceMonth || '',
+              workingSinceYear: parseWorkingSince(data).workingSinceYear || parseWorkingSince(user).workingSinceYear || '',
               companyCity: data.companyCity || user.companyCity || '',
               companyState: data.companyState || user.companyState || '',
               companyCountry: data.companyCountry || user.companyCountry || '',
@@ -16014,7 +20305,14 @@ export default function Profile({ user, onUpdateUser }) {
               lastPromotionMonth: data.lastPromotionMonth || user.lastPromotionMonth || '',
               lastPromotionYear: data.lastPromotionYear || user.lastPromotionYear || '',
               awards: data.awards || user.awards || [],
-              hobbies: data.hobbies || user.hobbies || []
+              hobbies: data.hobbies || user.hobbies || [],
+              otherHobbies: data.otherHobbies || user.otherHobbies || '',
+              workExperience: data.workExperience || user.workExperience || '',
+              consentEmail: (data.consentEmail !== undefined || data.consentPhone !== undefined || data.consentWhatsapp !== undefined) ? Boolean(data.consentEmail) : Boolean(data.consentAlumniSearch ?? user.consentAlumniSearch ?? false),
+              consentPhone: (data.consentEmail !== undefined || data.consentPhone !== undefined || data.consentWhatsapp !== undefined) ? Boolean(data.consentPhone) : Boolean(data.consentAlumniSearch ?? user.consentAlumniSearch ?? false),
+              consentWhatsapp: (data.consentEmail !== undefined || data.consentPhone !== undefined || data.consentWhatsapp !== undefined) ? Boolean(data.consentWhatsapp) : Boolean(data.consentAlumniSearch ?? user.consentAlumniSearch ?? false),
+              cvBase64: data.cvBase64 || user.cvBase64 || '',
+              cvFileName: data.cvFileName || user.cvFileName || ''
             }
             setProfileForm(loadedData)
             setOriginalForm(loadedData)
@@ -16046,6 +20344,7 @@ export default function Profile({ user, onUpdateUser }) {
               middleName: user.middleName || '',
               lastName: nameSplit.slice(1).join(' ') || '',
               email: user.email || '',
+              gender: user.gender || '',
               dob: '',
               phoneCode: parsedPhone.code,
               phone: parsedPhone.number,
@@ -16076,7 +20375,10 @@ export default function Profile({ user, onUpdateUser }) {
               productServices: loadedProductServices,
               otherProductServices: user.otherProductServices || '',
               department: user.department || '',
-              workingSince: formatDob(user.workingSince || ''),
+              division: user.division || '',
+              workingSince: user.workingSince || '',
+              workingSinceMonth: parseWorkingSince(user).workingSinceMonth || '',
+              workingSinceYear: parseWorkingSince(user).workingSinceYear || '',
               companyCity: user.companyCity || '',
               companyState: user.companyState || '',
               companyCountry: user.companyCountry || '',
@@ -16084,7 +20386,14 @@ export default function Profile({ user, onUpdateUser }) {
               lastPromotionMonth: user.lastPromotionMonth || '',
               lastPromotionYear: user.lastPromotionYear || '',
               awards: user.awards || [],
-              hobbies: user.hobbies || []
+              hobbies: user.hobbies || [],
+              otherHobbies: user.otherHobbies || '',
+              workExperience: user.workExperience || '',
+              consentEmail: (user.consentEmail !== undefined || user.consentPhone !== undefined || user.consentWhatsapp !== undefined) ? Boolean(user.consentEmail) : Boolean(user.consentAlumniSearch ?? false),
+              consentPhone: (user.consentEmail !== undefined || user.consentPhone !== undefined || user.consentWhatsapp !== undefined) ? Boolean(user.consentPhone) : Boolean(user.consentAlumniSearch ?? false),
+              consentWhatsapp: (user.consentEmail !== undefined || user.consentPhone !== undefined || user.consentWhatsapp !== undefined) ? Boolean(user.consentWhatsapp) : Boolean(user.consentAlumniSearch ?? false),
+              cvBase64: user.cvBase64 || '',
+              cvFileName: user.cvFileName || ''
             }
             setProfileForm(seedData)
             setOriginalForm(seedData)
@@ -16127,6 +20436,7 @@ export default function Profile({ user, onUpdateUser }) {
               middleName: parsed.middleName || '',
               lastName: parsed.lastName || nameSplit.slice(1).join(' ') || '',
               email: parsed.email || '',
+              gender: parsed.gender || '',
               dob: formatDob(parsed.dob),
               phoneCode: parsedPhone.code,
               phone: parsedPhone.number,
@@ -16157,7 +20467,10 @@ export default function Profile({ user, onUpdateUser }) {
               productServices: loadedProductServices,
               otherProductServices: parsed.otherProductServices || '',
               department: parsed.department || '',
-              workingSince: formatDob(parsed.workingSince || ''),
+              division: parsed.division || '',
+              workingSince: parsed.workingSince || '',
+              workingSinceMonth: parseWorkingSince(parsed).workingSinceMonth || '',
+              workingSinceYear: parseWorkingSince(parsed).workingSinceYear || '',
               companyCity: parsed.companyCity || '',
               companyState: parsed.companyState || '',
               companyCountry: parsed.companyCountry || '',
@@ -16165,7 +20478,12 @@ export default function Profile({ user, onUpdateUser }) {
               lastPromotionMonth: parsed.lastPromotionMonth || '',
               lastPromotionYear: parsed.lastPromotionYear || '',
               awards: parsed.awards || [],
-              hobbies: parsed.hobbies || []
+              hobbies: parsed.hobbies || [],
+              consentEmail: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined) ? Boolean(parsed.consentEmail) : Boolean(parsed.consentAlumniSearch ?? false),
+              consentPhone: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined) ? Boolean(parsed.consentPhone) : Boolean(parsed.consentAlumniSearch ?? false),
+              consentWhatsapp: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined) ? Boolean(parsed.consentWhatsapp) : Boolean(parsed.consentAlumniSearch ?? false),
+              cvBase64: parsed.cvBase64 || '',
+              cvFileName: parsed.cvFileName || ''
             }
             setProfileForm(mockData)
             setOriginalForm(mockData)
@@ -16201,6 +20519,7 @@ export default function Profile({ user, onUpdateUser }) {
           middleName: user.middleName || '',
           lastName: nameSplit.slice(1).join(' ') || '',
           email: user.email || '',
+          gender: user.gender || '',
           dob: formatDob(user.dob),
           phoneCode: parsedPhone.code,
           phone: parsedPhone.number,
@@ -16231,6 +20550,7 @@ export default function Profile({ user, onUpdateUser }) {
           productServices: loadedProductServices,
           otherProductServices: user.otherProductServices || '',
           department: user.department || '',
+          division: user.division || '',
           workingSince: formatDob(user.workingSince || ''),
           companyCity: user.companyCity || '',
           companyState: user.companyState || '',
@@ -16239,7 +20559,9 @@ export default function Profile({ user, onUpdateUser }) {
           lastPromotionMonth: user.lastPromotionMonth || '',
           lastPromotionYear: user.lastPromotionYear || '',
           awards: user.awards || [],
-          hobbies: user.hobbies || []
+          hobbies: user.hobbies || [],
+          otherHobbies: user.otherHobbies || '',
+          workExperience: user.workExperience || ''
         }
         setProfileForm(fallbackData)
         setOriginalForm(fallbackData)
@@ -16270,17 +20592,53 @@ export default function Profile({ user, onUpdateUser }) {
     }
   }, [error])
 
+  const capitalizeWords = (str) => {
+    if (!str || typeof str !== 'string') return str;
+    return str.replace(/\b[a-zA-Z]+/g, (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+  };
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target // Extract type and checked
-    const cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name)
+    let cleanValue = ['phone', 'secondaryPhone', 'whatsapp', 'workExperience'].includes(name)
       ? value.replace(/\D/g, '')
       : value;
+
+    if (['firstName', 'middleName', 'lastName'].includes(name) && typeof cleanValue === 'string') {
+      cleanValue = capitalizeWords(cleanValue);
+    }
 
     setProfileForm(prev => {
       const updated = {
         ...prev,
         [name]: type === 'checkbox' ? checked : cleanValue // Handle checkbox
       }
+
+      // Auto populate state & country when personal city changes
+      if (name === 'city' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const { state: autoState, country: autoCountry } = getStateAndCountryByCity(cleanValue);
+        if (autoState) updated.state = autoState;
+        if (autoCountry) updated.country = autoCountry;
+      }
+
+      // Auto populate country when personal state changes
+      if (name === 'state' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const autoCountry = getCountryByState(cleanValue);
+        if (autoCountry) updated.country = autoCountry;
+      }
+
+      // Auto populate state & country when company city changes
+      if (name === 'companyCity' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const { state: autoState, country: autoCountry } = getStateAndCountryByCity(cleanValue);
+        if (autoState) updated.companyState = autoState;
+        if (autoCountry) updated.companyCountry = autoCountry;
+      }
+
+      // Auto populate country when company state changes
+      if (name === 'companyState' && typeof cleanValue === 'string' && cleanValue.trim()) {
+        const autoCountry = getCountryByState(cleanValue);
+        if (autoCountry) updated.companyCountry = autoCountry;
+      }
+
       // Calculate target passout year only if diploma is not checked
       if (name === 'admissionYear' && cleanValue && !prev.diplomaNotCompleted) {
         const parsedYear = parseInt(cleanValue, 10)
@@ -16410,12 +20768,17 @@ export default function Profile({ user, onUpdateUser }) {
     }
 
     if (!profileForm.phone.trim()) {
-      setError('Contact number is compulsory.')
+      setError('Primary Contact number is compulsory.')
       return
     }
 
-    if (!profileForm.whatsapp.trim()) {
-      setError('WhatsApp number is compulsory.')
+    if (!profileForm.gender) {
+      setError('Gender is compulsory.')
+      return
+    }
+
+    if (!profileForm.consentEmail && !profileForm.consentPhone && !profileForm.consentWhatsapp) {
+      setError('Please select at least one detail (Email ID, Mobile Number, or WhatsApp Number) to show on the Alumni Portal.')
       return
     }
 
@@ -16448,11 +20811,17 @@ export default function Profile({ user, onUpdateUser }) {
 
     setLoading(true)
 
+    const cleanFirstName = capitalizeWords(profileForm.firstName.trim());
+    const cleanMiddleName = capitalizeWords(profileForm.middleName.trim());
+    const cleanLastName = capitalizeWords(profileForm.lastName.trim());
+    const cleanFullName = [cleanFirstName, cleanMiddleName, cleanLastName].filter(Boolean).join(' ');
+
     const updatedProfile = {
-      firstName: profileForm.firstName.trim(),
-      middleName: profileForm.middleName.trim(),
-      lastName: profileForm.lastName.trim(),
-      name: [profileForm.firstName.trim(), profileForm.middleName.trim(), profileForm.lastName.trim()].filter(Boolean).join(' '),
+      firstName: cleanFirstName,
+      middleName: cleanMiddleName,
+      lastName: cleanLastName,
+      name: cleanFullName,
+      gender: profileForm.gender || '',
       dob: profileForm.dob,
       phone: `${profileForm.phoneCode} ${profileForm.phone}`.trim(),
       secondaryPhone: profileForm.secondaryPhone ? `${profileForm.secondaryPhoneCode} ${profileForm.secondaryPhone}`.trim() : '',
@@ -16479,7 +20848,10 @@ export default function Profile({ user, onUpdateUser }) {
       productServices: profileForm.productServices || [],
       otherProductServices: profileForm.productServices.includes('Others') ? profileForm.otherProductServices || '' : '',
       department: profileForm.department.trim(),
-      workingSince: profileForm.workingSince,
+      division: profileForm.division.trim(),
+      workingSinceMonth: profileForm.workingSinceMonth || '',
+      workingSinceYear: profileForm.workingSinceYear || '',
+      workingSince: (profileForm.workingSinceMonth && profileForm.workingSinceYear) ? `${profileForm.workingSinceMonth} ${profileForm.workingSinceYear}` : (profileForm.workingSince || ''),
       companyCity: profileForm.companyCity.trim(),
       companyState: profileForm.companyState.trim(),
       companyCountry: profileForm.companyCountry.trim(),
@@ -16487,7 +20859,14 @@ export default function Profile({ user, onUpdateUser }) {
       lastPromotionMonth: profileForm.lastPromotionMonth,
       lastPromotionYear: profileForm.lastPromotionYear,
       awards: profileForm.awards || [],
-      hobbies: profileForm.hobbies || []
+      hobbies: profileForm.hobbies || [],
+      otherHobbies: profileForm.hobbies.includes('Others') ? profileForm.otherHobbies || '' : '',
+      workExperience: profileForm.workExperience ? profileForm.workExperience.trim() : '',
+      consentEmail: profileForm.consentEmail || false,
+      consentPhone: profileForm.consentPhone || false,
+      consentWhatsapp: profileForm.consentWhatsapp || false,
+      cvBase64: profileForm.cvBase64 || '',
+      cvFileName: profileForm.cvFileName || ''
     }
 
     const uid = user.uid || (auth.currentUser ? auth.currentUser.uid : null)
@@ -16501,6 +20880,16 @@ export default function Profile({ user, onUpdateUser }) {
           try {
             const userDocRef = doc(db, 'users', uid)
             await setDoc(userDocRef, updatedProfile, { merge: true })
+
+            if (profileForm.company && profileForm.company.trim()) {
+              try {
+                await setDoc(doc(db, 'companies', profileForm.company.trim().toLowerCase()), {
+                  name: profileForm.company.trim()
+                }, { merge: true })
+              } catch (compErr) {
+                console.warn('Failed to save company name to collection:', compErr)
+              }
+            }
 
             // Keep the password-reset lookup doc in sync with any phone/email changes
             const emailHashKey = await hashEmail(user.email) // account email — not editable here
@@ -16580,6 +20969,7 @@ export default function Profile({ user, onUpdateUser }) {
               productServices: updatedProfile.productServices,
               otherProductServices: updatedProfile.otherProductServices,
               department: updatedProfile.department,
+              division: updatedProfile.division,
               workingSince: updatedProfile.workingSince,
               companyCity: updatedProfile.companyCity,
               companyState: updatedProfile.companyState,
@@ -16609,6 +20999,7 @@ export default function Profile({ user, onUpdateUser }) {
     profileForm.firstName !== originalForm.firstName ||
     profileForm.middleName !== originalForm.middleName ||
     profileForm.lastName !== originalForm.lastName ||
+    profileForm.gender !== originalForm.gender ||
     profileForm.dob !== originalForm.dob ||
     profileForm.phoneCode !== originalForm.phoneCode ||
     profileForm.phone !== originalForm.phone ||
@@ -16631,7 +21022,9 @@ export default function Profile({ user, onUpdateUser }) {
     profileForm.state !== originalForm.state ||
     profileForm.country !== originalForm.country ||
     profileForm.department !== originalForm.department ||
-    profileForm.workingSince !== originalForm.workingSince ||
+    profileForm.division !== originalForm.division ||
+    profileForm.workingSinceMonth !== originalForm.workingSinceMonth ||
+    profileForm.workingSinceYear !== originalForm.workingSinceYear ||
     profileForm.companyCity !== originalForm.companyCity ||
     profileForm.companyState !== originalForm.companyState ||
     profileForm.companyCountry !== originalForm.companyCountry ||
@@ -16643,7 +21036,13 @@ export default function Profile({ user, onUpdateUser }) {
     JSON.stringify(profileForm.productServices || []) !== JSON.stringify(originalForm.productServices || []) ||
     profileForm.otherProductServices !== originalForm.otherProductServices ||
     JSON.stringify(profileForm.awards || []) !== JSON.stringify(originalForm.awards || []) ||
-    JSON.stringify(profileForm.hobbies || []) !== JSON.stringify(originalForm.hobbies || [])
+    JSON.stringify(profileForm.hobbies || []) !== JSON.stringify(originalForm.hobbies || []) ||
+    profileForm.otherHobbies !== originalForm.otherHobbies ||
+    profileForm.consentEmail !== originalForm.consentEmail ||
+    profileForm.consentPhone !== originalForm.consentPhone ||
+    profileForm.consentWhatsapp !== originalForm.consentWhatsapp ||
+    profileForm.cvBase64 !== originalForm.cvBase64 ||
+    profileForm.workExperience !== originalForm.workExperience
   ) : false
 
   // Signed out check
@@ -16756,7 +21155,7 @@ export default function Profile({ user, onUpdateUser }) {
                 <span className="profile-meta-value" title={profileForm.email}>{profileForm.email}</span>
               </div>
               <div className="profile-meta-item">
-                <span className="profile-meta-label">Contact Number</span>
+                <span className="profile-meta-label">Primary Contact Number</span>
                 <span className="profile-meta-value">{profileForm.phone || 'Not Provided'}</span>
               </div>
               <div className="profile-meta-item">
@@ -16790,6 +21189,9 @@ export default function Profile({ user, onUpdateUser }) {
               </div>
             ) : (
               <form className="profile-form" onSubmit={handleSubmit}>
+                <p style={{ fontSize: '13px', color: 'var(--slate)', marginBottom: '14px', fontWeight: '500' }}>
+                  Fields marked with <span style={{ color: 'var(--signal-red)', fontWeight: 'bold' }}>*</span> are mandatory
+                </p>
                 <h4 className="profile-form__section-title">Personal Details</h4>
                 <div className="profile-form__grid-3">
                   <div className="profile-field">
@@ -16861,6 +21263,26 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
+                    <label htmlFor="prof-gender">Gender <span className="profile-field__required">*</span></label>
+                    <div className="profile-field__input-wrap">
+                      <FaUser className="profile-field__icon" />
+                      <select
+                        id="prof-gender"
+                        name="gender"
+                        value={profileForm.gender}
+                        onChange={handleInputChange}
+                        required
+                        disabled={!isEditing || loading}
+                      >
+                        <option value="">Select Gender</option>
+                        {GENDER_OPTIONS.map(g => <option key={g} value={g}>{g}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="profile-form__grid">
+                  <div className="profile-field">
                     <label htmlFor="prof-bloodgroup">Blood Group</label>
                     <div className="profile-field__input-wrap">
                       <FaHeart className="profile-field__icon" />
@@ -16883,9 +21305,7 @@ export default function Profile({ user, onUpdateUser }) {
                       </select>
                     </div>
                   </div>
-                </div>
 
-                <div className="profile-form__grid">
                   <div className="profile-field">
                     <label htmlFor="prof-dob">Date of Birth</label>
                     <div className="profile-field__input-wrap">
@@ -16901,7 +21321,9 @@ export default function Profile({ user, onUpdateUser }) {
                       />
                     </div>
                   </div>
+                </div>
 
+                <div className="profile-form__grid">
                   <div className="profile-field">
                     <label htmlFor="prof-dom">Date of Marriage</label>
                     <div className="profile-field__input-wrap">
@@ -16917,13 +21339,19 @@ export default function Profile({ user, onUpdateUser }) {
                       />
                     </div>
                   </div>
+
+                  <div className="profile-field" style={{ visibility: 'hidden' }}></div>
                 </div>
 
                 <div className="profile-form__grid">
                   <div className="profile-field">
-                    <label htmlFor="prof-phone">Contact Number <span className="profile-field__required">*</span></label>
+                    <label htmlFor="prof-phone">Primary Contact Number <span className="profile-field__required">*</span></label>
                     <div className="profile-field__input-wrap phone-input-wrap">
                       <span className={`fi fi-${getCountryIso(profileForm.phoneCode)} profile-field__icon`}></span>
+
+                      {/* ADD THIS SPAN */}
+                      <span className="phone-selected-text">{profileForm.phoneCode}</span>
+
                       <select
                         className="phone-country-select"
                         name="phoneCode"
@@ -16931,7 +21359,7 @@ export default function Profile({ user, onUpdateUser }) {
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                       >
-                        {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                        {countryCodes.map((c, idx) => <option key={`${c.code}-${c.iso || idx}`} value={c.code}>{c.label}</option>)}
                       </select>
                       <input
                         id="prof-phone"
@@ -16950,6 +21378,10 @@ export default function Profile({ user, onUpdateUser }) {
                     <label htmlFor="prof-sec-phone">Secondary Contact Number</label>
                     <div className="profile-field__input-wrap phone-input-wrap">
                       <span className={`fi fi-${getCountryIso(profileForm.secondaryPhoneCode)} profile-field__icon`}></span>
+
+                      {/* ADD THIS SPAN */}
+                      <span className="phone-selected-text">{profileForm.secondaryPhoneCode}</span>
+
                       <select
                         className="phone-country-select"
                         name="secondaryPhoneCode"
@@ -16957,7 +21389,7 @@ export default function Profile({ user, onUpdateUser }) {
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                       >
-                        {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                        {countryCodes.map((c, idx) => <option key={`${c.code}-${c.iso || idx}`} value={c.code}>{c.label}</option>)}
                       </select>
                       <input
                         id="prof-sec-phone"
@@ -16974,9 +21406,13 @@ export default function Profile({ user, onUpdateUser }) {
 
                 <div className="profile-form__grid">
                   <div className="profile-field">
-                    <label htmlFor="prof-whatsapp">WhatsApp Number <span className="profile-field__required">*</span></label>
+                    <label htmlFor="prof-whatsapp">WhatsApp Number</label>
                     <div className="profile-field__input-wrap phone-input-wrap">
                       <span className={`fi fi-${getCountryIso(profileForm.whatsappCode)} profile-field__icon`}></span>
+
+                      {/* ADD THIS SPAN */}
+                      <span className="phone-selected-text">{profileForm.whatsappCode}</span>
+
                       <select
                         className="phone-country-select"
                         name="whatsappCode"
@@ -16984,7 +21420,7 @@ export default function Profile({ user, onUpdateUser }) {
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                       >
-                        {countryCodes.map(c => <option key={c.code} value={c.code}>{c.label}</option>)}
+                        {countryCodes.map((c, idx) => <option key={`${c.code}-${c.iso || idx}`} value={c.code}>{c.label}</option>)}
                       </select>
                       <input
                         id="prof-whatsapp"
@@ -16993,7 +21429,6 @@ export default function Profile({ user, onUpdateUser }) {
                         value={profileForm.whatsapp}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
-                        required
                         placeholder="No Data Provided"
                       />
                     </div>
@@ -17004,49 +21439,42 @@ export default function Profile({ user, onUpdateUser }) {
 
                 <div className="profile-form__grid-3" style={{ marginTop: '15px' }}>
                   <div className="profile-field">
-                    <label htmlFor="prof-city">City</label>
-                    <div className="profile-field__input-wrap">
-                      <FaMapMarkerAlt className="profile-field__icon" />
-                      <input
-                        id="prof-city"
-                        type="text"
-                        name="city"
-                        value={profileForm.city}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
+                    <label htmlFor="prof-city">Native (City)</label>
+                    <CityAutocomplete
+                      id="prof-city"
+                      name="city"
+                      value={profileForm.city}
+                      state={profileForm.state}
+                      onChange={handleInputChange}
+                      disabled={!isEditing || loading}
+                      placeholder="No Data Provided"
+                      wrapClassName="profile-field__input-wrap"
+                    />
                   </div>
                   <div className="profile-field">
-                    <label htmlFor="prof-state">State</label>
-                    <div className="profile-field__input-wrap">
-                      <FaMapMarkerAlt className="profile-field__icon" />
-                      <input
-                        id="prof-state"
-                        type="text"
-                        name="state"
-                        value={profileForm.state}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
+                    <label htmlFor="prof-state">Native (State)</label>
+                    <StateAutocomplete
+                      id="prof-state"
+                      name="state"
+                      value={profileForm.state}
+                      country={profileForm.country}
+                      onChange={handleInputChange}
+                      disabled={!isEditing || loading}
+                      placeholder="No Data Provided"
+                      wrapClassName="profile-field__input-wrap"
+                    />
                   </div>
                   <div className="profile-field">
-                    <label htmlFor="prof-country">Country</label>
-                    <div className="profile-field__input-wrap">
-                      <FaGlobe className="profile-field__icon" />
-                      <input
-                        id="prof-country"
-                        type="text"
-                        name="country"
-                        value={profileForm.country}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
+                    <label htmlFor="prof-country">Native (Country)</label>
+                    <CountryAutocomplete
+                      id="prof-country"
+                      name="country"
+                      value={profileForm.country}
+                      onChange={handleInputChange}
+                      disabled={!isEditing || loading}
+                      placeholder="No Data Provided"
+                      wrapClassName="profile-field__input-wrap"
+                    />
                   </div>
                 </div>
 
@@ -17227,19 +21655,113 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-company">Company</label>
+                    <label htmlFor="prof-work-experience">Total Work Experience (Years)</label>
                     <div className="profile-field__input-wrap">
-                      <FaBuilding className="profile-field__icon" />
+                      <FaBriefcase className="profile-field__icon" />
                       <input
-                        id="prof-company"
+                        id="prof-work-experience"
                         type="text"
-                        name="company"
-                        value={profileForm.company}
+                        inputMode="numeric"
+                        name="workExperience"
+                        value={profileForm.workExperience}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder={!isEditing && !profileForm.workExperience ? "No Data Provided" : PLACEHOLDERS.workExperience}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="profile-field">
+                    <label htmlFor="prof-linkedin">LinkedIn Profile Link</label>
+                    <div className="profile-field__input-wrap">
+                      <FaLinkedin className="profile-field__icon" style={{ color: isEditing ? '#0077b5' : 'var(--slate)' }} />
+                      <input
+                        id="prof-linkedin"
+                        type="text"
+                        name="linkedin"
+                        value={profileForm.linkedin}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                         placeholder="No Data Provided"
                       />
                     </div>
+                  </div>
+
+                  <div className="profile-field profile-field--full">
+                    <label htmlFor="prof-cv">Resume / CV (PDF - Max 700 KB)</label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      {profileForm.cvBase64 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                          <a
+                            href={profileForm.cvBase64}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            download={profileForm.cvFileName || `${profileForm.firstName || 'Alumni'}_CV.pdf`}
+                            className="profile-btn profile-btn--secondary"
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '0.85rem' }}
+                          >
+                            <FaFilePdf style={{ color: '#dc2626' }} /> View / Download Current CV
+                          </a>
+                        </div>
+                      )}
+
+                      {isEditing && (
+                        <div className="profile-field__input-wrap">
+                          <FaFilePdf className="profile-field__icon" style={{ color: '#dc2626' }} />
+                          <input
+                            id="prof-cv"
+                            type="file"
+                            accept=".pdf,application/pdf"
+                            onChange={(e) => {
+                              const file = e.target.files && e.target.files[0]
+                              if (!file) return
+
+                              if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+                                setError('Only PDF files are allowed for CV upload.')
+                                e.target.value = ''
+                                return
+                              }
+
+                              if (file.size > 700 * 1024) {
+                                setError('PDF file size must be less than 700 KB for direct storage.')
+                                e.target.value = ''
+                                return
+                              }
+
+                              const reader = new FileReader()
+                              reader.onload = () => {
+                                setProfileForm(prev => ({
+                                  ...prev,
+                                  cvBase64: reader.result,
+                                  cvFileName: file.name
+                                }))
+                              }
+                              reader.onerror = () => {
+                                setError('Failed to read the uploaded PDF file.')
+                              }
+                              reader.readAsDataURL(file)
+                            }}
+                            disabled={loading}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <h4 className="profile-form__section-title" style={{ marginTop: '24px' }}>Company Details</h4>
+                <div className="profile-form__grid">
+                  <div className="profile-field">
+                    <label htmlFor="prof-company">Company</label>
+                    <CompanyAutocomplete
+                      id="prof-company"
+                      name="company"
+                      value={profileForm.company}
+                      onChange={handleInputChange}
+                      disabled={!isEditing || loading}
+                      placeholder={!isEditing && !profileForm.company ? "No Data Provided" : "Select or type company name"}
+                      wrapClassName="profile-field__input-wrap"
+                    />
                   </div>
 
                   <div className="profile-field">
@@ -17251,6 +21773,22 @@ export default function Profile({ user, onUpdateUser }) {
                         type="text"
                         name="department"
                         value={profileForm.department}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="profile-field">
+                    <label htmlFor="prof-division">Division</label>
+                    <div className="profile-field__input-wrap">
+                      <FaSitemap className="profile-field__icon" />
+                      <input
+                        id="prof-division"
+                        type="text"
+                        name="division"
+                        value={profileForm.division}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                         placeholder="No Data Provided"
@@ -17275,18 +21813,34 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-working-since">Working Since</label>
-                    <div className="profile-field__input-wrap">
-                      <FaCalendarAlt className="profile-field__icon" />
-                      <input
-                        id="prof-working-since"
-                        type="date"
-                        name="workingSince"
-                        value={profileForm.workingSince}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
+                    <label>Working Since (Month / Year)</label>
+                    <div className="profile-form__row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', padding: 0, margin: 0, border: 'none' }}>
+                      <div className="profile-field__input-wrap">
+                        <FaCalendarAlt className="profile-field__icon" />
+                        <select
+                          name="workingSinceMonth"
+                          value={profileForm.workingSinceMonth}
+                          onChange={handleInputChange}
+                          disabled={!isEditing || loading}
+                          style={{ paddingLeft: '42px' }}
+                        >
+                          <option value="">Select Month</option>
+                          {MONTH_OPTIONS.map(m => <option key={m} value={m}>{m}</option>)}
+                        </select>
+                      </div>
+                      <div className="profile-field__input-wrap">
+                        <FaCalendarAlt className="profile-field__icon" />
+                        <select
+                          name="workingSinceYear"
+                          value={profileForm.workingSinceYear}
+                          onChange={handleInputChange}
+                          disabled={!isEditing || loading}
+                          style={{ paddingLeft: '42px' }}
+                        >
+                          <option value="">Select Year</option>
+                          {PROMOTION_YEAR_OPTIONS.map(y => <option key={y} value={y}>{y}</option>)}
+                        </select>
+                      </div>
                     </div>
                   </div>
 
@@ -17296,25 +21850,9 @@ export default function Profile({ user, onUpdateUser }) {
                       <FaGlobe className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
                       <input
                         id="prof-company-website"
-                        type="url"
+                        type="text"
                         name="companyWebsite"
                         value={profileForm.companyWebsite}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="profile-field profile-field--full">
-                    <label htmlFor="prof-linkedin">LinkedIn Profile Link</label>
-                    <div className="profile-field__input-wrap">
-                      <FaLinkedin className="profile-field__icon" style={{ color: isEditing ? '#0077b5' : 'var(--slate)' }} />
-                      <input
-                        id="prof-linkedin"
-                        type="url"
-                        name="linkedin"
-                        value={profileForm.linkedin}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                         placeholder="No Data Provided"
@@ -17326,48 +21864,41 @@ export default function Profile({ user, onUpdateUser }) {
                 <div className="profile-form__grid-3" style={{ marginTop: '10px' }}>
                   <div className="profile-field">
                     <label htmlFor="prof-company-city">Company Location (City)</label>
-                    <div className="profile-field__input-wrap">
-                      <FaMapMarkerAlt className="profile-field__icon" />
-                      <input
-                        id="prof-company-city"
-                        type="text"
-                        name="companyCity"
-                        value={profileForm.companyCity}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
+                    <CityAutocomplete
+                      id="prof-company-city"
+                      name="companyCity"
+                      value={profileForm.companyCity}
+                      state={profileForm.companyState}
+                      onChange={handleInputChange}
+                      disabled={!isEditing || loading}
+                      placeholder="No Data Provided"
+                      wrapClassName="profile-field__input-wrap"
+                    />
                   </div>
                   <div className="profile-field">
                     <label htmlFor="prof-company-state">Company Location (State)</label>
-                    <div className="profile-field__input-wrap">
-                      <FaMapMarkerAlt className="profile-field__icon" />
-                      <input
-                        id="prof-company-state"
-                        type="text"
-                        name="companyState"
-                        value={profileForm.companyState}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
+                    <StateAutocomplete
+                      id="prof-company-state"
+                      name="companyState"
+                      value={profileForm.companyState}
+                      country={profileForm.companyCountry}
+                      onChange={handleInputChange}
+                      disabled={!isEditing || loading}
+                      placeholder="No Data Provided"
+                      wrapClassName="profile-field__input-wrap"
+                    />
                   </div>
                   <div className="profile-field">
                     <label htmlFor="prof-company-country">Company Location (Country)</label>
-                    <div className="profile-field__input-wrap">
-                      <FaGlobe className="profile-field__icon" />
-                      <input
-                        id="prof-company-country"
-                        type="text"
-                        name="companyCountry"
-                        value={profileForm.companyCountry}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
+                    <CountryAutocomplete
+                      id="prof-company-country"
+                      name="companyCountry"
+                      value={profileForm.companyCountry}
+                      onChange={handleInputChange}
+                      disabled={!isEditing || loading}
+                      placeholder="No Data Provided"
+                      wrapClassName="profile-field__input-wrap"
+                    />
                   </div>
                 </div>
 
@@ -17634,33 +22165,93 @@ export default function Profile({ user, onUpdateUser }) {
                 {/* Interest / Hobby checkbox grid */}
                 <div className="profile-field profile-field--full" style={{ marginTop: '15px', marginBottom: '20px' }}>
                   <label>Interest / Hobby</label>
-                  <div className="profile-field__input-wrap">
+                  <div className="profile-field__input-wrap" style={{ flexDirection: 'column', alignItems: 'stretch' }}>
                     {isEditing ? (
-                      <div className="product-services-checkbox-group">
-                        {HOBBY_OPTIONS.map(opt => {
-                          const isChecked = (profileForm.hobbies || []).includes(opt)
-                          return (
-                            <label key={opt} className="checkbox-option">
-                              <input
-                                type="checkbox"
-                                checked={isChecked}
-                                onChange={() => handleMultiSelectChange('hobbies', opt)}
-                                disabled={loading}
-                              />
-                              <span>{opt}</span>
-                            </label>
-                          )
-                        })}
-                      </div>
+                      <>
+                        <div className="product-services-checkbox-group">
+                          {HOBBY_OPTIONS.map(opt => {
+                            const isChecked = (profileForm.hobbies || []).includes(opt)
+                            return (
+                              <label key={opt} className="checkbox-option">
+                                <input
+                                  type="checkbox"
+                                  checked={isChecked}
+                                  onChange={() => handleMultiSelectChange('hobbies', opt)}
+                                  disabled={loading}
+                                />
+                                <span>{opt}</span>
+                              </label>
+                            )
+                          })}
+                        </div>
+                        {(profileForm.hobbies || []).includes('Others') && (
+                          <div className="profile-field__input-wrap" style={{ marginTop: '12px' }}>
+                            <FaHeart className="profile-field__icon" />
+                            <input
+                              type="text"
+                              name="otherHobbies"
+                              placeholder={PLACEHOLDERS.otherHobbies}
+                              value={profileForm.otherHobbies}
+                              onChange={handleInputChange}
+                              disabled={!isEditing || loading}
+                            />
+                          </div>
+                        )}
+                      </>
                     ) : (
                       <div className="profile-field__view-value" style={{ minHeight: '44px', display: 'flex', alignItems: 'center', background: 'var(--fog-grey)', border: '1px solid var(--line-grey)', borderRadius: '4px', padding: '10px 14px', fontSize: '0.85rem', fontWeight: '600', color: 'var(--navy-deep)', width: '100%', boxSizing: 'border-box' }}>
                         {profileForm.hobbies && profileForm.hobbies.length > 0 ? (
-                          profileForm.hobbies.join(', ')
+                          profileForm.hobbies.map(val => val === 'Others' && profileForm.otherHobbies ? `Others (${profileForm.otherHobbies})` : val).join(', ')
                         ) : (
                           'No Data Provided'
                         )}
                       </div>
                     )}
+                  </div>
+                </div>
+
+                {/* Privacy Consent Section */}
+                <h4 className="profile-form__section-title" style={{ marginTop: '24px' }}>Alumni Portal Privacy Consent</h4>
+                <div className="profile-field" style={{ margin: '15px 0 20px', padding: '16px', backgroundColor: 'rgba(241, 245, 249, 0.6)', borderRadius: '12px', border: '1px solid var(--line-grey)' }}>
+                  <label style={{ fontSize: '0.88rem', fontWeight: '600', color: 'var(--navy)', display: 'block', marginBottom: '12px' }}>
+                    I give my consent to show my below-mentioned details on the Alumni Portal (Click at least one) <span className="profile-field__required">*</span>
+                  </label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <label className="profile-checkbox" style={{ cursor: (!isEditing || loading) ? 'not-allowed' : 'pointer' }}>
+                      <input
+                        type="checkbox"
+                        name="consentEmail"
+                        checked={profileForm.consentEmail}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      />
+                      <span className="profile-checkbox__box"></span>
+                      <span className="profile-checkbox__label">Email ID</span>
+                    </label>
+
+                    <label className="profile-checkbox" style={{ cursor: (!isEditing || loading) ? 'not-allowed' : 'pointer' }}>
+                      <input
+                        type="checkbox"
+                        name="consentPhone"
+                        checked={profileForm.consentPhone}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      />
+                      <span className="profile-checkbox__box"></span>
+                      <span className="profile-checkbox__label">Mobile Number</span>
+                    </label>
+
+                    <label className="profile-checkbox" style={{ cursor: (!isEditing || loading) ? 'not-allowed' : 'pointer' }}>
+                      <input
+                        type="checkbox"
+                        name="consentWhatsapp"
+                        checked={profileForm.consentWhatsapp}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      />
+                      <span className="profile-checkbox__box"></span>
+                      <span className="profile-checkbox__label">WhatsApp Number</span>
+                    </label>
                   </div>
                 </div>
 
@@ -17701,9 +22292,9 @@ export default function Profile({ user, onUpdateUser }) {
 
 ---
 
-## File 41 {#file-41}
+## File 58 {#file-58}
 
-**📄 Path:** `src\components\Sangaath2024.jsx`
+**📄 Path:** `src\pages\Sangaath2024.jsx`
 
 ```jsx
 import { useState, useEffect } from 'react'
@@ -17893,9 +22484,9 @@ export default function Sangaath2024() {
 
 ---
 
-## File 42 {#file-42}
+## File 59 {#file-59}
 
-**📄 Path:** `src\components\Sangam2026.css`
+**📄 Path:** `src\pages\Sangam2026.css`
 
 ```css
 /* ============================================
@@ -18704,9 +23295,9 @@ export default function Sangaath2024() {
 
 ---
 
-## File 43 {#file-43}
+## File 60 {#file-60}
 
-**📄 Path:** `src\components\Sangam2026.jsx`
+**📄 Path:** `src\pages\Sangam2026.jsx`
 
 ```jsx
 import { useState, useEffect } from 'react'
@@ -18714,7 +23305,7 @@ import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaCheckCircle } from 'react-ico
 import eventImg from '../assets/event-vadodara.avif'
 import sangamLogo from '../assets/Logo/sangam-logo.avif'
 import './Sangam2026.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 import { sponsorTiers } from '../data/SponserData'
 
 export default function Sangam2026() {
@@ -19013,19 +23604,20 @@ export default function Sangam2026() {
 
 ---
 
-## File 44 {#file-44}
+## File 61 {#file-61}
 
-**📄 Path:** `src\components\Stats.css`
+**📄 Path:** `src\pages\Stats.css`
 
 ```css
 .stats {
   position: relative;
   overflow: hidden;
+  padding: 100px 0;
 }
 
 .stats__header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 56px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19033,7 +23625,7 @@ export default function Sangam2026() {
 }
 
 .stats__title {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2.2rem, 4.2vw, 3.2rem);
   color: var(--paper-white);
   line-height: 1.05;
 }
@@ -19042,106 +23634,326 @@ export default function Sangam2026() {
   color: var(--signal-red);
 }
 
-/* Stat block — design-system pattern */
-.stats__block {
+.stats__subtitle {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 540px;
+  margin-top: 4px;
+  line-height: 1.6;
+}
+
+/* ── Asymmetric 12-Column Bento Grid Layout ── */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+  width: 100%;
+}
+
+/* ── Individual Bento Cards ── */
+.bento-card {
+  position: relative;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 32px;
   display: flex;
-  align-items: stretch;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 48px 32px;
+  flex-direction: column;
+  justify-content: space-between;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
 }
 
-.stats__block .stat-col {
-  flex: 1;
-  text-align: center;
-  padding: 0 20px;
+.bento-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
 }
 
-.stats__icon {
-  font-size: 2rem;
+/* ── Asymmetric Bento Card Spans ── */
+.bento-card--hero {
+  grid-column: span 7;
+  border-color: rgba(232, 48, 42, 0.25);
+  min-height: 280px;
+}
+
+.bento-card--hero:hover {
+  border-color: rgba(232, 48, 42, 0.6);
+  box-shadow: 0 20px 45px rgba(232, 48, 42, 0.25);
+}
+
+.bento-card--legacy {
+  grid-column: span 5;
+  border-color: rgba(241, 196, 15, 0.2);
+  min-height: 280px;
+}
+
+.bento-card--legacy:hover {
+  border-color: rgba(241, 196, 15, 0.5);
+  box-shadow: 0 20px 45px rgba(241, 196, 15, 0.2);
+}
+
+.bento-card--sponsor {
+  grid-column: span 4;
+  min-height: 240px;
+}
+
+.bento-card--specialist {
+  grid-column: span 4;
+  min-height: 240px;
+}
+
+.bento-card--live {
+  grid-column: span 4;
+  border-color: rgba(46, 204, 113, 0.25);
+  min-height: 240px;
+}
+
+.bento-card--live:hover {
+  border-color: rgba(46, 204, 113, 0.6);
+  box-shadow: 0 20px 45px rgba(46, 204, 113, 0.2);
+}
+
+/* ── Card Header & Badges ── */
+.bento-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.bento-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 6px 14px;
+  border-radius: 100px;
+}
+
+.bento-card__badge--red {
+  background: rgba(232, 48, 42, 0.12);
   color: var(--signal-red);
-  margin-bottom: 16px;
-  opacity: 0.85;
+  border: 1px solid rgba(232, 48, 42, 0.3);
 }
 
-/* Override stat-col colours for navy background */
-.stats__block .stat-num {
+.bento-card__badge--gold {
+  background: rgba(241, 196, 15, 0.12);
+  color: #f1c40f;
+  border: 1px solid rgba(241, 196, 15, 0.3);
+}
+
+.bento-card__badge--blue {
+  background: rgba(52, 152, 219, 0.12);
+  color: #3498db;
+  border: 1px solid rgba(52, 152, 219, 0.3);
+}
+
+.bento-card__badge--purple {
+  background: rgba(155, 89, 182, 0.12);
+  color: #9b59b6;
+  border: 1px solid rgba(155, 89, 182, 0.3);
+}
+
+.bento-card__badge--green {
+  background: rgba(46, 204, 113, 0.12);
+  color: #2ecc71;
+  border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.bento-card__tag {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.bento-card__pulse-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #2ecc71;
+  background: rgba(46, 204, 113, 0.1);
+  border: 1px solid rgba(46, 204, 113, 0.25);
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+
+.bento-card__pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2ecc71;
+  box-shadow: 0 0 8px #2ecc71;
+  animation: livePulse 1.8s infinite ease-in-out;
+}
+
+@keyframes livePulse {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  50% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 12px #2ecc71; }
+  100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+/* ── Typography & Stats ── */
+.bento-card__stat-huge {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(2.5rem, 4vw, 3.5rem);
-  color: var(--signal-red);
+  font-size: clamp(3.2rem, 5vw, 4.2rem);
+  color: var(--paper-white);
   line-height: 1;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
 }
 
-.stats__block .stat-lbl {
-  font-family: var(--font-body);
+.bento-card__stat-large {
+  font-family: var(--font-display);
   font-weight: 800;
-  font-size: 0.78rem;
-  letter-spacing: 1.5px;
+  font-size: clamp(2.8rem, 4vw, 3.5rem);
+  color: var(--paper-white);
+  line-height: 1;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+}
+
+.bento-card__stat-med {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 3.5vw, 3rem);
+  color: var(--paper-white);
+  line-height: 1;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.bento-card__plus {
+  color: var(--signal-red);
+  margin-left: 2px;
+}
+
+.bento-card__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.88rem;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: white !important;
-  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 4px;
 }
 
-.stats__block .stat-sub {
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin-top: 4px;
+.bento-card__desc {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.5;
 }
 
-.stats__block .stat-divider {
-  width: 1px;
-  background: rgba(255, 255, 255, 0.12);
-  margin: 0 8px;
-  align-self: stretch;
+/* ── Radial Glow Accents ── */
+.bento-card__accent-glow {
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  opacity: 0.4;
 }
 
-@media (max-width: 900px) {
-  .stats__block {
-    flex-direction: column;
-    gap: 0;
-    padding: 32px 24px;
+.bento-card__accent-glow.red {
+  background: radial-gradient(circle, rgba(232, 48, 42, 0.25) 0%, transparent 70%);
+}
+
+.bento-card__accent-glow.gold {
+  background: radial-gradient(circle, rgba(241, 196, 15, 0.25) 0%, transparent 70%);
+}
+
+.bento-card__accent-glow.blue {
+  background: radial-gradient(circle, rgba(52, 152, 219, 0.25) 0%, transparent 70%);
+}
+
+.bento-card__accent-glow.purple {
+  background: radial-gradient(circle, rgba(155, 89, 182, 0.25) 0%, transparent 70%);
+}
+
+.bento-card__accent-glow.green {
+  background: radial-gradient(circle, rgba(46, 204, 113, 0.25) 0%, transparent 70%);
+}
+
+.bento-card:hover .bento-card__accent-glow {
+  opacity: 1;
+  transform: scale(1.3);
+}
+
+/* ── Responsive Bento Spans ── */
+@media (max-width: 1024px) {
+  .bento-card--hero,
+  .bento-card--legacy {
+    grid-column: span 6;
   }
 
-  .stats__block .stat-col {
-    padding: 24px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  .bento-card--sponsor,
+  .bento-card--specialist,
+  .bento-card--live {
+    grid-column: span 4;
+  }
+}
+
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
   }
 
-  .stats__block .stat-col:last-child {
-    border-bottom: none;
+  .bento-card--hero,
+  .bento-card--legacy {
+    grid-column: span 6;
+    min-height: auto;
   }
 
-  .stats__block .stat-divider {
-    display: none;
+  .bento-card--sponsor,
+  .bento-card--specialist,
+  .bento-card--live {
+    grid-column: span 6;
+    min-height: auto;
+  }
+
+  .bento-card {
+    padding: 24px;
   }
 }
 ```
 
 ---
 
-## File 45 {#file-45}
+## File 62 {#file-62}
 
-**📄 Path:** `src\components\Stats.jsx`
+**📄 Path:** `src\pages\Stats.jsx`
 
 ```jsx
 import { useEffect, useRef, useState } from 'react'
-import { FaUserGraduate, FaCalendarCheck, FaHandshake, FaTrophy } from 'react-icons/fa'
+import { FaUserGraduate, FaCalendarCheck, FaHandshake, FaTrophy, FaChartLine } from 'react-icons/fa'
+import useVisitorCount from '../hooks/useVisitorCount'
 import './Stats.css'
-
-const stats = [
-  { icon: <FaUserGraduate />, value: 1700, suffix: '+', label: 'ALUMNI MEMBERS', sub: 'across the globe' },
-  { icon: <FaCalendarCheck />, value: 43, suffix: '+', label: 'YEARS OF LEGACY', sub: 'and counting' },
-  { icon: <FaHandshake />, value: 120, suffix: '+', label: 'TRUSTED BY SPONSORS', sub: 'across all events' },
-  { icon: <FaTrophy />, value: 500, suffix: '+', label: 'qualified alumni', sub: ' with superior qualification in fabrication domain' },
-]
 
 function useCountUp(target, duration = 1800, active = false) {
   const [count, setCount] = useState(0)
   useEffect(() => {
     if (!active) return
     let start = 0
-    const step = target / (duration / 16)
+    const step = Math.max(1, target / (duration / 16))
     const timer = setInterval(() => {
       start += step
       if (start >= target) { setCount(target); clearInterval(timer) }
@@ -19152,21 +23964,10 @@ function useCountUp(target, duration = 1800, active = false) {
   return count
 }
 
-function StatCol({ stat, active, index }) {
-  const count = useCountUp(stat.value, 1800, active)
-  return (
-    <div className="stat-col reveal" style={{ transitionDelay: `${index * 0.12}s` }}>
-      <div className="stats__icon">{stat.icon}</div>
-      <div className="stat-num">{count}{stat.suffix}</div>
-      <div className="stat-lbl">{stat.label}</div>
-      <div className="stat-sub">{stat.sub}</div>
-    </div>
-  )
-}
-
 export default function Stats() {
   const ref = useRef(null)
   const [active, setActive] = useState(false)
+  const visitorCount = useVisitorCount()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -19176,35 +23977,129 @@ export default function Stats() {
           observer.disconnect()
         }
       },
-      { threshold: 0.25 }
+      { threshold: 0.2 }
     )
     const el = ref.current
     if (el) observer.observe(el)
     return () => el && observer.unobserve(el)
   }, [])
 
+  const countAlumni = useCountUp(1700, 1800, active)
+  const countYears = useCountUp(43, 1800, active)
+  const countSponsors = useCountUp(120, 1800, active)
+  const countQualified = useCountUp(500, 1800, active)
+  const countVisits = useCountUp(visitorCount || 1, 1800, active)
+
   return (
     <section className="section stats section-navy" ref={ref}>
       <div className="masthead-bg-lines" style={{ position: 'absolute', inset: 0 }} />
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
 
-        {/* Section header */}
+        {/* Section Header */}
         <div className="stats__header reveal">
           <span className="eyebrow">BY THE NUMBERS</span>
           <h2 className="stats__title display-title">
-            OUR IMPACT
-            <span className="stats__title-red"> IN NUMBERS</span>
+            OUR IMPACT <span className="stats__title-red">IN NUMBERS</span>
           </h2>
+          <p className="stats__subtitle">
+            Celebrating decades of excellence, professional growth, and global fabrication leadership.
+          </p>
         </div>
 
-        {/* Stat block (from design-system) */}
-        <div className="stats__block">
-          {stats.map((stat, i) => (
-            <div key={i} style={{ display: 'contents' }}>
-              <StatCol stat={stat} active={active} index={i} />
-              {i < stats.length - 1 && <div className="stat-divider" />}
+        {/* Bento Grid */}
+        <div className="bento-grid">
+
+          {/* Bento Card 1: Hero Large (Alumni Members) */}
+          <div className="bento-card bento-card--hero reveal" style={{ transitionDelay: '0.1s' }}>
+            <div className="bento-card__header">
+              <div className="bento-card__badge bento-card__badge--red">
+                <FaUserGraduate /> GLOBAL NETWORK
+              </div>
+              <span className="bento-card__tag">PIONEERS</span>
             </div>
-          ))}
+            <div className="bento-card__body">
+              <div className="bento-card__stat-huge">
+                {countAlumni.toLocaleString()}<span className="bento-card__plus">+</span>
+              </div>
+              <h3 className="bento-card__title">ALUMNI MEMBERS WORLDWIDE</h3>
+              <p className="bento-card__desc">
+                Connecting graduates spanning across top engineering industries, fabrication MNCs, research, and academia globally.
+              </p>
+            </div>
+            <div className="bento-card__accent-glow red" />
+          </div>
+
+          {/* Bento Card 2: Legacy (43+ Years) */}
+          <div className="bento-card bento-card--legacy reveal" style={{ transitionDelay: '0.2s' }}>
+            <div className="bento-card__header">
+              <div className="bento-card__badge bento-card__badge--gold">
+                <FaCalendarCheck /> EST. 1983
+              </div>
+            </div>
+            <div className="bento-card__body">
+              <div className="bento-card__stat-large">
+                {countYears.toLocaleString()}<span className="bento-card__plus">+</span>
+              </div>
+              <h3 className="bento-card__title">YEARS OF LEGACY</h3>
+              <p className="bento-card__desc">Unbroken tradition of technical excellence and industry leadership.</p>
+            </div>
+            <div className="bento-card__accent-glow gold" />
+          </div>
+
+          {/* Bento Card 3: Trusted Sponsors */}
+          <div className="bento-card bento-card--sponsor reveal" style={{ transitionDelay: '0.3s' }}>
+            <div className="bento-card__header">
+              <div className="bento-card__badge bento-card__badge--blue">
+                <FaHandshake /> PARTNERSHIPS
+              </div>
+            </div>
+            <div className="bento-card__body">
+              <div className="bento-card__stat-med">
+                {countSponsors.toLocaleString()}<span className="bento-card__plus">+</span>
+              </div>
+              <h3 className="bento-card__title">TRUSTED SPONSORS</h3>
+              <p className="bento-card__desc">Partnering across flagship alumni meets and industrial conventions.</p>
+            </div>
+            <div className="bento-card__accent-glow blue" />
+          </div>
+
+          {/* Bento Card 4: Qualified Alumni */}
+          <div className="bento-card bento-card--specialist reveal" style={{ transitionDelay: '0.4s' }}>
+            <div className="bento-card__header">
+              <div className="bento-card__badge bento-card__badge--purple">
+                <FaTrophy /> EXPERTISE
+              </div>
+            </div>
+            <div className="bento-card__body">
+              <div className="bento-card__stat-med">
+                {countQualified.toLocaleString()}<span className="bento-card__plus">+</span>
+              </div>
+              <h3 className="bento-card__title">QUALIFIED ALUMNI</h3>
+              <p className="bento-card__desc">Specialized experts certified in NDT, welding, corrosion & piping domain.</p>
+            </div>
+            <div className="bento-card__accent-glow purple" />
+          </div>
+
+          {/* Bento Card 5: Real-time Site Traffic (Live) */}
+          <div className="bento-card bento-card--live reveal" style={{ transitionDelay: '0.5s' }}>
+            <div className="bento-card__header">
+              <div className="bento-card__badge bento-card__badge--green">
+                <FaChartLine /> REAL-TIME TRAFFIC
+              </div>
+              <div className="bento-card__pulse-pill">
+                <span className="bento-card__pulse-dot" /> LIVE
+              </div>
+            </div>
+            <div className="bento-card__body">
+              <div className="bento-card__stat-med">
+                {countVisits.toLocaleString()}<span className="bento-card__plus">+</span>
+              </div>
+              <h3 className="bento-card__title">TOTAL SITE VISITS</h3>
+              <p className="bento-card__desc">Live platform visitors interacting across our portal till now.</p>
+            </div>
+            <div className="bento-card__accent-glow green" />
+          </div>
+
         </div>
 
       </div>
@@ -19216,9 +24111,9 @@ export default function Stats() {
 
 ---
 
-## File 46 {#file-46}
+## File 63 {#file-63}
 
-**📄 Path:** `src\components\TermsAndConditions.css`
+**📄 Path:** `src\pages\TermsAndConditions.css`
 
 ```css
 /* ==========================================================================
@@ -19358,9 +24253,9 @@ export default function Stats() {
 
 ---
 
-## File 47 {#file-47}
+## File 64 {#file-64}
 
-**📄 Path:** `src\components\TermsAndConditions.jsx`
+**📄 Path:** `src\pages\TermsAndConditions.jsx`
 
 ```jsx
 import { useEffect } from 'react'
@@ -19479,9 +24374,9 @@ export default function TermsAndConditions() {
 
 ---
 
-## File 48 {#file-48}
+## File 65 {#file-65}
 
-**📄 Path:** `src\components\VisionMission.css`
+**📄 Path:** `src\pages\VisionMission.css`
 
 ```css
 .vm__cards {
@@ -19579,16 +24474,16 @@ export default function TermsAndConditions() {
 
 ---
 
-## File 49 {#file-49}
+## File 66 {#file-66}
 
-**📄 Path:** `src\components\VisionMission.jsx`
+**📄 Path:** `src\pages\VisionMission.jsx`
 
 ```jsx
 import { FaEye, FaBullseye } from 'react-icons/fa'
 import visionImg from '../assets/VisionMission/vision.avif'
 import missionImg from '../assets/VisionMission/mission.avif'
 import './VisionMission.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 export default function VisionMission() {
   return (
@@ -19657,922 +24552,7 @@ export default function VisionMission() {
 
 ---
 
-## File 50 {#file-50}
-
-**📄 Path:** `src\data\committeeData.js`
-
-```javascript
-import member1 from '../assets/CoreTeam/Haresh_Mandaliya.avif'
-import member2 from '../assets/CoreTeam/Ashok_Pansuriya.avif'
-import member3 from '../assets/CoreTeam/Mahesh_Patel.avif'
-import sangam1 from '../assets/Sangam_Team/Darshak_Maru.avif'
-import sangam2 from '../assets/Sangam_Team/Keyur_Darji.avif'
-import sangam3 from '../assets/Sangam_Team/Pratik_Patel.avif'
-import sangam4 from '../assets/Sangam_Team/Ramdevsinh_Gohil.avif'
-import sangam5 from '../assets/Sangam_Team/Tarak_Pandya.avif'
-
-export const sangamCoreTeam = [
-  { name: 'Darshak Maru', role: 'Core Committee Member', batch: 'Batch of 2002', img: sangam1, gmail: 'darshakmaru@yahoo.co.in', linkedin: 'https://www.linkedin.com/in/darshak-maru-b588b878' },
-  { name: 'Keyur Darji', role: 'Core Committee Member', batch: 'Batch of 2003', img: sangam2, gmail: 'keyurjdarji@gmail.com', linkedin: 'https://www.linkedin.com/in/keyur-darji-23255973/' },
-  { name: 'Pratik Patel', role: 'Core Committee Member', batch: 'Batch of 2008', img: sangam3, gmail: 'pdpatel07@gmail.com', linkedin: 'https://www.linkedin.com/in/pratik-patel-32957317/' },
-  { name: 'Ramdevsinh Gohil', role: 'Core Committee Member', batch: 'Batch of 2014', img: sangam4, gmail: 'ramdevsinh.gohil007@yahoo.com', linkedin: 'https://www.linkedin.com/in/ramdevsinh-gohil-9b7b63105/' },
-  { name: 'Tarak Pandya', role: 'Core Committee Member', batch: 'Batch of 2004', img: sangam5, gmail: 'tarak@indotecheng.com', linkedin: 'https://www.linkedin.com/in/tarak-pandya-14a50419a/' },
-]
-
-export const members = [
-  { name: 'Haresh Mandaliya', role: 'PRESIDENT', batch: 'Batch of 1987', img: member1, gmail: 'haresh.dd@yahoo.com', linkedin: 'https://www.linkedin.com/in/haresh-mandalia-b83854242?' },
-  { name: 'Mahesh Patel', role: 'SECRETARY', batch: 'Batch of 1995', img: member3, gmail: 'pmaheshpatel@gmail.com', linkedin: 'https://www.linkedin.com/in/mahesh-patel-b34aa87/' },
-  { name: 'Ashok Pansuriya', role: 'Treasurer', batch: 'Batch of 1993', img: member2, gmail: 'Akpansuriya26@gmail.com', linkedin: '' },
-]
-
-```
-
----
-
-## File 51 {#file-51}
-
-**📄 Path:** `src\data\formdata.js`
-
-```javascript
-export const countryCodes = [
-  { code: '+91', label: '🇮🇳 +91' },
-  { code: '+1', label: '🇺🇸 +1' },
-  { code: '+44', label: '🇬🇧 +44' },
-  { code: '+971', label: '🇦🇪 +971' },
-  { code: '+65', label: '🇸🇬 +65' },
-  { code: '+61', label: '🇦🇺 +61' },
-  { code: '+49', label: '🇩🇪 +49' },
-  { code: '+966', label: '🇸🇦 +966' },
-  { code: '+968', label: '🇴🇲 +968' },
-  { code: '+974', label: '🇶🇦 +974' },
-  { code: '+965', label: '🇰🇼 +965' },
-  { code: '+973', label: '🇧🇭 +973' },
-  { code: '+27', label: '🇿🇦 +27' },
-  { code: '+33', label: '🇫🇷 +33' },
-  { code: '+81', label: '🇯🇵 +81' }
-]
-
-export const ACADEMIC_YEARS = Array.from({ length: 2040 - 1983 + 1 }, (_, i) => String(1983 + i))
-
-export const DEGREE_OPTIONS = [
-  "Associate Degree",
-  "Bachelor’s Degree",
-  "Master’s Degree",
-  "Doctoral Degree (PhD / Ed.D.)",
-  "Other"
-]
-
-export const CERTIFICATION_OPTIONS = [
-  "Non-Destructive Testing (NDT)",
-  "Welding",
-  "Corrosion Protection",
-  "Piping",
-  "Project Management",
-  "Quality",
-  "Other"
-]
-
-export const PRODUCT_SERVICE_OPTIONS = [
-  "Process Equipments, Heat Exchanger, Piping",
-  "Skid Mounted Equipments",
-  "Renewable Energy Products",
-  "Cryogenic Equipments",
-  "Boiler / Steam Products",
-  "Daily / Cold Storage Products",
-  "Structural Fabrication / PEB",
-  "Defence Products",
-  "Pharma Equipments",
-  "Automobile Products",
-  "Manpower Supplier / Job Work",
-  "Inspection & Certification Services",
-  "Electrical Equipment",
-  "Food / Beverage Equipment",
-  "NDT Services",
-  "Others",
-]
-
-export const HOBBY_OPTIONS = [
-  "Playing Sports",
-  "Reading",
-  "Music Instrument",
-  "Singing",
-  "Dancing",
-  "Poetry",
-  "Photography & Videography",
-  "Social Media Content Creation",
-  "Art & Craft",
-  "Cooking",
-  "Social Work",
-  "Yoga / Fitness",
-  "Camping / Trekking",
-]
-```
-
----
-
-## File 52 {#file-52}
-
-**📄 Path:** `src\data\newslettersData.js`
-
-```javascript
-import newsletterJanMar2025 from '../assets/Newsletter/Newsletter Jan-Mar 2025.pdf'
-import newsletterAugust2024 from '../assets/Newsletter/Newsletter August 2024.pdf'
-import newsletterJuly2024 from '../assets/Newsletter/Newsletter July 2024.pdf'
-import newsletterJune2024 from '../assets/Newsletter/Newsletter June 2024.pdf'
-
-export const newsletters = [
-  {
-    title: 'DFT Alumni Newsletter - Reunion 2025',
-    date: 'January - March 2025',
-    description: 'Highlights from the recent alumni meetups, an interview with our distinguished alumni, and updates on the Sangam 2026 preparations. Discover the future of our expanding network.',
-    link: newsletterJanMar2025,
-  },
-  {
-    title: 'DFT Alumni Newsletter - Reunion 2024',
-    date: 'August 2024',
-    description: 'Insights from the monsoon season, highlights of key alumni milestones, and preparations for upcoming networking events. Read about our community’s latest accomplishments.',
-    link: newsletterAugust2024,
-  },
-  {
-    title: 'DFT Alumni Newsletter - Reunion 2024',
-    date: 'July 2024',
-    description: 'A detailed recap of the mid-year alumni meetups, professional growth stories, and announcements on regional chapter expansion plans.',
-    link: newsletterJuly2024,
-  },
-  {
-    title: 'DFT Alumni Newsletter - Reunion 2024',
-    date: 'June 2024',
-    description: 'Launch of the summer initiatives, showcasing prominent alumni entrepreneurs, and memories shared during the local city get-togethers.',
-    link: newsletterJune2024,
-  }
-]
-
-```
-
----
-
-## File 53 {#file-53}
-
-**📄 Path:** `src\data\SponserData.js`
-
-```javascript
-import indotechLogo from '../assets/Sponser_Logo/Indotech_Logo.png'
-
-export const sponsorTiers = [
-  // Future Expansion tiers can be added here easily:
-  /*
-  {
-    id: 'diamond',
-    name: 'DIAMOND SPONSOR',
-    className: 'diamond-tier',
-    badgeClass: 'diamond',
-    sponsors: []
-  },
-  {
-    id: 'gold',
-    name: 'GOLD SPONSOR',
-    className: 'gold-tier',
-    badgeClass: 'gold',
-    sponsors: []
-  },
-  */
-  {
-    id: 'silver',
-    name: 'SILVER SPONSOR',
-    className: 'silver-tier',
-    badgeClass: 'silver',
-    sponsors: [
-      {
-        id: 'indotech',
-        name: 'Indotech Logo',
-        logo: indotechLogo,
-        cardClass: 'silver'
-      }
-    ]
-  }
-]
-
-```
-
----
-
-## File 54 {#file-54}
-
-**📄 Path:** `src\firebase.js`
-
-```javascript
-import { initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
-import { getFirestore } from 'firebase/firestore'
-
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
-}
-
-// Check if Firebase keys are provided and not placeholders
-export const isFirebaseConfigured =
-  import.meta.env.VITE_FIREBASE_API_KEY &&
-  import.meta.env.VITE_FIREBASE_API_KEY !== 'YOUR_FIREBASE_API_KEY_HERE'
-
-let app
-let auth
-let db
-
-if (isFirebaseConfigured) {
-  try {
-    app = initializeApp(firebaseConfig)
-    auth = getAuth(app)
-    db = getFirestore(app)
-  } catch (error) {
-    console.error('Failed to initialize Firebase:', error)
-  }
-}
-
-export { auth, db }
-
-```
-
----
-
-## File 55 {#file-55}
-
-**📄 Path:** `src\index.css`
-
-```css
-/* ============================================
-   DFT ALUMNI — DESIGN SYSTEM
-   Based on: design-system.html
-   Navy Authority · Signal Red Accent · Diagonal Confidence
-   ============================================ */
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&display=swap');
-
-/* ── CSS Custom Properties (from design-system.html) ── */
-:root {
-  /* Brand Colours */
-  --navy-deep: #0B1B3F;
-  --navy-mid: #132A56;
-  --signal-red: #E8302A;
-  --red-deep: #B71F1F;
-  --paper-white: #FFFFFF;
-  --fog-grey: #F3F4F7;
-  --slate: #5B6478;
-  --line-grey: #D7DBE3;
-
-  /* Typography */
-  --font-display: 'Montserrat', sans-serif;
-  --font-display-weight: 800;
-  --font-body: 'Poppins', sans-serif;
-
-  /* Spacing */
-  --section-px: 8vw;
-
-  /* Geometry */
-  --diagonal-clip: polygon(0 0, 100% 0, 94% 100%, 0 100%);
-  --ribbon-clip: polygon(0 0, 92% 0, 100% 50%, 92% 100%, 0 100%);
-
-  /* Shadows */
-  --shadow-card: 0 6px 18px rgba(11, 27, 63, 0.08);
-  --shadow-elevated: 0 12px 36px rgba(11, 27, 63, 0.14);
-
-  /* Transitions */
-  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-/* ── Reset ── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-  font-size: 18px;
-  overflow-x: hidden;
-}
-
-body {
-  font-family: var(--font-body);
-  background: var(--fog-grey);
-  color: var(--navy-deep);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-}
-
-/* Add this to src/App.css or src/index.css */
-
-html,
-body {
-  overflow-x: hidden;
-  width: 100%;
-}
-
-/* Optional: You can also restrict it strictly to the main wrapper */
-#root,
-main {
-  overflow-x: hidden;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-ul {
-  list-style: none;
-}
-
-/* ── Scrollbar ── */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--fog-grey);
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(var(--signal-red), var(--navy-deep));
-  border-radius: 10px;
-}
-
-/* ── Layout ── */
-.container {
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 0 var(--section-px);
-}
-
-.section {
-  padding: 80px 0;
-}
-
-/* ── Section Header ── */
-.section-head {
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  margin-bottom: 36px;
-}
-
-.section-num {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 40px;
-  color: var(--line-grey);
-  line-height: 1;
-}
-
-.section-head h2 {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(1.6rem, 2.8vw, 2.1rem);
-  letter-spacing: 0.5px;
-  color: var(--navy-deep);
-  position: relative;
-  padding-bottom: 12px;
-}
-
-.section-head h2::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 40px;
-  height: 3px;
-  background: var(--signal-red);
-  border-radius: 2px;
-}
-
-.section-head h2 span {
-  color: var(--signal-red);
-}
-
-.section-sub {
-  color: var(--slate);
-  font-size: 14px;
-  margin: 16px 0 36px 0;
-  max-width: 640px;
-  line-height: 1.7;
-}
-
-/* ── Typography Scale (from design-system) ── */
-.display-title {
-  font-family: var(--font-display);
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.5px;
-}
-
-.label-text {
-  font-family: var(--font-body);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.body-text {
-  font-family: var(--font-body);
-  font-weight: 500;
-  color: var(--slate);
-}
-
-.caption-text {
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 12px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--slate);
-}
-
-/* ── Eyebrow / Tag ── */
-.eyebrow {
-  color: var(--signal-red);
-  font-family: var(--font-body);
-  font-weight: 800;
-  letter-spacing: 3px;
-  font-size: 12px;
-  text-transform: uppercase;
-}
-
-/* ── Buttons ── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 32px;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 0.9rem;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: var(--transition);
-  border: none;
-  text-transform: uppercase;
-  border-radius: 0;
-}
-
-.btn-primary {
-  background: var(--signal-red);
-  color: var(--paper-white);
-  clip-path: var(--diagonal-clip);
-  padding-right: 42px;
-}
-
-.btn-primary:hover {
-  background: var(--red-deep);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(232, 48, 42, 0.35);
-}
-
-.btn-outline {
-  background: transparent;
-  color: var(--navy-deep);
-  border: 2px solid var(--navy-deep);
-}
-
-.btn-outline:hover {
-  background: var(--navy-deep);
-  color: var(--paper-white);
-  transform: translateY(-2px);
-}
-
-.btn-navy {
-  background: var(--navy-deep);
-  color: var(--paper-white);
-  clip-path: var(--diagonal-clip);
-  padding-right: 42px;
-}
-
-.btn-navy:hover {
-  background: var(--navy-mid);
-  transform: translateY(-2px);
-}
-
-/* ── Card ── */
-.card {
-  background: var(--paper-white);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: var(--shadow-card);
-  transition: var(--transition);
-}
-
-.card:hover {
-  box-shadow: var(--shadow-elevated);
-  transform: translateY(-3px);
-}
-
-/* ── Diagonal Divider Line ── */
-.diagonal-line {
-  width: 60px;
-  height: 4px;
-  background: var(--signal-red);
-  margin-bottom: 20px;
-  clip-path: var(--diagonal-clip);
-}
-
-/* ── Ribbon Banner Component (from design-system) ── */
-.ribbon {
-  background: var(--navy-deep);
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 18px 26px;
-  clip-path: var(--ribbon-clip);
-  color: var(--paper-white);
-}
-
-.ribbon .icon-circle {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: var(--paper-white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.ribbon .labels .l1 {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--line-grey);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.ribbon .labels .l2 {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 18px;
-  color: var(--signal-red);
-  letter-spacing: 0.3px;
-}
-
-/* ── Stat Block Component (from design-system) ── */
-.stat-block {
-  display: flex;
-  width: 100%;
-}
-
-.stat-col {
-  flex: 1;
-  text-align: center;
-  padding: 0 16px;
-}
-
-.stat-col .stat-num {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 52px;
-  color: var(--signal-red);
-  line-height: 1;
-}
-
-.stat-col .stat-lbl {
-  font-family: var(--font-body);
-  font-weight: 800;
-  text-transform: uppercase;
-  font-size: 14px;
-  margin-top: 4px;
-  color: var(--navy-deep);
-  letter-spacing: 0.5px;
-}
-
-.stat-col .stat-sub {
-  font-size: 12px;
-  color: var(--slate);
-  margin-top: 4px;
-}
-
-.stat-divider {
-  width: 1px;
-  background: var(--line-grey);
-  margin: 0 8px;
-}
-
-/* ── Waypoint Divider (from design-system) ── */
-.waypoint {
-  background: var(--navy-deep);
-  border-radius: 0;
-  padding: 50px 40px;
-  color: var(--paper-white);
-  text-align: center;
-  position: relative;
-}
-
-.wp-line {
-  position: relative;
-  height: 2px;
-  background: var(--signal-red);
-  width: 60%;
-  margin: 0 auto;
-}
-
-.wp-node {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: 3px solid var(--paper-white);
-  background: var(--navy-deep);
-}
-
-.wp-node::after {
-  content: "";
-  position: absolute;
-  inset: 5px;
-  background: var(--signal-red);
-  border-radius: 50%;
-}
-
-.wp-dash {
-  width: 2px;
-  height: 50px;
-  margin: 0 auto;
-  background-image: linear-gradient(var(--paper-white) 60%, transparent 40%);
-  background-size: 2px 12px;
-  background-repeat: repeat-y;
-  opacity: 0.5;
-}
-
-.wp-city {
-  font-family: var(--font-display);
-  font-weight: 800;
-  color: var(--signal-red);
-  font-size: 28px;
-  margin-top: 14px;
-  letter-spacing: 2px;
-}
-
-.wp-date {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 18px;
-  letter-spacing: 1px;
-  color: var(--paper-white);
-  opacity: 0.85;
-}
-
-/* ── Ticket / Boarding Pass Component ── */
-.ticket {
-  border: 2px dashed var(--navy-deep);
-  padding: 18px 24px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  position: relative;
-  background: var(--paper-white);
-}
-
-.ticket::before,
-.ticket::after {
-  content: "";
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  background: var(--fog-grey);
-  border-radius: 50%;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.ticket::before {
-  left: -10px;
-}
-
-.ticket::after {
-  right: -10px;
-}
-
-/* ── Diagonal Cover Panel ── */
-.diagonal-panel {
-  background: var(--navy-deep);
-  clip-path: polygon(0 0, 100% 0, 78% 100%, 0 100%);
-  color: var(--paper-white);
-  padding: 32px;
-}
-
-/* ── Grid Utilities ── */
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-  align-items: start;
-}
-
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-.grid-4 {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-}
-
-@media (max-width: 1024px) {
-  .grid-4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .grid-3 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .grid-2 {
-    grid-template-columns: 1fr;
-  }
-
-  .grid-3 {
-    grid-template-columns: 1fr;
-  }
-
-  .grid-4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .section {
-    padding: 60px 0;
-  }
-
-  .section-sub {
-    margin-left: 0;
-  }
-}
-
-@media (max-width: 480px) {
-  .grid-4 {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ── Masthead repeating-line background ── */
-.masthead-bg-lines {
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(115deg,
-      rgba(255, 255, 255, 0.05) 0px,
-      rgba(255, 255, 255, 0.05) 1px,
-      transparent 1px,
-      transparent 26px);
-  pointer-events: none;
-}
-
-/* ── Section alternate bg ── */
-.section-white {
-  background: var(--paper-white);
-}
-
-.section-navy {
-  background: var(--navy-deep);
-  color: var(--paper-white);
-}
-
-.section-fog {
-  background: var(--fog-grey);
-}
-
-/* ── Animations ── */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-28px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(28px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes countUp {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-/* ── Scroll-reveal helpers ── */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-32px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.reveal-left.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-right {
-  opacity: 0;
-  transform: translateX(32px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.reveal-right.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* ── Red accent line ── */
-.red-accent-bar {
-  display: block;
-  width: 50px;
-  height: 4px;
-  background: var(--signal-red);
-  margin-bottom: 16px;
-}
-```
-
----
-
-## File 56 {#file-56}
-
-**📄 Path:** `src\main.jsx`
-
-```jsx
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter as Router } from 'react-router-dom'
-import App from './App.jsx'
-import './index.css'
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
-  </React.StrictMode>,
-)
-
-```
-
----
-
-## File 57 {#file-57}
+## File 67 {#file-67}
 
 **📄 Path:** `src\utils\hash.js`
 
@@ -20619,7 +24599,7 @@ export async function hashPhoneDigits(phone) {
 
 ---
 
-## File 58 {#file-58}
+## File 68 {#file-68}
 
 **📄 Path:** `vercel.json`
 
@@ -20636,7 +24616,7 @@ export async function hashPhoneDigits(phone) {
 
 ---
 
-## File 59 {#file-59}
+## File 69 {#file-69}
 
 **📄 Path:** `vite.config.js`
 

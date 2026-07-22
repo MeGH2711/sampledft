@@ -22,8 +22,10 @@ import {
   FaBoxOpen,
   FaMapMarkerAlt,
   FaSitemap,
-  FaAward
+  FaAward,
+  FaFilePdf
 } from 'react-icons/fa'
+import { uploadPdfToDrive } from '../utils/googleDriveUpload'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import CountryAutocomplete from '../components/CountryAutocomplete'
@@ -368,7 +370,9 @@ export default function Profile({ user, onUpdateUser }) {
     workExperience: '',
     consentEmail: false,
     consentPhone: false,
-    consentWhatsapp: false
+    consentWhatsapp: false,
+    cvBase64: '',
+    cvFileName: ''
   })
 
   const [originalForm, setOriginalForm] = useState({
@@ -422,7 +426,9 @@ export default function Profile({ user, onUpdateUser }) {
     workExperience: '',
     consentEmail: false,
     consentPhone: false,
-    consentWhatsapp: false
+    consentWhatsapp: false,
+    cvBase64: '',
+    cvFileName: ''
   })
 
   // Load user data on mount
@@ -521,7 +527,9 @@ export default function Profile({ user, onUpdateUser }) {
               workExperience: data.workExperience || user.workExperience || '',
               consentEmail: (data.consentEmail !== undefined || data.consentPhone !== undefined || data.consentWhatsapp !== undefined) ? Boolean(data.consentEmail) : Boolean(data.consentAlumniSearch ?? user.consentAlumniSearch ?? false),
               consentPhone: (data.consentEmail !== undefined || data.consentPhone !== undefined || data.consentWhatsapp !== undefined) ? Boolean(data.consentPhone) : Boolean(data.consentAlumniSearch ?? user.consentAlumniSearch ?? false),
-              consentWhatsapp: (data.consentEmail !== undefined || data.consentPhone !== undefined || data.consentWhatsapp !== undefined) ? Boolean(data.consentWhatsapp) : Boolean(data.consentAlumniSearch ?? user.consentAlumniSearch ?? false)
+              consentWhatsapp: (data.consentEmail !== undefined || data.consentPhone !== undefined || data.consentWhatsapp !== undefined) ? Boolean(data.consentWhatsapp) : Boolean(data.consentAlumniSearch ?? user.consentAlumniSearch ?? false),
+              cvBase64: data.cvBase64 || user.cvBase64 || '',
+              cvFileName: data.cvFileName || user.cvFileName || ''
             }
             setProfileForm(loadedData)
             setOriginalForm(loadedData)
@@ -600,7 +608,9 @@ export default function Profile({ user, onUpdateUser }) {
               workExperience: user.workExperience || '',
               consentEmail: (user.consentEmail !== undefined || user.consentPhone !== undefined || user.consentWhatsapp !== undefined) ? Boolean(user.consentEmail) : Boolean(user.consentAlumniSearch ?? false),
               consentPhone: (user.consentEmail !== undefined || user.consentPhone !== undefined || user.consentWhatsapp !== undefined) ? Boolean(user.consentPhone) : Boolean(user.consentAlumniSearch ?? false),
-              consentWhatsapp: (user.consentEmail !== undefined || user.consentPhone !== undefined || user.consentWhatsapp !== undefined) ? Boolean(user.consentWhatsapp) : Boolean(user.consentAlumniSearch ?? false)
+              consentWhatsapp: (user.consentEmail !== undefined || user.consentPhone !== undefined || user.consentWhatsapp !== undefined) ? Boolean(user.consentWhatsapp) : Boolean(user.consentAlumniSearch ?? false),
+              cvBase64: user.cvBase64 || '',
+              cvFileName: user.cvFileName || ''
             }
             setProfileForm(seedData)
             setOriginalForm(seedData)
@@ -688,7 +698,9 @@ export default function Profile({ user, onUpdateUser }) {
               hobbies: parsed.hobbies || [],
               consentEmail: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined) ? Boolean(parsed.consentEmail) : Boolean(parsed.consentAlumniSearch ?? false),
               consentPhone: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined) ? Boolean(parsed.consentPhone) : Boolean(parsed.consentAlumniSearch ?? false),
-              consentWhatsapp: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined) ? Boolean(parsed.consentWhatsapp) : Boolean(parsed.consentAlumniSearch ?? false)
+              consentWhatsapp: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined) ? Boolean(parsed.consentWhatsapp) : Boolean(parsed.consentAlumniSearch ?? false),
+              cvBase64: parsed.cvBase64 || '',
+              cvFileName: parsed.cvFileName || ''
             }
             setProfileForm(mockData)
             setOriginalForm(mockData)
@@ -1020,6 +1032,19 @@ export default function Profile({ user, onUpdateUser }) {
     const cleanMiddleName = capitalizeWords(profileForm.middleName.trim());
     const cleanLastName = capitalizeWords(profileForm.lastName.trim());
     const cleanFullName = [cleanFirstName, cleanMiddleName, cleanLastName].filter(Boolean).join(' ');
+    const uid = user ? (user.uid || (auth.currentUser ? auth.currentUser.uid : null)) : null
+
+    let finalCvUrl = profileForm.cvBase64 || ''
+    if (profileForm.cvFile) {
+      try {
+        const cvRes = await uploadPdfToDrive(profileForm.cvFile, `${uid || 'Alumni'}_CV.pdf`, uid || '')
+        if (cvRes && cvRes.fileUrl) {
+          finalCvUrl = cvRes.fileUrl
+        }
+      } catch (cvErr) {
+        console.warn('Google Drive CV upload failed in Profile:', cvErr)
+      }
+    }
 
     const updatedProfile = {
       firstName: cleanFirstName,
@@ -1069,10 +1094,11 @@ export default function Profile({ user, onUpdateUser }) {
       workExperience: profileForm.workExperience ? profileForm.workExperience.trim() : '',
       consentEmail: profileForm.consentEmail || false,
       consentPhone: profileForm.consentPhone || false,
-      consentWhatsapp: profileForm.consentWhatsapp || false
+      consentWhatsapp: profileForm.consentWhatsapp || false,
+      cvUrl: finalCvUrl,
+      cvBase64: finalCvUrl,
+      cvFileName: profileForm.cvFileName || ''
     }
-
-    const uid = user.uid || (auth.currentUser ? auth.currentUser.uid : null)
 
     if (isFirebaseConfigured && uid) {
       try {
@@ -1244,6 +1270,7 @@ export default function Profile({ user, onUpdateUser }) {
     profileForm.consentEmail !== originalForm.consentEmail ||
     profileForm.consentPhone !== originalForm.consentPhone ||
     profileForm.consentWhatsapp !== originalForm.consentWhatsapp ||
+    profileForm.cvBase64 !== originalForm.cvBase64 ||
     profileForm.workExperience !== originalForm.workExperience
   ) : false
 
@@ -1886,6 +1913,68 @@ export default function Profile({ user, onUpdateUser }) {
                         disabled={!isEditing || loading}
                         placeholder="No Data Provided"
                       />
+                    </div>
+                  </div>
+
+                  <div className="profile-field profile-field--full">
+                    <label htmlFor="prof-cv">Resume / CV (PDF - Max 10 MB)</label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      {(profileForm.cvUrl || profileForm.cvBase64) && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                          <a
+                            href={profileForm.cvUrl || profileForm.cvBase64}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            download={profileForm.cvFileName || `${profileForm.firstName || 'Alumni'}_CV.pdf`}
+                            className="profile-btn profile-btn--secondary"
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '0.85rem' }}
+                          >
+                            <FaFilePdf style={{ color: '#dc2626' }} /> View / Download Current CV
+                          </a>
+                        </div>
+                      )}
+
+                      {isEditing && (
+                        <div className="profile-field__input-wrap">
+                          <FaFilePdf className="profile-field__icon" style={{ color: '#dc2626' }} />
+                          <input
+                            id="prof-cv"
+                            type="file"
+                            accept=".pdf,application/pdf"
+                            onChange={(e) => {
+                              const file = e.target.files && e.target.files[0]
+                              if (!file) return
+
+                              if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+                                setError('Only PDF files are allowed for CV upload.')
+                                e.target.value = ''
+                                return
+                              }
+
+                              if (file.size > 10 * 1024 * 1024) {
+                                setError('PDF file size must be less than 10 MB.')
+                                e.target.value = ''
+                                return
+                              }
+
+                              const reader = new FileReader()
+                              reader.onload = () => {
+                                setProfileForm(prev => ({
+                                  ...prev,
+                                  cvBase64: reader.result,
+                                  cvFileName: file.name,
+                                  cvFile: file
+                                }))
+                              }
+                              reader.onerror = () => {
+                                setError('Failed to read the uploaded PDF file.')
+                              }
+                              reader.readAsDataURL(file)
+                            }}
+                            disabled={loading}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

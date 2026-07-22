@@ -27,7 +27,8 @@ import {
   FaMapMarkerAlt,
   FaSitemap,
   FaAward,
-  FaExclamationTriangle
+  FaExclamationTriangle,
+  FaFilePdf
 } from 'react-icons/fa'
 import alumniLogo from '../assets/Logo/dft-logo-dark.avif'
 import CountryAutocomplete from '../components/CountryAutocomplete'
@@ -51,6 +52,7 @@ import {
   PLACEHOLDERS
 } from '../data/formdata'
 import { hashEmail, hashPhoneDigits } from '../utils/hash'
+import { uploadPdfToDrive } from '../utils/googleDriveUpload'
 
 const MONTH_OPTIONS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const PROMOTION_YEAR_OPTIONS = Array.from({ length: new Date().getFullYear() - 1980 + 1 }, (_, i) => String(new Date().getFullYear() - i));
@@ -340,7 +342,10 @@ export default function Login({ user, onLoginSuccess }) {
     workExperience: '',
     consentEmail: false,
     consentPhone: false,
-    consentWhatsapp: false
+    consentWhatsapp: false,
+    cvBase64: '',
+    cvFileName: '',
+    cvFile: null
   })
 
   const [showPhoneModal, setShowPhoneModal] = useState(false)
@@ -487,6 +492,37 @@ export default function Login({ user, onLoginSuccess }) {
     if (!str || typeof str !== 'string') return str;
     return str.replace(/\b[a-zA-Z]+/g, (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
   };
+
+  const handleCvFileChange = (e) => {
+    const file = e.target.files && e.target.files[0]
+    if (!file) return
+
+    if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+      setError('Only PDF files are allowed for CV upload.')
+      e.target.value = ''
+      return
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      setError('PDF file size must be less than 10 MB.')
+      e.target.value = ''
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      setRegisterForm(prev => ({
+        ...prev,
+        cvBase64: reader.result,
+        cvFileName: file.name,
+        cvFile: file
+      }))
+    }
+    reader.onerror = () => {
+      setError('Failed to read the uploaded PDF file.')
+    }
+    reader.readAsDataURL(file)
+  }
 
   const handleRegisterChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -928,6 +964,19 @@ export default function Login({ user, onLoginSuccess }) {
         const userCredential = await createUserWithEmailAndPassword(auth, registerForm.email, registerForm.password)
         const user = userCredential.user
 
+        // Upload PDF CV to Google Drive if a file was selected
+        let finalCvUrl = registerForm.cvBase64 || ''
+        if (registerForm.cvFile) {
+          try {
+            const cvRes = await uploadPdfToDrive(registerForm.cvFile, `${user.uid}_CV.pdf`, user.uid)
+            if (cvRes && cvRes.fileUrl) {
+              finalCvUrl = cvRes.fileUrl
+            }
+          } catch (cvErr) {
+            console.warn('Google Drive CV upload failed, fallback to base64 preview:', cvErr)
+          }
+        }
+
         // Save additional profile details to Firestore
         await setDoc(doc(db, 'users', user.uid), {
           firstName: cleanFirstName,
@@ -980,7 +1029,10 @@ export default function Login({ user, onLoginSuccess }) {
           workExperience: registerForm.workExperience || '',
           consentEmail: registerForm.consentEmail || false,
           consentPhone: registerForm.consentPhone || false,
-          consentWhatsapp: registerForm.consentWhatsapp || false
+          consentWhatsapp: registerForm.consentWhatsapp || false,
+          cvUrl: finalCvUrl,
+          cvBase64: finalCvUrl,
+          cvFileName: registerForm.cvFileName || ''
         })
 
         if (registerForm.company && registerForm.company.trim()) {
@@ -1064,7 +1116,10 @@ export default function Login({ user, onLoginSuccess }) {
           workExperience: registerForm.workExperience || '',
           consentEmail: registerForm.consentEmail || false,
           consentPhone: registerForm.consentPhone || false,
-          consentWhatsapp: registerForm.consentWhatsapp || false
+          consentWhatsapp: registerForm.consentWhatsapp || false,
+          cvUrl: finalCvUrl,
+          cvBase64: finalCvUrl,
+          cvFileName: registerForm.cvFileName || ''
         }
 
         setRegisteredUserObj(newUser)
@@ -1965,6 +2020,25 @@ export default function Login({ user, onLoginSuccess }) {
                           disabled={loading}
                         />
                       </div>
+                    </div>
+
+                    <div className="login-field login-field--full">
+                      <label htmlFor="reg-cv">Upload Resume / CV (PDF - Max 10 MB)</label>
+                      <div className="login-field__input-wrap">
+                        <FaFilePdf className="login-field__icon" style={{ color: '#dc2626' }} />
+                        <input
+                          id="reg-cv"
+                          type="file"
+                          accept=".pdf,application/pdf"
+                          onChange={handleCvFileChange}
+                          disabled={loading}
+                        />
+                      </div>
+                      {registerForm.cvFileName && (
+                        <span style={{ fontSize: '0.78rem', color: 'var(--navy)', marginTop: '4px', display: 'block', fontWeight: '600' }}>
+                          Attached CV: {registerForm.cvFileName}
+                        </span>
+                      )}
                     </div>
                   </div>
 
