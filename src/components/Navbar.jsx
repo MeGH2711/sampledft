@@ -151,6 +151,28 @@ export default function Navbar({ user, onLogout }) {
                           <span className="navbar__dropdown-item-desc">Our goals & vision statements</span>
                         </RouterLink>
                       )}
+
+                      {isHome ? (
+                        <ScrollLink
+                          to="founder-desk"
+                          smooth
+                          duration={600}
+                          offset={-90}
+                          className="navbar__dropdown-item"
+                        >
+                          <span className="navbar__dropdown-item-title">Founder Desk</span>
+                          <span className="navbar__dropdown-item-desc">A message from our founder</span>
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink
+                          to="/"
+                          state={{ scrollTo: 'founder-desk' }}
+                          className="navbar__dropdown-item"
+                        >
+                          <span className="navbar__dropdown-item-title">Founder Desk</span>
+                          <span className="navbar__dropdown-item-desc">A message from our founder</span>
+                        </RouterLink>
+                      )}
                     </div>
                   </div>
                 );
@@ -398,6 +420,28 @@ export default function Navbar({ user, onLogout }) {
                           onClick={() => setMenuOpen(false)}
                         >
                           Vision & Mission
+                        </RouterLink>
+                      )}
+
+                      {isHome ? (
+                        <ScrollLink
+                          to="founder-desk"
+                          smooth
+                          duration={600}
+                          offset={-90}
+                          className="navbar__mobile-sublink"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          Founder Desk
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink
+                          to="/"
+                          state={{ scrollTo: 'founder-desk' }}
+                          className="navbar__mobile-sublink"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          Founder Desk
                         </RouterLink>
                       )}
                     </div>
