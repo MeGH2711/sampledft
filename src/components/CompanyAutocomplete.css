@@ -1,0 +1,104 @@
+.company-autocomplete-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.company-autocomplete__input {
+  width: 100%;
+  padding-right: 38px !important;
+}
+
+.company-autocomplete__arrow-btn {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--slate, #64748b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  z-index: 3;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.company-autocomplete__arrow-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.company-autocomplete__arrow {
+  font-size: 0.75rem;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.company-autocomplete__arrow--open {
+  transform: rotate(180deg);
+  color: var(--signal-red, #e8302a);
+}
+
+.company-autocomplete__dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--paper-white, #ffffff);
+  border: 1px solid var(--line-grey, #e2e8f0);
+  border-radius: 6px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+}
+
+.company-autocomplete__dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.company-autocomplete__dropdown::-webkit-scrollbar-track {
+  background: var(--fog-grey, #f8fafc);
+  border-radius: 0 6px 6px 0;
+}
+
+.company-autocomplete__dropdown::-webkit-scrollbar-thumb {
+  background: var(--slate, #cbd5e1);
+  border-radius: 3px;
+}
+
+.company-autocomplete__dropdown::-webkit-scrollbar-thumb:hover {
+  background: var(--navy-mid, #94a3b8);
+}
+
+.company-autocomplete__item {
+  padding: 9px 14px;
+  font-size: 0.82rem;
+  font-family: var(--font-body, inherit);
+  color: var(--navy-deep, #0b1b3f);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.company-autocomplete__item--highlighted {
+  background: rgba(232, 48, 42, 0.08);
+  color: var(--signal-red, #e8302a);
+  font-weight: 600;
+}
+
+.company-autocomplete__item--selected {
+  background: rgba(11, 27, 63, 0.06);
+  font-weight: 700;
+}
+
+.company-autocomplete__no-results {
+  padding: 12px 14px;
+  font-size: 0.82rem;
+  color: var(--slate, #64748b);
+  font-style: italic;
+  text-align: center;
+}

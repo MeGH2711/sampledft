@@ -32,6 +32,7 @@ import alumniLogo from '../assets/Logo/dft-logo-dark.avif'
 import CountryAutocomplete from '../components/CountryAutocomplete'
 import StateAutocomplete from '../components/StateAutocomplete'
 import CityAutocomplete from '../components/CityAutocomplete'
+import CompanyAutocomplete from '../components/CompanyAutocomplete'
 import './Login.css'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
@@ -920,6 +921,16 @@ export default function Login({ user, onLoginSuccess }) {
           hobbies: registerForm.hobbies || [],
           consentAlumniSearch: registerForm.consentAlumniSearch || false
         })
+
+        if (registerForm.company && registerForm.company.trim()) {
+          try {
+            await setDoc(doc(db, 'companies', registerForm.company.trim().toLowerCase()), {
+              name: registerForm.company.trim()
+            }, { merge: true })
+          } catch (compErr) {
+            console.warn('Failed to save company name to collection:', compErr)
+          }
+        }
 
         // Write the password-reset lookup doc (hashes only, no plaintext phone data)
         const emailHashKey = await hashEmail(registerForm.email)
@@ -1816,18 +1827,14 @@ export default function Login({ user, onLoginSuccess }) {
 
                     <div className="login-field">
                       <label htmlFor="reg-company">Current Organization</label>
-                      <div className="login-field__input-wrap">
-                        <FaBuilding className="login-field__icon" />
-                        <input
-                          id="reg-company"
-                          type="text"
-                          name="company"
-                          placeholder={PLACEHOLDERS.company}
-                          value={registerForm.company}
-                          onChange={handleRegisterChange}
-                          disabled={loading}
-                        />
-                      </div>
+                      <CompanyAutocomplete
+                        id="reg-company"
+                        name="company"
+                        value={registerForm.company}
+                        onChange={handleRegisterChange}
+                        disabled={loading}
+                        placeholder={PLACEHOLDERS.company || 'Select or type company name'}
+                      />
                     </div>
 
                     <div className="login-field">

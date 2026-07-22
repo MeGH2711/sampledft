@@ -29,6 +29,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore'
 import CountryAutocomplete from '../components/CountryAutocomplete'
 import StateAutocomplete from '../components/StateAutocomplete'
 import CityAutocomplete from '../components/CityAutocomplete'
+import CompanyAutocomplete from '../components/CompanyAutocomplete'
 import './Profile.css'
 import { countryCodes } from '../data/countryData'
 import {
@@ -974,6 +975,16 @@ export default function Profile({ user, onUpdateUser }) {
             const userDocRef = doc(db, 'users', uid)
             await setDoc(userDocRef, updatedProfile, { merge: true })
 
+            if (profileForm.company && profileForm.company.trim()) {
+              try {
+                await setDoc(doc(db, 'companies', profileForm.company.trim().toLowerCase()), {
+                  name: profileForm.company.trim()
+                }, { merge: true })
+              } catch (compErr) {
+                console.warn('Failed to save company name to collection:', compErr)
+              }
+            }
+
             // Keep the password-reset lookup doc in sync with any phone/email changes
             const emailHashKey = await hashEmail(user.email) // account email — not editable here
             const phoneHash = await hashPhoneDigits(updatedProfile.phone)
@@ -1707,18 +1718,14 @@ export default function Profile({ user, onUpdateUser }) {
 
                   <div className="profile-field">
                     <label htmlFor="prof-company">Company</label>
-                    <div className="profile-field__input-wrap">
-                      <FaBuilding className="profile-field__icon" />
-                      <input
-                        id="prof-company"
-                        type="text"
-                        name="company"
-                        value={profileForm.company}
-                        onChange={handleInputChange}
-                        disabled={!isEditing || loading}
-                        placeholder="No Data Provided"
-                      />
-                    </div>
+                    <CompanyAutocomplete
+                      id="prof-company"
+                      name="company"
+                      value={profileForm.company}
+                      onChange={handleInputChange}
+                      disabled={!isEditing || loading}
+                      placeholder="Select or type company name"
+                    />
                   </div>
 
                   <div className="profile-field">
