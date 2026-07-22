@@ -8,6 +8,13 @@ export const DEGREE_OPTIONS = [
   "Other"
 ]
 
+export const GENDER_OPTIONS = [
+  "Male",
+  "Female",
+  "Other",
+  "Prefer not to say"
+]
+
 export const CERTIFICATION_OPTIONS = [
   "Non-Destructive Testing (NDT)",
   "Welding",
@@ -43,47 +50,50 @@ export const PLACEHOLDERS = {
   firstName: 'First Name',
   middleName: 'Middle Name',
   lastName: 'Last Name',
-  regEmail: 'john.doe@example.com',
-  phone: '98765 43210',
-  secondaryPhone: 'Optional',
-  whatsapp: '98765 43210',
-  city: 'Ahmedabad',
-  state: 'Gujarat',
-  country: 'India',
-  degreeDomain: 'Domain (e.g. Textile Technology)',
-  company: 'Arvind Mills',
-  department: 'e.g. Sales, Quality Assurance',
-  division: 'e.g. Woven, Knits',
-  jobTitle: 'Senior Merchandiser',
+  regEmail: 'Email Address',
+  phone: 'Contact Number',
+  secondaryPhone: 'Secondary Contact Number',
+  whatsapp: 'Whatsapp Number',
+  city: 'City',
+  state: 'State',
+  country: 'Country',
+  degreeDomain: 'Degree Domain',
+  company: 'Company Name',
+  department: 'Department',
+  division: 'Division',
+  jobTitle: 'Designation',
   companyWebsite: 'https://example.com',
   linkedin: 'https://linkedin.com/in/username',
-  companyCity: 'e.g. Mumbai',
-  companyState: 'e.g. Maharashtra',
-  companyCountry: 'e.g. India',
+  companyCity: 'City',
+  companyState: 'State',
+  companyCountry: 'Country',
   otherProductServices: 'Enter details of other products/services offered',
   lastPromotionDesignation: 'e.g. Team Lead',
-  certificationDetail: 'Detail (e.g. AWS Certified Developer)',
+  certificationDetail: 'Detail about Certifications / Qualifications',
   awardDetail: 'Award Details (e.g. Best Employee 2025)',
   regPassword: 'Min 6 characters',
   confirmPassword: 'Re-type password',
   captcha: 'Type the characters shown above (case-sensitive)',
-  verifyPhone: 'Enter phone number'
+  verifyPhone: 'Enter phone number',
+  otherHobbies: 'Enter other interests (comma-separated)',
+  workExperience: 'e.g. 5'
 }
 
 export const HOBBY_OPTIONS = [
-  "Playing Sports",
-  "Reading",
-  "Music Instrument",
-  "Singing",
-  "Dancing",
-  "Poetry",
-  "Photography & Videography",
-  "Social Media Content Creation",
   "Art & Craft",
+  "Camping / Trekking",
   "Cooking",
+  "Dancing",
+  "Music Instrument",
+  "Photography & Videography",
+  "Playing Sports",
+  "Poetry",
+  "Reading",
+  "Singing",
+  "Social Media Content Creation",
   "Social Work",
   "Yoga / Fitness",
-  "Camping / Trekking",
+  "Others"
 ]
 
 export const COMPANY_OPTIONS = [

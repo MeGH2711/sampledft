@@ -41,6 +41,7 @@ import { countryCodes } from '../data/countryData'
 import {
   ACADEMIC_YEARS,
   DEGREE_OPTIONS,
+  GENDER_OPTIONS,
   CERTIFICATION_OPTIONS,
   PRODUCT_SERVICE_OPTIONS,
   HOBBY_OPTIONS,
@@ -289,6 +290,7 @@ export default function Login({ user, onLoginSuccess }) {
     middleName: '',
     lastName: '',
     email: '',
+    gender: '',
     dob: '',
     phoneCode: '+91',
     phone: '',
@@ -329,6 +331,8 @@ export default function Login({ user, onLoginSuccess }) {
     lastPromotionYear: '',
     awards: [],
     hobbies: [],
+    otherHobbies: '',
+    workExperience: '',
     consentAlumniSearch: false
   })
 
@@ -478,7 +482,7 @@ export default function Login({ user, onLoginSuccess }) {
 
   const handleRegisterChange = (e) => {
     const { name, value, type, checked } = e.target
-    let cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name)
+    let cleanValue = ['phone', 'secondaryPhone', 'whatsapp', 'workExperience'].includes(name)
       ? value.replace(/\D/g, '')
       : value;
 
@@ -882,6 +886,7 @@ export default function Login({ user, onLoginSuccess }) {
           lastName: cleanLastName,
           name: cleanFullName,
           email: registerForm.email,
+          gender: registerForm.gender || '',
           dob: registerForm.dob,
           phone: `${registerForm.phoneCode} ${registerForm.phone}`.trim(),
           secondaryPhone: registerForm.secondaryPhone ? `${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`.trim() : '',
@@ -919,6 +924,8 @@ export default function Login({ user, onLoginSuccess }) {
           lastPromotionYear: registerForm.lastPromotionYear || '',
           awards: registerForm.awards || [],
           hobbies: registerForm.hobbies || [],
+          otherHobbies: registerForm.hobbies.includes('Others') ? registerForm.otherHobbies || '' : '',
+          workExperience: registerForm.workExperience || '',
           consentAlumniSearch: registerForm.consentAlumniSearch || false
         })
 
@@ -954,6 +961,7 @@ export default function Login({ user, onLoginSuccess }) {
           lastName: cleanLastName,
           name: cleanFullName,
           email: registerForm.email,
+          gender: registerForm.gender || '',
           dob: registerForm.dob,
           phone: `${registerForm.phoneCode} ${registerForm.phone}`.trim(),
           secondaryPhone: registerForm.secondaryPhone ? `${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`.trim() : '',
@@ -992,6 +1000,8 @@ export default function Login({ user, onLoginSuccess }) {
           lastPromotionYear: registerForm.lastPromotionYear || '',
           awards: registerForm.awards || [],
           hobbies: registerForm.hobbies || [],
+          otherHobbies: registerForm.hobbies.includes('Others') ? registerForm.otherHobbies || '' : '',
+          workExperience: registerForm.workExperience || '',
           consentAlumniSearch: registerForm.consentAlumniSearch || false
         }
 
@@ -1460,6 +1470,25 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
+                      <label htmlFor="reg-gender">Gender</label>
+                      <div className="login-field__input-wrap">
+                        <FaUser className="login-field__icon" />
+                        <select
+                          id="reg-gender"
+                          name="gender"
+                          value={registerForm.gender}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        >
+                          <option value="">Select Gender</option>
+                          {GENDER_OPTIONS.map(g => <option key={g} value={g}>{g}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="login-form__grid">
+                    <div className="login-field">
                       <label htmlFor="reg-bloodgroup">Blood Group</label>
                       <div className="login-field__input-wrap">
                         <FaHeart className="login-field__icon" />
@@ -1482,9 +1511,7 @@ export default function Login({ user, onLoginSuccess }) {
                         </select>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="login-form__grid">
                     <div className="login-field">
                       <label htmlFor="reg-dob">Date of Birth <span className="login-field__required">*</span></label>
                       <div className="login-field__input-wrap">
@@ -1500,7 +1527,9 @@ export default function Login({ user, onLoginSuccess }) {
                         />
                       </div>
                     </div>
+                  </div>
 
+                  <div className="login-form__grid">
                     <div className="login-field">
                       <label htmlFor="reg-dom">Date of Marriage</label>
                       <div className="login-field__input-wrap">
@@ -1515,6 +1544,8 @@ export default function Login({ user, onLoginSuccess }) {
                         />
                       </div>
                     </div>
+
+                    <div className="login-field" style={{ visibility: 'hidden' }}></div>
                   </div>
 
                   <div className="login-form__grid">
@@ -1578,7 +1609,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-whatsapp">WhatsApp Number <span className="login-field__required">*</span></label>
+                      <label htmlFor="reg-whatsapp">WhatsApp Number</label>
                       <div className="login-field__input-wrap phone-input-wrap">
                         <span className={`fi fi-${getCountryIso(registerForm.whatsappCode)} login-field__icon`}></span>
 
@@ -1601,7 +1632,6 @@ export default function Login({ user, onLoginSuccess }) {
                           placeholder={PLACEHOLDERS.whatsapp}
                           value={registerForm.whatsapp}
                           onChange={handleRegisterChange}
-                          required
                           disabled={loading}
                         />
                       </div>
@@ -1834,6 +1864,7 @@ export default function Login({ user, onLoginSuccess }) {
                         onChange={handleRegisterChange}
                         disabled={loading}
                         placeholder={PLACEHOLDERS.company || 'Select or type company name'}
+                        wrapClassName="login-field__input-wrap"
                       />
                     </div>
 
@@ -1894,6 +1925,23 @@ export default function Login({ user, onLoginSuccess }) {
                           type="date"
                           name="workingSince"
                           value={registerForm.workingSince}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="login-field">
+                      <label htmlFor="reg-work-experience">Total Work Experience (Years)</label>
+                      <div className="login-field__input-wrap">
+                        <FaBriefcase className="login-field__icon" />
+                        <input
+                          id="reg-work-experience"
+                          type="text"
+                          inputMode="numeric"
+                          name="workExperience"
+                          placeholder={PLACEHOLDERS.workExperience}
+                          value={registerForm.workExperience}
                           onChange={handleRegisterChange}
                           disabled={loading}
                         />
@@ -2221,6 +2269,19 @@ export default function Login({ user, onLoginSuccess }) {
                         )
                       })}
                     </div>
+                    {(registerForm.hobbies || []).includes('Others') && (
+                      <div className="login-field__input-wrap" style={{ marginTop: '12px' }}>
+                        <FaHeart className="login-field__icon" />
+                        <input
+                          type="text"
+                          name="otherHobbies"
+                          placeholder={PLACEHOLDERS.otherHobbies}
+                          value={registerForm.otherHobbies}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                      </div>
+                    )}
                   </div>
 
                   <div className="login-form__row">

@@ -35,9 +35,11 @@ import { countryCodes } from '../data/countryData'
 import {
   ACADEMIC_YEARS,
   DEGREE_OPTIONS,
+  GENDER_OPTIONS,
   CERTIFICATION_OPTIONS,
   PRODUCT_SERVICE_OPTIONS,
-  HOBBY_OPTIONS
+  HOBBY_OPTIONS,
+  PLACEHOLDERS
 } from '../data/formdata'
 import { hashEmail, hashPhoneDigits } from '../utils/hash'
 
@@ -331,7 +333,9 @@ export default function Profile({ user, onUpdateUser }) {
     lastPromotionMonth: '',
     lastPromotionYear: '',
     awards: [],
-    hobbies: []
+    hobbies: [],
+    otherHobbies: '',
+    workExperience: ''
   })
 
   const [originalForm, setOriginalForm] = useState({
@@ -378,7 +382,9 @@ export default function Profile({ user, onUpdateUser }) {
     lastPromotionMonth: '',
     lastPromotionYear: '',
     awards: [],
-    hobbies: []
+    hobbies: [],
+    otherHobbies: '',
+    workExperience: ''
   })
 
   // Load user data on mount
@@ -430,6 +436,7 @@ export default function Profile({ user, onUpdateUser }) {
               middleName: data.middleName || user.middleName || '',
               lastName: defaultLastName,
               email: data.email || user.email || '',
+              gender: data.gender || user.gender || '',
               dob: formatDob(data.dob),
               phoneCode: parsedPhone.code,
               phone: parsedPhone.number,
@@ -469,7 +476,9 @@ export default function Profile({ user, onUpdateUser }) {
               lastPromotionMonth: data.lastPromotionMonth || user.lastPromotionMonth || '',
               lastPromotionYear: data.lastPromotionYear || user.lastPromotionYear || '',
               awards: data.awards || user.awards || [],
-              hobbies: data.hobbies || user.hobbies || []
+              hobbies: data.hobbies || user.hobbies || [],
+              otherHobbies: data.otherHobbies || user.otherHobbies || '',
+              workExperience: data.workExperience || user.workExperience || ''
             }
             setProfileForm(loadedData)
             setOriginalForm(loadedData)
@@ -501,6 +510,7 @@ export default function Profile({ user, onUpdateUser }) {
               middleName: user.middleName || '',
               lastName: nameSplit.slice(1).join(' ') || '',
               email: user.email || '',
+              gender: user.gender || '',
               dob: '',
               phoneCode: parsedPhone.code,
               phone: parsedPhone.number,
@@ -540,7 +550,9 @@ export default function Profile({ user, onUpdateUser }) {
               lastPromotionMonth: user.lastPromotionMonth || '',
               lastPromotionYear: user.lastPromotionYear || '',
               awards: user.awards || [],
-              hobbies: user.hobbies || []
+              hobbies: user.hobbies || [],
+              otherHobbies: user.otherHobbies || '',
+              workExperience: user.workExperience || ''
             }
             setProfileForm(seedData)
             setOriginalForm(seedData)
@@ -583,6 +595,7 @@ export default function Profile({ user, onUpdateUser }) {
               middleName: parsed.middleName || '',
               lastName: parsed.lastName || nameSplit.slice(1).join(' ') || '',
               email: parsed.email || '',
+              gender: parsed.gender || '',
               dob: formatDob(parsed.dob),
               phoneCode: parsedPhone.code,
               phone: parsedPhone.number,
@@ -658,6 +671,7 @@ export default function Profile({ user, onUpdateUser }) {
           middleName: user.middleName || '',
           lastName: nameSplit.slice(1).join(' ') || '',
           email: user.email || '',
+          gender: user.gender || '',
           dob: formatDob(user.dob),
           phoneCode: parsedPhone.code,
           phone: parsedPhone.number,
@@ -697,7 +711,9 @@ export default function Profile({ user, onUpdateUser }) {
           lastPromotionMonth: user.lastPromotionMonth || '',
           lastPromotionYear: user.lastPromotionYear || '',
           awards: user.awards || [],
-          hobbies: user.hobbies || []
+          hobbies: user.hobbies || [],
+          otherHobbies: user.otherHobbies || '',
+          workExperience: user.workExperience || ''
         }
         setProfileForm(fallbackData)
         setOriginalForm(fallbackData)
@@ -735,7 +751,7 @@ export default function Profile({ user, onUpdateUser }) {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target // Extract type and checked
-    let cleanValue = ['phone', 'secondaryPhone', 'whatsapp'].includes(name)
+    let cleanValue = ['phone', 'secondaryPhone', 'whatsapp', 'workExperience'].includes(name)
       ? value.replace(/\D/g, '')
       : value;
 
@@ -881,11 +897,6 @@ export default function Profile({ user, onUpdateUser }) {
       return
     }
 
-    if (!profileForm.whatsapp.trim()) {
-      setError('WhatsApp number is compulsory.')
-      return
-    }
-
     if (!profileForm.userType) {
       setError('Please select whether you are a DFT Alumni or Student.')
       return
@@ -925,6 +936,7 @@ export default function Profile({ user, onUpdateUser }) {
       middleName: cleanMiddleName,
       lastName: cleanLastName,
       name: cleanFullName,
+      gender: profileForm.gender || '',
       dob: profileForm.dob,
       phone: `${profileForm.phoneCode} ${profileForm.phone}`.trim(),
       secondaryPhone: profileForm.secondaryPhone ? `${profileForm.secondaryPhoneCode} ${profileForm.secondaryPhone}`.trim() : '',
@@ -960,7 +972,9 @@ export default function Profile({ user, onUpdateUser }) {
       lastPromotionMonth: profileForm.lastPromotionMonth,
       lastPromotionYear: profileForm.lastPromotionYear,
       awards: profileForm.awards || [],
-      hobbies: profileForm.hobbies || []
+      hobbies: profileForm.hobbies || [],
+      otherHobbies: profileForm.hobbies.includes('Others') ? profileForm.otherHobbies || '' : '',
+      workExperience: profileForm.workExperience ? profileForm.workExperience.trim() : ''
     }
 
     const uid = user.uid || (auth.currentUser ? auth.currentUser.uid : null)
@@ -1093,6 +1107,7 @@ export default function Profile({ user, onUpdateUser }) {
     profileForm.firstName !== originalForm.firstName ||
     profileForm.middleName !== originalForm.middleName ||
     profileForm.lastName !== originalForm.lastName ||
+    profileForm.gender !== originalForm.gender ||
     profileForm.dob !== originalForm.dob ||
     profileForm.phoneCode !== originalForm.phoneCode ||
     profileForm.phone !== originalForm.phone ||
@@ -1128,7 +1143,9 @@ export default function Profile({ user, onUpdateUser }) {
     JSON.stringify(profileForm.productServices || []) !== JSON.stringify(originalForm.productServices || []) ||
     profileForm.otherProductServices !== originalForm.otherProductServices ||
     JSON.stringify(profileForm.awards || []) !== JSON.stringify(originalForm.awards || []) ||
-    JSON.stringify(profileForm.hobbies || []) !== JSON.stringify(originalForm.hobbies || [])
+    JSON.stringify(profileForm.hobbies || []) !== JSON.stringify(originalForm.hobbies || []) ||
+    profileForm.otherHobbies !== originalForm.otherHobbies ||
+    profileForm.workExperience !== originalForm.workExperience
   ) : false
 
   // Signed out check
@@ -1346,6 +1363,25 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
+                    <label htmlFor="prof-gender">Gender</label>
+                    <div className="profile-field__input-wrap">
+                      <FaUser className="profile-field__icon" />
+                      <select
+                        id="prof-gender"
+                        name="gender"
+                        value={profileForm.gender}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      >
+                        <option value="">Select Gender</option>
+                        {GENDER_OPTIONS.map(g => <option key={g} value={g}>{g}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="profile-form__grid">
+                  <div className="profile-field">
                     <label htmlFor="prof-bloodgroup">Blood Group</label>
                     <div className="profile-field__input-wrap">
                       <FaHeart className="profile-field__icon" />
@@ -1368,9 +1404,7 @@ export default function Profile({ user, onUpdateUser }) {
                       </select>
                     </div>
                   </div>
-                </div>
 
-                <div className="profile-form__grid">
                   <div className="profile-field">
                     <label htmlFor="prof-dob">Date of Birth</label>
                     <div className="profile-field__input-wrap">
@@ -1386,7 +1420,9 @@ export default function Profile({ user, onUpdateUser }) {
                       />
                     </div>
                   </div>
+                </div>
 
+                <div className="profile-form__grid">
                   <div className="profile-field">
                     <label htmlFor="prof-dom">Date of Marriage</label>
                     <div className="profile-field__input-wrap">
@@ -1402,6 +1438,8 @@ export default function Profile({ user, onUpdateUser }) {
                       />
                     </div>
                   </div>
+
+                  <div className="profile-field" style={{ visibility: 'hidden' }}></div>
                 </div>
 
                 <div className="profile-form__grid">
@@ -1467,7 +1505,7 @@ export default function Profile({ user, onUpdateUser }) {
 
                 <div className="profile-form__grid">
                   <div className="profile-field">
-                    <label htmlFor="prof-whatsapp">WhatsApp Number <span className="profile-field__required">*</span></label>
+                    <label htmlFor="prof-whatsapp">WhatsApp Number</label>
                     <div className="profile-field__input-wrap phone-input-wrap">
                       <span className={`fi fi-${getCountryIso(profileForm.whatsappCode)} profile-field__icon`}></span>
 
@@ -1490,7 +1528,6 @@ export default function Profile({ user, onUpdateUser }) {
                         value={profileForm.whatsapp}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
-                        required
                         placeholder="No Data Provided"
                       />
                     </div>
@@ -1724,7 +1761,8 @@ export default function Profile({ user, onUpdateUser }) {
                       value={profileForm.company}
                       onChange={handleInputChange}
                       disabled={!isEditing || loading}
-                      placeholder="Select or type company name"
+                      placeholder={!isEditing && !profileForm.company ? "No Data Provided" : "Select or type company name"}
+                      wrapClassName="profile-field__input-wrap"
                     />
                   </div>
 
@@ -1788,6 +1826,23 @@ export default function Profile({ user, onUpdateUser }) {
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
                         placeholder="No Data Provided"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="profile-field">
+                    <label htmlFor="prof-work-experience">Total Work Experience (Years)</label>
+                    <div className="profile-field__input-wrap">
+                      <FaBriefcase className="profile-field__icon" />
+                      <input
+                        id="prof-work-experience"
+                        type="text"
+                        inputMode="numeric"
+                        name="workExperience"
+                        value={profileForm.workExperience}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                        placeholder={!isEditing && !profileForm.workExperience ? "No Data Provided" : PLACEHOLDERS.workExperience}
                       />
                     </div>
                   </div>
@@ -2129,28 +2184,43 @@ export default function Profile({ user, onUpdateUser }) {
                 {/* Interest / Hobby checkbox grid */}
                 <div className="profile-field profile-field--full" style={{ marginTop: '15px', marginBottom: '20px' }}>
                   <label>Interest / Hobby</label>
-                  <div className="profile-field__input-wrap">
+                  <div className="profile-field__input-wrap" style={{ flexDirection: 'column', alignItems: 'stretch' }}>
                     {isEditing ? (
-                      <div className="product-services-checkbox-group">
-                        {HOBBY_OPTIONS.map(opt => {
-                          const isChecked = (profileForm.hobbies || []).includes(opt)
-                          return (
-                            <label key={opt} className="checkbox-option">
-                              <input
-                                type="checkbox"
-                                checked={isChecked}
-                                onChange={() => handleMultiSelectChange('hobbies', opt)}
-                                disabled={loading}
-                              />
-                              <span>{opt}</span>
-                            </label>
-                          )
-                        })}
-                      </div>
+                      <>
+                        <div className="product-services-checkbox-group">
+                          {HOBBY_OPTIONS.map(opt => {
+                            const isChecked = (profileForm.hobbies || []).includes(opt)
+                            return (
+                              <label key={opt} className="checkbox-option">
+                                <input
+                                  type="checkbox"
+                                  checked={isChecked}
+                                  onChange={() => handleMultiSelectChange('hobbies', opt)}
+                                  disabled={loading}
+                                />
+                                <span>{opt}</span>
+                              </label>
+                            )
+                          })}
+                        </div>
+                        {(profileForm.hobbies || []).includes('Others') && (
+                          <div className="profile-field__input-wrap" style={{ marginTop: '12px' }}>
+                            <FaHeart className="profile-field__icon" />
+                            <input
+                              type="text"
+                              name="otherHobbies"
+                              placeholder={PLACEHOLDERS.otherHobbies}
+                              value={profileForm.otherHobbies}
+                              onChange={handleInputChange}
+                              disabled={!isEditing || loading}
+                            />
+                          </div>
+                        )}
+                      </>
                     ) : (
                       <div className="profile-field__view-value" style={{ minHeight: '44px', display: 'flex', alignItems: 'center', background: 'var(--fog-grey)', border: '1px solid var(--line-grey)', borderRadius: '4px', padding: '10px 14px', fontSize: '0.85rem', fontWeight: '600', color: 'var(--navy-deep)', width: '100%', boxSizing: 'border-box' }}>
                         {profileForm.hobbies && profileForm.hobbies.length > 0 ? (
-                          profileForm.hobbies.join(', ')
+                          profileForm.hobbies.map(val => val === 'Others' && profileForm.otherHobbies ? `Others (${profileForm.otherHobbies})` : val).join(', ')
                         ) : (
                           'No Data Provided'
                         )}

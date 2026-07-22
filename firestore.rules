@@ -62,5 +62,13 @@ service cloud.firestore {
       // disputed entry).
       allow delete: if isAdminOrDev();
     }
+
+    match /companies/{companyId} {
+      // Anyone can read companies list for autocomplete dropdown
+      allow read: if true;
+      
+      // Anyone can create a new company entry if non-empty, or logged in users can write
+      allow create, update: if true;
+    }
   }
 }

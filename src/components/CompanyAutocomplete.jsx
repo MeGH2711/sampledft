@@ -43,7 +43,10 @@ export default function CompanyAutocomplete({
           setAllCompanies(combined);
         }
       } catch (err) {
-        console.warn('Failed to fetch dynamic companies list:', err);
+        // Silently fallback to static COMPANY_OPTIONS if firestore rules or network restrict reading
+        if (err?.code !== 'permission-denied') {
+          console.warn('Failed to fetch dynamic companies list:', err);
+        }
       }
     }
 

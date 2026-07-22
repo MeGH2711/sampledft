@@ -19,6 +19,47 @@ import { db } from '../firebase'
 import { collection, getDocs, doc, updateDoc, deleteDoc, addDoc } from 'firebase/firestore'
 import './Admin.css'
 
+const formatDateFormatted = (dateStr) => {
+  if (!dateStr) return 'N/A'
+  try {
+    const cleanStr = String(dateStr).trim()
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ]
+    // Match YYYY-MM-DD
+    const match = cleanStr.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+    if (match) {
+      const year = parseInt(match[1], 10)
+      const monthIndex = parseInt(match[2], 10) - 1
+      const day = parseInt(match[3], 10)
+      if (monthIndex >= 0 && monthIndex < 12) {
+        return `${day} ${months[monthIndex]} ${year}`
+      }
+    }
+
+    // Match DD-MM-YYYY or DD/MM/YYYY
+    const matchAlt = cleanStr.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})$/)
+    if (matchAlt) {
+      const day = parseInt(matchAlt[1], 10)
+      const monthIndex = parseInt(matchAlt[2], 10) - 1
+      const year = parseInt(matchAlt[3], 10)
+      if (monthIndex >= 0 && monthIndex < 12) {
+        return `${day} ${months[monthIndex]} ${year}`
+      }
+    }
+
+    // Standard ISO parse fallback
+    const d = new Date(cleanStr)
+    if (!isNaN(d.getTime())) {
+      return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`
+    }
+  } catch (e) {
+    console.warn("Date formatting error:", e)
+  }
+  return dateStr
+}
+
 export default function Admin({ user, onUpdateUser }) {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('verification')
@@ -252,6 +293,7 @@ export default function Admin({ user, onUpdateUser }) {
     const nameMatch = String(u.name || '').toLowerCase().includes(query)
     const emailMatch = String(u.email || '').toLowerCase().includes(query)
     const batchMatch = String(u.batch || u.passoutYear || '').toLowerCase().includes(query)
+    const genderMatch = String(u.gender || '').toLowerCase().includes(query)
 
     // Check degrees array safely or fallback to degree string comparison
     const degreeMatch = Array.isArray(u.degrees)
@@ -264,7 +306,7 @@ export default function Admin({ user, onUpdateUser }) {
       })
       : String(u.degree || '').toLowerCase().includes(query)
 
-    const searchMatch = !query || nameMatch || emailMatch || batchMatch || degreeMatch
+    const searchMatch = !query || nameMatch || emailMatch || batchMatch || degreeMatch || genderMatch
 
     let statusMatch = true
     if (filterStatus === 'pending') statusMatch = !u.verification_status
@@ -509,6 +551,7 @@ service cloud.firestore {
                     <th>Alumni User</th>
                     <th>Contact Number</th>
                     <th>Batch</th>
+                    <th>Registration Date</th>
                     <th>Status</th>
                     <th>Actions</th>
                   </tr>
@@ -530,6 +573,7 @@ service cloud.firestore {
                         </td>
                         <td>{item.phone || 'N/A'}</td>
                         <td>{item.batch || item.passoutYear || 'N/A'}</td>
+                        <td style={{ fontSize: '13px', color: 'var(--navy-mid)' }}>{formatDateFormatted(item.createdAt)}</td>
                         <td>
                           <span className={`admin-badge ${item.verification_status ? 'verified' : 'pending'}`}>
                             {item.verification_status ? (
@@ -569,7 +613,7 @@ service cloud.firestore {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="5" style={{ textAlign: 'center', padding: '40px 0', color: 'var(--slate)' }}>
+                      <td colSpan="6" style={{ textAlign: 'center', padding: '40px 0', color: 'var(--slate)' }}>
                         No user matching filters found.
                       </td>
                     </tr>
@@ -882,13 +926,16 @@ service cloud.firestore {
                 <div className="admin-modal-user-meta">
                   <h3 className="admin-modal-user-name">{selectedUser.name || 'Unnamed User'}</h3>
                   <span className="admin-modal-user-email">{selectedUser.email}</span>
-                  <div style={{ marginTop: '6px' }}>
+                  <div style={{ marginTop: '6px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                     <span className={`admin-badge ${selectedUser.verification_status ? 'verified' : 'pending'}`}>
                       {selectedUser.verification_status ? "Verified Account" : "Pending Verification"}
                     </span>
-                    <span className={`admin-user-role-badge ${selectedUser.account_type || 'alumni'}`} style={{ marginLeft: '8px' }}>
+                    <span className={`admin-user-role-badge ${selectedUser.account_type || 'alumni'}`}>
                       {selectedUser.account_type || 'alumni'}
                     </span>
+                  </div>
+                  <div style={{ marginTop: '6px', fontSize: '0.8rem', color: 'var(--slate)', fontWeight: '500' }}>
+                    Registered: {formatDateFormatted(selectedUser.createdAt)}
                   </div>
                 </div>
               </div>
@@ -902,8 +949,18 @@ service cloud.firestore {
                     <span className="admin-modal-info-value">{selectedUser.name || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">First / Middle / Last Name</span>
+                    <span className="admin-modal-info-value">
+                      {[selectedUser.firstName, selectedUser.middleName, selectedUser.lastName].filter(Boolean).join(' ') || 'N/A'}
+                    </span>
+                  </div>
+                  <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Email Address</span>
                     <span className="admin-modal-info-value">{selectedUser.email || 'N/A'}</span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Gender</span>
+                    <span className="admin-modal-info-value">{selectedUser.gender || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Phone Number</span>
@@ -919,7 +976,11 @@ service cloud.firestore {
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Date of Birth</span>
-                    <span className="admin-modal-info-value">{selectedUser.dob || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{formatDateFormatted(selectedUser.dob)}</span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Date of Marriage / Anniversary</span>
+                    <span className="admin-modal-info-value">{formatDateFormatted(selectedUser.dom)}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Blood Group</span>
@@ -929,6 +990,18 @@ service cloud.firestore {
                     <span className="admin-modal-info-label">Location</span>
                     <span className="admin-modal-info-value">
                       {[selectedUser.city, selectedUser.state, selectedUser.country].filter(Boolean).join(', ') || 'N/A'}
+                    </span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Directory Search Consent</span>
+                    <span className="admin-modal-info-value">
+                      {selectedUser.consentAlumniSearch ? 'Yes (Opted In)' : 'No (Opted Out)'}
+                    </span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Registration Date</span>
+                    <span className="admin-modal-info-value">
+                      {formatDateFormatted(selectedUser.createdAt)}
                     </span>
                   </div>
                 </div>
@@ -964,6 +1037,12 @@ service cloud.firestore {
                     <span className="admin-modal-info-value">{selectedUser.passoutYear || selectedUser.batch || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Course Completion Status</span>
+                    <span className="admin-modal-info-value">
+                      {selectedUser.diplomaNotCompleted ? 'Diploma / Course Not Completed' : 'Completed / Graduated'}
+                    </span>
+                  </div>
+                  <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Student Type / Classification</span>
                     <span className="admin-modal-info-value">{selectedUser.userType || 'N/A'}</span>
                   </div>
@@ -975,7 +1054,7 @@ service cloud.firestore {
                 <h4 className="admin-modal-section-title">Professional Details</h4>
                 <div className="admin-modal-grid-2">
                   <div className="admin-modal-info-item">
-                    <span className="admin-modal-info-label">Job Title</span>
+                    <span className="admin-modal-info-label">Job Title / Designation</span>
                     <span className="admin-modal-info-value">{selectedUser.jobTitle || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
@@ -985,6 +1064,34 @@ service cloud.firestore {
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Industry / Profession</span>
                     <span className="admin-modal-info-value">{selectedUser.profession || 'N/A'}</span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Department</span>
+                    <span className="admin-modal-info-value">{selectedUser.department || 'N/A'}</span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Division</span>
+                    <span className="admin-modal-info-value">{selectedUser.division || 'N/A'}</span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Working Since</span>
+                    <span className="admin-modal-info-value">{formatDateFormatted(selectedUser.workingSince)}</span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Total Work Experience</span>
+                    <span className="admin-modal-info-value">
+                      {selectedUser.workExperience ? `${selectedUser.workExperience} ${parseInt(selectedUser.workExperience, 10) === 1 ? 'Year' : 'Years'}` : 'N/A'}
+                    </span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Last Promotion Designation</span>
+                    <span className="admin-modal-info-value">{selectedUser.lastPromotionDesignation || 'N/A'}</span>
+                  </div>
+                  <div className="admin-modal-info-item">
+                    <span className="admin-modal-info-label">Date of Last Promotion</span>
+                    <span className="admin-modal-info-value">
+                      {[selectedUser.lastPromotionMonth, selectedUser.lastPromotionYear].filter(Boolean).join(' ') || 'N/A'}
+                    </span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">LinkedIn Profile</span>
@@ -1052,6 +1159,15 @@ service cloud.firestore {
                     </div>
                   </div>
 
+                  {selectedUser.otherProductServices && (
+                    <div className="admin-modal-info-item" style={{ gridColumn: 'span 2', marginTop: '14px' }}>
+                      <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Details of Other Products & Services</span>
+                      <div className="admin-modal-info-value" style={{ fontSize: '13px', color: 'var(--navy-deep)', background: 'var(--fog-grey)', padding: '10px 14px', borderRadius: '6px' }}>
+                        {selectedUser.otherProductServices}
+                      </div>
+                    </div>
+                  )}
+
                   <div className="admin-modal-info-item" style={{ gridColumn: 'span 2', marginTop: '14px' }}>
                     <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Awards & Achievements</span>
                     <div className="admin-modal-info-value">
@@ -1066,24 +1182,23 @@ service cloud.firestore {
                       )}
                     </div>
                   </div>
-                </div>
-              </div>
 
-              {/* Add this block inside .admin-modal-grid-2 in the Certifications & Skills section */}
-              <div className="admin-modal-info-item" style={{ gridColumn: 'span 2', marginTop: '14px' }}>
-                <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Interest / Hobbies</span>
-                <div className="admin-modal-info-value">
-                  {Array.isArray(selectedUser.hobbies) && selectedUser.hobbies.length > 0 ? (
-                    <div className="admin-modal-badge-list">
-                      {selectedUser.hobbies.map((hobby, i) => (
-                        <span key={i} className="admin-modal-badge-tag">
-                          {hobby}
-                        </span>
-                      ))}
+                  <div className="admin-modal-info-item" style={{ gridColumn: 'span 2', marginTop: '14px' }}>
+                    <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Interest / Hobbies</span>
+                    <div className="admin-modal-info-value">
+                      {Array.isArray(selectedUser.hobbies) && selectedUser.hobbies.length > 0 ? (
+                        <div className="admin-modal-badge-list">
+                          {selectedUser.hobbies.map((hobby, i) => (
+                            <span key={i} className="admin-modal-badge-tag">
+                              {hobby === 'Others' && selectedUser.otherHobbies ? `Others (${selectedUser.otherHobbies})` : hobby}
+                            </span>
+                          ))}
+                        </div>
+                      ) : (
+                        <span style={{ fontSize: '13px', color: 'var(--slate)' }}>No hobbies listed.</span>
+                      )}
                     </div>
-                  ) : (
-                    <span style={{ fontSize: '13px', color: 'var(--slate)' }}>No hobbies listed.</span>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>

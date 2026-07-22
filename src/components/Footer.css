@@ -22,9 +22,19 @@
 }
 
 .footer__inner {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.6fr;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 48px;
+}
+
+.footer__brand {
+  max-width: 460px;
+  flex: 1 1 350px;
+}
+
+.footer__col {
+  min-width: 160px;
 }
 
 /* Brand */
@@ -221,22 +231,20 @@
 
 @media (max-width: 1024px) {
   .footer__inner {
-    grid-template-columns: 1fr 1fr;
+    flex-wrap: wrap;
     gap: 40px;
   }
 
   .footer__brand {
-    grid-column: span 2;
+    flex: 1 1 100%;
+    max-width: 100%;
   }
 }
 
 @media (max-width: 600px) {
   .footer__inner {
-    grid-template-columns: 1fr;
-  }
-
-  .footer__brand {
-    grid-column: span 1;
+    flex-direction: column;
+    gap: 32px;
   }
 
   .footer__bottom-inner {
