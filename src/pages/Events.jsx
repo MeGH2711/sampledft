@@ -4,7 +4,7 @@ import eventAhmedabad from '../assets/Meet2023/img79.dcf15f8c3bf07d813ed0.avif'
 import eventSurat from '../assets/Sangaath2024/AJY_6380.avif'
 import eventVadodara from '../assets/event-vadodara.avif'
 import './Events.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 const events = [
   {

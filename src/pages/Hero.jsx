@@ -5,7 +5,7 @@ import heroSlide1 from '../assets/Meet2023/img90.7da26a7b0531a14f219e.avif'
 import heroSlide2 from '../assets/Sangaath2024/AJY_6412.avif'
 import heroSlide3 from '../assets/Meet2023/img34.9ab305e8ae48ca6fb887.avif'
 import './Hero.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 const slides = [
   {

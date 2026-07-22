@@ -1,6 +1,6 @@
 import aboutImg from '../assets/About.avif'
 import './About.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 const highlights = [
   'Connecting alumni across India and the world',

@@ -1,6 +1,6 @@
 import { FaLinkedin, FaAward } from 'react-icons/fa'
 import './AlumniSpotlight.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 import prakashVaghImg from '../assets/Alumni_Spotlight/Prakash_Vagh.png'
 import snehaImg from '../assets/spotlight_sneha.png'

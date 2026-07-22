@@ -26,9 +26,9 @@ import {
 } from 'react-icons/fa'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
-import CountryAutocomplete from './CountryAutocomplete'
-import StateAutocomplete from './StateAutocomplete'
-import CityAutocomplete from './CityAutocomplete'
+import CountryAutocomplete from '../components/CountryAutocomplete'
+import StateAutocomplete from '../components/StateAutocomplete'
+import CityAutocomplete from '../components/CityAutocomplete'
 import './Profile.css'
 import { countryCodes } from '../data/countryData'
 import {

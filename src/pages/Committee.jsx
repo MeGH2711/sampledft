@@ -1,6 +1,6 @@
 import { FaLinkedin, FaEnvelope } from 'react-icons/fa'
 import './Committee.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 import { sangamCoreTeam, members } from '../data/committeeData'
 

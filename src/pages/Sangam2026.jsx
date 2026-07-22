@@ -3,7 +3,7 @@ import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaCheckCircle } from 'react-ico
 import eventImg from '../assets/event-vadodara.avif'
 import sangamLogo from '../assets/Logo/sangam-logo.avif'
 import './Sangam2026.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 import { sponsorTiers } from '../data/SponserData'
 
 export default function Sangam2026() {

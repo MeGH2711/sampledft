@@ -2,7 +2,7 @@ import { FaEye, FaBullseye } from 'react-icons/fa'
 import visionImg from '../assets/VisionMission/vision.avif'
 import missionImg from '../assets/VisionMission/mission.avif'
 import './VisionMission.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 export default function VisionMission() {
   return (

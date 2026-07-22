@@ -7,7 +7,7 @@ import gallery4 from '../assets/Gallery_Images/Gallery_3.avif'
 import gallery5 from '../assets/Gallery_Images/Gallery_5.avif'
 import gallery6 from '../assets/Gallery_Images/Gallery_1.avif'
 import './Gallery.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 const items = [
   { src: gallery1 },

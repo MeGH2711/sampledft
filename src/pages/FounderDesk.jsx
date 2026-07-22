@@ -1,6 +1,6 @@
 import founderImg from '../assets/G_D_Acharya.avif'
 import './FounderDesk.css'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import ImageWithSkeleton from '../components/ImageWithSkeleton'
 
 export default function FounderDesk() {
   return (

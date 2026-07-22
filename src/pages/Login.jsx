@@ -29,9 +29,9 @@ import {
   FaAward
 } from 'react-icons/fa'
 import alumniLogo from '../assets/Logo/dft-logo-dark.avif'
-import CountryAutocomplete from './CountryAutocomplete'
-import StateAutocomplete from './StateAutocomplete'
-import CityAutocomplete from './CityAutocomplete'
+import CountryAutocomplete from '../components/CountryAutocomplete'
+import StateAutocomplete from '../components/StateAutocomplete'
+import CityAutocomplete from '../components/CityAutocomplete'
 import './Login.css'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
