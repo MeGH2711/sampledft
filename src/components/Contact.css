@@ -121,6 +121,8 @@
   border: 1px solid var(--line-grey);
   box-shadow: var(--shadow-card);
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Ribbon override */
@@ -135,18 +137,28 @@
   flex-direction: column;
   gap: 18px;
   padding: 28px 30px 32px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .contact__form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .contact__field {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  width: 100%;
+  min-width: 0;
+  /* min-width:0 lets a flex/grid child shrink below
+     its content size instead of forcing the row to
+     overflow the container */
+  box-sizing: border-box;
 }
 
 .contact__field label {
@@ -160,6 +172,12 @@
 
 .contact__field input,
 .contact__field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  /* without border-box, the field's padding + border
+     add on top of its 100% width and get clipped by
+     .contact__form-wrap's overflow:hidden, which is
+     what makes the right edge look cut off/overlapping */
   background: var(--fog-grey);
   border: 1px solid var(--line-grey);
   border-radius: 0;
@@ -263,6 +281,11 @@
 @media (max-width: 900px) {
   .contact__grid {
     grid-template-columns: 1fr;
+  }
+
+  .contact__btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 

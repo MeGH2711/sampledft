@@ -696,3 +696,201 @@
   color: var(--navy-deep);
   z-index: 2;
 }
+
+/* ============================================
+   MOBILE LAYOUT — FULL-SCREEN, CARD-FREE
+   Distinct from the desktop/tablet card layout.
+   Content runs edge-to-edge like a native app
+   screen instead of floating white cards on
+   the navy background.
+   ============================================ */
+@media (max-width: 640px) {
+
+  /* Kill the ambient blur decor — not needed on a
+     flat, full-bleed mobile surface and it hurts
+     scroll performance on lower-end phones. */
+  .profile-page__decor {
+    display: none;
+  }
+
+  .profile-page {
+    padding: 84px 0 96px;
+    /* extra bottom padding reserves room for the
+       fixed mobile action bar defined below */
+    background: var(--fog-grey);
+  }
+
+  .profile-container {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    gap: 0;
+    animation: none;
+  }
+
+  /* Back link becomes a slim in-flow header bar
+     instead of a floating link above a card —
+     stretched edge-to-edge as a full-width button */
+  .profile-back-link {
+    background: var(--paper-white);
+    padding: 14px 16px;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    color: var(--navy-deep);
+    border-bottom: 1px solid var(--line-grey);
+    font-size: 0.68rem;
+  }
+
+  .profile-back-link:hover {
+    transform: none;
+  }
+
+  .profile-grid {
+    display: block;
+    gap: 0;
+  }
+
+  /* Cards lose all "card-ness": no radius, no
+     shadow, no floating margins — they become
+     stacked full-width panels separated by a
+     hairline, like native app sections. */
+  .profile-card-left,
+  .profile-card-right {
+    border-radius: 0;
+    box-shadow: none;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Left column becomes a compact profile header
+     strip (avatar + name inline) rather than a
+     tall centered card — a mobile-appropriate
+     pattern distinct from desktop's sidebar card.
+     Grid (not flex) so the avatar can span both
+     the name row and the badge row and center
+     against their combined height. */
+  .profile-card-left {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    column-gap: 16px;
+    row-gap: 4px;
+    text-align: left;
+    padding: 20px 16px;
+    border-bottom: 8px solid var(--fog-grey);
+  }
+
+  .profile-avatar-large {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: center;
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .profile-name {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+    text-align: left;
+  }
+
+  .profile-badge-row {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0;
+  }
+
+  .profile-badge-row,
+  .profile-class-sub {
+    text-align: left;
+  }
+
+  .profile-badge-row .navbar__user-badge {
+    margin: 0 !important;
+    /* the component sets inline margin:0 auto to
+       center it on desktop — force left alignment
+       here so it sits flush under the name */
+  }
+
+  .profile-class-sub,
+  .profile-divider,
+  .profile-meta-info {
+    grid-column: 1 / -1;
+  }
+
+  .profile-divider {
+    margin: 16px 0;
+  }
+
+  .profile-meta-info {
+    width: 100%;
+  }
+
+  .profile-card-right {
+    padding: 20px 16px 24px;
+  }
+
+  /* Header row (title + Edit Profile button). The
+     component renders title then button and sets
+     inline display:flex/justify-content:space-between/
+     align-items:center — override to a reversed
+     column so the button renders above the title,
+     stretched to full width. */
+  .profile-card-right>div:first-child {
+    flex-direction: column-reverse !important;
+    align-items: stretch !important;
+    gap: 12px;
+  }
+
+  .profile-card-right>div:first-child .profile-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .profile-section-title,
+  .profile-form__section-title {
+    width: 100%;
+  }
+
+  .profile-form__grid-3,
+  .previous-degree-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .product-services-checkbox-group {
+    grid-template-columns: 1fr;
+    max-height: 220px;
+  }
+
+  /* Sticky, full-width mobile action bar — replaces
+     the desktop's right-aligned inline buttons with
+     a native-app-style bottom bar */
+  .profile-actions {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 900;
+    margin-top: 0;
+    background: var(--paper-white);
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.12);
+    gap: 12px;
+  }
+
+  .profile-actions .profile-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .profile-btn--primary:hover {
+    transform: none;
+  }
+}
