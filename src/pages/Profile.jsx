@@ -1729,7 +1729,7 @@ export default function Profile({ user, onUpdateUser }) {
                       </select>
                     </div>
 
-                    <label className="checkbox-option" style={{ marginTop: '10px' }}>
+                    <label className="checkbox-option" style={{ marginTop: '10px', cursor: (!isEditing || loading) ? 'default' : 'pointer' }}>
                       <input
                         type="checkbox"
                         name="diplomaNotCompleted"
