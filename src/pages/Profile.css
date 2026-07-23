@@ -456,6 +456,27 @@
   box-sizing: border-box;
 }
 
+.profile-form__grid-3--aligned {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: auto auto auto;
+  gap: 4px 20px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.profile-form__grid-3--aligned>.profile-field {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3;
+  gap: 0;
+}
+
+.profile-form__grid-3--aligned .profile-field__subtext {
+  margin: 10px 0;
+}
+
 .previous-degree-row {
   display: grid;
   grid-template-columns: minmax(0, 45fr) minmax(0, 45fr) minmax(0, 10fr);
@@ -475,9 +496,26 @@
 
   .profile-form__grid,
   .profile-form__grid-3,
+  .profile-form__grid-3--aligned,
   .previous-degree-row {
     grid-template-columns: minmax(0, 1fr);
     gap: 16px;
+  }
+
+  .profile-form__grid-3--aligned {
+    grid-template-rows: auto;
+  }
+
+  .profile-form__grid-3--aligned>.profile-field {
+    display: flex;
+    flex-direction: column;
+    grid-row: auto;
+    gap: 6px;
+  }
+
+  .profile-form__grid-3--aligned .profile-field__subtext {
+    margin-top: 2px;
+    margin-bottom: 6px;
   }
 
   .profile-field--full {
@@ -501,6 +539,15 @@
   letter-spacing: 0.8px;
   text-transform: uppercase;
   color: var(--slate);
+}
+
+.profile-field__subtext {
+  display: block;
+  font-size: 0.55rem;
+  color: #dc2626;
+  font-weight: 500;
+  margin-top: 2px;
+  margin-bottom: 6px;
 }
 
 .profile-field__required {

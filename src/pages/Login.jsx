@@ -1792,10 +1792,10 @@ export default function Login({ user, onLoginSuccess }) {
                     <div className="login-field" style={{ visibility: 'hidden' }}></div>
                   </div>
 
-                  <div className="login-form__grid-3" style={{ marginTop: '15px' }}>
+                  <div className="login-form__grid-3 login-form__grid-3--aligned" style={{ marginTop: '15px' }}>
                     <div className="login-field">
                       <label htmlFor="reg-country">Native (Country)</label>
-                      <span style={{ display: 'block', fontSize: '0.55rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                      <span className="login-field__subtext">
                         If not found in list, type your country name
                       </span>
                       <CountryAutocomplete
@@ -1810,7 +1810,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
                     <div className="login-field">
                       <label htmlFor="reg-state">Native (State)</label>
-                      <span style={{ display: 'block', fontSize: '0.55rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                      <span className="login-field__subtext">
                         If not found in list, type your state name
                       </span>
                       <StateAutocomplete
@@ -1826,7 +1826,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
                     <div className="login-field">
                       <label htmlFor="reg-city">Native (City)</label>
-                      <span style={{ display: 'block', fontSize: '0.55rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                      <span className="login-field__subtext">
                         If not found in list, type your city name
                       </span>
                       <CityAutocomplete
@@ -2072,7 +2072,7 @@ export default function Login({ user, onLoginSuccess }) {
                   <div className="login-form__grid">
                     <div className="login-field login-field--full">
                       <label htmlFor="reg-company">Current Organization {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
-                      <span style={{ display: 'block', fontSize: '0.55rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                      <span className="login-field__subtext">
                         If not found in list, type your company name
                       </span>
                       <CompanyAutocomplete
@@ -2188,10 +2188,10 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
                   </div>
 
-                  <div className="login-form__grid-3" style={{ marginTop: '10px' }}>
+                  <div className="login-form__grid-3 login-form__grid-3--aligned" style={{ marginTop: '10px' }}>
                     <div className="login-field">
                       <label htmlFor="reg-company-country">Company Location (Country) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
-                      <span style={{ display: 'block', fontSize: '0.55rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                      <span className="login-field__subtext">
                         If not found in list, type your country name
                       </span>
                       <CountryAutocomplete
@@ -2206,7 +2206,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
                     <div className="login-field">
                       <label htmlFor="reg-company-state">Company Location (State) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
-                      <span style={{ display: 'block', fontSize: '0.55rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                      <span className="login-field__subtext">
                         If not found in list, type your state name
                       </span>
                       <StateAutocomplete
@@ -2222,7 +2222,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
                     <div className="login-field">
                       <label htmlFor="reg-company-city">Company Location (City) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
-                      <span style={{ display: 'block', fontSize: '0.55rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                      <span className="login-field__subtext">
                         If not found in list, type your city name
                       </span>
                       <CityAutocomplete

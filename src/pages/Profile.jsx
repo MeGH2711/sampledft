@@ -1714,10 +1714,10 @@ export default function Profile({ user, onUpdateUser }) {
                   <div className="profile-field" style={{ visibility: 'hidden' }}></div>
                 </div>
 
-                <div className="profile-form__grid-3" style={{ marginTop: '15px' }}>
+                <div className="profile-form__grid-3 profile-form__grid-3--aligned" style={{ marginTop: '15px' }}>
                   <div className="profile-field">
                     <label htmlFor="prof-country">Native (Country)</label>
-                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                    <span className="profile-field__subtext">
                       If not found in list, type your country name
                     </span>
                     <CountryAutocomplete
@@ -1732,7 +1732,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
                   <div className="profile-field">
                     <label htmlFor="prof-state">Native (State)</label>
-                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                    <span className="profile-field__subtext">
                       If not found in list, type your state name
                     </span>
                     <StateAutocomplete
@@ -1748,7 +1748,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
                   <div className="profile-field">
                     <label htmlFor="prof-city">Native (City)</label>
-                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                    <span className="profile-field__subtext">
                       If not found in list, type your city name
                     </span>
                     <CityAutocomplete
@@ -1994,7 +1994,7 @@ export default function Profile({ user, onUpdateUser }) {
                 <div className="profile-form__grid">
                   <div className="profile-field profile-field--full">
                     <label htmlFor="prof-company">Current Organization {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
-                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                    <span className="profile-field__subtext">
                       If not found in list, type your company name
                     </span>
                     <CompanyAutocomplete
@@ -2110,10 +2110,10 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
                 </div>
 
-                <div className="profile-form__grid-3" style={{ marginTop: '10px' }}>
+                <div className="profile-form__grid-3 profile-form__grid-3--aligned" style={{ marginTop: '10px' }}>
                   <div className="profile-field">
                     <label htmlFor="prof-company-country">Company Location (Country) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
-                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                    <span className="profile-field__subtext">
                       If not found in list, type your country name
                     </span>
                     <CountryAutocomplete
@@ -2128,7 +2128,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
                   <div className="profile-field">
                     <label htmlFor="prof-company-state">Company Location (State) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
-                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                    <span className="profile-field__subtext">
                       If not found in list, type your state name
                     </span>
                     <StateAutocomplete
@@ -2144,7 +2144,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
                   <div className="profile-field">
                     <label htmlFor="prof-company-city">Company Location (City) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
-                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                    <span className="profile-field__subtext">
                       If not found in list, type your city name
                     </span>
                     <CityAutocomplete

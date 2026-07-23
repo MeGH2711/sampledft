@@ -300,6 +300,27 @@
   gap: 16px 20px;
 }
 
+.login-form__grid-3--aligned {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 4px 20px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.login-form__grid-3--aligned>.login-field {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3;
+  gap: 0;
+}
+
+.login-form__grid-3--aligned .login-field__subtext {
+  margin: 10px 0;
+}
+
 .previous-degree-row {
   display: grid;
   grid-template-columns: 45fr 45fr 10fr;
@@ -330,6 +351,15 @@
   letter-spacing: 0.8px;
   text-transform: uppercase;
   color: var(--slate);
+}
+
+.login-field__subtext {
+  display: block;
+  font-size: 0.55rem;
+  color: #dc2626;
+  font-weight: 500;
+  margin-top: 2px;
+  margin-bottom: 6px;
 }
 
 .login-field__required {
@@ -814,10 +844,27 @@
 
   .login-form__grid,
   .login-form__grid-3,
+  .login-form__grid-3--aligned,
   .login-form__row,
   .previous-degree-row {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .login-form__grid-3--aligned {
+    grid-template-rows: auto;
+  }
+
+  .login-form__grid-3--aligned>.login-field {
+    display: flex;
+    flex-direction: column;
+    grid-row: auto;
+    gap: 6px;
+  }
+
+  .login-form__grid-3--aligned .login-field__subtext {
+    margin-top: 2px;
+    margin-bottom: 6px;
   }
 
   .login-field--full {
