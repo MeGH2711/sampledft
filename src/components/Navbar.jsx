@@ -24,6 +24,45 @@ export default function Navbar({ user, onLogout }) {
   const location = useLocation()
   const isHome = location.pathname === '/'
 
+  const [activeSection, setActiveSection] = useState('')
+
+  useEffect(() => {
+    if (!isHome) {
+      setActiveSection('')
+      return
+    }
+
+    const sectionIds = ['home', 'about', 'vision', 'founder-desk', 'stats', 'spotlight', 'committee', 'gallery', 'events', 'newsletter', 'contact']
+
+    const handleIntersect = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id)
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(handleIntersect, {
+      rootMargin: '-25% 0px -50% 0px',
+      threshold: 0
+    })
+
+    const timer = setTimeout(() => {
+      sectionIds.forEach((id) => {
+        const el = document.getElementById(id)
+        if (el) observer.observe(el)
+      })
+    }, 100)
+
+    return () => {
+      clearTimeout(timer)
+      observer.disconnect()
+    }
+  }, [isHome, location.pathname])
+
+  const isAboutActive = isHome ? ['about', 'vision', 'founder-desk', 'stats'].includes(activeSection) : false
+  const isEventsActive = isHome ? activeSection === 'events' : ['/sangam2026', '/sangaath2024', '/dftalumnimeet2023'].includes(location.pathname)
+
   const getGreetingName = () => {
     if (!user) return 'User';
     const first = getUserFirstName(user);
@@ -104,7 +143,7 @@ export default function Navbar({ user, onLogout }) {
                         offset={-90}
                         spy
                         activeClass="active"
-                        className="navbar__link navbar__link--dropdown"
+                        className={`navbar__link navbar__link--dropdown ${isAboutActive ? 'active' : ''}`}
                       >
                         About Us <FaChevronDown className="navbar__dropdown-icon" />
                       </ScrollLink>
@@ -112,7 +151,7 @@ export default function Navbar({ user, onLogout }) {
                       <RouterLink
                         to="/"
                         state={{ scrollTo: 'about' }}
-                        className="navbar__link navbar__link--dropdown"
+                        className={`navbar__link navbar__link--dropdown ${isAboutActive ? 'active' : ''}`}
                       >
                         About Us <FaChevronDown className="navbar__dropdown-icon" />
                       </RouterLink>
@@ -124,7 +163,7 @@ export default function Navbar({ user, onLogout }) {
                           smooth
                           duration={600}
                           offset={-90}
-                          className="navbar__dropdown-item"
+                          className={`navbar__dropdown-item ${activeSection === 'about' ? 'active' : ''}`}
                         >
                           <span className="navbar__dropdown-item-title">About DFT</span>
                           <span className="navbar__dropdown-item-desc">Learn about our association</span>
@@ -146,7 +185,7 @@ export default function Navbar({ user, onLogout }) {
                           smooth
                           duration={600}
                           offset={-90}
-                          className="navbar__dropdown-item"
+                          className={`navbar__dropdown-item ${activeSection === 'vision' ? 'active' : ''}`}
                         >
                           <span className="navbar__dropdown-item-title">Vision & Mission</span>
                           <span className="navbar__dropdown-item-desc">Our goals & vision statements</span>
@@ -168,7 +207,7 @@ export default function Navbar({ user, onLogout }) {
                           smooth
                           duration={600}
                           offset={-90}
-                          className="navbar__dropdown-item"
+                          className={`navbar__dropdown-item ${activeSection === 'founder-desk' ? 'active' : ''}`}
                         >
                           <span className="navbar__dropdown-item-title">Founder Desk</span>
                           <span className="navbar__dropdown-item-desc">A message from our founder</span>
@@ -181,6 +220,28 @@ export default function Navbar({ user, onLogout }) {
                         >
                           <span className="navbar__dropdown-item-title">Founder Desk</span>
                           <span className="navbar__dropdown-item-desc">A message from our founder</span>
+                        </RouterLink>
+                      )}
+
+                      {isHome ? (
+                        <ScrollLink
+                          to="stats"
+                          smooth
+                          duration={600}
+                          offset={-90}
+                          className={`navbar__dropdown-item ${activeSection === 'stats' ? 'active' : ''}`}
+                        >
+                          <span className="navbar__dropdown-item-title">Alumni Statistics</span>
+                          <span className="navbar__dropdown-item-desc">Our impact in numbers</span>
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink
+                          to="/"
+                          state={{ scrollTo: 'stats' }}
+                          className="navbar__dropdown-item"
+                        >
+                          <span className="navbar__dropdown-item-title">Alumni Statistics</span>
+                          <span className="navbar__dropdown-item-desc">Our impact in numbers</span>
                         </RouterLink>
                       )}
                     </div>
@@ -200,7 +261,7 @@ export default function Navbar({ user, onLogout }) {
                         offset={-90}
                         spy
                         activeClass="active"
-                        className="navbar__link navbar__link--dropdown"
+                        className={`navbar__link navbar__link--dropdown ${isEventsActive ? 'active' : ''}`}
                       >
                         {link.label} <FaChevronDown className="navbar__dropdown-icon" />
                       </ScrollLink>
@@ -208,22 +269,22 @@ export default function Navbar({ user, onLogout }) {
                       <RouterLink
                         to="/"
                         state={{ scrollTo: link.to }}
-                        className="navbar__link navbar__link--dropdown"
+                        className={`navbar__link navbar__link--dropdown ${isEventsActive ? 'active' : ''}`}
                       >
                         {link.label} <FaChevronDown className="navbar__dropdown-icon" />
                       </RouterLink>
                     )}
                     <div className="navbar__dropdown-menu">
-                      <RouterLink to="/sangam2026" className="navbar__dropdown-item">
+                      <RouterLink to="/sangam2026" className={`navbar__dropdown-item ${location.pathname === '/sangam2026' ? 'active' : ''}`}>
                         <span className="navbar__dropdown-item-title">Sangam 2026</span>
                         <span className="navbar__dropdown-item-desc">Vadodara (Upcoming)</span>
                         <span className="navbar__dropdown-item-status"></span>
                       </RouterLink>
-                      <RouterLink to="/sangaath2024" className="navbar__dropdown-item">
+                      <RouterLink to="/sangaath2024" className={`navbar__dropdown-item ${location.pathname === '/sangaath2024' ? 'active' : ''}`}>
                         <span className="navbar__dropdown-item-title">Sangaath 2024</span>
                         <span className="navbar__dropdown-item-desc">Surat</span>
                       </RouterLink>
-                      <RouterLink to="/dftalumnimeet2023" className="navbar__dropdown-item">
+                      <RouterLink to="/dftalumnimeet2023" className={`navbar__dropdown-item ${location.pathname === '/dftalumnimeet2023' ? 'active' : ''}`}>
                         <span className="navbar__dropdown-item-title">DFT Alumni Meet 2023</span>
                         <span className="navbar__dropdown-item-desc">Ahmedabad</span>
                       </RouterLink>
@@ -368,7 +429,7 @@ export default function Navbar({ user, onLogout }) {
                         smooth
                         duration={600}
                         offset={-90}
-                        className="navbar__mobile-link"
+                        className={`navbar__mobile-link ${isAboutActive ? 'active' : ''}`}
                         activeClass="active"
                         spy
                         onClick={() => setMenuOpen(false)}
@@ -379,7 +440,7 @@ export default function Navbar({ user, onLogout }) {
                       <RouterLink
                         to="/"
                         state={{ scrollTo: 'about' }}
-                        className="navbar__mobile-link"
+                        className={`navbar__mobile-link ${isAboutActive ? 'active' : ''}`}
                         onClick={() => setMenuOpen(false)}
                       >
                         About Us
@@ -392,7 +453,7 @@ export default function Navbar({ user, onLogout }) {
                           smooth
                           duration={600}
                           offset={-90}
-                          className="navbar__mobile-sublink"
+                          className={`navbar__mobile-sublink ${activeSection === 'about' ? 'active' : ''}`}
                           onClick={() => setMenuOpen(false)}
                         >
                           About DFT
@@ -414,7 +475,7 @@ export default function Navbar({ user, onLogout }) {
                           smooth
                           duration={600}
                           offset={-90}
-                          className="navbar__mobile-sublink"
+                          className={`navbar__mobile-sublink ${activeSection === 'vision' ? 'active' : ''}`}
                           onClick={() => setMenuOpen(false)}
                         >
                           Vision & Mission
@@ -436,7 +497,7 @@ export default function Navbar({ user, onLogout }) {
                           smooth
                           duration={600}
                           offset={-90}
-                          className="navbar__mobile-sublink"
+                          className={`navbar__mobile-sublink ${activeSection === 'founder-desk' ? 'active' : ''}`}
                           onClick={() => setMenuOpen(false)}
                         >
                           Founder Desk
@@ -451,6 +512,28 @@ export default function Navbar({ user, onLogout }) {
                           Founder Desk
                         </RouterLink>
                       )}
+
+                      {isHome ? (
+                        <ScrollLink
+                          to="stats"
+                          smooth
+                          duration={600}
+                          offset={-90}
+                          className={`navbar__mobile-sublink ${activeSection === 'stats' ? 'active' : ''}`}
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          Alumni Statistics
+                        </ScrollLink>
+                      ) : (
+                        <RouterLink
+                          to="/"
+                          state={{ scrollTo: 'stats' }}
+                          className="navbar__mobile-sublink"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          Alumni Statistics
+                        </RouterLink>
+                      )}
                     </div>
                   </>
                 ) : link.label === 'Events' ? (
@@ -461,7 +544,7 @@ export default function Navbar({ user, onLogout }) {
                         smooth
                         duration={600}
                         offset={-90}
-                        className="navbar__mobile-link"
+                        className={`navbar__mobile-link ${isEventsActive ? 'active' : ''}`}
                         activeClass="active"
                         spy
                         onClick={() => setMenuOpen(false)}
@@ -472,7 +555,7 @@ export default function Navbar({ user, onLogout }) {
                       <RouterLink
                         to="/"
                         state={{ scrollTo: link.to }}
-                        className="navbar__mobile-link"
+                        className={`navbar__mobile-link ${isEventsActive ? 'active' : ''}`}
                         onClick={() => setMenuOpen(false)}
                       >
                         {link.label}
@@ -481,21 +564,21 @@ export default function Navbar({ user, onLogout }) {
                     <div className="navbar__mobile-submenu">
                       <RouterLink
                         to="/sangam2026"
-                        className="navbar__mobile-sublink"
+                        className={`navbar__mobile-sublink ${location.pathname === '/sangam2026' ? 'active' : ''}`}
                         onClick={() => setMenuOpen(false)}
                       >
                         Sangam 2026
                       </RouterLink>
                       <RouterLink
                         to="/sangaath2024"
-                        className="navbar__mobile-sublink"
+                        className={`navbar__mobile-sublink ${location.pathname === '/sangaath2024' ? 'active' : ''}`}
                         onClick={() => setMenuOpen(false)}
                       >
                         Sangaath 2024
                       </RouterLink>
                       <RouterLink
                         to="/dftalumnimeet2023"
-                        className="navbar__mobile-sublink"
+                        className={`navbar__mobile-sublink ${location.pathname === '/dftalumnimeet2023' ? 'active' : ''}`}
                         onClick={() => setMenuOpen(false)}
                       >
                         DFT Alumni Meet 2023

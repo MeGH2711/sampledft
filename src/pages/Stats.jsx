@@ -46,7 +46,7 @@ export default function Stats() {
   const countVisits = useCountUp(visitorCount || 1, 1800, active)
 
   return (
-    <section className="section stats section-navy" ref={ref}>
+    <section id="stats" className="section stats section-navy" ref={ref}>
       <div className="masthead-bg-lines" style={{ position: 'absolute', inset: 0 }} />
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
 

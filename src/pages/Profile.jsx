@@ -985,6 +985,11 @@ export default function Profile({ user, onUpdateUser }) {
       return
     }
 
+    if (!profileForm.dob) {
+      setError('Date of Birth is compulsory.')
+      return
+    }
+
     if (!profileForm.consentEmail && !profileForm.consentPhone && !profileForm.consentWhatsapp) {
       setError('Please select at least one detail (Email ID, Mobile Number, or WhatsApp Number) to show on the Alumni Portal.')
       return
@@ -1538,7 +1543,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-dob">Date of Birth</label>
+                    <label htmlFor="prof-dob">Date of Birth <span className="profile-field__required">*</span></label>
                     <div className="profile-field__input-wrap">
                       <FaCalendarAlt className="profile-field__icon" />
                       <input
@@ -1548,6 +1553,7 @@ export default function Profile({ user, onUpdateUser }) {
                         value={profileForm.dob}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
+                        required
                         placeholder="No Data Provided"
                       />
                     </div>

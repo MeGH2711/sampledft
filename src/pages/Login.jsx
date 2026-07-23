@@ -910,6 +910,11 @@ export default function Login({ user, onLoginSuccess }) {
       return
     }
 
+    if (!registerForm.dob) {
+      setError('Date of Birth is compulsory.')
+      return
+    }
+
     if (!registerForm.consentEmail && !registerForm.consentPhone && !registerForm.consentWhatsapp) {
       setError('Please select at least one detail (Email ID, Mobile Number, or WhatsApp Number) to show on the Alumni Portal.')
       return

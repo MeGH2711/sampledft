@@ -387,7 +387,8 @@
   border-bottom: none;
 }
 
-.navbar__dropdown-item:hover {
+.navbar__dropdown-item:hover,
+.navbar__dropdown-item.active {
   background: rgba(255, 255, 255, 0.08);
 }
 
@@ -399,6 +400,11 @@
   letter-spacing: 0.5px;
   text-transform: uppercase;
   transition: color 0.3s ease;
+}
+
+.navbar__dropdown-item:hover .navbar__dropdown-item-title,
+.navbar__dropdown-item.active .navbar__dropdown-item-title {
+  color: var(--signal-red);
 }
 
 .navbar__dropdown-item-desc {
