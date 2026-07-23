@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import { FaCloudUploadAlt, FaFilePdf, FaLock, FaTrash, FaExternalLinkAlt } from 'react-icons/fa'
+import { openPdfInNewTab } from '../utils/pdfHelper'
 import './CvDropzone.css'
 
 const formatFileSize = (bytes) => {
@@ -23,6 +24,11 @@ export default function CvDropzone({
 }) {
   const [isDragging, setIsDragging] = useState(false)
   const fileInputRef = useRef(null)
+
+  const handleViewPdf = (e) => {
+    if (e) e.preventDefault()
+    openPdfInNewTab(cvFile || cvUrl)
+  }
 
   const validateAndProcessFile = (file) => {
     if (!file) return
@@ -148,16 +154,15 @@ export default function CvDropzone({
             </div>
 
             <div className="cv-dropzone__file-actions">
-              {(cvUrl || (cvFile && cvUrl)) && (
-                <a
-                  href={cvUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+              {(cvFile || cvUrl) && (
+                <button
+                  type="button"
                   className="cv-dropzone__action-btn"
+                  onClick={handleViewPdf}
                   title="View / Download PDF"
                 >
                   <FaExternalLinkAlt style={{ fontSize: '0.72rem' }} /> View PDF
-                </a>
+                </button>
               )}
 
               {isEditing && !disabled && (

@@ -1069,7 +1069,7 @@ export default function Profile({ user, onUpdateUser }) {
     const cleanFullName = [cleanFirstName, cleanMiddleName, cleanLastName].filter(Boolean).join(' ');
     const uid = user ? (user.uid || (auth.currentUser ? auth.currentUser.uid : null)) : null
 
-    let finalCvUrl = profileForm.cvBase64 || ''
+    let finalCvUrl = profileForm.cvBase64 || profileForm.cvUrl || ''
     if (profileForm.cvFile) {
       try {
         const cvRes = await uploadPdfToDrive(profileForm.cvFile, `${uid || 'Alumni'}_CV.pdf`, uid || '')
@@ -1279,6 +1279,9 @@ export default function Profile({ user, onUpdateUser }) {
     profileForm.consentPhone !== originalForm.consentPhone ||
     profileForm.consentWhatsapp !== originalForm.consentWhatsapp ||
     profileForm.cvBase64 !== originalForm.cvBase64 ||
+    profileForm.cvUrl !== originalForm.cvUrl ||
+    profileForm.cvFileName !== originalForm.cvFileName ||
+    profileForm.cvFile !== originalForm.cvFile ||
     profileForm.workExperience !== originalForm.workExperience
   ) : false
 
@@ -1355,34 +1358,36 @@ export default function Profile({ user, onUpdateUser }) {
             <div className="profile-avatar-large">
               {((profileForm.firstName || user.name || 'U').charAt(0)).toUpperCase()}
             </div>
-            <h2 className="profile-name">
-              {profileForm.firstName || profileForm.lastName
-                ? `${profileForm.firstName} ${profileForm.lastName}`
-                : user.name
-              }
-            </h2>
+            <div className="profile-header-info">
+              <h2 className="profile-name">
+                {profileForm.firstName || profileForm.lastName
+                  ? `${profileForm.firstName} ${profileForm.lastName}`
+                  : user.name
+                }
+              </h2>
 
-            <div className="profile-badge-row">
-              <span className={`navbar__user-badge ${profileForm.verification_status ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`} style={{ margin: '0 auto', display: 'inline-flex' }}>
-                {profileForm.verification_status ? (
-                  <>
-                    <FaCheckCircle className="navbar__user-badge-icon" /> Verified Alumni
-                    <span className="navbar__user-badge-tooltip">Your account has been successfully verified by the Administrator.</span>
-                  </>
-                ) : (
-                  <>
-                    <FaClock className="navbar__user-badge-icon" /> Pending Verification
-                    <span className="navbar__user-badge-tooltip">Admin will verify the account, this might take 1-2 days</span>
-                  </>
-                )}
-              </span>
+              <div className="profile-badge-row">
+                <span className={`navbar__user-badge ${profileForm.verification_status ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`} style={{ margin: '0 auto', display: 'inline-flex' }}>
+                  {profileForm.verification_status ? (
+                    <>
+                      <FaCheckCircle className="navbar__user-badge-icon" /> Verified Alumni
+                      <span className="navbar__user-badge-tooltip">Your account has been successfully verified by the Administrator.</span>
+                    </>
+                  ) : (
+                    <>
+                      <FaClock className="navbar__user-badge-icon" /> Pending Verification
+                      <span className="navbar__user-badge-tooltip">Admin will verify the account, this might take 1-2 days</span>
+                    </>
+                  )}
+                </span>
+              </div>
+
+              {profileForm.batch && (
+                <span className="profile-class-sub">
+                  Class of {profileForm.batch}
+                </span>
+              )}
             </div>
-
-            {profileForm.batch && (
-              <span className="profile-class-sub">
-                Class of {profileForm.batch}
-              </span>
-            )}
 
             <hr className="profile-divider" />
 

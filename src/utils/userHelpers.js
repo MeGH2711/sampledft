@@ -69,10 +69,10 @@ export function getUserFirstName(user) {
 export function buildUserDoc(data = {}) {
   // Helper: pick from top-level data (e.g. form fields) or fallback to nested section bucket (e.g. existing user doc)
   const getVal = (section, field, def = '') => {
-    if (data[field] !== undefined && data[field] !== null && data[field] !== '') {
+    if (data[field] !== undefined && data[field] !== null) {
       return data[field]
     }
-    if (data[section] && data[section][field] !== undefined && data[section][field] !== null && data[section][field] !== '') {
+    if (data[section] && data[section][field] !== undefined && data[section][field] !== null) {
       return data[section][field]
     }
     return def
@@ -95,14 +95,11 @@ export function buildUserDoc(data = {}) {
   }
 
   const getArr = (section, field) => {
-    if (Array.isArray(data[field]) && data[field].length > 0) {
+    if (Array.isArray(data[field])) {
       return data[field]
     }
     if (data[section] && Array.isArray(data[section][field])) {
       return data[section][field]
-    }
-    if (Array.isArray(data[field])) {
-      return data[field]
     }
     return []
   }

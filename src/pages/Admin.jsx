@@ -22,6 +22,7 @@ import { db } from '../firebase'
 import { buildUserDoc, personal, contact, academic, professional, pref, meta, getArrayField, getUserDisplayName } from '../utils/userHelpers'
 import { collection, getDocs, doc, updateDoc, deleteDoc, addDoc, setDoc } from 'firebase/firestore'
 import useVisitorCount from '../hooks/useVisitorCount'
+import { openPdfInNewTab } from '../utils/pdfHelper'
 import './Admin.css'
 
 const formatDateFormatted = (dateStr) => {
@@ -1189,15 +1190,13 @@ service cloud.firestore {
                     <span className="admin-modal-info-label">Resume / CV (PDF)</span>
                     <span className="admin-modal-info-value">
                       {(meta(selectedUser, 'cvUrl') || meta(selectedUser, 'cvBase64')) ? (
-                        <a
-                          href={meta(selectedUser, 'cvUrl') || meta(selectedUser, 'cvBase64')}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          download={meta(selectedUser, 'cvFileName') || `${getUserDisplayName(selectedUser) || 'Alumni'}_CV.pdf`}
-                          style={{ color: '#dc2626', fontWeight: '600', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                        <button
+                          type="button"
+                          onClick={() => openPdfInNewTab(meta(selectedUser, 'cvUrl') || meta(selectedUser, 'cvBase64'))}
+                          style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: '#dc2626', fontWeight: '600', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                         >
                           <FaFilePdf style={{ color: '#dc2626' }} /> Download / View PDF CV
-                        </a>
+                        </button>
                       ) : 'N/A'}
                     </span>
                   </div>
