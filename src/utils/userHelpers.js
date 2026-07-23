@@ -7,7 +7,7 @@
  *   contactDetails: { email, phone, secondaryPhone, whatsapp }
  *   academicDetails: { userType, admissionYear, passoutYear, diplomaNotCompleted, degrees, certifications }
  *   professionalDetails: { jobTitle, company, profession, department, division, companyWebsite, companyCity, companyState, companyCountry, workingSinceMonth, workingSinceYear, workingSince, workExperience, lastPromotionDesignation, lastPromotionMonth, lastPromotionYear, awards, productServices, otherProductServices, linkedin }
- *   preferences: { consentEmail, consentPhone, consentWhatsapp }
+ *   preferences: { consentEmail, consentPhone, consentWhatsapp, consentLinkedin }
  *   systemMetaData: { account_type, verification_status, createdAt, profilePhotoUrl, cvUrl, cvBase64, cvFileName }
  */
 
@@ -169,7 +169,8 @@ export function buildUserDoc(data = {}) {
     preferences: {
       consentEmail: getBool('preferences', 'consentEmail'),
       consentPhone: getBool('preferences', 'consentPhone'),
-      consentWhatsapp: getBool('preferences', 'consentWhatsapp')
+      consentWhatsapp: getBool('preferences', 'consentWhatsapp'),
+      consentLinkedin: getBool('preferences', 'consentLinkedin')
     },
     systemMetaData: {
       account_type: getVal('systemMetaData', 'account_type', 'alumni'),

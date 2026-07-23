@@ -32,14 +32,25 @@ export default function CountryAutocomplete({
   }, []);
 
   const searchValue = (value || '').trim().toLowerCase();
+  const searchClean = searchValue.replace(/[^a-z0-9]/g, '');
 
-  const filteredCountries = COUNTRIES.filter((country) =>
-    country.toLowerCase().includes(searchValue)
-  ).sort((a, b) => {
+  const filteredCountries = COUNTRIES.filter((country) => {
+    if (!searchValue) return true;
+    const itemLower = country.toLowerCase();
+    const itemClean = itemLower.replace(/[^a-z0-9]/g, '');
+    return itemLower.includes(searchValue) || (searchClean && itemClean.includes(searchClean));
+  }).sort((a, b) => {
     if (a === 'India') return -1;
     if (b === 'India') return 1;
-    const aStartsWith = a.toLowerCase().startsWith(searchValue);
-    const bStartsWith = b.toLowerCase().startsWith(searchValue);
+
+    const aLower = a.toLowerCase();
+    const bLower = b.toLowerCase();
+    const aClean = aLower.replace(/[^a-z0-9]/g, '');
+    const bClean = bLower.replace(/[^a-z0-9]/g, '');
+
+    const aStartsWith = aLower.startsWith(searchValue) || (searchClean && aClean.startsWith(searchClean));
+    const bStartsWith = bLower.startsWith(searchValue) || (searchClean && bClean.startsWith(searchClean));
+
     if (aStartsWith && !bStartsWith) return -1;
     if (!aStartsWith && bStartsWith) return 1;
     return a.localeCompare(b);

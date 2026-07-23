@@ -346,6 +346,7 @@ export default function Login({ user, onLoginSuccess }) {
     consentEmail: false,
     consentPhone: false,
     consentWhatsapp: false,
+    consentLinkedin: false,
     cvBase64: '',
     cvFileName: '',
     cvFile: null
@@ -516,11 +517,19 @@ export default function Login({ user, onLoginSuccess }) {
 
   const handleRegisterChange = (e) => {
     const { name, value, type, checked } = e.target
+    const isSelect = Boolean(e?.isSelect)
     let cleanValue = ['phone', 'secondaryPhone', 'whatsapp', 'workExperience'].includes(name)
       ? value.replace(/\D/g, '')
       : value;
 
-    if (['firstName', 'middleName', 'lastName'].includes(name) && typeof cleanValue === 'string') {
+    const nonCapitalizedFields = [
+      'email', 'password', 'linkedin', 'companyWebsite', 'captcha',
+      'phone', 'secondaryPhone', 'whatsapp', 'workExperience',
+      'admissionYear', 'passoutYear', 'workingSinceMonth', 'workingSinceYear',
+      'lastPromotionMonth', 'lastPromotionYear', 'phoneCode', 'secondaryPhoneCode', 'whatsappCode'
+    ];
+
+    if (!nonCapitalizedFields.includes(name) && typeof cleanValue === 'string') {
       cleanValue = capitalizeWords(cleanValue);
     }
 
@@ -530,28 +539,28 @@ export default function Login({ user, onLoginSuccess }) {
         [name]: type === 'checkbox' ? checked : cleanValue
       }
 
-      // Auto populate state & country when personal city changes
-      if (name === 'city' && typeof cleanValue === 'string' && cleanValue.trim()) {
+      // Auto populate state & country ONLY when personal city is explicitly selected from dropdown
+      if (name === 'city' && isSelect && typeof cleanValue === 'string' && cleanValue.trim()) {
         const { state: autoState, country: autoCountry } = getStateAndCountryByCity(cleanValue);
         if (autoState) updated.state = autoState;
         if (autoCountry) updated.country = autoCountry;
       }
 
-      // Auto populate country when personal state changes
-      if (name === 'state' && typeof cleanValue === 'string' && cleanValue.trim()) {
+      // Auto populate country ONLY when personal state is explicitly selected from dropdown
+      if (name === 'state' && isSelect && typeof cleanValue === 'string' && cleanValue.trim()) {
         const autoCountry = getCountryByState(cleanValue);
         if (autoCountry) updated.country = autoCountry;
       }
 
-      // Auto populate state & country when company city changes
-      if (name === 'companyCity' && typeof cleanValue === 'string' && cleanValue.trim()) {
+      // Auto populate state & country ONLY when company city is explicitly selected from dropdown
+      if (name === 'companyCity' && isSelect && typeof cleanValue === 'string' && cleanValue.trim()) {
         const { state: autoState, country: autoCountry } = getStateAndCountryByCity(cleanValue);
         if (autoState) updated.companyState = autoState;
         if (autoCountry) updated.companyCountry = autoCountry;
       }
 
-      // Auto populate country when company state changes
-      if (name === 'companyState' && typeof cleanValue === 'string' && cleanValue.trim()) {
+      // Auto populate country ONLY when company state is explicitly selected from dropdown
+      if (name === 'companyState' && isSelect && typeof cleanValue === 'string' && cleanValue.trim()) {
         const autoCountry = getCountryByState(cleanValue);
         if (autoCountry) updated.companyCountry = autoCountry;
       }
@@ -569,6 +578,10 @@ export default function Login({ user, onLoginSuccess }) {
       }
       if (name === 'diplomaNotCompleted' && checked) {
         updated.passoutYear = ''
+      }
+      if (name === 'userType' && cleanValue === 'Student') {
+        updated.profession = ''
+        updated.workExperience = ''
       }
       return updated
     })
@@ -591,7 +604,8 @@ export default function Login({ user, onLoginSuccess }) {
   const handleDegreeChange = (index, field, val) => {
     setRegisterForm(prev => {
       const updatedDegrees = [...(prev.degrees || [])]
-      updatedDegrees[index] = { ...updatedDegrees[index], [field]: val }
+      const cleanVal = (field === 'domain' && typeof val === 'string') ? capitalizeWords(val) : val;
+      updatedDegrees[index] = { ...updatedDegrees[index], [field]: cleanVal }
       return {
         ...prev,
         degrees: updatedDegrees
@@ -616,7 +630,8 @@ export default function Login({ user, onLoginSuccess }) {
   const handleCertificationChange = (index, field, val) => {
     setRegisterForm(prev => {
       const updated = [...(prev.certifications || [])]
-      updated[index] = { ...updated[index], [field]: val }
+      const cleanVal = typeof val === 'string' ? capitalizeWords(val) : val;
+      updated[index] = { ...updated[index], [field]: cleanVal }
       return {
         ...prev,
         certifications: updated
@@ -654,7 +669,7 @@ export default function Login({ user, onLoginSuccess }) {
   const handleAwardChange = (index, val) => {
     setRegisterForm(prev => {
       const updated = [...(prev.awards || [])]
-      updated[index] = val
+      updated[index] = typeof val === 'string' ? capitalizeWords(val) : val
       return {
         ...prev,
         awards: updated
@@ -779,7 +794,8 @@ export default function Login({ user, onLoginSuccess }) {
             preferences: {
               consentEmail: false,
               consentPhone: false,
-              consentWhatsapp: false
+              consentWhatsapp: false,
+              consentLinkedin: false
             },
             systemMetaData: {
               account_type: 'alumni',
@@ -915,13 +931,23 @@ export default function Login({ user, onLoginSuccess }) {
       return
     }
 
-    if (!registerForm.consentEmail && !registerForm.consentPhone && !registerForm.consentWhatsapp) {
-      setError('Please select at least one detail (Email ID, Mobile Number, or WhatsApp Number) to show on the Alumni Portal.')
+    if (!registerForm.consentEmail && !registerForm.consentPhone && !registerForm.consentWhatsapp && !registerForm.consentLinkedin) {
+      setError('Please select at least one detail (Email ID, Mobile Number, WhatsApp Number, or LinkedIn Profile) to show on the Alumni Portal.')
       return
     }
 
     if (!registerForm.userType) {
       setError('Please select whether you are a DFT Alumni or Student.')
+      return
+    }
+
+    if (!registerForm.hobbies || registerForm.hobbies.length === 0) {
+      setError('Please select at least one Interest / Hobby.')
+      return
+    }
+
+    if (registerForm.hobbies.includes('Others') && (!registerForm.otherHobbies || !registerForm.otherHobbies.trim())) {
+      setError('Please specify your other Interest / Hobby.')
       return
     }
 
@@ -952,6 +978,14 @@ export default function Login({ user, onLoginSuccess }) {
     }
 
     if (registerForm.userType === 'Alumni') {
+      if (!registerForm.profession || !registerForm.profession.trim()) {
+        setError('Please select your Profession.')
+        return
+      }
+      if (!registerForm.workExperience || !registerForm.workExperience.trim()) {
+        setError('Please enter your Total Work Experience.')
+        return
+      }
       if (!registerForm.company || !registerForm.company.trim()) {
         setError('Please select or enter your Current Organization.')
         return
@@ -961,15 +995,11 @@ export default function Login({ user, onLoginSuccess }) {
         return
       }
       if (!registerForm.jobTitle || !registerForm.jobTitle.trim()) {
-        setError('Please enter your Current Job Title (Designation).')
+        setError('Please enter your Current Designation.')
         return
       }
       if (!registerForm.workingSinceMonth || !registerForm.workingSinceYear) {
         setError('Please select both Working Since Month and Year.')
-        return
-      }
-      if (!registerForm.companyWebsite || !registerForm.companyWebsite.trim()) {
-        setError('Please enter your Company Website.')
         return
       }
       if (!registerForm.companyCity || !registerForm.companyCity.trim()) {
@@ -1037,7 +1067,7 @@ export default function Login({ user, onLoginSuccess }) {
           jobTitle: registerForm.jobTitle || '',
           company: registerForm.company || '',
           linkedin: registerForm.linkedin || '',
-          profession: registerForm.profession || '',
+          profession: registerForm.userType === 'Student' ? '' : (registerForm.profession || ''),
           companyWebsite: registerForm.companyWebsite || '',
           verification_status: false,
           account_type: 'alumni',
@@ -1062,10 +1092,11 @@ export default function Login({ user, onLoginSuccess }) {
           awards: registerForm.awards || [],
           hobbies: registerForm.hobbies || [],
           otherHobbies: registerForm.hobbies.includes('Others') ? registerForm.otherHobbies || '' : '',
-          workExperience: registerForm.workExperience || '',
+          workExperience: registerForm.userType === 'Student' ? '' : (registerForm.workExperience || ''),
           consentEmail: registerForm.consentEmail || false,
           consentPhone: registerForm.consentPhone || false,
           consentWhatsapp: registerForm.consentWhatsapp || false,
+          consentLinkedin: registerForm.consentLinkedin || false,
           cvUrl: finalCvUrl,
           cvFileName: registerForm.cvFileName || ''
         })
@@ -1763,13 +1794,15 @@ export default function Login({ user, onLoginSuccess }) {
 
                   <div className="login-form__grid-3" style={{ marginTop: '15px' }}>
                     <div className="login-field">
-                      <label htmlFor="reg-city">Native (City)</label>
-                      <CityAutocomplete
-                        id="reg-city"
-                        name="city"
-                        placeholder={PLACEHOLDERS.city}
-                        value={registerForm.city}
-                        state={registerForm.state}
+                      <label htmlFor="reg-country">Native (Country)</label>
+                      <span style={{ display: 'block', fontSize: '0.55rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                        If not found in list, type your country name
+                      </span>
+                      <CountryAutocomplete
+                        id="reg-country"
+                        name="country"
+                        placeholder={PLACEHOLDERS.country}
+                        value={registerForm.country}
                         onChange={handleRegisterChange}
                         disabled={loading}
                         wrapClassName="login-field__input-wrap"
@@ -1777,6 +1810,9 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
                     <div className="login-field">
                       <label htmlFor="reg-state">Native (State)</label>
+                      <span style={{ display: 'block', fontSize: '0.55rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                        If not found in list, type your state name
+                      </span>
                       <StateAutocomplete
                         id="reg-state"
                         name="state"
@@ -1789,12 +1825,16 @@ export default function Login({ user, onLoginSuccess }) {
                       />
                     </div>
                     <div className="login-field">
-                      <label htmlFor="reg-country">Native (Country)</label>
-                      <CountryAutocomplete
-                        id="reg-country"
-                        name="country"
-                        placeholder={PLACEHOLDERS.country}
-                        value={registerForm.country}
+                      <label htmlFor="reg-city">Native (City)</label>
+                      <span style={{ display: 'block', fontSize: '0.55rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                        If not found in list, type your city name
+                      </span>
+                      <CityAutocomplete
+                        id="reg-city"
+                        name="city"
+                        placeholder={PLACEHOLDERS.city}
+                        value={registerForm.city}
+                        state={registerForm.state}
                         onChange={handleRegisterChange}
                         disabled={loading}
                         wrapClassName="login-field__input-wrap"
@@ -1959,7 +1999,7 @@ export default function Login({ user, onLoginSuccess }) {
                   <h4 className="login-section-title" style={{ marginTop: '20px' }}>Professional Details</h4>
                   <div className="login-form__grid">
                     <div className="login-field login-field--full">
-                      <label htmlFor="reg-profession">Profession</label>
+                      <label htmlFor="reg-profession">Profession {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
                       <div className="login-field__input-wrap">
                         <FaBriefcase className="login-field__icon" />
                         <select
@@ -1967,7 +2007,8 @@ export default function Login({ user, onLoginSuccess }) {
                           name="profession"
                           value={registerForm.profession}
                           onChange={handleRegisterChange}
-                          disabled={loading}
+                          required={registerForm.userType === 'Alumni'}
+                          disabled={loading || registerForm.userType === 'Student'}
                         >
                           <option value="">Select Profession</option>
                           <option value="Business">Business</option>
@@ -1977,7 +2018,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-work-experience">Total Work Experience (Years)</label>
+                      <label htmlFor="reg-work-experience">Total Work Experience (Years) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
                       <div className="login-field__input-wrap">
                         <FaBriefcase className="login-field__icon" />
                         <input
@@ -1988,7 +2029,8 @@ export default function Login({ user, onLoginSuccess }) {
                           placeholder={PLACEHOLDERS.workExperience}
                           value={registerForm.workExperience}
                           onChange={handleRegisterChange}
-                          disabled={loading}
+                          required={registerForm.userType === 'Alumni'}
+                          disabled={loading || registerForm.userType === 'Student'}
                         />
                       </div>
                     </div>
@@ -2030,6 +2072,9 @@ export default function Login({ user, onLoginSuccess }) {
                   <div className="login-form__grid">
                     <div className="login-field login-field--full">
                       <label htmlFor="reg-company">Current Organization {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
+                      <span style={{ display: 'block', fontSize: '0.55rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                        If not found in list, type your company name
+                      </span>
                       <CompanyAutocomplete
                         id="reg-company"
                         name="company"
@@ -2076,7 +2121,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-job">Current Job Title (Designation) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
+                      <label htmlFor="reg-job">Current Designation {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
                       <div className="login-field__input-wrap">
                         <FaBriefcase className="login-field__icon" />
                         <input
@@ -2127,7 +2172,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field login-field--full">
-                      <label htmlFor="reg-company-website">Company Website {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
+                      <label htmlFor="reg-company-website">Company Website</label>
                       <div className="login-field__input-wrap">
                         <FaGlobe className="login-field__icon" />
                         <input
@@ -2138,7 +2183,6 @@ export default function Login({ user, onLoginSuccess }) {
                           value={registerForm.companyWebsite}
                           onChange={handleRegisterChange}
                           disabled={loading || registerForm.userType === 'Student'}
-                          required={registerForm.userType === 'Alumni'}
                         />
                       </div>
                     </div>
@@ -2146,13 +2190,15 @@ export default function Login({ user, onLoginSuccess }) {
 
                   <div className="login-form__grid-3" style={{ marginTop: '10px' }}>
                     <div className="login-field">
-                      <label htmlFor="reg-company-city">Company Location (City) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
-                      <CityAutocomplete
-                        id="reg-company-city"
-                        name="companyCity"
-                        placeholder={PLACEHOLDERS.companyCity}
-                        value={registerForm.companyCity}
-                        state={registerForm.companyState}
+                      <label htmlFor="reg-company-country">Company Location (Country) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
+                      <span style={{ display: 'block', fontSize: '0.55rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                        If not found in list, type your country name
+                      </span>
+                      <CountryAutocomplete
+                        id="reg-company-country"
+                        name="companyCountry"
+                        placeholder={PLACEHOLDERS.companyCountry}
+                        value={registerForm.companyCountry}
                         onChange={handleRegisterChange}
                         disabled={loading || registerForm.userType === 'Student'}
                         wrapClassName="login-field__input-wrap"
@@ -2160,6 +2206,9 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
                     <div className="login-field">
                       <label htmlFor="reg-company-state">Company Location (State) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
+                      <span style={{ display: 'block', fontSize: '0.55rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                        If not found in list, type your state name
+                      </span>
                       <StateAutocomplete
                         id="reg-company-state"
                         name="companyState"
@@ -2172,12 +2221,16 @@ export default function Login({ user, onLoginSuccess }) {
                       />
                     </div>
                     <div className="login-field">
-                      <label htmlFor="reg-company-country">Company Location (Country) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
-                      <CountryAutocomplete
-                        id="reg-company-country"
-                        name="companyCountry"
-                        placeholder={PLACEHOLDERS.companyCountry}
-                        value={registerForm.companyCountry}
+                      <label htmlFor="reg-company-city">Company Location (City) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
+                      <span style={{ display: 'block', fontSize: '0.55rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                        If not found in list, type your city name
+                      </span>
+                      <CityAutocomplete
+                        id="reg-company-city"
+                        name="companyCity"
+                        placeholder={PLACEHOLDERS.companyCity}
+                        value={registerForm.companyCity}
+                        state={registerForm.companyState}
                         onChange={handleRegisterChange}
                         disabled={loading || registerForm.userType === 'Student'}
                         wrapClassName="login-field__input-wrap"
@@ -2242,7 +2295,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label>Last Promotion Received Date (Month / Year)</label>
+                      <label>Last Promotion Received (Month / Year)</label>
                       <div className="login-form__row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', padding: 0, margin: 0, border: 'none' }}>
                         <div className="login-field__input-wrap">
                           <FaCalendarAlt className="login-field__icon" />
@@ -2415,7 +2468,7 @@ export default function Login({ user, onLoginSuccess }) {
 
                   {/* Interest / Hobby checkbox grid */}
                   <div className="login-field login-field--full" style={{ marginTop: '15px', marginBottom: '20px' }}>
-                    <label>Interest / Hobby</label>
+                    <label>Interest / Hobby <span className="login-field__required">*</span></label>
                     <div className="product-services-checkbox-group">
                       {HOBBY_OPTIONS.map(opt => {
                         const isChecked = (registerForm.hobbies || []).includes(opt)
@@ -2441,6 +2494,7 @@ export default function Login({ user, onLoginSuccess }) {
                           placeholder={PLACEHOLDERS.otherHobbies}
                           value={registerForm.otherHobbies}
                           onChange={handleRegisterChange}
+                          required={(registerForm.hobbies || []).includes('Others')}
                           disabled={loading}
                         />
                       </div>
@@ -2537,7 +2591,7 @@ export default function Login({ user, onLoginSuccess }) {
 
                   <div className="login-field" style={{ margin: '20px 0', padding: '16px', backgroundColor: 'rgba(241, 245, 249, 0.6)', borderRadius: '12px', border: '1px solid var(--line-grey)' }}>
                     <label style={{ fontSize: '0.88rem', fontWeight: '600', color: 'var(--navy)', display: 'block', marginBottom: '12px' }}>
-                      I give my consent to show my below-mentioned details on the Alumni Portal (Click at least one) <span className="login-field__required">*</span>
+                      I give my consent to display my below-mentioned details on the Alumni Portal (Click at least one) <span className="login-field__required">*</span>
                     </label>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                       <label className="login-checkbox">
@@ -2574,6 +2628,18 @@ export default function Login({ user, onLoginSuccess }) {
                         />
                         <span className="login-checkbox__box"></span>
                         <span className="login-checkbox__label" style={{ fontSize: '0.85rem', color: 'var(--charcoal)', fontWeight: '500' }}>WhatsApp Number</span>
+                      </label>
+
+                      <label className="login-checkbox">
+                        <input
+                          type="checkbox"
+                          name="consentLinkedin"
+                          checked={registerForm.consentLinkedin}
+                          onChange={handleRegisterChange}
+                          disabled={loading}
+                        />
+                        <span className="login-checkbox__box"></span>
+                        <span className="login-checkbox__label" style={{ fontSize: '0.85rem', color: 'var(--charcoal)', fontWeight: '500' }}>LinkedIn Profile</span>
                       </label>
                     </div>
                   </div>

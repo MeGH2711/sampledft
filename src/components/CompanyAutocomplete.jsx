@@ -70,12 +70,22 @@ export default function CompanyAutocomplete({
   }, []);
 
   const searchValue = (value || '').trim().toLowerCase();
+  const searchClean = searchValue.replace(/[^a-z0-9]/g, '');
 
-  const filteredCompanies = allCompanies.filter((company) =>
-    company.toLowerCase().includes(searchValue)
-  ).sort((a, b) => {
-    const aStartsWith = a.toLowerCase().startsWith(searchValue);
-    const bStartsWith = b.toLowerCase().startsWith(searchValue);
+  const filteredCompanies = allCompanies.filter((company) => {
+    if (!searchValue) return true;
+    const itemLower = company.toLowerCase();
+    const itemClean = itemLower.replace(/[^a-z0-9]/g, '');
+    return itemLower.includes(searchValue) || (searchClean && itemClean.includes(searchClean));
+  }).sort((a, b) => {
+    const aLower = a.toLowerCase();
+    const bLower = b.toLowerCase();
+    const aClean = aLower.replace(/[^a-z0-9]/g, '');
+    const bClean = bLower.replace(/[^a-z0-9]/g, '');
+
+    const aStartsWith = aLower.startsWith(searchValue) || (searchClean && aClean.startsWith(searchClean));
+    const bStartsWith = bLower.startsWith(searchValue) || (searchClean && bClean.startsWith(searchClean));
+
     if (aStartsWith && !bStartsWith) return -1;
     if (!aStartsWith && bStartsWith) return 1;
     return a.localeCompare(b);

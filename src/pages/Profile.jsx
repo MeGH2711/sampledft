@@ -374,6 +374,7 @@ export default function Profile({ user, onUpdateUser }) {
     consentEmail: false,
     consentPhone: false,
     consentWhatsapp: false,
+    consentLinkedin: false,
     cvBase64: '',
     cvFileName: ''
   })
@@ -430,6 +431,7 @@ export default function Profile({ user, onUpdateUser }) {
     consentEmail: false,
     consentPhone: false,
     consentWhatsapp: false,
+    consentLinkedin: false,
     cvBase64: '',
     cvFileName: ''
   })
@@ -525,6 +527,7 @@ export default function Profile({ user, onUpdateUser }) {
               consentEmail: Boolean(pref(data, 'consentEmail', false)),
               consentPhone: Boolean(pref(data, 'consentPhone', false)),
               consentWhatsapp: Boolean(pref(data, 'consentWhatsapp', false)),
+              consentLinkedin: Boolean(pref(data, 'consentLinkedin', false)),
               cvBase64: meta(data, 'cvBase64') || meta(user, 'cvBase64') || '',
               cvFileName: meta(data, 'cvFileName') || meta(user, 'cvFileName') || ''
             }
@@ -594,6 +597,7 @@ export default function Profile({ user, onUpdateUser }) {
               consentEmail: Boolean(pref(user, 'consentEmail', false)),
               consentPhone: Boolean(pref(user, 'consentPhone', false)),
               consentWhatsapp: Boolean(pref(user, 'consentWhatsapp', false)),
+              consentLinkedin: Boolean(pref(user, 'consentLinkedin', false)),
               cvBase64: meta(user, 'cvBase64') || '',
               cvFileName: meta(user, 'cvFileName') || ''
             }
@@ -681,9 +685,10 @@ export default function Profile({ user, onUpdateUser }) {
               lastPromotionYear: parsed.lastPromotionYear || '',
               awards: parsed.awards || [],
               hobbies: parsed.hobbies || [],
-              consentEmail: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined) ? Boolean(parsed.consentEmail) : Boolean(parsed.consentAlumniSearch ?? false),
-              consentPhone: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined) ? Boolean(parsed.consentPhone) : Boolean(parsed.consentAlumniSearch ?? false),
-              consentWhatsapp: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined) ? Boolean(parsed.consentWhatsapp) : Boolean(parsed.consentAlumniSearch ?? false),
+              consentEmail: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined || parsed.consentLinkedin !== undefined) ? Boolean(parsed.consentEmail) : Boolean(parsed.consentAlumniSearch ?? false),
+              consentPhone: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined || parsed.consentLinkedin !== undefined) ? Boolean(parsed.consentPhone) : Boolean(parsed.consentAlumniSearch ?? false),
+              consentWhatsapp: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined || parsed.consentLinkedin !== undefined) ? Boolean(parsed.consentWhatsapp) : Boolean(parsed.consentAlumniSearch ?? false),
+              consentLinkedin: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined || parsed.consentLinkedin !== undefined) ? Boolean(parsed.consentLinkedin) : Boolean(parsed.consentAlumniSearch ?? false),
               cvBase64: parsed.cvBase64 || '',
               cvFileName: parsed.cvFileName || ''
             }
@@ -807,11 +812,19 @@ export default function Profile({ user, onUpdateUser }) {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target // Extract type and checked
+    const isSelect = Boolean(e?.isSelect)
     let cleanValue = ['phone', 'secondaryPhone', 'whatsapp', 'workExperience'].includes(name)
       ? value.replace(/\D/g, '')
       : value;
 
-    if (['firstName', 'middleName', 'lastName'].includes(name) && typeof cleanValue === 'string') {
+    const nonCapitalizedFields = [
+      'email', 'password', 'linkedin', 'companyWebsite', 'captcha',
+      'phone', 'secondaryPhone', 'whatsapp', 'workExperience',
+      'admissionYear', 'passoutYear', 'workingSinceMonth', 'workingSinceYear',
+      'lastPromotionMonth', 'lastPromotionYear', 'phoneCode', 'secondaryPhoneCode', 'whatsappCode'
+    ];
+
+    if (!nonCapitalizedFields.includes(name) && typeof cleanValue === 'string') {
       cleanValue = capitalizeWords(cleanValue);
     }
 
@@ -821,28 +834,28 @@ export default function Profile({ user, onUpdateUser }) {
         [name]: type === 'checkbox' ? checked : cleanValue // Handle checkbox
       }
 
-      // Auto populate state & country when personal city changes
-      if (name === 'city' && typeof cleanValue === 'string' && cleanValue.trim()) {
+      // Auto populate state & country ONLY when personal city is explicitly selected from dropdown
+      if (name === 'city' && isSelect && typeof cleanValue === 'string' && cleanValue.trim()) {
         const { state: autoState, country: autoCountry } = getStateAndCountryByCity(cleanValue);
         if (autoState) updated.state = autoState;
         if (autoCountry) updated.country = autoCountry;
       }
 
-      // Auto populate country when personal state changes
-      if (name === 'state' && typeof cleanValue === 'string' && cleanValue.trim()) {
+      // Auto populate country ONLY when personal state is explicitly selected from dropdown
+      if (name === 'state' && isSelect && typeof cleanValue === 'string' && cleanValue.trim()) {
         const autoCountry = getCountryByState(cleanValue);
         if (autoCountry) updated.country = autoCountry;
       }
 
-      // Auto populate state & country when company city changes
-      if (name === 'companyCity' && typeof cleanValue === 'string' && cleanValue.trim()) {
+      // Auto populate state & country ONLY when company city is explicitly selected from dropdown
+      if (name === 'companyCity' && isSelect && typeof cleanValue === 'string' && cleanValue.trim()) {
         const { state: autoState, country: autoCountry } = getStateAndCountryByCity(cleanValue);
         if (autoState) updated.companyState = autoState;
         if (autoCountry) updated.companyCountry = autoCountry;
       }
 
-      // Auto populate country when company state changes
-      if (name === 'companyState' && typeof cleanValue === 'string' && cleanValue.trim()) {
+      // Auto populate country ONLY when company state is explicitly selected from dropdown
+      if (name === 'companyState' && isSelect && typeof cleanValue === 'string' && cleanValue.trim()) {
         const autoCountry = getCountryByState(cleanValue);
         if (autoCountry) updated.companyCountry = autoCountry;
       }
@@ -862,6 +875,10 @@ export default function Profile({ user, onUpdateUser }) {
       // Clear passout year if checkbox gets ticked
       if (name === 'diplomaNotCompleted' && checked) {
         updated.passoutYear = ''
+      }
+      if (name === 'userType' && cleanValue === 'Student') {
+        updated.profession = ''
+        updated.workExperience = ''
       }
       return updated
     })
@@ -884,7 +901,8 @@ export default function Profile({ user, onUpdateUser }) {
   const handleDegreeChange = (index, field, val) => {
     setProfileForm(prev => {
       const updatedDegrees = [...(prev.degrees || [])]
-      updatedDegrees[index] = { ...updatedDegrees[index], [field]: val }
+      const cleanVal = (field === 'domain' && typeof val === 'string') ? capitalizeWords(val) : val;
+      updatedDegrees[index] = { ...updatedDegrees[index], [field]: cleanVal }
       return {
         ...prev,
         degrees: updatedDegrees
@@ -909,7 +927,8 @@ export default function Profile({ user, onUpdateUser }) {
   const handleCertificationChange = (index, field, val) => {
     setProfileForm(prev => {
       const updated = [...(prev.certifications || [])]
-      updated[index] = { ...updated[index], [field]: val }
+      const cleanVal = typeof val === 'string' ? capitalizeWords(val) : val;
+      updated[index] = { ...updated[index], [field]: cleanVal }
       return {
         ...prev,
         certifications: updated
@@ -947,7 +966,7 @@ export default function Profile({ user, onUpdateUser }) {
   const handleAwardChange = (index, val) => {
     setProfileForm(prev => {
       const updated = [...(prev.awards || [])]
-      updated[index] = val
+      updated[index] = typeof val === 'string' ? capitalizeWords(val) : val
       return {
         ...prev,
         awards: updated
@@ -990,13 +1009,23 @@ export default function Profile({ user, onUpdateUser }) {
       return
     }
 
-    if (!profileForm.consentEmail && !profileForm.consentPhone && !profileForm.consentWhatsapp) {
-      setError('Please select at least one detail (Email ID, Mobile Number, or WhatsApp Number) to show on the Alumni Portal.')
+    if (!profileForm.consentEmail && !profileForm.consentPhone && !profileForm.consentWhatsapp && !profileForm.consentLinkedin) {
+      setError('Please select at least one detail (Email ID, Mobile Number, WhatsApp Number, or LinkedIn Profile) to show on the Alumni Portal.')
       return
     }
 
     if (!profileForm.userType) {
       setError('Please select whether you are a DFT Alumni or Student.')
+      return
+    }
+
+    if (!profileForm.hobbies || profileForm.hobbies.length === 0) {
+      setError('Please select at least one Interest / Hobby.')
+      return
+    }
+
+    if (profileForm.hobbies.includes('Others') && (!profileForm.otherHobbies || !profileForm.otherHobbies.trim())) {
+      setError('Please specify your other Interest / Hobby.')
       return
     }
 
@@ -1023,6 +1052,14 @@ export default function Profile({ user, onUpdateUser }) {
     }
 
     if (profileForm.userType === 'Alumni') {
+      if (!profileForm.profession || !profileForm.profession.trim()) {
+        setError('Please select your Profession.')
+        return
+      }
+      if (!profileForm.workExperience || !profileForm.workExperience.trim()) {
+        setError('Please enter your Total Work Experience.')
+        return
+      }
       if (!profileForm.company || !profileForm.company.trim()) {
         setError('Please select or enter your Current Organization.')
         return
@@ -1032,15 +1069,11 @@ export default function Profile({ user, onUpdateUser }) {
         return
       }
       if (!profileForm.jobTitle || !profileForm.jobTitle.trim()) {
-        setError('Please enter your Current Job Title (Designation).')
+        setError('Please enter your Current Designation.')
         return
       }
       if (!profileForm.workingSinceMonth || !profileForm.workingSinceYear) {
         setError('Please select both Working Since Month and Year.')
-        return
-      }
-      if (!profileForm.companyWebsite || !profileForm.companyWebsite.trim()) {
-        setError('Please enter your Company Website.')
         return
       }
       if (!profileForm.companyCity || !profileForm.companyCity.trim()) {
@@ -1106,7 +1139,7 @@ export default function Profile({ user, onUpdateUser }) {
       company: profileForm.company.trim(),
       linkedin: profileForm.linkedin.trim(),
       dom: profileForm.dom,
-      profession: profileForm.profession || '',
+      profession: profileForm.userType === 'Student' ? '' : (profileForm.profession || ''),
       companyWebsite: profileForm.companyWebsite || '',
       city: profileForm.city.trim(),
       state: profileForm.state.trim(),
@@ -1128,10 +1161,11 @@ export default function Profile({ user, onUpdateUser }) {
       awards: profileForm.awards || [],
       hobbies: profileForm.hobbies || [],
       otherHobbies: profileForm.hobbies.includes('Others') ? profileForm.otherHobbies || '' : '',
-      workExperience: profileForm.workExperience ? profileForm.workExperience.trim() : '',
+      workExperience: profileForm.userType === 'Student' ? '' : (profileForm.workExperience ? profileForm.workExperience.trim() : ''),
       consentEmail: profileForm.consentEmail || false,
       consentPhone: profileForm.consentPhone || false,
       consentWhatsapp: profileForm.consentWhatsapp || false,
+      consentLinkedin: profileForm.consentLinkedin || false,
       cvUrl: finalCvUrl,
       cvFileName: profileForm.cvFileName || ''
     }
@@ -1278,6 +1312,7 @@ export default function Profile({ user, onUpdateUser }) {
     profileForm.consentEmail !== originalForm.consentEmail ||
     profileForm.consentPhone !== originalForm.consentPhone ||
     profileForm.consentWhatsapp !== originalForm.consentWhatsapp ||
+    profileForm.consentLinkedin !== originalForm.consentLinkedin ||
     profileForm.cvBase64 !== originalForm.cvBase64 ||
     profileForm.cvUrl !== originalForm.cvUrl ||
     profileForm.cvFileName !== originalForm.cvFileName ||
@@ -1681,12 +1716,14 @@ export default function Profile({ user, onUpdateUser }) {
 
                 <div className="profile-form__grid-3" style={{ marginTop: '15px' }}>
                   <div className="profile-field">
-                    <label htmlFor="prof-city">Native (City)</label>
-                    <CityAutocomplete
-                      id="prof-city"
-                      name="city"
-                      value={profileForm.city}
-                      state={profileForm.state}
+                    <label htmlFor="prof-country">Native (Country)</label>
+                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                      If not found in list, type your country name
+                    </span>
+                    <CountryAutocomplete
+                      id="prof-country"
+                      name="country"
+                      value={profileForm.country}
                       onChange={handleInputChange}
                       disabled={!isEditing || loading}
                       placeholder="No Data Provided"
@@ -1695,6 +1732,9 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
                   <div className="profile-field">
                     <label htmlFor="prof-state">Native (State)</label>
+                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                      If not found in list, type your state name
+                    </span>
                     <StateAutocomplete
                       id="prof-state"
                       name="state"
@@ -1707,11 +1747,15 @@ export default function Profile({ user, onUpdateUser }) {
                     />
                   </div>
                   <div className="profile-field">
-                    <label htmlFor="prof-country">Native (Country)</label>
-                    <CountryAutocomplete
-                      id="prof-country"
-                      name="country"
-                      value={profileForm.country}
+                    <label htmlFor="prof-city">Native (City)</label>
+                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                      If not found in list, type your city name
+                    </span>
+                    <CityAutocomplete
+                      id="prof-city"
+                      name="city"
+                      value={profileForm.city}
+                      state={profileForm.state}
                       onChange={handleInputChange}
                       disabled={!isEditing || loading}
                       placeholder="No Data Provided"
@@ -1879,7 +1923,7 @@ export default function Profile({ user, onUpdateUser }) {
                 <div className="profile-form__grid">
                   {/* Profession dropdown [Two-col] */}
                   <div className="profile-field profile-field--full">
-                    <label htmlFor="prof-profession">Profession</label>
+                    <label htmlFor="prof-profession">Profession {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
                     <div className="profile-field__input-wrap">
                       <FaBriefcase className="profile-field__icon" />
                       <select
@@ -1887,7 +1931,8 @@ export default function Profile({ user, onUpdateUser }) {
                         name="profession"
                         value={profileForm.profession}
                         onChange={handleInputChange}
-                        disabled={!isEditing || loading}
+                        required={isEditing && profileForm.userType === 'Alumni'}
+                        disabled={!isEditing || loading || profileForm.userType === 'Student'}
                       >
                         <option value="">Select Profession</option>
                         <option value="Business">Business</option>
@@ -1897,7 +1942,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-work-experience">Total Work Experience (Years)</label>
+                    <label htmlFor="prof-work-experience">Total Work Experience (Years) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
                     <div className="profile-field__input-wrap">
                       <FaBriefcase className="profile-field__icon" />
                       <input
@@ -1907,7 +1952,8 @@ export default function Profile({ user, onUpdateUser }) {
                         name="workExperience"
                         value={profileForm.workExperience}
                         onChange={handleInputChange}
-                        disabled={!isEditing || loading}
+                        required={isEditing && profileForm.userType === 'Alumni'}
+                        disabled={!isEditing || loading || profileForm.userType === 'Student'}
                         placeholder={!isEditing && !profileForm.workExperience ? "No Data Provided" : PLACEHOLDERS.workExperience}
                       />
                     </div>
@@ -1948,6 +1994,9 @@ export default function Profile({ user, onUpdateUser }) {
                 <div className="profile-form__grid">
                   <div className="profile-field profile-field--full">
                     <label htmlFor="prof-company">Current Organization {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
+                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                      If not found in list, type your company name
+                    </span>
                     <CompanyAutocomplete
                       id="prof-company"
                       name="company"
@@ -1994,7 +2043,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-job-title">Current Job Title (Designation) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
+                    <label htmlFor="prof-job-title">Current Designation {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
                     <div className="profile-field__input-wrap">
                       <FaBriefcase className="profile-field__icon" />
                       <input
@@ -2045,7 +2094,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field profile-field--full">
-                    <label htmlFor="prof-company-website">Company Website {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
+                    <label htmlFor="prof-company-website">Company Website</label>
                     <div className="profile-field__input-wrap">
                       <FaGlobe className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
                       <input
@@ -2055,7 +2104,6 @@ export default function Profile({ user, onUpdateUser }) {
                         value={profileForm.companyWebsite}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading || profileForm.userType === 'Student'}
-                        required={isEditing && profileForm.userType === 'Alumni'}
                         placeholder="No Data Provided"
                       />
                     </div>
@@ -2064,12 +2112,14 @@ export default function Profile({ user, onUpdateUser }) {
 
                 <div className="profile-form__grid-3" style={{ marginTop: '10px' }}>
                   <div className="profile-field">
-                    <label htmlFor="prof-company-city">Company Location (City) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
-                    <CityAutocomplete
-                      id="prof-company-city"
-                      name="companyCity"
-                      value={profileForm.companyCity}
-                      state={profileForm.companyState}
+                    <label htmlFor="prof-company-country">Company Location (Country) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
+                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                      If not found in list, type your country name
+                    </span>
+                    <CountryAutocomplete
+                      id="prof-company-country"
+                      name="companyCountry"
+                      value={profileForm.companyCountry}
                       onChange={handleInputChange}
                       disabled={!isEditing || loading || profileForm.userType === 'Student'}
                       placeholder="No Data Provided"
@@ -2078,6 +2128,9 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
                   <div className="profile-field">
                     <label htmlFor="prof-company-state">Company Location (State) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
+                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                      If not found in list, type your state name
+                    </span>
                     <StateAutocomplete
                       id="prof-company-state"
                       name="companyState"
@@ -2090,11 +2143,15 @@ export default function Profile({ user, onUpdateUser }) {
                     />
                   </div>
                   <div className="profile-field">
-                    <label htmlFor="prof-company-country">Company Location (Country) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
-                    <CountryAutocomplete
-                      id="prof-company-country"
-                      name="companyCountry"
-                      value={profileForm.companyCountry}
+                    <label htmlFor="prof-company-city">Company Location (City) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
+                    <span style={{ display: 'block', fontSize: '0.75rem', color: '#dc2626', marginTop: '2px', marginBottom: '6px', fontWeight: '500' }}>
+                      If not found in list, type your city name
+                    </span>
+                    <CityAutocomplete
+                      id="prof-company-city"
+                      name="companyCity"
+                      value={profileForm.companyCity}
+                      state={profileForm.companyState}
                       onChange={handleInputChange}
                       disabled={!isEditing || loading || profileForm.userType === 'Student'}
                       placeholder="No Data Provided"
@@ -2184,7 +2241,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label>Last Promotion Received Date (Month / Year)</label>
+                    <label>Last Promotion Received (Month / Year)</label>
                     <div className="profile-form__grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', padding: 0, margin: 0, border: 'none' }}>
                       <div className="profile-field__input-wrap">
                         <FaCalendarAlt className="profile-field__icon" />
@@ -2365,7 +2422,7 @@ export default function Profile({ user, onUpdateUser }) {
 
                 {/* Interest / Hobby checkbox grid */}
                 <div className="profile-field profile-field--full" style={{ marginTop: '15px', marginBottom: '20px' }}>
-                  <label>Interest / Hobby</label>
+                  <label>Interest / Hobby {isEditing && <span className="profile-field__required">*</span>}</label>
                   <div className="profile-field__input-wrap" style={{ flexDirection: 'column', alignItems: 'stretch' }}>
                     {isEditing ? (
                       <>
@@ -2394,6 +2451,7 @@ export default function Profile({ user, onUpdateUser }) {
                               placeholder={PLACEHOLDERS.otherHobbies}
                               value={profileForm.otherHobbies}
                               onChange={handleInputChange}
+                              required={isEditing && (profileForm.hobbies || []).includes('Others')}
                               disabled={!isEditing || loading}
                             />
                           </div>
@@ -2415,7 +2473,7 @@ export default function Profile({ user, onUpdateUser }) {
                 <h4 className="profile-form__section-title" style={{ marginTop: '24px' }}>Alumni Portal Privacy Consent</h4>
                 <div className="profile-field" style={{ margin: '15px 0 20px', padding: '16px', backgroundColor: 'rgba(241, 245, 249, 0.6)', borderRadius: '12px', border: '1px solid var(--line-grey)' }}>
                   <label style={{ fontSize: '0.88rem', fontWeight: '600', color: 'var(--navy)', display: 'block', marginBottom: '12px' }}>
-                    I give my consent to show my below-mentioned details on the Alumni Portal (Click at least one) <span className="profile-field__required">*</span>
+                    I give my consent to display my below-mentioned details on the Alumni Portal (Click at least one) <span className="profile-field__required">*</span>
                   </label>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     <label className="profile-checkbox" style={{ cursor: (!isEditing || loading) ? 'not-allowed' : 'pointer' }}>
@@ -2452,6 +2510,18 @@ export default function Profile({ user, onUpdateUser }) {
                       />
                       <span className="profile-checkbox__box"></span>
                       <span className="profile-checkbox__label">WhatsApp Number</span>
+                    </label>
+
+                    <label className="profile-checkbox" style={{ cursor: (!isEditing || loading) ? 'not-allowed' : 'pointer' }}>
+                      <input
+                        type="checkbox"
+                        name="consentLinkedin"
+                        checked={profileForm.consentLinkedin}
+                        onChange={handleInputChange}
+                        disabled={!isEditing || loading}
+                      />
+                      <span className="profile-checkbox__box"></span>
+                      <span className="profile-checkbox__label">LinkedIn Profile</span>
                     </label>
                   </div>
                 </div>

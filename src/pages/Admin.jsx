@@ -1083,7 +1083,8 @@ service cloud.firestore {
                       {[
                         pref(selectedUser, 'consentEmail') && 'Email ID',
                         pref(selectedUser, 'consentPhone') && 'Mobile Number',
-                        pref(selectedUser, 'consentWhatsapp') && 'WhatsApp Number'
+                        pref(selectedUser, 'consentWhatsapp') && 'WhatsApp Number',
+                        pref(selectedUser, 'consentLinkedin') && 'LinkedIn Profile'
                       ].filter(Boolean).join(', ') || 'No Consent Given'}
                     </span>
                   </div>
