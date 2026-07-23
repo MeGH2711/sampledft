@@ -35,6 +35,8 @@ import CountryAutocomplete from '../components/CountryAutocomplete'
 import StateAutocomplete from '../components/StateAutocomplete'
 import CityAutocomplete from '../components/CityAutocomplete'
 import CompanyAutocomplete from '../components/CompanyAutocomplete'
+import CvDropzone from '../components/CvDropzone'
+import FullPageLoader from '../components/FullPageLoader'
 import './Login.css'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
@@ -493,35 +495,22 @@ export default function Login({ user, onLoginSuccess }) {
     return str.replace(/\b[a-zA-Z]+/g, (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
   };
 
-  const handleCvFileChange = (e) => {
-    const file = e.target.files && e.target.files[0]
-    if (!file) return
+  const handleCvFileSelect = (file, base64) => {
+    setRegisterForm(prev => ({
+      ...prev,
+      cvBase64: base64,
+      cvFileName: file ? file.name : '',
+      cvFile: file
+    }))
+  }
 
-    if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
-      setError('Only PDF files are allowed for CV upload.')
-      e.target.value = ''
-      return
-    }
-
-    if (file.size > 10 * 1024 * 1024) {
-      setError('PDF file size must be less than 10 MB.')
-      e.target.value = ''
-      return
-    }
-
-    const reader = new FileReader()
-    reader.onload = () => {
-      setRegisterForm(prev => ({
-        ...prev,
-        cvBase64: reader.result,
-        cvFileName: file.name,
-        cvFile: file
-      }))
-    }
-    reader.onerror = () => {
-      setError('Failed to read the uploaded PDF file.')
-    }
-    reader.readAsDataURL(file)
+  const handleCvFileRemove = () => {
+    setRegisterForm(prev => ({
+      ...prev,
+      cvBase64: '',
+      cvFileName: '',
+      cvFile: null
+    }))
   }
 
   const handleRegisterChange = (e) => {
@@ -2023,22 +2012,17 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field login-field--full">
-                      <label htmlFor="reg-cv">Upload Resume / CV (PDF - Max 10 MB)</label>
-                      <div className="login-field__input-wrap">
-                        <FaFilePdf className="login-field__icon" style={{ color: '#dc2626' }} />
-                        <input
-                          id="reg-cv"
-                          type="file"
-                          accept=".pdf,application/pdf"
-                          onChange={handleCvFileChange}
-                          disabled={loading}
-                        />
-                      </div>
-                      {registerForm.cvFileName && (
-                        <span style={{ fontSize: '0.78rem', color: 'var(--navy)', marginTop: '4px', display: 'block', fontWeight: '600' }}>
-                          Attached CV: {registerForm.cvFileName}
-                        </span>
-                      )}
+                      <CvDropzone
+                        label="Upload Resume / CV"
+                        cvFile={registerForm.cvFile}
+                        cvFileName={registerForm.cvFileName}
+                        cvUrl={registerForm.cvBase64}
+                        onFileSelect={handleCvFileSelect}
+                        onFileRemove={handleCvFileRemove}
+                        disabled={loading}
+                        isEditing={true}
+                        setError={setError}
+                      />
                     </div>
                   </div>
 
@@ -2714,6 +2698,11 @@ export default function Login({ user, onLoginSuccess }) {
           </div>
         )}
       </div>
+      <FullPageLoader
+        show={loading}
+        title={activeTab === 'register' ? 'Creating Your Account...' : 'Signing In...'}
+        subtitle={activeTab === 'register' ? 'Please wait while we upload your files and setup your profile.' : 'Verifying your credentials. Please wait a moment.'}
+      />
     </div> // This is the final closing div of the component
   )
 }
