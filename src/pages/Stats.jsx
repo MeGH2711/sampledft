@@ -22,7 +22,7 @@ function useCountUp(target, duration = 1800, active = false) {
 export default function Stats() {
   const ref = useRef(null)
   const [active, setActive] = useState(false)
-  const visitorCount = useVisitorCount()
+  const { count: visitorCount } = useVisitorCount()
 
   useEffect(() => {
     const observer = new IntersectionObserver(

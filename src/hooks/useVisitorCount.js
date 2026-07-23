@@ -6,6 +6,14 @@ import { db, isFirebaseConfigured } from '../firebase'
 let hasIncrementedInSession = typeof window !== 'undefined' && !!sessionStorage.getItem('dft_session_visited')
 let isIncrementingLock = false
 
+function getTodayStr() {
+  const d = new Date()
+  const year = d.getFullYear()
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
 function recordVisitOnce() {
   if (hasIncrementedInSession || isIncrementingLock || !isFirebaseConfigured || !db) {
     return
@@ -20,8 +28,18 @@ function recordVisitOnce() {
     console.warn('sessionStorage error:', e)
   }
 
+  const todayStr = getTodayStr()
   const statDocRef = doc(db, 'stats', 'site_visits')
-  setDoc(statDocRef, { count: increment(1) }, { merge: true })
+  setDoc(
+    statDocRef,
+    {
+      count: increment(1),
+      visitsByDate: {
+        [todayStr]: increment(1)
+      }
+    },
+    { merge: true }
+  )
     .catch((err) => {
       console.warn('Failed to increment visitor count:', err)
     })
@@ -31,7 +49,11 @@ function recordVisitOnce() {
 }
 
 export default function useVisitorCount() {
-  const [visitorCount, setVisitorCount] = useState(0)
+  const [visitorStats, setVisitorStats] = useState({
+    count: 0,
+    visitsByDate: {},
+    todayVisits: 0
+  })
 
   useEffect(() => {
     if (!isFirebaseConfigured || !db) return
@@ -40,6 +62,7 @@ export default function useVisitorCount() {
     recordVisitOnce()
 
     const statDocRef = doc(db, 'stats', 'site_visits')
+    const todayStr = getTodayStr()
 
     // Subscribe to real-time updates from Firestore
     const unsubscribe = onSnapshot(
@@ -47,9 +70,21 @@ export default function useVisitorCount() {
       (docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data()
-          if (typeof data.count === 'number') {
-            setVisitorCount(data.count)
+          const visitsByDate = data.visitsByDate || {}
+
+          // Calculate count: use data.count if available, otherwise sum date values
+          let count = typeof data.count === 'number' ? data.count : 0
+          if (!count && Object.keys(visitsByDate).length > 0) {
+            count = Object.values(visitsByDate).reduce((acc, curr) => acc + (Number(curr) || 0), 0)
           }
+
+          const todayVisits = visitsByDate[todayStr] || 0
+
+          setVisitorStats({
+            count,
+            visitsByDate,
+            todayVisits
+          })
         }
       },
       (error) => {
@@ -60,5 +95,5 @@ export default function useVisitorCount() {
     return () => unsubscribe()
   }, [])
 
-  return visitorCount
+  return visitorStats
 }

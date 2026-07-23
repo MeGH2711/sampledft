@@ -36,7 +36,7 @@ const socials = [
 export default function Footer() {
   const location = useLocation()
   const isHome = location.pathname === '/'
-  const visitorCount = useVisitorCount()
+  const { count: visitorCount } = useVisitorCount()
 
   return (
     <footer className="footer">

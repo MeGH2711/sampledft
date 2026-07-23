@@ -15,7 +15,8 @@ import {
   FaMapMarkerAlt,
   FaCopy,
   FaEye,
-  FaFilePdf
+  FaFilePdf,
+  FaCalendarAlt
 } from 'react-icons/fa'
 import { db } from '../firebase'
 import { buildUserDoc, personal, contact, academic, professional, pref, meta, getArrayField, getUserDisplayName } from '../utils/userHelpers'
@@ -66,7 +67,7 @@ const formatDateFormatted = (dateStr) => {
 
 export default function Admin({ user, onUpdateUser }) {
   const navigate = useNavigate()
-  const visitorCount = useVisitorCount()
+  const { count: visitorCount = 0, todayVisits = 0, visitsByDate = {} } = useVisitorCount()
   const [activeTab, setActiveTab] = useState('verification')
   const [loading, setLoading] = useState(true)
   const [usersList, setUsersList] = useState([])
@@ -524,6 +525,15 @@ service cloud.firestore {
             <div className="admin-stat-info">
               <span className="admin-stat-num">{visitorCount.toLocaleString()}</span>
               <span className="admin-stat-label">Total Site Visits</span>
+            </div>
+          </div>
+          <div className="admin-stat-card">
+            <div className="admin-stat-icon-wrapper" style={{ background: 'rgba(230, 126, 34, 0.12)', color: '#e67e22' }}>
+              <FaCalendarAlt />
+            </div>
+            <div className="admin-stat-info">
+              <span className="admin-stat-num">{todayVisits.toLocaleString()}</span>
+              <span className="admin-stat-label">Today's Visits</span>
             </div>
           </div>
         </div>
