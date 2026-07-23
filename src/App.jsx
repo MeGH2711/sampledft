@@ -22,6 +22,7 @@ import Newsroom from './pages/Newsroom'
 import Login from './pages/Login'
 import Profile from './pages/Profile'
 import Admin from './pages/Admin'
+import Network from './pages/Network'
 import TermsAndConditions from './pages/TermsAndConditions'
 import { auth, isFirebaseConfigured } from './firebase'
 import { signOut } from 'firebase/auth'
@@ -122,7 +123,7 @@ function App() {
     localStorage.removeItem('alumniUser')
   }
 
-  const showHeaderFooter = location.pathname !== '/login' && location.pathname !== '/admin'
+  const showHeaderFooter = location.pathname !== '/login' && location.pathname !== '/admin' && !location.pathname.startsWith('/portal')
 
   return (
     <>
@@ -152,6 +153,7 @@ function App() {
           <Route path="/login" element={<Login user={user} onLoginSuccess={handleLoginSuccess} />} />
           <Route path="/profile" element={<Profile user={user} onUpdateUser={handleUpdateUser} />} />
           <Route path="/admin" element={<Admin user={user} onUpdateUser={handleUpdateUser} />} />
+          <Route path="/portal/network" element={<Network user={user} onLogout={handleLogout} />} />
           <Route path="/terms" element={<TermsAndConditions />} />
         </Routes>
       </main>

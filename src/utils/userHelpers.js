@@ -182,3 +182,51 @@ export function buildUserDoc(data = {}) {
     }
   }
 }
+
+/**
+ * Formats date strings (e.g. "2002-11-27", "2002-11-27T00:00:00.000Z", "27-11-2002", "27/11/2002")
+ * into "27 November 2002" format.
+ */
+export function formatDateFormatted(dateStr) {
+  if (!dateStr) return ''
+  try {
+    const cleanStr = String(dateStr).trim()
+    if (!cleanStr) return ''
+
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ]
+
+    // Match YYYY-MM-DD
+    const matchYMD = cleanStr.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/)
+    if (matchYMD) {
+      const year = parseInt(matchYMD[1], 10)
+      const monthIndex = parseInt(matchYMD[2], 10) - 1
+      const day = parseInt(matchYMD[3], 10)
+      if (monthIndex >= 0 && monthIndex < 12) {
+        return `${day} ${months[monthIndex]} ${year}`
+      }
+    }
+
+    // Match DD-MM-YYYY or DD/MM/YYYY
+    const matchDMY = cleanStr.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})$/)
+    if (matchDMY) {
+      const day = parseInt(matchDMY[1], 10)
+      const monthIndex = parseInt(matchDMY[2], 10) - 1
+      const year = parseInt(matchDMY[3], 10)
+      if (monthIndex >= 0 && monthIndex < 12) {
+        return `${day} ${months[monthIndex]} ${year}`
+      }
+    }
+
+    // Standard ISO parse fallback (e.g. 2002-11-27T00:00:00.000Z)
+    const d = new Date(cleanStr)
+    if (!isNaN(d.getTime())) {
+      return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`
+    }
+  } catch (e) {
+    console.warn("Date formatting error:", e)
+  }
+  return dateStr
+}

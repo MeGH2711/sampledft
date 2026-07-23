@@ -364,6 +364,15 @@ export default function Navbar({ user, onLogout }) {
                   >
                     My Profile
                   </RouterLink>
+                  {meta(user, 'verification_status', false) && (
+                    <RouterLink
+                      to="/portal/network"
+                      className="navbar__user-dropdown-item"
+                      onClick={() => setUserMenuOpen(false)}
+                    >
+                      Alumni Network
+                    </RouterLink>
+                  )}
                   {(meta(user, 'account_type', 'alumni') === 'admin' || meta(user, 'account_type', 'alumni') === 'developer') && (
                     <>
                       <RouterLink
@@ -644,6 +653,16 @@ export default function Navbar({ user, onLogout }) {
                 >
                   My Profile
                 </RouterLink>
+                {meta(user, 'verification_status', false) && (
+                  <RouterLink
+                    to="/portal/network"
+                    className="navbar__mobile-profile-btn"
+                    onClick={() => setMenuOpen(false)}
+                    style={{ marginTop: '8px' }}
+                  >
+                    Alumni Network
+                  </RouterLink>
+                )}
                 {(meta(user, 'account_type', 'alumni') === 'admin' || meta(user, 'account_type', 'alumni') === 'developer') && (
                   <RouterLink
                     to="/admin"
