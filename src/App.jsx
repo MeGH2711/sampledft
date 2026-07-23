@@ -24,6 +24,7 @@ import Profile from './pages/Profile'
 import Admin from './pages/Admin'
 import Network from './pages/Network'
 import TermsAndConditions from './pages/TermsAndConditions'
+import NotFound from './pages/NotFound'
 import { auth, isFirebaseConfigured } from './firebase'
 import { signOut } from 'firebase/auth'
 
@@ -123,7 +124,13 @@ function App() {
     localStorage.removeItem('alumniUser')
   }
 
-  const showHeaderFooter = location.pathname !== '/login' && location.pathname !== '/admin' && !location.pathname.startsWith('/portal')
+  const knownPaths = [
+    '/', '/sangam2026', '/dftalumnimeet2023', '/sangaath2024',
+    '/newsroom', '/login', '/profile', '/admin', '/portal/network', '/terms'
+  ]
+  const isKnownPath = knownPaths.includes(location.pathname)
+
+  const showHeaderFooter = isKnownPath && location.pathname !== '/login' && location.pathname !== '/admin' && !location.pathname.startsWith('/portal')
 
   return (
     <>
@@ -155,6 +162,7 @@ function App() {
           <Route path="/admin" element={<Admin user={user} onUpdateUser={handleUpdateUser} />} />
           <Route path="/portal/network" element={<Network user={user} onLogout={handleLogout} />} />
           <Route path="/terms" element={<TermsAndConditions />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       {showHeaderFooter && <Footer />}
