@@ -1017,6 +1017,45 @@ export default function Profile({ user, onUpdateUser }) {
       }
     }
 
+    if (profileForm.userType === 'Alumni') {
+      if (!profileForm.company || !profileForm.company.trim()) {
+        setError('Please select or enter your Current Organization.')
+        return
+      }
+      if (!profileForm.department || !profileForm.department.trim()) {
+        setError('Please enter your Department.')
+        return
+      }
+      if (!profileForm.jobTitle || !profileForm.jobTitle.trim()) {
+        setError('Please enter your Current Job Title (Designation).')
+        return
+      }
+      if (!profileForm.workingSinceMonth || !profileForm.workingSinceYear) {
+        setError('Please select both Working Since Month and Year.')
+        return
+      }
+      if (!profileForm.companyWebsite || !profileForm.companyWebsite.trim()) {
+        setError('Please enter your Company Website.')
+        return
+      }
+      if (!profileForm.companyCity || !profileForm.companyCity.trim()) {
+        setError('Please select/enter Company Location (City).')
+        return
+      }
+      if (!profileForm.companyState || !profileForm.companyState.trim()) {
+        setError('Please select/enter Company Location (State).')
+        return
+      }
+      if (!profileForm.companyCountry || !profileForm.companyCountry.trim()) {
+        setError('Please select/enter Company Location (Country).')
+        return
+      }
+      if (!profileForm.productServices || profileForm.productServices.length === 0) {
+        setError('Please select at least one Product/Service offered by your company.')
+        return
+      }
+    }
+
     setLoading(true)
 
     const cleanFirstName = capitalizeWords(profileForm.firstName.trim());
@@ -1897,20 +1936,21 @@ export default function Profile({ user, onUpdateUser }) {
                 <h4 className="profile-form__section-title" style={{ marginTop: '24px' }}>Company Details</h4>
                 <div className="profile-form__grid">
                   <div className="profile-field profile-field--full">
-                    <label htmlFor="prof-company">Current Organization</label>
+                    <label htmlFor="prof-company">Current Organization {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
                     <CompanyAutocomplete
                       id="prof-company"
                       name="company"
                       value={profileForm.company}
                       onChange={handleInputChange}
                       disabled={!isEditing || loading}
+                      required={isEditing && profileForm.userType === 'Alumni'}
                       placeholder={!isEditing && !profileForm.company ? "No Data Provided" : "Select or type company name"}
                       wrapClassName="profile-field__input-wrap"
                     />
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-department">Department</label>
+                    <label htmlFor="prof-department">Department {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
                     <div className="profile-field__input-wrap">
                       <FaSitemap className="profile-field__icon" />
                       <input
@@ -1920,6 +1960,7 @@ export default function Profile({ user, onUpdateUser }) {
                         value={profileForm.department}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
+                        required={isEditing && profileForm.userType === 'Alumni'}
                         placeholder="No Data Provided"
                       />
                     </div>
@@ -1942,7 +1983,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-job-title">Current Job Title (Designation)</label>
+                    <label htmlFor="prof-job-title">Current Job Title (Designation) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
                     <div className="profile-field__input-wrap">
                       <FaBriefcase className="profile-field__icon" />
                       <input
@@ -1952,13 +1993,14 @@ export default function Profile({ user, onUpdateUser }) {
                         value={profileForm.jobTitle}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
+                        required={isEditing && profileForm.userType === 'Alumni'}
                         placeholder="No Data Provided"
                       />
                     </div>
                   </div>
 
                   <div className="profile-field">
-                    <label>Working Since (Month / Year)</label>
+                    <label>Working Since (Month / Year) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
                     <div className="profile-form__row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', padding: 0, margin: 0, border: 'none' }}>
                       <div className="profile-field__input-wrap">
                         <FaCalendarAlt className="profile-field__icon" />
@@ -1967,6 +2009,7 @@ export default function Profile({ user, onUpdateUser }) {
                           value={profileForm.workingSinceMonth}
                           onChange={handleInputChange}
                           disabled={!isEditing || loading}
+                          required={isEditing && profileForm.userType === 'Alumni'}
                           style={{ paddingLeft: '42px' }}
                         >
                           <option value="">Select Month</option>
@@ -1980,6 +2023,7 @@ export default function Profile({ user, onUpdateUser }) {
                           value={profileForm.workingSinceYear}
                           onChange={handleInputChange}
                           disabled={!isEditing || loading}
+                          required={isEditing && profileForm.userType === 'Alumni'}
                           style={{ paddingLeft: '42px' }}
                         >
                           <option value="">Select Year</option>
@@ -1990,7 +2034,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field profile-field--full">
-                    <label htmlFor="prof-company-website">Company Website</label>
+                    <label htmlFor="prof-company-website">Company Website {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
                     <div className="profile-field__input-wrap">
                       <FaGlobe className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
                       <input
@@ -2000,6 +2044,7 @@ export default function Profile({ user, onUpdateUser }) {
                         value={profileForm.companyWebsite}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
+                        required={isEditing && profileForm.userType === 'Alumni'}
                         placeholder="No Data Provided"
                       />
                     </div>
@@ -2008,7 +2053,7 @@ export default function Profile({ user, onUpdateUser }) {
 
                 <div className="profile-form__grid-3" style={{ marginTop: '10px' }}>
                   <div className="profile-field">
-                    <label htmlFor="prof-company-city">Company Location (City)</label>
+                    <label htmlFor="prof-company-city">Company Location (City) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
                     <CityAutocomplete
                       id="prof-company-city"
                       name="companyCity"
@@ -2021,7 +2066,7 @@ export default function Profile({ user, onUpdateUser }) {
                     />
                   </div>
                   <div className="profile-field">
-                    <label htmlFor="prof-company-state">Company Location (State)</label>
+                    <label htmlFor="prof-company-state">Company Location (State) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
                     <StateAutocomplete
                       id="prof-company-state"
                       name="companyState"
@@ -2034,7 +2079,7 @@ export default function Profile({ user, onUpdateUser }) {
                     />
                   </div>
                   <div className="profile-field">
-                    <label htmlFor="prof-company-country">Company Location (Country)</label>
+                    <label htmlFor="prof-company-country">Company Location (Country) {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
                     <CountryAutocomplete
                       id="prof-company-country"
                       name="companyCountry"
@@ -2049,7 +2094,7 @@ export default function Profile({ user, onUpdateUser }) {
 
                 <div className="profile-form__grid" style={{ marginTop: '10px' }}>
                   <div className="profile-field profile-field--full">
-                    <label>Detail of Product / Services offered by your Company</label>
+                    <label>Detail of Product / Services offered by your Company {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
                     <div className="profile-field__input-wrap">
                       {isEditing ? (
                         <div className="product-services-checkbox-group">

@@ -946,6 +946,45 @@ export default function Login({ user, onLoginSuccess }) {
       }
     }
 
+    if (registerForm.userType === 'Alumni') {
+      if (!registerForm.company || !registerForm.company.trim()) {
+        setError('Please select or enter your Current Organization.')
+        return
+      }
+      if (!registerForm.department || !registerForm.department.trim()) {
+        setError('Please enter your Department.')
+        return
+      }
+      if (!registerForm.jobTitle || !registerForm.jobTitle.trim()) {
+        setError('Please enter your Current Job Title (Designation).')
+        return
+      }
+      if (!registerForm.workingSinceMonth || !registerForm.workingSinceYear) {
+        setError('Please select both Working Since Month and Year.')
+        return
+      }
+      if (!registerForm.companyWebsite || !registerForm.companyWebsite.trim()) {
+        setError('Please enter your Company Website.')
+        return
+      }
+      if (!registerForm.companyCity || !registerForm.companyCity.trim()) {
+        setError('Please select/enter Company Location (City).')
+        return
+      }
+      if (!registerForm.companyState || !registerForm.companyState.trim()) {
+        setError('Please select/enter Company Location (State).')
+        return
+      }
+      if (!registerForm.companyCountry || !registerForm.companyCountry.trim()) {
+        setError('Please select/enter Company Location (Country).')
+        return
+      }
+      if (!registerForm.productServices || registerForm.productServices.length === 0) {
+        setError('Please select at least one Product/Service offered by your company.')
+        return
+      }
+    }
+
     setLoading(true)
 
     const cleanFirstName = capitalizeWords(registerForm.firstName.trim());
@@ -1983,20 +2022,21 @@ export default function Login({ user, onLoginSuccess }) {
                   <h4 className="login-section-title" style={{ marginTop: '24px' }}>Company Details</h4>
                   <div className="login-form__grid">
                     <div className="login-field login-field--full">
-                      <label htmlFor="reg-company">Current Organization</label>
+                      <label htmlFor="reg-company">Current Organization {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
                       <CompanyAutocomplete
                         id="reg-company"
                         name="company"
                         value={registerForm.company}
                         onChange={handleRegisterChange}
                         disabled={loading}
+                        required={registerForm.userType === 'Alumni'}
                         placeholder={PLACEHOLDERS.company || 'Select or type company name'}
                         wrapClassName="login-field__input-wrap"
                       />
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-department">Department</label>
+                      <label htmlFor="reg-department">Department {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
                       <div className="login-field__input-wrap">
                         <FaSitemap className="login-field__icon" />
                         <input
@@ -2007,6 +2047,7 @@ export default function Login({ user, onLoginSuccess }) {
                           value={registerForm.department}
                           onChange={handleRegisterChange}
                           disabled={loading}
+                          required={registerForm.userType === 'Alumni'}
                         />
                       </div>
                     </div>
@@ -2028,7 +2069,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field">
-                      <label htmlFor="reg-job">Current Job Title (Designation)</label>
+                      <label htmlFor="reg-job">Current Job Title (Designation) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
                       <div className="login-field__input-wrap">
                         <FaBriefcase className="login-field__icon" />
                         <input
@@ -2039,12 +2080,13 @@ export default function Login({ user, onLoginSuccess }) {
                           value={registerForm.jobTitle}
                           onChange={handleRegisterChange}
                           disabled={loading}
+                          required={registerForm.userType === 'Alumni'}
                         />
                       </div>
                     </div>
 
                     <div className="login-field">
-                      <label>Working Since (Month / Year)</label>
+                      <label>Working Since (Month / Year) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
                       <div className="login-form__row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', padding: 0, margin: 0, border: 'none' }}>
                         <div className="login-field__input-wrap">
                           <FaCalendarAlt className="login-field__icon" />
@@ -2053,6 +2095,7 @@ export default function Login({ user, onLoginSuccess }) {
                             value={registerForm.workingSinceMonth}
                             onChange={handleRegisterChange}
                             disabled={loading}
+                            required={registerForm.userType === 'Alumni'}
                             style={{ paddingLeft: '42px' }}
                           >
                             <option value="">Select Month</option>
@@ -2066,6 +2109,7 @@ export default function Login({ user, onLoginSuccess }) {
                             value={registerForm.workingSinceYear}
                             onChange={handleRegisterChange}
                             disabled={loading}
+                            required={registerForm.userType === 'Alumni'}
                             style={{ paddingLeft: '42px' }}
                           >
                             <option value="">Select Year</option>
@@ -2076,7 +2120,7 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
 
                     <div className="login-field login-field--full">
-                      <label htmlFor="reg-company-website">Company Website</label>
+                      <label htmlFor="reg-company-website">Company Website {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
                       <div className="login-field__input-wrap">
                         <FaGlobe className="login-field__icon" />
                         <input
@@ -2087,6 +2131,7 @@ export default function Login({ user, onLoginSuccess }) {
                           value={registerForm.companyWebsite}
                           onChange={handleRegisterChange}
                           disabled={loading}
+                          required={registerForm.userType === 'Alumni'}
                         />
                       </div>
                     </div>
@@ -2094,7 +2139,7 @@ export default function Login({ user, onLoginSuccess }) {
 
                   <div className="login-form__grid-3" style={{ marginTop: '10px' }}>
                     <div className="login-field">
-                      <label htmlFor="reg-company-city">Company Location (City)</label>
+                      <label htmlFor="reg-company-city">Company Location (City) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
                       <CityAutocomplete
                         id="reg-company-city"
                         name="companyCity"
@@ -2107,7 +2152,7 @@ export default function Login({ user, onLoginSuccess }) {
                       />
                     </div>
                     <div className="login-field">
-                      <label htmlFor="reg-company-state">Company Location (State)</label>
+                      <label htmlFor="reg-company-state">Company Location (State) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
                       <StateAutocomplete
                         id="reg-company-state"
                         name="companyState"
@@ -2120,7 +2165,7 @@ export default function Login({ user, onLoginSuccess }) {
                       />
                     </div>
                     <div className="login-field">
-                      <label htmlFor="reg-company-country">Company Location (Country)</label>
+                      <label htmlFor="reg-company-country">Company Location (Country) {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
                       <CountryAutocomplete
                         id="reg-company-country"
                         name="companyCountry"
@@ -2135,7 +2180,7 @@ export default function Login({ user, onLoginSuccess }) {
 
                   <div className="login-form__grid" style={{ marginTop: '10px' }}>
                     <div className="login-field login-field--full">
-                      <label>Detail of Product / Services offered by your Company</label>
+                      <label>Detail of Product / Services offered by your Company {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
                       <div className="product-services-checkbox-group">
                         {PRODUCT_SERVICE_OPTIONS.map(opt => {
                           const isChecked = (registerForm.productServices || []).includes(opt)
