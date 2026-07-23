@@ -32,6 +32,8 @@ import CountryAutocomplete from '../components/CountryAutocomplete'
 import StateAutocomplete from '../components/StateAutocomplete'
 import CityAutocomplete from '../components/CityAutocomplete'
 import CompanyAutocomplete from '../components/CompanyAutocomplete'
+import CvDropzone from '../components/CvDropzone'
+import FullPageLoader from '../components/FullPageLoader'
 import './Profile.css'
 import { countryCodes } from '../data/countryData'
 import { getCountryByState } from '../data/stateData'
@@ -813,6 +815,25 @@ export default function Profile({ user, onUpdateUser }) {
     if (!str || typeof str !== 'string') return str;
     return str.replace(/\b[a-zA-Z]+/g, (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
   };
+
+  const handleCvFileSelect = (file, base64) => {
+    setProfileForm(prev => ({
+      ...prev,
+      cvBase64: base64,
+      cvFileName: file ? file.name : '',
+      cvFile: file
+    }))
+  }
+
+  const handleCvFileRemove = () => {
+    setProfileForm(prev => ({
+      ...prev,
+      cvBase64: '',
+      cvUrl: '',
+      cvFileName: '',
+      cvFile: null
+    }))
+  }
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target // Extract type and checked
@@ -1917,65 +1938,17 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field profile-field--full">
-                    <label htmlFor="prof-cv">Resume / CV (PDF - Max 10 MB)</label>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                      {(profileForm.cvUrl || profileForm.cvBase64) && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                          <a
-                            href={profileForm.cvUrl || profileForm.cvBase64}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            download={profileForm.cvFileName || `${profileForm.firstName || 'Alumni'}_CV.pdf`}
-                            className="profile-btn profile-btn--secondary"
-                            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', fontSize: '0.85rem' }}
-                          >
-                            <FaFilePdf style={{ color: '#dc2626' }} /> View / Download Current CV
-                          </a>
-                        </div>
-                      )}
-
-                      {isEditing && (
-                        <div className="profile-field__input-wrap">
-                          <FaFilePdf className="profile-field__icon" style={{ color: '#dc2626' }} />
-                          <input
-                            id="prof-cv"
-                            type="file"
-                            accept=".pdf,application/pdf"
-                            onChange={(e) => {
-                              const file = e.target.files && e.target.files[0]
-                              if (!file) return
-
-                              if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
-                                setError('Only PDF files are allowed for CV upload.')
-                                e.target.value = ''
-                                return
-                              }
-
-                              if (file.size > 10 * 1024 * 1024) {
-                                setError('PDF file size must be less than 10 MB.')
-                                e.target.value = ''
-                                return
-                              }
-
-                              const reader = new FileReader()
-                              reader.onload = () => {
-                                setProfileForm(prev => ({
-                                  ...prev,
-                                  cvBase64: reader.result,
-                                  cvFileName: file.name,
-                                  cvFile: file
-                                }))
-                              }
-                              reader.onerror = () => {
-                                setError('Failed to read the uploaded PDF file.')
-                              }
-                              reader.readAsDataURL(file)
-                            }}
-                            disabled={loading}
-                          />
-                        </div>
-                      )}
-                    </div>
+                    <CvDropzone
+                      label="Resume / CV"
+                      cvFile={profileForm.cvFile}
+                      cvFileName={profileForm.cvFileName}
+                      cvUrl={profileForm.cvUrl || profileForm.cvBase64}
+                      onFileSelect={handleCvFileSelect}
+                      onFileRemove={handleCvFileRemove}
+                      disabled={loading}
+                      isEditing={isEditing}
+                      setError={setError}
+                    />
                   </div>
                 </div>
 
@@ -2515,6 +2488,11 @@ export default function Profile({ user, onUpdateUser }) {
           </div>
         </div>
       </div>
+      <FullPageLoader
+        show={loading}
+        title="Saving Changes..."
+        subtitle="Please wait while we update your profile and secure files."
+      />
     </div>
   )
 }

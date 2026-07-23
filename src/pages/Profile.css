@@ -304,6 +304,9 @@
   border-radius: 8px;
   padding: 40px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  min-width: 0;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .profile-section-title {
@@ -317,6 +320,7 @@
   border-bottom: 2px solid var(--signal-red);
   padding-bottom: 8px;
   width: fit-content;
+  max-width: 100%;
 }
 
 /* Form Styles */
@@ -324,29 +328,42 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .profile-form__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .profile-form__grid-3 {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .previous-degree-row {
   display: grid;
-  grid-template-columns: 45fr 45fr 10fr;
+  grid-template-columns: minmax(0, 45fr) minmax(0, 45fr) minmax(0, 10fr);
   gap: 20px;
   align-items: flex-end;
+  width: 100%;
+  min-width: 0;
 }
 
 .profile-field--full {
   grid-column: span 2;
+  min-width: 0;
+  width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -354,7 +371,7 @@
   .profile-form__grid,
   .profile-form__grid-3,
   .previous-degree-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
   }
 
@@ -367,6 +384,9 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .profile-field label {
