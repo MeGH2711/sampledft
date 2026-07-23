@@ -26,6 +26,7 @@ import {
   FaFilePdf
 } from 'react-icons/fa'
 import { uploadPdfToDrive } from '../utils/googleDriveUpload'
+import { buildUserDoc, personal, contact, academic, professional, meta, pref, getArrayField, getUserDisplayName } from '../utils/userHelpers'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import CountryAutocomplete from '../components/CountryAutocomplete'
@@ -451,119 +452,102 @@ export default function Profile({ user, onUpdateUser }) {
           if (userDocSnap.exists()) {
             const data = userDocSnap.data()
             // Retrieve first and last name from saved values, or split display name if missing
-            const nameSplit = (data.name || user.name || '').split(' ')
-            const defaultFirstName = data.firstName || nameSplit[0] || ''
-            const defaultLastName = data.lastName || nameSplit.slice(1).join(' ') || ''
+            const displayName = getUserDisplayName(data)
+            const nameSplit = (displayName || personal(user, 'name') || '').split(' ')
+            const defaultFirstName = personal(data, 'firstName') || nameSplit[0] || ''
+            const defaultLastName = personal(data, 'lastName') || nameSplit.slice(1).join(' ') || ''
 
-            const parsedPhone = parsePhoneNumber(data.phone)
-            const parsedSecPhone = parsePhoneNumber(data.secondaryPhone)
-            const parsedWhatsapp = parsePhoneNumber(data.whatsapp)
+            const parsedPhone = parsePhoneNumber(contact(data, 'phone'))
+            const parsedSecPhone = parsePhoneNumber(contact(data, 'secondaryPhone'))
+            const parsedWhatsapp = parsePhoneNumber(contact(data, 'whatsapp'))
 
             // Let's parse productServices
-            let loadedProductServices = [];
-            if (Array.isArray(data.productServices)) {
-              loadedProductServices = data.productServices;
-            } else if (data.productServices) {
-              loadedProductServices = [data.productServices];
-            } else if (user.productServices) {
-              loadedProductServices = Array.isArray(user.productServices) ? user.productServices : [user.productServices];
-            }
+            const rawPS = getArrayField(data, 'professionalDetails', 'productServices')
+            let loadedProductServices = rawPS.length > 0 ? rawPS : getArrayField(user, 'professionalDetails', 'productServices')
 
             // Let's parse certifications
-            let loadedCertifications = [];
-            if (Array.isArray(data.certifications)) {
-              loadedCertifications = data.certifications;
-            } else if (data.areaOfCertification || user.areaOfCertification) {
-              loadedCertifications = [{ area: data.areaOfCertification || user.areaOfCertification, detail: '' }];
-            }
+            const rawCerts = getArrayField(data, 'academicDetails', 'certifications')
+            let loadedCertifications = rawCerts.length > 0 ? rawCerts : []
+
+            const wsData = { workingSinceMonth: professional(data, 'workingSinceMonth'), workingSinceYear: professional(data, 'workingSinceYear'), workingSince: professional(data, 'workingSince') }
+            const wsUser = { workingSinceMonth: professional(user, 'workingSinceMonth'), workingSinceYear: professional(user, 'workingSinceYear'), workingSince: professional(user, 'workingSince') }
 
             const loadedData = {
               firstName: defaultFirstName,
-              middleName: data.middleName || user.middleName || '',
+              middleName: personal(data, 'middleName') || personal(user, 'middleName') || '',
               lastName: defaultLastName,
-              email: data.email || user.email || '',
-              gender: data.gender || user.gender || '',
-              dob: formatDob(data.dob),
+              email: contact(data, 'email') || contact(user, 'email') || '',
+              gender: personal(data, 'gender') || personal(user, 'gender') || '',
+              dob: formatDob(personal(data, 'dob')),
               phoneCode: parsedPhone.code,
               phone: parsedPhone.number,
               secondaryPhoneCode: parsedSecPhone.code,
               secondaryPhone: parsedSecPhone.number,
               whatsappCode: parsedWhatsapp.code,
               whatsapp: parsedWhatsapp.number,
-              userType: data.userType || user.userType || '',
-              bloodGroup: data.bloodGroup || user.bloodGroup || '',
-              admissionYear: data.admissionYear || '',
-              passoutYear: data.passoutYear || data.batch || '',
-              diplomaNotCompleted: data.diplomaNotCompleted || false,
-              jobTitle: data.jobTitle || '',
-              company: data.company || '',
-              linkedin: data.linkedin || '',
-              dom: formatDob(data.dom),
-              verification_status: data.verification_status !== undefined ? data.verification_status : false,
-              account_type: data.account_type || 'alumni',
-              degrees: data.degrees || [],
-              profession: data.profession || user.profession || '',
-              companyWebsite: data.companyWebsite || user.companyWebsite || '',
+              userType: academic(data, 'userType') || academic(user, 'userType') || '',
+              bloodGroup: personal(data, 'bloodGroup') || personal(user, 'bloodGroup') || '',
+              admissionYear: academic(data, 'admissionYear') || '',
+              passoutYear: academic(data, 'passoutYear') || '',
+              diplomaNotCompleted: academic(data, 'diplomaNotCompleted') || false,
+              jobTitle: professional(data, 'jobTitle') || '',
+              company: professional(data, 'company') || '',
+              linkedin: professional(data, 'linkedin') || '',
+              dom: formatDob(personal(data, 'dom')),
+              verification_status: meta(data, 'verification_status', false),
+              account_type: meta(data, 'account_type', 'alumni'),
+              degrees: getArrayField(data, 'academicDetails', 'degrees'),
+              profession: professional(data, 'profession') || professional(user, 'profession') || '',
+              companyWebsite: professional(data, 'companyWebsite') || professional(user, 'companyWebsite') || '',
 
-              // New fields
-              city: data.city || user.city || '',
-              state: data.state || user.state || '',
-              country: data.country || user.country || '',
+              // Additional fields
+              city: personal(data, 'city') || personal(user, 'city') || '',
+              state: personal(data, 'state') || personal(user, 'state') || '',
+              country: personal(data, 'country') || personal(user, 'country') || '',
               certifications: loadedCertifications,
               productServices: loadedProductServices,
-              otherProductServices: data.otherProductServices || user.otherProductServices || '',
-              department: data.department || user.department || '',
-              division: data.division || user.division || '',
-              workingSince: data.workingSince || user.workingSince || '',
-              workingSinceMonth: parseWorkingSince(data).workingSinceMonth || parseWorkingSince(user).workingSinceMonth || '',
-              workingSinceYear: parseWorkingSince(data).workingSinceYear || parseWorkingSince(user).workingSinceYear || '',
-              companyCity: data.companyCity || user.companyCity || '',
-              companyState: data.companyState || user.companyState || '',
-              companyCountry: data.companyCountry || user.companyCountry || '',
-              lastPromotionDesignation: data.lastPromotionDesignation || user.lastPromotionDesignation || '',
-              lastPromotionMonth: data.lastPromotionMonth || user.lastPromotionMonth || '',
-              lastPromotionYear: data.lastPromotionYear || user.lastPromotionYear || '',
-              awards: data.awards || user.awards || [],
-              hobbies: data.hobbies || user.hobbies || [],
-              otherHobbies: data.otherHobbies || user.otherHobbies || '',
-              workExperience: data.workExperience || user.workExperience || '',
-              consentEmail: (data.consentEmail !== undefined || data.consentPhone !== undefined || data.consentWhatsapp !== undefined) ? Boolean(data.consentEmail) : Boolean(data.consentAlumniSearch ?? user.consentAlumniSearch ?? false),
-              consentPhone: (data.consentEmail !== undefined || data.consentPhone !== undefined || data.consentWhatsapp !== undefined) ? Boolean(data.consentPhone) : Boolean(data.consentAlumniSearch ?? user.consentAlumniSearch ?? false),
-              consentWhatsapp: (data.consentEmail !== undefined || data.consentPhone !== undefined || data.consentWhatsapp !== undefined) ? Boolean(data.consentWhatsapp) : Boolean(data.consentAlumniSearch ?? user.consentAlumniSearch ?? false),
-              cvBase64: data.cvBase64 || user.cvBase64 || '',
-              cvFileName: data.cvFileName || user.cvFileName || ''
+              otherProductServices: professional(data, 'otherProductServices') || professional(user, 'otherProductServices') || '',
+              department: professional(data, 'department') || professional(user, 'department') || '',
+              division: professional(data, 'division') || professional(user, 'division') || '',
+              workingSince: professional(data, 'workingSince') || professional(user, 'workingSince') || '',
+              workingSinceMonth: parseWorkingSince(wsData).workingSinceMonth || parseWorkingSince(wsUser).workingSinceMonth || '',
+              workingSinceYear: parseWorkingSince(wsData).workingSinceYear || parseWorkingSince(wsUser).workingSinceYear || '',
+              companyCity: professional(data, 'companyCity') || professional(user, 'companyCity') || '',
+              companyState: professional(data, 'companyState') || professional(user, 'companyState') || '',
+              companyCountry: professional(data, 'companyCountry') || professional(user, 'companyCountry') || '',
+              lastPromotionDesignation: professional(data, 'lastPromotionDesignation') || professional(user, 'lastPromotionDesignation') || '',
+              lastPromotionMonth: professional(data, 'lastPromotionMonth') || professional(user, 'lastPromotionMonth') || '',
+              lastPromotionYear: professional(data, 'lastPromotionYear') || professional(user, 'lastPromotionYear') || '',
+              awards: getArrayField(data, 'professionalDetails', 'awards').length > 0 ? getArrayField(data, 'professionalDetails', 'awards') : getArrayField(user, 'professionalDetails', 'awards'),
+              hobbies: getArrayField(data, 'personalDetails', 'hobbies').length > 0 ? getArrayField(data, 'personalDetails', 'hobbies') : getArrayField(user, 'personalDetails', 'hobbies'),
+              otherHobbies: personal(data, 'otherHobbies') || personal(user, 'otherHobbies') || '',
+              workExperience: professional(data, 'workExperience') || professional(user, 'workExperience') || '',
+              consentEmail: Boolean(pref(data, 'consentEmail', false)),
+              consentPhone: Boolean(pref(data, 'consentPhone', false)),
+              consentWhatsapp: Boolean(pref(data, 'consentWhatsapp', false)),
+              cvBase64: meta(data, 'cvBase64') || meta(user, 'cvBase64') || '',
+              cvFileName: meta(data, 'cvFileName') || meta(user, 'cvFileName') || ''
             }
             setProfileForm(loadedData)
             setOriginalForm(loadedData)
           } else {
             // Document doesn't exist yet, seed with basic login info
-            const nameSplit = (user.name || '').split(' ')
-            const parsedPhone = parsePhoneNumber(user.phone)
-            const parsedSecPhone = parsePhoneNumber(user.secondaryPhone)
-            const parsedWhatsapp = parsePhoneNumber(user.whatsapp)
+            const displayName = getUserDisplayName(user)
+            const nameSplit = (displayName || '').split(' ')
+            const parsedPhone = parsePhoneNumber(contact(user, 'phone'))
+            const parsedSecPhone = parsePhoneNumber(contact(user, 'secondaryPhone'))
+            const parsedWhatsapp = parsePhoneNumber(contact(user, 'whatsapp'))
 
-            // Let's parse productServices
-            let loadedProductServices = [];
-            if (Array.isArray(user.productServices)) {
-              loadedProductServices = user.productServices;
-            } else if (user.productServices) {
-              loadedProductServices = [user.productServices];
-            }
-
-            // Let's parse certifications
-            let loadedCertifications = [];
-            if (Array.isArray(user.certifications)) {
-              loadedCertifications = user.certifications;
-            } else if (user.areaOfCertification) {
-              loadedCertifications = [{ area: user.areaOfCertification, detail: '' }];
-            }
+            const loadedProductServices = getArrayField(user, 'professionalDetails', 'productServices')
+            const loadedCertifications = getArrayField(user, 'academicDetails', 'certifications')
+            const wsUser = { workingSinceMonth: professional(user, 'workingSinceMonth'), workingSinceYear: professional(user, 'workingSinceYear'), workingSince: professional(user, 'workingSince') }
 
             const seedData = {
-              firstName: nameSplit[0] || '',
-              middleName: user.middleName || '',
-              lastName: nameSplit.slice(1).join(' ') || '',
-              email: user.email || '',
-              gender: user.gender || '',
+              firstName: personal(user, 'firstName') || nameSplit[0] || '',
+              middleName: personal(user, 'middleName') || '',
+              lastName: personal(user, 'lastName') || nameSplit.slice(1).join(' ') || '',
+              email: contact(user, 'email') || '',
+              gender: personal(user, 'gender') || '',
               dob: '',
               phoneCode: parsedPhone.code,
               phone: parsedPhone.number,
@@ -571,48 +555,47 @@ export default function Profile({ user, onUpdateUser }) {
               secondaryPhone: parsedSecPhone.number,
               whatsappCode: parsedWhatsapp.code,
               whatsapp: parsedWhatsapp.number,
-              userType: user.userType || '',
-              bloodGroup: user.bloodGroup || '',
-              admissionYear: user.admissionYear || '',
-              passoutYear: user.passoutYear || user.batch || '',
-              diplomaNotCompleted: user.diplomaNotCompleted || false,
-              jobTitle: '',
-              company: '',
-              linkedin: '',
+              userType: academic(user, 'userType') || '',
+              bloodGroup: personal(user, 'bloodGroup') || '',
+              admissionYear: academic(user, 'admissionYear') || '',
+              passoutYear: academic(user, 'passoutYear') || '',
+              diplomaNotCompleted: academic(user, 'diplomaNotCompleted') || false,
+              jobTitle: professional(user, 'jobTitle') || '',
+              company: professional(user, 'company') || '',
+              linkedin: professional(user, 'linkedin') || '',
               dom: '',
-              verification_status: false,
-              account_type: 'alumni',
-              degrees: user.degrees || [],
-              profession: user.profession || '',
-              companyWebsite: user.companyWebsite || '',
+              verification_status: meta(user, 'verification_status', false),
+              account_type: meta(user, 'account_type', 'alumni'),
+              degrees: getArrayField(user, 'academicDetails', 'degrees'),
+              profession: professional(user, 'profession') || '',
+              companyWebsite: professional(user, 'companyWebsite') || '',
 
-              // New fields
-              city: user.city || '',
-              state: user.state || '',
-              country: user.country || '',
+              city: personal(user, 'city') || '',
+              state: personal(user, 'state') || '',
+              country: personal(user, 'country') || '',
               certifications: loadedCertifications,
               productServices: loadedProductServices,
-              otherProductServices: user.otherProductServices || '',
-              department: user.department || '',
-              division: user.division || '',
-              workingSince: user.workingSince || '',
-              workingSinceMonth: parseWorkingSince(user).workingSinceMonth || '',
-              workingSinceYear: parseWorkingSince(user).workingSinceYear || '',
-              companyCity: user.companyCity || '',
-              companyState: user.companyState || '',
-              companyCountry: user.companyCountry || '',
-              lastPromotionDesignation: user.lastPromotionDesignation || '',
-              lastPromotionMonth: user.lastPromotionMonth || '',
-              lastPromotionYear: user.lastPromotionYear || '',
-              awards: user.awards || [],
-              hobbies: user.hobbies || [],
-              otherHobbies: user.otherHobbies || '',
-              workExperience: user.workExperience || '',
-              consentEmail: (user.consentEmail !== undefined || user.consentPhone !== undefined || user.consentWhatsapp !== undefined) ? Boolean(user.consentEmail) : Boolean(user.consentAlumniSearch ?? false),
-              consentPhone: (user.consentEmail !== undefined || user.consentPhone !== undefined || user.consentWhatsapp !== undefined) ? Boolean(user.consentPhone) : Boolean(user.consentAlumniSearch ?? false),
-              consentWhatsapp: (user.consentEmail !== undefined || user.consentPhone !== undefined || user.consentWhatsapp !== undefined) ? Boolean(user.consentWhatsapp) : Boolean(user.consentAlumniSearch ?? false),
-              cvBase64: user.cvBase64 || '',
-              cvFileName: user.cvFileName || ''
+              otherProductServices: professional(user, 'otherProductServices') || '',
+              department: professional(user, 'department') || '',
+              division: professional(user, 'division') || '',
+              workingSince: professional(user, 'workingSince') || '',
+              workingSinceMonth: parseWorkingSince(wsUser).workingSinceMonth || '',
+              workingSinceYear: parseWorkingSince(wsUser).workingSinceYear || '',
+              companyCity: professional(user, 'companyCity') || '',
+              companyState: professional(user, 'companyState') || '',
+              companyCountry: professional(user, 'companyCountry') || '',
+              lastPromotionDesignation: professional(user, 'lastPromotionDesignation') || '',
+              lastPromotionMonth: professional(user, 'lastPromotionMonth') || '',
+              lastPromotionYear: professional(user, 'lastPromotionYear') || '',
+              awards: getArrayField(user, 'professionalDetails', 'awards'),
+              hobbies: getArrayField(user, 'personalDetails', 'hobbies'),
+              otherHobbies: personal(user, 'otherHobbies') || '',
+              workExperience: professional(user, 'workExperience') || '',
+              consentEmail: Boolean(pref(user, 'consentEmail', false)),
+              consentPhone: Boolean(pref(user, 'consentPhone', false)),
+              consentWhatsapp: Boolean(pref(user, 'consentWhatsapp', false)),
+              cvBase64: meta(user, 'cvBase64') || '',
+              cvFileName: meta(user, 'cvFileName') || ''
             }
             setProfileForm(seedData)
             setOriginalForm(seedData)
@@ -712,75 +695,62 @@ export default function Profile({ user, onUpdateUser }) {
         }
 
         // Default layout load fallback
-        const nameSplit = (user.name || '').split(' ')
-        const parsedPhone = parsePhoneNumber(user.phone)
-        const parsedSecPhone = parsePhoneNumber(user.secondaryPhone)
-        const parsedWhatsapp = parsePhoneNumber(user.whatsapp)
+        const displayName = getUserDisplayName(user)
+        const nameSplit = (displayName || '').split(' ')
+        const parsedPhone = parsePhoneNumber(contact(user, 'phone'))
+        const parsedSecPhone = parsePhoneNumber(contact(user, 'secondaryPhone'))
+        const parsedWhatsapp = parsePhoneNumber(contact(user, 'whatsapp'))
 
-        // Let's parse productServices
-        let loadedProductServices = [];
-        if (Array.isArray(user.productServices)) {
-          loadedProductServices = user.productServices;
-        } else if (user.productServices) {
-          loadedProductServices = [user.productServices];
-        }
-
-        // Let's parse certifications
-        let loadedCertifications = [];
-        if (Array.isArray(user.certifications)) {
-          loadedCertifications = user.certifications;
-        } else if (user.areaOfCertification) {
-          loadedCertifications = [{ area: user.areaOfCertification, detail: '' }];
-        }
+        const loadedProductServices = getArrayField(user, 'professionalDetails', 'productServices')
+        const loadedCertifications = getArrayField(user, 'academicDetails', 'certifications')
 
         const fallbackData = {
-          firstName: nameSplit[0] || '',
-          middleName: user.middleName || '',
-          lastName: nameSplit.slice(1).join(' ') || '',
-          email: user.email || '',
-          gender: user.gender || '',
-          dob: formatDob(user.dob),
+          firstName: personal(user, 'firstName') || nameSplit[0] || '',
+          middleName: personal(user, 'middleName') || '',
+          lastName: personal(user, 'lastName') || nameSplit.slice(1).join(' ') || '',
+          email: contact(user, 'email') || '',
+          gender: personal(user, 'gender') || '',
+          dob: formatDob(personal(user, 'dob')),
           phoneCode: parsedPhone.code,
           phone: parsedPhone.number,
           secondaryPhoneCode: parsedSecPhone.code,
           secondaryPhone: parsedSecPhone.number,
           whatsappCode: parsedWhatsapp.code,
           whatsapp: parsedWhatsapp.number,
-          userType: user.userType || '',
-          bloodGroup: user.bloodGroup || '',
-          admissionYear: user.admissionYear || '',
-          passoutYear: user.passoutYear || user.batch || '',
-          diplomaNotCompleted: user.diplomaNotCompleted || false,
-          jobTitle: user.jobTitle || '',
-          company: user.company || '',
-          linkedin: user.linkedin || '',
-          dom: formatDob(user.dom),
-          verification_status: user.verification_status || false,
-          account_type: user.account_type || 'alumni',
-          degrees: user.degrees || [],
-          profession: user.profession || '',
-          companyWebsite: user.companyWebsite || '',
+          userType: academic(user, 'userType') || '',
+          bloodGroup: personal(user, 'bloodGroup') || '',
+          admissionYear: academic(user, 'admissionYear') || '',
+          passoutYear: academic(user, 'passoutYear') || '',
+          diplomaNotCompleted: academic(user, 'diplomaNotCompleted') || false,
+          jobTitle: professional(user, 'jobTitle') || '',
+          company: professional(user, 'company') || '',
+          linkedin: professional(user, 'linkedin') || '',
+          dom: formatDob(personal(user, 'dom')),
+          verification_status: meta(user, 'verification_status', false),
+          account_type: meta(user, 'account_type', 'alumni'),
+          degrees: getArrayField(user, 'academicDetails', 'degrees'),
+          profession: professional(user, 'profession') || '',
+          companyWebsite: professional(user, 'companyWebsite') || '',
 
-          // New fields
-          city: user.city || '',
-          state: user.state || '',
-          country: user.country || '',
+          city: personal(user, 'city') || '',
+          state: personal(user, 'state') || '',
+          country: personal(user, 'country') || '',
           certifications: loadedCertifications,
           productServices: loadedProductServices,
-          otherProductServices: user.otherProductServices || '',
-          department: user.department || '',
-          division: user.division || '',
-          workingSince: formatDob(user.workingSince || ''),
-          companyCity: user.companyCity || '',
-          companyState: user.companyState || '',
-          companyCountry: user.companyCountry || '',
-          lastPromotionDesignation: user.lastPromotionDesignation || '',
-          lastPromotionMonth: user.lastPromotionMonth || '',
-          lastPromotionYear: user.lastPromotionYear || '',
-          awards: user.awards || [],
-          hobbies: user.hobbies || [],
-          otherHobbies: user.otherHobbies || '',
-          workExperience: user.workExperience || ''
+          otherProductServices: professional(user, 'otherProductServices') || '',
+          department: professional(user, 'department') || '',
+          division: professional(user, 'division') || '',
+          workingSince: professional(user, 'workingSince') || '',
+          companyCity: professional(user, 'companyCity') || '',
+          companyState: professional(user, 'companyState') || '',
+          companyCountry: professional(user, 'companyCountry') || '',
+          lastPromotionDesignation: professional(user, 'lastPromotionDesignation') || '',
+          lastPromotionMonth: professional(user, 'lastPromotionMonth') || '',
+          lastPromotionYear: professional(user, 'lastPromotionYear') || '',
+          awards: getArrayField(user, 'professionalDetails', 'awards'),
+          hobbies: getArrayField(user, 'personalDetails', 'hobbies'),
+          otherHobbies: personal(user, 'otherHobbies') || '',
+          workExperience: professional(user, 'workExperience') || ''
         }
         setProfileForm(fallbackData)
         setOriginalForm(fallbackData)
@@ -1000,8 +970,8 @@ export default function Profile({ user, onUpdateUser }) {
     setSuccess('')
 
     // Basic Validations
-    if (!profileForm.firstName.trim() || !profileForm.middleName.trim() || !profileForm.lastName.trim()) {
-      setError('First name, middle name, and last name fields are compulsory.')
+    if (!profileForm.firstName.trim() || !profileForm.lastName.trim()) {
+      setError('First name and last name fields are compulsory.')
       return
     }
 
@@ -1067,7 +1037,12 @@ export default function Profile({ user, onUpdateUser }) {
       }
     }
 
-    const updatedProfile = {
+    const rawProfilePayload = {
+      ...user,
+      email: profileForm.email || contact(user, 'email') || user.email || '',
+      verification_status: meta(user, 'verification_status', false),
+      account_type: meta(user, 'account_type', 'alumni'),
+      createdAt: meta(user, 'createdAt', ''),
       firstName: cleanFirstName,
       middleName: cleanMiddleName,
       lastName: cleanLastName,
@@ -1082,7 +1057,6 @@ export default function Profile({ user, onUpdateUser }) {
       admissionYear: profileForm.admissionYear,
       passoutYear: profileForm.passoutYear,
       diplomaNotCompleted: profileForm.diplomaNotCompleted || false,
-      batch: profileForm.passoutYear,
       degrees: profileForm.degrees || [],
       jobTitle: profileForm.jobTitle.trim(),
       company: profileForm.company.trim(),
@@ -1090,8 +1064,6 @@ export default function Profile({ user, onUpdateUser }) {
       dom: profileForm.dom,
       profession: profileForm.profession || '',
       companyWebsite: profileForm.companyWebsite || '',
-
-      // New fields
       city: profileForm.city.trim(),
       state: profileForm.state.trim(),
       country: profileForm.country.trim(),
@@ -1117,60 +1089,69 @@ export default function Profile({ user, onUpdateUser }) {
       consentPhone: profileForm.consentPhone || false,
       consentWhatsapp: profileForm.consentWhatsapp || false,
       cvUrl: finalCvUrl,
-      cvBase64: finalCvUrl,
       cvFileName: profileForm.cvFileName || ''
+    }
+
+    const nestedDocToSave = buildUserDoc(rawProfilePayload)
+    // Build section-structured user object for the app session
+    const savedUserForSession = { uid, ...nestedDocToSave }
+
+    const updatedFormState = {
+      ...profileForm,
+      firstName: cleanFirstName,
+      middleName: cleanMiddleName,
+      lastName: cleanLastName,
+      name: cleanFullName,
+      jobTitle: profileForm.jobTitle.trim(),
+      company: profileForm.company.trim(),
+      linkedin: profileForm.linkedin.trim(),
+      city: profileForm.city.trim(),
+      state: profileForm.state.trim(),
+      country: profileForm.country.trim(),
+      department: profileForm.department.trim(),
+      division: profileForm.division.trim(),
+      companyCity: profileForm.companyCity.trim(),
+      companyState: profileForm.companyState.trim(),
+      companyCountry: profileForm.companyCountry.trim(),
+      lastPromotionDesignation: profileForm.lastPromotionDesignation.trim(),
+      workExperience: profileForm.workExperience ? profileForm.workExperience.trim() : '',
+      workingSince: (profileForm.workingSinceMonth && profileForm.workingSinceYear) ? `${profileForm.workingSinceMonth} ${profileForm.workingSinceYear}` : (profileForm.workingSince || ''),
+      cvUrl: finalCvUrl,
+      cvBase64: finalCvUrl
     }
 
     if (isFirebaseConfigured && uid) {
       try {
         const userDocRef = doc(db, 'users', uid)
-        await setDoc(userDocRef, updatedProfile, { merge: true })
+        await setDoc(userDocRef, nestedDocToSave, { merge: true })
 
-        if (isFirebaseConfigured && uid) {
+        if (profileForm.company && profileForm.company.trim()) {
           try {
-            const userDocRef = doc(db, 'users', uid)
-            await setDoc(userDocRef, updatedProfile, { merge: true })
-
-            if (profileForm.company && profileForm.company.trim()) {
-              try {
-                await setDoc(doc(db, 'companies', profileForm.company.trim().toLowerCase()), {
-                  name: profileForm.company.trim()
-                }, { merge: true })
-              } catch (compErr) {
-                console.warn('Failed to save company name to collection:', compErr)
-              }
-            }
-
-            // Keep the password-reset lookup doc in sync with any phone/email changes
-            const emailHashKey = await hashEmail(user.email) // account email — not editable here
-            const phoneHash = await hashPhoneDigits(updatedProfile.phone)
-            const secPhoneHash = updatedProfile.secondaryPhone ? await hashPhoneDigits(updatedProfile.secondaryPhone) : ''
-            const whatsappHash = await hashPhoneDigits(updatedProfile.whatsapp)
-
-            await setDoc(doc(db, 'passwordResetLookup', emailHashKey), {
-              uid,
-              phoneHash,
-              secPhoneHash,
-              whatsappHash
+            await setDoc(doc(db, 'companies', profileForm.company.trim().toLowerCase()), {
+              name: profileForm.company.trim()
             }, { merge: true })
-
-            // Propagate updates up to the App session state
-            onUpdateUser(updatedProfile)
-            setOriginalForm(prev => ({ ...prev, ...updatedProfile }))
-
-            setSuccess('Profile updated successfully!')
-            setIsEditing(false)
-          } catch (err) {
-            console.error("Error updating user Firestore document:", err)
-            setError('Failed to save changes. Please try again.')
-          } finally {
-            setLoading(false)
+          } catch (compErr) {
+            console.warn('Failed to save company name to collection:', compErr)
           }
         }
 
+        // Keep the password-reset lookup doc in sync with any phone/email changes
+        const emailHashKey = await hashEmail(user.email) // account email — not editable here
+        const phoneHash = await hashPhoneDigits(rawProfilePayload.phone)
+        const secPhoneHash = rawProfilePayload.secondaryPhone ? await hashPhoneDigits(rawProfilePayload.secondaryPhone) : ''
+        const whatsappHash = await hashPhoneDigits(rawProfilePayload.whatsapp)
+
+        await setDoc(doc(db, 'passwordResetLookup', emailHashKey), {
+          uid,
+          phoneHash,
+          secPhoneHash,
+          whatsappHash
+        }, { merge: true })
+
         // Propagate updates up to the App session state
-        onUpdateUser(updatedProfile)
-        setOriginalForm(prev => ({ ...prev, ...updatedProfile }))
+        onUpdateUser(savedUserForSession)
+        setProfileForm(updatedFormState)
+        setOriginalForm(updatedFormState)
 
         setSuccess('Profile updated successfully!')
         setIsEditing(false)
@@ -1189,54 +1170,16 @@ export default function Profile({ user, onUpdateUser }) {
           if (parsed.email === user.email) {
             const updatedMock = {
               ...parsed,
-              ...updatedProfile,
-              // sync individual fields in root
-              firstName: updatedProfile.firstName,
-              middleName: updatedProfile.middleName,
-              lastName: updatedProfile.lastName,
-              name: updatedProfile.name,
-              dob: updatedProfile.dob,
-              phone: updatedProfile.phone,
-              secondaryPhone: updatedProfile.secondaryPhone,
-              whatsapp: updatedProfile.whatsapp,
-              userType: updatedProfile.userType,
-              bloodGroup: updatedProfile.bloodGroup,
-              admissionYear: updatedProfile.admissionYear,
-              passoutYear: updatedProfile.passoutYear,
-              degrees: updatedProfile.degrees,
-              jobTitle: updatedProfile.jobTitle,
-              company: updatedProfile.company,
-              linkedin: updatedProfile.linkedin,
-              dom: updatedProfile.dom,
-              profession: updatedProfile.profession || '',
-              companyWebsite: updatedProfile.companyWebsite || '',
-
-              // New fields
-              city: updatedProfile.city,
-              state: updatedProfile.state,
-              country: updatedProfile.country,
-              certifications: updatedProfile.certifications,
-              productServices: updatedProfile.productServices,
-              otherProductServices: updatedProfile.otherProductServices,
-              department: updatedProfile.department,
-              division: updatedProfile.division,
-              workingSince: updatedProfile.workingSince,
-              companyCity: updatedProfile.companyCity,
-              companyState: updatedProfile.companyState,
-              companyCountry: updatedProfile.companyCountry,
-              lastPromotionDesignation: updatedProfile.lastPromotionDesignation,
-              lastPromotionMonth: updatedProfile.lastPromotionMonth,
-              lastPromotionYear: updatedProfile.lastPromotionYear,
-              awards: updatedProfile.awards,
-              hobbies: updatedProfile.hobbies
+              ...savedUserForSession
             }
             localStorage.setItem('mockRegisteredAlumni', JSON.stringify(updatedMock))
           }
         }
 
         // Propagate updates
-        onUpdateUser(updatedProfile)
-        setOriginalForm(prev => ({ ...prev, ...updatedProfile }))
+        onUpdateUser(savedUserForSession)
+        setProfileForm(updatedFormState)
+        setOriginalForm(updatedFormState)
 
         setSuccess('Profile updated successfully! (Mock Mode)')
         setIsEditing(false)
@@ -1462,7 +1405,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-middle-name">Middle Name <span className="profile-field__required">*</span></label>
+                    <label htmlFor="prof-middle-name">Middle Name</label>
                     <div className="profile-field__input-wrap">
                       <FaUser className="profile-field__icon" />
                       <input
@@ -1472,7 +1415,6 @@ export default function Profile({ user, onUpdateUser }) {
                         value={profileForm.middleName}
                         onChange={handleInputChange}
                         disabled={!isEditing || loading}
-                        required
                         placeholder="No Data Provided"
                       />
                     </div>
@@ -1498,7 +1440,7 @@ export default function Profile({ user, onUpdateUser }) {
 
                 <div className="profile-form__grid">
                   <div className="profile-field">
-                    <label htmlFor="prof-email">Email Address</label>
+                    <label htmlFor="prof-email">Email Address <span className="profile-field__required">*</span></label>
                     <div className="profile-field__input-wrap">
                       <FaEnvelope className="profile-field__icon" />
                       <input
@@ -1954,8 +1896,8 @@ export default function Profile({ user, onUpdateUser }) {
 
                 <h4 className="profile-form__section-title" style={{ marginTop: '24px' }}>Company Details</h4>
                 <div className="profile-form__grid">
-                  <div className="profile-field">
-                    <label htmlFor="prof-company">Company</label>
+                  <div className="profile-field profile-field--full">
+                    <label htmlFor="prof-company">Current Organization</label>
                     <CompanyAutocomplete
                       id="prof-company"
                       name="company"
@@ -2000,7 +1942,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field">
-                    <label htmlFor="prof-job-title">Job Title</label>
+                    <label htmlFor="prof-job-title">Current Job Title (Designation)</label>
                     <div className="profile-field__input-wrap">
                       <FaBriefcase className="profile-field__icon" />
                       <input
@@ -2048,7 +1990,7 @@ export default function Profile({ user, onUpdateUser }) {
                   </div>
 
                   <div className="profile-field profile-field--full">
-                    <label htmlFor="prof-company-website">Company Website (Optional)</label>
+                    <label htmlFor="prof-company-website">Company Website</label>
                     <div className="profile-field__input-wrap">
                       <FaGlobe className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
                       <input

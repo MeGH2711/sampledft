@@ -18,7 +18,8 @@ import {
   FaFilePdf
 } from 'react-icons/fa'
 import { db } from '../firebase'
-import { collection, getDocs, doc, updateDoc, deleteDoc, addDoc } from 'firebase/firestore'
+import { buildUserDoc, personal, contact, academic, professional, pref, meta, getArrayField, getUserDisplayName } from '../utils/userHelpers'
+import { collection, getDocs, doc, updateDoc, deleteDoc, addDoc, setDoc } from 'firebase/firestore'
 import useVisitorCount from '../hooks/useVisitorCount'
 import './Admin.css'
 
@@ -105,13 +106,9 @@ export default function Admin({ user, onUpdateUser }) {
       // Fetch users from Firestore collection 'users'
       const usersSnap = await getDocs(collection(db, 'users'))
       const fetchedUsers = []
-      usersSnap.forEach((doc) => {
-        const data = doc.data()
-        fetchedUsers.push({
-          uid: doc.id,
-          ...data,
-          name: data.name || (data.firstName ? `${data.firstName} ${data.lastName || ''}`.trim() : 'Unnamed User')
-        })
+      usersSnap.forEach((docSnap) => {
+        const rawData = docSnap.data()
+        fetchedUsers.push({ uid: docSnap.id, id: docSnap.id, ...rawData })
       })
       setUsersList(fetchedUsers)
       console.log("Admin Loaded Firestore Users:", fetchedUsers.length, fetchedUsers)
@@ -140,7 +137,8 @@ export default function Admin({ user, onUpdateUser }) {
   }
 
   useEffect(() => {
-    if (!user || (user.account_type !== 'admin' && user.account_type !== 'developer')) {
+    const userRole = meta(user, 'account_type', 'alumni')
+    if (!user || (userRole !== 'admin' && userRole !== 'developer')) {
       setLoading(false)
       return
     }
@@ -153,17 +151,23 @@ export default function Admin({ user, onUpdateUser }) {
     const newStatus = !currentStatus
     try {
       await updateDoc(doc(db, 'users', uid), {
-        verification_status: newStatus
+        'systemMetaData.verification_status': newStatus
       })
 
       // Sync if the admin/dev just modified their own status
-      if (uid === user.uid) {
-        onUpdateUser({ verification_status: newStatus })
+      if (uid === user?.uid) {
+        onUpdateUser({ systemMetaData: { verification_status: newStatus } })
       }
 
-      setUsersList(prev => prev.map(u => u.uid === uid ? { ...u, verification_status: newStatus } : u))
+      setUsersList(prev => prev.map(u => u.uid === uid ? {
+        ...u,
+        systemMetaData: { ...(u.systemMetaData || {}), verification_status: newStatus }
+      } : u))
       if (selectedUser && selectedUser.uid === uid) {
-        setSelectedUser(prev => ({ ...prev, verification_status: newStatus }))
+        setSelectedUser(prev => ({
+          ...prev,
+          systemMetaData: { ...(prev.systemMetaData || {}), verification_status: newStatus }
+        }))
       }
       showToast(newStatus ? "Account verified successfully!" : "Verification revoked.")
     } catch (err) {
@@ -176,19 +180,45 @@ export default function Admin({ user, onUpdateUser }) {
   const handleRoleChange = async (uid, newRole) => {
     try {
       await updateDoc(doc(db, 'users', uid), {
-        account_type: newRole
+        'systemMetaData.account_type': newRole
       })
 
       // Sync if the logged-in dev modifies their own role
-      if (uid === user.uid) {
-        onUpdateUser({ account_type: newRole })
+      if (uid === user?.uid) {
+        onUpdateUser({ systemMetaData: { account_type: newRole } })
       }
 
-      setUsersList(prev => prev.map(u => u.uid === uid ? { ...u, account_type: newRole } : u))
+      setUsersList(prev => prev.map(u => u.uid === uid ? {
+        ...u,
+        systemMetaData: { ...(u.systemMetaData || {}), account_type: newRole }
+      } : u))
       showToast(`User role updated to ${newRole.toUpperCase()}.`)
     } catch (err) {
-      console.error("Error updating user role in database:", err)
-      showToast("Error updating user role in database.", "error")
+      console.error("Error updating role:", err)
+      showToast("Failed to update user role.", "error")
+    }
+  }
+
+  // --- Database Reorganization Helper (Developer Only) ---
+  const handleMigrateAllUsers = async () => {
+    if (!window.confirm("Are you sure you want to reorganize all existing user documents into the new nested schema structure?")) {
+      return
+    }
+    try {
+      showToast("Starting database migration...", "info")
+      const usersSnap = await getDocs(collection(db, 'users'))
+      let count = 0
+      for (const docSnap of usersSnap.docs) {
+        const rawData = docSnap.data()
+        const structuredDoc = buildUserDoc(rawData)
+        await setDoc(doc(db, 'users', docSnap.id), structuredDoc)
+        count++
+      }
+      showToast(`Successfully reorganized ${count} user document(s) in Firestore!`)
+      loadData()
+    } catch (err) {
+      console.error("Error during migration:", err)
+      showToast("Migration failed. Check console for details.", "error")
     }
   }
 
@@ -261,7 +291,8 @@ export default function Admin({ user, onUpdateUser }) {
   }
 
   // Auth/Role Guard Rendering
-  if (!user || (user.account_type !== 'admin' && user.account_type !== 'developer')) {
+  const currentUserRole = meta(user, 'account_type', 'alumni')
+  if (!user || (currentUserRole !== 'admin' && currentUserRole !== 'developer')) {
     return (
       <div className="admin-denied-page">
         <div className="admin-denied-card">
@@ -294,27 +325,34 @@ export default function Admin({ user, onUpdateUser }) {
   // Filtering and Searching Users
   const filteredUsers = usersList.filter(u => {
     const query = searchQuery.toLowerCase().trim()
-    const nameMatch = String(u.name || '').toLowerCase().includes(query)
-    const emailMatch = String(u.email || '').toLowerCase().includes(query)
-    const batchMatch = String(u.batch || u.passoutYear || '').toLowerCase().includes(query)
-    const genderMatch = String(u.gender || '').toLowerCase().includes(query)
+    const uName = getUserDisplayName(u)
+    const uEmail = contact(u, 'email')
+    const uBatch = academic(u, 'passoutYear') || academic(u, 'batch')
+    const uGender = personal(u, 'gender')
+    const uDegrees = getArrayField(u, 'academicDetails', 'degrees')
+    const uVerification = meta(u, 'verification_status', false)
+
+    const nameMatch = String(uName || '').toLowerCase().includes(query)
+    const emailMatch = String(uEmail || '').toLowerCase().includes(query)
+    const batchMatch = String(uBatch || '').toLowerCase().includes(query)
+    const genderMatch = String(uGender || '').toLowerCase().includes(query)
 
     // Check degrees array safely or fallback to degree string comparison
-    const degreeMatch = Array.isArray(u.degrees)
-      ? u.degrees.some(d => {
+    const degreeMatch = uDegrees.length > 0
+      ? uDegrees.some(d => {
         if (d && typeof d === 'object') {
           return String(d.degree || '').toLowerCase().includes(query) ||
             String(d.domain || '').toLowerCase().includes(query);
         }
         return String(d || '').toLowerCase().includes(query);
       })
-      : String(u.degree || '').toLowerCase().includes(query)
+      : String(academic(u, 'degree')).toLowerCase().includes(query)
 
     const searchMatch = !query || nameMatch || emailMatch || batchMatch || degreeMatch || genderMatch
 
     let statusMatch = true
-    if (filterStatus === 'pending') statusMatch = !u.verification_status
-    if (filterStatus === 'verified') statusMatch = u.verification_status
+    if (filterStatus === 'pending') statusMatch = !uVerification
+    if (filterStatus === 'verified') statusMatch = uVerification
 
     return searchMatch && statusMatch
   })
@@ -322,15 +360,15 @@ export default function Admin({ user, onUpdateUser }) {
   // Access Management tab: same filtered set, ordered developer -> admin -> alumni
   const ROLE_ORDER = { developer: 0, admin: 1, alumni: 2 }
   const accessManagementUsers = [...filteredUsers].sort((a, b) => {
-    const roleA = ROLE_ORDER[a.account_type] ?? ROLE_ORDER.alumni
-    const roleB = ROLE_ORDER[b.account_type] ?? ROLE_ORDER.alumni
+    const roleA = ROLE_ORDER[meta(a, 'account_type', 'alumni')] ?? ROLE_ORDER.alumni
+    const roleB = ROLE_ORDER[meta(b, 'account_type', 'alumni')] ?? ROLE_ORDER.alumni
     return roleA - roleB
   })
 
   // Count helper statistics
   const totalUsers = usersList.length
-  const pendingCount = usersList.filter(u => !u.verification_status).length
-  const verifiedCount = usersList.filter(u => u.verification_status).length
+  const pendingCount = usersList.filter(u => !meta(u, 'verification_status', false)).length
+  const verifiedCount = usersList.filter(u => meta(u, 'verification_status', false)).length
   const activeJobsCount = jobsList.length
 
   return (
@@ -369,13 +407,13 @@ export default function Admin({ user, onUpdateUser }) {
             <h1>Admin Control Panel</h1>
             <div className="admin-user-pill">
               <span className="admin-user-avatar">
-                {user.name.charAt(0).toUpperCase()}
+                {(getUserDisplayName(user) || 'A').charAt(0).toUpperCase()}
               </span>
               <span style={{ fontSize: '14px', fontWeight: '600', color: 'var(--navy-deep)' }}>
-                {user.name}
+                {getUserDisplayName(user)}
               </span>
-              <span className={`admin-user-role-badge ${user.account_type}`}>
-                {user.account_type}
+              <span className={`admin-user-role-badge ${meta(user, 'account_type', 'alumni')}`}>
+                {meta(user, 'account_type', 'alumni')}
               </span>
             </div>
           </div>
@@ -507,7 +545,7 @@ service cloud.firestore {
           </button>
 
           {/* Strictly Gated: Access Management is Developer Only */}
-          {user.account_type === 'developer' && (
+          {meta(user, 'account_type', 'alumni') === 'developer' && (
             <button
               className={`admin-tab-btn ${activeTab === 'access' ? 'active' : ''}`}
               onClick={() => setActiveTab('access')}
@@ -571,59 +609,67 @@ service cloud.firestore {
                 </thead>
                 <tbody>
                   {filteredUsers.length > 0 ? (
-                    filteredUsers.map((item) => (
-                      <tr key={item.uid}>
-                        <td>
-                          <div className="admin-table-user-info">
-                            <div className="admin-table-avatar">
-                              {(item.name || 'U').charAt(0).toUpperCase()}
+                    filteredUsers.map((item) => {
+                      const itemName = getUserDisplayName(item)
+                      const itemEmail = contact(item, 'email')
+                      const itemPhone = contact(item, 'phone')
+                      const itemBatch = academic(item, 'passoutYear') || academic(item, 'batch')
+                      const itemDate = meta(item, 'createdAt')
+                      const isVerified = meta(item, 'verification_status', false)
+                      return (
+                        <tr key={item.uid}>
+                          <td>
+                            <div className="admin-table-user-info">
+                              <div className="admin-table-avatar">
+                                {(itemName || 'U').charAt(0).toUpperCase()}
+                              </div>
+                              <div className="admin-table-user-details">
+                                <span className="admin-table-name">{itemName || 'Unnamed User'}</span>
+                                <span className="admin-table-email">{itemEmail}</span>
+                              </div>
                             </div>
-                            <div className="admin-table-user-details">
-                              <span className="admin-table-name">{item.name || 'Unnamed User'}</span>
-                              <span className="admin-table-email">{item.email}</span>
-                            </div>
-                          </div>
-                        </td>
-                        <td>{item.phone || 'N/A'}</td>
-                        <td>{item.batch || item.passoutYear || 'N/A'}</td>
-                        <td style={{ fontSize: '13px', color: 'var(--navy-mid)' }}>{formatDateFormatted(item.createdAt)}</td>
-                        <td>
-                          <span className={`admin-badge ${item.verification_status ? 'verified' : 'pending'}`}>
-                            {item.verification_status ? (
-                              <><FaCheckCircle className="admin-badge-icon" /> Verified</>
+                          </td>
+                          <td>{itemPhone || 'N/A'}</td>
+                          <td>{itemBatch || 'N/A'}</td>
+                          <td style={{ fontSize: '13px', color: 'var(--navy-mid)' }}>{formatDateFormatted(itemDate)}</td>
+                          <td>
+                            <span className={`admin-badge ${isVerified ? 'verified' : 'pending'}`}>
+                              {isVerified ? (
+                                <><FaCheckCircle className="admin-badge-icon" /> Verified</>
+                              ) : (
+                                <><FaClock className="admin-badge-icon" /> Pending</>
+                              )}
+                            </span>
+                          </td>
+                          <td style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'nowrap' }}>
+                            <button
+                              type="button"
+                              className="admin-btn-view"
+                              onClick={() => setSelectedUser(item)}
+                            >
+                              View Profile
+                            </button>
+                            {isVerified ? (
+                              <button
+                                type="button"
+                                className="admin-btn-revoke"
+                                onClick={() => handleToggleVerification(item.uid, true)}
+                              >
+                                Revoke Approval
+                              </button>
                             ) : (
-                              <><FaClock className="admin-badge-icon" /> Pending</>
+                              <button
+                                type="button"
+                                className="admin-btn-verify"
+                                onClick={() => handleToggleVerification(item.uid, false)}
+                              >
+                                Verify Account
+                              </button>
                             )}
-                          </span>
-                        </td>
-                        <td style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'nowrap' }}>
-                          <button
-                            type="button"
-                            className="admin-btn-view"
-                            onClick={() => setSelectedUser(item)}
-                          >
-                            View Profile
-                          </button>
-                          {item.verification_status ? (
-                            <button
-                              type="button"
-                              className="admin-btn-revoke"
-                              onClick={() => handleToggleVerification(item.uid, true)}
-                            >
-                              Revoke Approval
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              className="admin-btn-verify"
-                              onClick={() => handleToggleVerification(item.uid, false)}
-                            >
-                              Verify Account
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    ))
+                          </td>
+                        </tr>
+                      )
+                    })
                   ) : (
                     <tr>
                       <td colSpan="6" style={{ textAlign: 'center', padding: '40px 0', color: 'var(--slate)' }}>
@@ -824,10 +870,10 @@ service cloud.firestore {
         )}
 
         {/* --- TAB CONTENT: ACCESS MANAGEMENT (Dev-Only) --- */}
-        {activeTab === 'access' && user.account_type === 'developer' && (
+        {activeTab === 'access' && meta(user, 'account_type', 'alumni') === 'developer' && (
           <div className="admin-tab-content">
-            <div className="admin-controls-row">
-              <div className="admin-search-wrapper" style={{ maxWidth: '100%' }}>
+            <div className="admin-controls-row" style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              <div className="admin-search-wrapper" style={{ flex: 1, maxWidth: '100%' }}>
                 <FaSearch className="admin-search-icon" />
                 <input
                   type="text"
@@ -837,6 +883,14 @@ service cloud.firestore {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
+              <button
+                className="admin-btn-primary"
+                onClick={handleMigrateAllUsers}
+                style={{ whiteSpace: 'nowrap', padding: '10px 16px', background: '#3498db', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: '600' }}
+                title="Migrate all legacy flat user records to organized nested sections"
+              >
+                Reorganize DB User Docs
+              </button>
             </div>
 
             <div className="admin-table-container">
@@ -851,43 +905,48 @@ service cloud.firestore {
                 </thead>
                 <tbody>
                   {accessManagementUsers.length > 0 ? (
-                    accessManagementUsers.map((item) => (
-                      <tr key={item.uid}>
-                        <td>
-                          <div className="admin-table-user-info">
-                            <div className="admin-table-avatar">
-                              {(item.name || 'U').charAt(0).toUpperCase()}
+                    accessManagementUsers.map((item) => {
+                      const itemName = getUserDisplayName(item)
+                      const itemEmail = contact(item, 'email')
+                      const itemRole = meta(item, 'account_type', 'alumni')
+                      return (
+                        <tr key={item.uid}>
+                          <td>
+                            <div className="admin-table-user-info">
+                              <div className="admin-table-avatar">
+                                {(itemName || 'U').charAt(0).toUpperCase()}
+                              </div>
+                              <div className="admin-table-user-details">
+                                <span className="admin-table-name">{itemName || 'Unnamed User'}</span>
+                                <span className="admin-table-email">{itemEmail}</span>
+                              </div>
                             </div>
-                            <div className="admin-table-user-details">
-                              <span className="admin-table-name">{item.name || 'Unnamed User'}</span>
-                              <span className="admin-table-email">{item.email}</span>
+                          </td>
+                          <td>
+                            <span className={`admin-user-role-badge ${itemRole}`}>
+                              {itemRole}
+                            </span>
+                          </td>
+                          <td>
+                            <div className="admin-select-wrap">
+                              <select
+                                value={itemRole}
+                                onChange={(e) => handleRoleChange(item.uid, e.target.value)}
+                                className={`admin-role-select ${itemRole}`}
+                                disabled={String(itemEmail || '').toLowerCase() === 'patelmeghmahesh2701@gmail.com'}
+                              >
+                                <option value="alumni">Alumni (Normal User)</option>
+                                <option value="admin">Admin</option>
+                                <option value="developer">Developer</option>
+                              </select>
                             </div>
-                          </div>
-                        </td>
-                        <td>
-                          <span className={`admin-user-role-badge ${item.account_type || 'alumni'}`}>
-                            {item.account_type || 'alumni'}
-                          </span>
-                        </td>
-                        <td>
-                          <div className="admin-select-wrap">
-                            <select
-                              value={item.account_type || 'alumni'}
-                              onChange={(e) => handleRoleChange(item.uid, e.target.value)}
-                              className={`admin-role-select ${item.account_type || 'alumni'}`}
-                              disabled={String(item.email || '').toLowerCase() === 'patelmeghmahesh2701@gmail.com'}
-                            >
-                              <option value="alumni">Alumni (Normal User)</option>
-                              <option value="admin">Admin</option>
-                              <option value="developer">Developer</option>
-                            </select>
-                          </div>
-                        </td>
-                        <td style={{ fontSize: '11px', fontFamily: 'monospace', color: 'var(--slate)' }}>
-                          {item.uid}
-                        </td>
-                      </tr>
-                    ))
+                          </td>
+                          <td style={{ fontSize: '11px', fontFamily: 'monospace', color: 'var(--slate)' }}>
+                            {item.uid}
+                          </td>
+                        </tr>
+                      )
+                    })
                   ) : (
                     <tr>
                       <td colSpan="4" style={{ textAlign: 'center', padding: '40px 0', color: 'var(--slate)' }}>
@@ -936,21 +995,21 @@ service cloud.firestore {
               {/* Profile Avatar Banner */}
               <div className="admin-modal-user-card">
                 <div className="admin-modal-avatar">
-                  {(selectedUser.name || 'U').charAt(0).toUpperCase()}
+                  {(getUserDisplayName(selectedUser) || 'U').charAt(0).toUpperCase()}
                 </div>
                 <div className="admin-modal-user-meta">
-                  <h3 className="admin-modal-user-name">{selectedUser.name || 'Unnamed User'}</h3>
-                  <span className="admin-modal-user-email">{selectedUser.email}</span>
+                  <h3 className="admin-modal-user-name">{getUserDisplayName(selectedUser) || 'Unnamed User'}</h3>
+                  <span className="admin-modal-user-email">{contact(selectedUser, 'email')}</span>
                   <div style={{ marginTop: '6px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                    <span className={`admin-badge ${selectedUser.verification_status ? 'verified' : 'pending'}`}>
-                      {selectedUser.verification_status ? "Verified Account" : "Pending Verification"}
+                    <span className={`admin-badge ${meta(selectedUser, 'verification_status', false) ? 'verified' : 'pending'}`}>
+                      {meta(selectedUser, 'verification_status', false) ? "Verified Account" : "Pending Verification"}
                     </span>
-                    <span className={`admin-user-role-badge ${selectedUser.account_type || 'alumni'}`}>
-                      {selectedUser.account_type || 'alumni'}
+                    <span className={`admin-user-role-badge ${meta(selectedUser, 'account_type', 'alumni')}`}>
+                      {meta(selectedUser, 'account_type', 'alumni')}
                     </span>
                   </div>
                   <div style={{ marginTop: '6px', fontSize: '0.8rem', color: 'var(--slate)', fontWeight: '500' }}>
-                    Registered: {formatDateFormatted(selectedUser.createdAt)}
+                    Registered: {formatDateFormatted(meta(selectedUser, 'createdAt'))}
                   </div>
                 </div>
               </div>
@@ -961,59 +1020,59 @@ service cloud.firestore {
                 <div className="admin-modal-grid-2">
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Full Name</span>
-                    <span className="admin-modal-info-value">{selectedUser.name || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{getUserDisplayName(selectedUser) || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">First / Middle / Last Name</span>
                     <span className="admin-modal-info-value">
-                      {[selectedUser.firstName, selectedUser.middleName, selectedUser.lastName].filter(Boolean).join(' ') || 'N/A'}
+                      {[personal(selectedUser, 'firstName'), personal(selectedUser, 'middleName'), personal(selectedUser, 'lastName')].filter(Boolean).join(' ') || 'N/A'}
                     </span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Email Address</span>
-                    <span className="admin-modal-info-value">{selectedUser.email || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{contact(selectedUser, 'email') || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Gender</span>
-                    <span className="admin-modal-info-value">{selectedUser.gender || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{personal(selectedUser, 'gender') || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Phone Number</span>
-                    <span className="admin-modal-info-value">{selectedUser.phone || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{contact(selectedUser, 'phone') || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Secondary Phone</span>
-                    <span className="admin-modal-info-value">{selectedUser.secondaryPhone || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{contact(selectedUser, 'secondaryPhone') || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">WhatsApp Number</span>
-                    <span className="admin-modal-info-value">{selectedUser.whatsapp || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{contact(selectedUser, 'whatsapp') || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Date of Birth</span>
-                    <span className="admin-modal-info-value">{formatDateFormatted(selectedUser.dob)}</span>
+                    <span className="admin-modal-info-value">{formatDateFormatted(personal(selectedUser, 'dob'))}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Date of Marriage / Anniversary</span>
-                    <span className="admin-modal-info-value">{formatDateFormatted(selectedUser.dom)}</span>
+                    <span className="admin-modal-info-value">{formatDateFormatted(personal(selectedUser, 'dom'))}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Blood Group</span>
-                    <span className="admin-modal-info-value">{selectedUser.bloodGroup || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{personal(selectedUser, 'bloodGroup') || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Location</span>
                     <span className="admin-modal-info-value">
-                      {[selectedUser.city, selectedUser.state, selectedUser.country].filter(Boolean).join(', ') || 'N/A'}
+                      {[personal(selectedUser, 'city'), personal(selectedUser, 'state'), personal(selectedUser, 'country')].filter(Boolean).join(', ') || 'N/A'}
                     </span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Directory Search Consent</span>
                     <span className="admin-modal-info-value">
                       {[
-                        selectedUser.consentEmail && 'Email ID',
-                        selectedUser.consentPhone && 'Mobile Number',
-                        selectedUser.consentWhatsapp && 'WhatsApp Number'
+                        pref(selectedUser, 'consentEmail') && 'Email ID',
+                        pref(selectedUser, 'consentPhone') && 'Mobile Number',
+                        pref(selectedUser, 'consentWhatsapp') && 'WhatsApp Number'
                       ].filter(Boolean).join(', ') || 'No Consent Given'}
                     </span>
                   </div>
@@ -1027,9 +1086,9 @@ service cloud.firestore {
                   <div className="admin-modal-info-item" style={{ gridColumn: 'span 2' }}>
                     <span className="admin-modal-info-label">Degrees Completed</span>
                     <div className="admin-modal-info-value" style={{ marginTop: '6px' }}>
-                      {Array.isArray(selectedUser.degrees) && selectedUser.degrees.length > 0 ? (
+                      {getArrayField(selectedUser, 'academicDetails', 'degrees').length > 0 ? (
                         <ul style={{ margin: 0, paddingLeft: '20px', listStyleType: 'disc' }}>
-                          {selectedUser.degrees
+                          {getArrayField(selectedUser, 'academicDetails', 'degrees')
                             .map(d => d && typeof d === 'object' ? `${d.degree || ''} ${d.domain ? `(${d.domain})` : ''}`.trim() : String(d))
                             .filter(Boolean)
                             .map((degText, idx) => (
@@ -1037,27 +1096,27 @@ service cloud.firestore {
                             ))}
                         </ul>
                       ) : (
-                        <span>{selectedUser.degree || 'N/A'}</span>
+                        <span>{academic(selectedUser, 'degree') || 'N/A'}</span>
                       )}
                     </div>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Admission Year</span>
-                    <span className="admin-modal-info-value">{selectedUser.admissionYear || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{academic(selectedUser, 'admissionYear') || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Passout / Graduation Year</span>
-                    <span className="admin-modal-info-value">{selectedUser.passoutYear || selectedUser.batch || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{academic(selectedUser, 'passoutYear') || academic(selectedUser, 'batch') || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Course Completion Status</span>
                     <span className="admin-modal-info-value">
-                      {selectedUser.diplomaNotCompleted ? 'Diploma / Course Not Completed' : 'Completed / Graduated'}
+                      {academic(selectedUser, 'diplomaNotCompleted') ? 'Diploma / Course Not Completed' : 'Completed / Graduated'}
                     </span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Student Type / Classification</span>
-                    <span className="admin-modal-info-value">{selectedUser.userType || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{academic(selectedUser, 'userType') || 'N/A'}</span>
                   </div>
                 </div>
               </div>
@@ -1068,50 +1127,50 @@ service cloud.firestore {
                 <div className="admin-modal-grid-2">
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Job Title / Designation</span>
-                    <span className="admin-modal-info-value">{selectedUser.jobTitle || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{professional(selectedUser, 'jobTitle') || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Company / Employer</span>
-                    <span className="admin-modal-info-value">{selectedUser.company || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{professional(selectedUser, 'company') || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Industry / Profession</span>
-                    <span className="admin-modal-info-value">{selectedUser.profession || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{professional(selectedUser, 'profession') || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Department</span>
-                    <span className="admin-modal-info-value">{selectedUser.department || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{professional(selectedUser, 'department') || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Division</span>
-                    <span className="admin-modal-info-value">{selectedUser.division || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{professional(selectedUser, 'division') || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Working Since</span>
-                    <span className="admin-modal-info-value">{formatDateFormatted(selectedUser.workingSince)}</span>
+                    <span className="admin-modal-info-value">{formatDateFormatted(professional(selectedUser, 'workingSince'))}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Total Work Experience</span>
                     <span className="admin-modal-info-value">
-                      {selectedUser.workExperience ? `${selectedUser.workExperience} ${parseInt(selectedUser.workExperience, 10) === 1 ? 'Year' : 'Years'}` : 'N/A'}
+                      {professional(selectedUser, 'workExperience') ? `${professional(selectedUser, 'workExperience')} ${parseInt(professional(selectedUser, 'workExperience'), 10) === 1 ? 'Year' : 'Years'}` : 'N/A'}
                     </span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Last Promotion Designation</span>
-                    <span className="admin-modal-info-value">{selectedUser.lastPromotionDesignation || 'N/A'}</span>
+                    <span className="admin-modal-info-value">{professional(selectedUser, 'lastPromotionDesignation') || 'N/A'}</span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Date of Last Promotion</span>
                     <span className="admin-modal-info-value">
-                      {[selectedUser.lastPromotionMonth, selectedUser.lastPromotionYear].filter(Boolean).join(' ') || 'N/A'}
+                      {[professional(selectedUser, 'lastPromotionMonth'), professional(selectedUser, 'lastPromotionYear')].filter(Boolean).join(' ') || 'N/A'}
                     </span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">LinkedIn Profile</span>
                     <span className="admin-modal-info-value">
-                      {selectedUser.linkedin ? (
-                        <a href={selectedUser.linkedin.startsWith('http') ? selectedUser.linkedin : `https://${selectedUser.linkedin}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--navy-mid)', textDecoration: 'underline' }}>
-                          {selectedUser.linkedin}
+                      {professional(selectedUser, 'linkedin') ? (
+                        <a href={professional(selectedUser, 'linkedin').startsWith('http') ? professional(selectedUser, 'linkedin') : `https://${professional(selectedUser, 'linkedin')}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--navy-mid)', textDecoration: 'underline' }}>
+                          {professional(selectedUser, 'linkedin')}
                         </a>
                       ) : 'N/A'}
                     </span>
@@ -1119,12 +1178,12 @@ service cloud.firestore {
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Resume / CV (PDF)</span>
                     <span className="admin-modal-info-value">
-                      {(selectedUser.cvUrl || selectedUser.cvBase64) ? (
+                      {(meta(selectedUser, 'cvUrl') || meta(selectedUser, 'cvBase64')) ? (
                         <a
-                          href={selectedUser.cvUrl || selectedUser.cvBase64}
+                          href={meta(selectedUser, 'cvUrl') || meta(selectedUser, 'cvBase64')}
                           target="_blank"
                           rel="noopener noreferrer"
-                          download={selectedUser.cvFileName || `${selectedUser.name || 'Alumni'}_CV.pdf`}
+                          download={meta(selectedUser, 'cvFileName') || `${getUserDisplayName(selectedUser) || 'Alumni'}_CV.pdf`}
                           style={{ color: '#dc2626', fontWeight: '600', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                         >
                           <FaFilePdf style={{ color: '#dc2626' }} /> Download / View PDF CV
@@ -1135,15 +1194,15 @@ service cloud.firestore {
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Company Location</span>
                     <span className="admin-modal-info-value">
-                      {[selectedUser.companyCity, selectedUser.companyState, selectedUser.companyCountry].filter(Boolean).join(', ') || 'N/A'}
+                      {[professional(selectedUser, 'companyCity'), professional(selectedUser, 'companyState'), professional(selectedUser, 'companyCountry')].filter(Boolean).join(', ') || 'N/A'}
                     </span>
                   </div>
                   <div className="admin-modal-info-item">
                     <span className="admin-modal-info-label">Company Website</span>
                     <span className="admin-modal-info-value">
-                      {selectedUser.companyWebsite ? (
-                        <a href={selectedUser.companyWebsite.startsWith('http') ? selectedUser.companyWebsite : `http://${selectedUser.companyWebsite}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--navy-mid)', textDecoration: 'underline' }}>
-                          {selectedUser.companyWebsite}
+                      {professional(selectedUser, 'companyWebsite') ? (
+                        <a href={professional(selectedUser, 'companyWebsite').startsWith('http') ? professional(selectedUser, 'companyWebsite') : `http://${professional(selectedUser, 'companyWebsite')}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--navy-mid)', textDecoration: 'underline' }}>
+                          {professional(selectedUser, 'companyWebsite')}
                         </a>
                       ) : 'N/A'}
                     </span>
@@ -1158,9 +1217,9 @@ service cloud.firestore {
                   <div className="admin-modal-info-item" style={{ gridColumn: 'span 2' }}>
                     <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Areas of Certification</span>
                     <div className="admin-modal-info-value">
-                      {Array.isArray(selectedUser.certifications) && selectedUser.certifications.length > 0 ? (
+                      {getArrayField(selectedUser, 'academicDetails', 'certifications').length > 0 ? (
                         <ul style={{ margin: 0, paddingLeft: '20px', listStyleType: 'disc' }}>
-                          {selectedUser.certifications.map((c, i) => {
+                          {getArrayField(selectedUser, 'academicDetails', 'certifications').map((c, i) => {
                             const certText = c && typeof c === 'object'
                               ? `${c.area || ''} ${c.detail ? `(${c.detail})` : ''}`.trim()
                               : String(c);
@@ -1176,9 +1235,9 @@ service cloud.firestore {
                   <div className="admin-modal-info-item" style={{ gridColumn: 'span 2', marginTop: '14px' }}>
                     <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Products & Services / Skills</span>
                     <div className="admin-modal-info-value">
-                      {Array.isArray(selectedUser.productServices) && selectedUser.productServices.length > 0 ? (
+                      {getArrayField(selectedUser, 'professionalDetails', 'productServices').length > 0 ? (
                         <ul style={{ margin: 0, paddingLeft: '20px', listStyleType: 'disc' }}>
-                          {selectedUser.productServices.map((p, i) => (
+                          {getArrayField(selectedUser, 'professionalDetails', 'productServices').map((p, i) => (
                             <li key={i} style={{ marginBottom: '4px', fontWeight: '600' }}>{p}</li>
                           ))}
                         </ul>
@@ -1188,11 +1247,11 @@ service cloud.firestore {
                     </div>
                   </div>
 
-                  {selectedUser.otherProductServices && (
+                  {professional(selectedUser, 'otherProductServices') && (
                     <div className="admin-modal-info-item" style={{ gridColumn: 'span 2', marginTop: '14px' }}>
                       <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Details of Other Products & Services</span>
                       <div className="admin-modal-info-value" style={{ fontSize: '13px', color: 'var(--navy-deep)', background: 'var(--fog-grey)', padding: '10px 14px', borderRadius: '6px' }}>
-                        {selectedUser.otherProductServices}
+                        {professional(selectedUser, 'otherProductServices')}
                       </div>
                     </div>
                   )}
@@ -1200,9 +1259,9 @@ service cloud.firestore {
                   <div className="admin-modal-info-item" style={{ gridColumn: 'span 2', marginTop: '14px' }}>
                     <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Awards & Achievements</span>
                     <div className="admin-modal-info-value">
-                      {Array.isArray(selectedUser.awards) && selectedUser.awards.length > 0 ? (
+                      {getArrayField(selectedUser, 'professionalDetails', 'awards').length > 0 ? (
                         <ul style={{ margin: 0, paddingLeft: '20px', listStyleType: 'disc' }}>
-                          {selectedUser.awards.map((a, i) => (
+                          {getArrayField(selectedUser, 'professionalDetails', 'awards').map((a, i) => (
                             <li key={i} style={{ marginBottom: '4px', fontWeight: '600' }}>{a}</li>
                           ))}
                         </ul>
@@ -1215,11 +1274,11 @@ service cloud.firestore {
                   <div className="admin-modal-info-item" style={{ gridColumn: 'span 2', marginTop: '14px' }}>
                     <span className="admin-modal-info-label" style={{ marginBottom: '6px' }}>Interest / Hobbies</span>
                     <div className="admin-modal-info-value">
-                      {Array.isArray(selectedUser.hobbies) && selectedUser.hobbies.length > 0 ? (
+                      {getArrayField(selectedUser, 'personalDetails', 'hobbies').length > 0 ? (
                         <div className="admin-modal-badge-list">
-                          {selectedUser.hobbies.map((hobby, i) => (
+                          {getArrayField(selectedUser, 'personalDetails', 'hobbies').map((hobby, i) => (
                             <span key={i} className="admin-modal-badge-tag">
-                              {hobby === 'Others' && selectedUser.otherHobbies ? `Others (${selectedUser.otherHobbies})` : hobby}
+                              {hobby === 'Others' && personal(selectedUser, 'otherHobbies') ? `Others (${personal(selectedUser, 'otherHobbies')})` : hobby}
                             </span>
                           ))}
                         </div>
@@ -1241,7 +1300,7 @@ service cloud.firestore {
               >
                 Close Profile
               </button>
-              {selectedUser.verification_status ? (
+              {meta(selectedUser, 'verification_status', false) ? (
                 <button
                   type="button"
                   className="admin-btn-revoke"

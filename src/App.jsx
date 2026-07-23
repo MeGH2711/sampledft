@@ -96,7 +96,15 @@ function App() {
 
   const handleUpdateUser = (updatedData) => {
     setUser(prev => {
-      const merged = { ...prev, ...updatedData }
+      // Deep-merge section buckets so partial updates (e.g. just systemMetaData) merge correctly
+      const merged = { ...(prev || {}) }
+      for (const key of Object.keys(updatedData)) {
+        if (updatedData[key] && typeof updatedData[key] === 'object' && !Array.isArray(updatedData[key]) && merged[key] && typeof merged[key] === 'object') {
+          merged[key] = { ...merged[key], ...updatedData[key] }
+        } else {
+          merged[key] = updatedData[key]
+        }
+      }
       localStorage.setItem('alumniUser', JSON.stringify(merged))
       return merged
     })

@@ -38,6 +38,7 @@ import CompanyAutocomplete from '../components/CompanyAutocomplete'
 import CvDropzone from '../components/CvDropzone'
 import FullPageLoader from '../components/FullPageLoader'
 import './Login.css'
+import { buildUserDoc, personal, contact, academic, professional, meta, getArrayField, getUserDisplayName } from '../utils/userHelpers'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
 import { doc, setDoc, getDoc, collection, query, where, getDocs } from 'firebase/firestore'
@@ -678,115 +679,124 @@ export default function Login({ user, onLoginSuccess }) {
 
         let userToLogin = null
         if (userDocSnap.exists()) {
-          const profileData = userDocSnap.data()
-          const parsedPhone = parsePhoneNumber(profileData.phone)
-          const parsedSecPhone = parsePhoneNumber(profileData.secondaryPhone)
-          const parsedWhatsapp = parsePhoneNumber(profileData.whatsapp)
+          const docData = userDocSnap.data()
+          const parsedPhone = parsePhoneNumber(contact(docData, 'phone'))
+          const parsedSecPhone = parsePhoneNumber(contact(docData, 'secondaryPhone'))
+          const parsedWhatsapp = parsePhoneNumber(contact(docData, 'whatsapp'))
 
           // Let's parse productServices
-          let loadedProductServices = [];
-          if (Array.isArray(profileData.productServices)) {
-            loadedProductServices = profileData.productServices;
-          } else if (profileData.productServices) {
-            loadedProductServices = [profileData.productServices];
-          }
+          const rawPS = getArrayField(docData, 'professionalDetails', 'productServices')
+          let loadedProductServices = rawPS.length > 0 ? rawPS : []
 
           // Let's parse certifications
-          let loadedCertifications = [];
-          if (Array.isArray(profileData.certifications)) {
-            loadedCertifications = profileData.certifications;
-          } else if (profileData.areaOfCertification) {
-            loadedCertifications = [{ area: profileData.areaOfCertification, detail: '' }];
-          }
+          const rawCerts = getArrayField(docData, 'academicDetails', 'certifications')
+          let loadedCertifications = rawCerts.length > 0 ? rawCerts : []
 
+          // Build a section-structured user object with uid at root
+          const displayName = getUserDisplayName(docData)
           userToLogin = {
             uid: user.uid,
-            name: profileData.name || user.displayName || 'Alumni Member',
-            email: user.email,
-            dob: profileData.dob || '',
-            middleName: profileData.middleName || '',
-            userType: profileData.userType || '',
-            bloodGroup: profileData.bloodGroup || '',
+            personalDetails: {
+              ...(docData.personalDetails || {}),
+              name: displayName !== 'Alumni Member' ? displayName : (user.displayName || user.email.split('@')[0])
+            },
+            contactDetails: {
+              ...(docData.contactDetails || {}),
+              email: user.email,
+              phone: parsedPhone.number,
+              secondaryPhone: parsedSecPhone.number,
+              whatsapp: parsedWhatsapp.number
+            },
+            academicDetails: {
+              ...(docData.academicDetails || {}),
+              certifications: loadedCertifications
+            },
+            professionalDetails: {
+              ...(docData.professionalDetails || {}),
+              productServices: loadedProductServices
+            },
+            preferences: docData.preferences || {},
+            systemMetaData: docData.systemMetaData || {},
+            // Store parsed phone codes for form usage
             phoneCode: parsedPhone.code,
-            phone: parsedPhone.number,
             secondaryPhoneCode: parsedSecPhone.code,
-            secondaryPhone: parsedSecPhone.number,
-            whatsappCode: parsedWhatsapp.code,
-            whatsapp: parsedWhatsapp.number,
-            batch: profileData.batch || profileData.passoutYear || '',
-            passoutYear: profileData.passoutYear || profileData.batch || '',
-            degree: profileData.degree || '',
-            jobTitle: profileData.jobTitle || '',
-            company: profileData.company || '',
-            linkedin: profileData.linkedin || '',
-            verification_status: profileData.verification_status !== undefined ? profileData.verification_status : false,
-            account_type: profileData.account_type || 'alumni',
-            // New fields
-            city: profileData.city || '',
-            state: profileData.state || '',
-            country: profileData.country || '',
-            certifications: loadedCertifications,
-            productServices: loadedProductServices,
-            otherProductServices: profileData.otherProductServices || '',
-            department: profileData.department || '',
-            division: profileData.division || '',
-            workingSince: profileData.workingSince || '',
-            workingSinceMonth: profileData.workingSinceMonth || '',
-            workingSinceYear: profileData.workingSinceYear || '',
-            companyCity: profileData.companyCity || '',
-            companyState: profileData.companyState || '',
-            companyCountry: profileData.companyCountry || '',
-            lastPromotionDesignation: profileData.lastPromotionDesignation || '',
-            lastPromotionMonth: profileData.lastPromotionMonth || '',
-            lastPromotionYear: profileData.lastPromotionYear || '',
-            awards: profileData.awards || [],
-            hobbies: profileData.hobbies || []
+            whatsappCode: parsedWhatsapp.code
           }
         } else {
           userToLogin = {
             uid: user.uid,
-            name: user.displayName || 'Alumni Member',
-            email: user.email,
-            dob: '',
-            middleName: '',
-            userType: '',
-            bloodGroup: '',
+            personalDetails: {
+              firstName: '',
+              middleName: '',
+              lastName: '',
+              name: user.displayName || user.email.split('@')[0],
+              gender: '',
+              dob: '',
+              dom: '',
+              bloodGroup: '',
+              city: '',
+              state: '',
+              country: '',
+              hobbies: [],
+              otherHobbies: ''
+            },
+            contactDetails: {
+              email: user.email,
+              phone: '',
+              secondaryPhone: '',
+              whatsapp: ''
+            },
+            academicDetails: {
+              userType: '',
+              admissionYear: '',
+              passoutYear: '',
+              diplomaNotCompleted: false,
+              degrees: [],
+              certifications: []
+            },
+            professionalDetails: {
+              jobTitle: '',
+              company: '',
+              profession: '',
+              department: '',
+              division: '',
+              companyWebsite: '',
+              companyCity: '',
+              companyState: '',
+              companyCountry: '',
+              workingSinceMonth: '',
+              workingSinceYear: '',
+              workingSince: '',
+              workExperience: '',
+              lastPromotionDesignation: '',
+              lastPromotionMonth: '',
+              lastPromotionYear: '',
+              awards: [],
+              productServices: [],
+              otherProductServices: '',
+              linkedin: ''
+            },
+            preferences: {
+              consentEmail: false,
+              consentPhone: false,
+              consentWhatsapp: false
+            },
+            systemMetaData: {
+              account_type: 'alumni',
+              verification_status: false,
+              createdAt: '',
+              profilePhotoUrl: '',
+              cvUrl: '',
+              cvBase64: '',
+              cvFileName: ''
+            },
             phoneCode: '+91',
-            phone: '',
             secondaryPhoneCode: '+91',
-            secondaryPhone: '',
-            whatsappCode: '+91',
-            whatsapp: '',
-            batch: '',
-            degree: '',
-            jobTitle: '',
-            company: '',
-            linkedin: '',
-            verification_status: false,
-            account_type: 'alumni',
-            // New fields
-            city: '',
-            state: '',
-            country: '',
-            certifications: [],
-            productServices: [],
-            department: '',
-            division: '',
-            workingSince: '',
-            workingSinceMonth: '',
-            workingSinceYear: '',
-            companyCity: '',
-            companyState: '',
-            companyCountry: '',
-            lastPromotionDesignation: '',
-            lastPromotionMonth: '',
-            lastPromotionYear: '',
-            awards: [],
-            hobbies: []
+            whatsappCode: '+91'
           }
         }
 
-        setSuccessMessage(`Welcome back, ${userToLogin.name.split(' ')[0]}! Redirecting to Alumni Portal...`)
+        setSuccessMessage(`Welcome back, ${personal(userToLogin, 'name', 'User').split(' ')[0]}! Redirecting to Alumni Portal...`)
         setShowSuccess(true)
         setLoading(false)
 
@@ -875,8 +885,8 @@ export default function Login({ user, onLoginSuccess }) {
     setError('')
 
     // Validations
-    if (!registerForm.middleName.trim()) {
-      setError('Middle name is compulsory.')
+    if (!registerForm.firstName.trim() || !registerForm.lastName.trim()) {
+      setError('First name and last name fields are compulsory.')
       return
     }
 
@@ -892,11 +902,6 @@ export default function Login({ user, onLoginSuccess }) {
 
     if (!registerForm.phone.trim()) {
       setError('Primary Contact number is compulsory.')
-      return
-    }
-
-    if (!registerForm.whatsapp.trim()) {
-      setError('WhatsApp number is compulsory.')
       return
     }
 
@@ -966,8 +971,8 @@ export default function Login({ user, onLoginSuccess }) {
           }
         }
 
-        // Save additional profile details to Firestore
-        await setDoc(doc(db, 'users', user.uid), {
+        // Save additional profile details to Firestore in organized nested sections (no flat root duplication)
+        const userDataToSave = buildUserDoc({
           firstName: cleanFirstName,
           middleName: cleanMiddleName,
           lastName: cleanLastName,
@@ -993,8 +998,6 @@ export default function Login({ user, onLoginSuccess }) {
           verification_status: false,
           account_type: 'alumni',
           createdAt: new Date().toISOString(),
-
-          // New fields
           city: registerForm.city || '',
           state: registerForm.state || '',
           country: registerForm.country || '',
@@ -1020,9 +1023,10 @@ export default function Login({ user, onLoginSuccess }) {
           consentPhone: registerForm.consentPhone || false,
           consentWhatsapp: registerForm.consentWhatsapp || false,
           cvUrl: finalCvUrl,
-          cvBase64: finalCvUrl,
           cvFileName: registerForm.cvFileName || ''
         })
+
+        await setDoc(doc(db, 'users', user.uid), userDataToSave)
 
         if (registerForm.company && registerForm.company.trim()) {
           try {
@@ -1053,62 +1057,13 @@ export default function Login({ user, onLoginSuccess }) {
           console.warn('Failed to save passwordResetLookup doc:', lookupErr)
         }
 
+        // Build section-structured user for the app session (matches Firestore structure)
         const newUser = {
           uid: user.uid,
-          firstName: cleanFirstName,
-          middleName: cleanMiddleName,
-          lastName: cleanLastName,
-          name: cleanFullName,
-          email: registerForm.email,
-          gender: registerForm.gender || '',
-          dob: registerForm.dob,
-          phone: `${registerForm.phoneCode} ${registerForm.phone}`.trim(),
-          secondaryPhone: registerForm.secondaryPhone ? `${registerForm.secondaryPhoneCode} ${registerForm.secondaryPhone}`.trim() : '',
-          whatsapp: `${registerForm.whatsappCode} ${registerForm.whatsapp}`.trim(),
-          userType: registerForm.userType,
-          bloodGroup: registerForm.bloodGroup,
-          admissionYear: registerForm.admissionYear,
-          passoutYear: registerForm.passoutYear,
-          diplomaNotCompleted: registerForm.diplomaNotCompleted || false,
-          batch: registerForm.passoutYear,
-          degrees: registerForm.degrees || [],
-          jobTitle: registerForm.jobTitle || '',
-          company: registerForm.company || '',
-          linkedin: registerForm.linkedin || '',
-          dom: registerForm.dom || '',
-          profession: registerForm.profession || '',
-          companyWebsite: registerForm.companyWebsite || '',
-          verification_status: false,
-          account_type: 'alumni',
-
-          // New fields
-          city: registerForm.city || '',
-          state: registerForm.state || '',
-          country: registerForm.country || '',
-          certifications: registerForm.certifications || [],
-          productServices: registerForm.productServices || [],
-          otherProductServices: registerForm.productServices.includes('Others') ? registerForm.otherProductServices || '' : '',
-          department: registerForm.department || '',
-          division: registerForm.division || '',
-          workingSinceMonth: registerForm.workingSinceMonth || '',
-          workingSinceYear: registerForm.workingSinceYear || '',
-          workingSince: (registerForm.workingSinceMonth && registerForm.workingSinceYear) ? `${registerForm.workingSinceMonth} ${registerForm.workingSinceYear}` : (registerForm.workingSince || ''),
-          companyCity: registerForm.companyCity || '',
-          companyState: registerForm.companyState || '',
-          companyCountry: registerForm.companyCountry || '',
-          lastPromotionDesignation: registerForm.lastPromotionDesignation || '',
-          lastPromotionMonth: registerForm.lastPromotionMonth || '',
-          lastPromotionYear: registerForm.lastPromotionYear || '',
-          awards: registerForm.awards || [],
-          hobbies: registerForm.hobbies || [],
-          otherHobbies: registerForm.hobbies.includes('Others') ? registerForm.otherHobbies || '' : '',
-          workExperience: registerForm.workExperience || '',
-          consentEmail: registerForm.consentEmail || false,
-          consentPhone: registerForm.consentPhone || false,
-          consentWhatsapp: registerForm.consentWhatsapp || false,
-          cvUrl: finalCvUrl,
-          cvBase64: finalCvUrl,
-          cvFileName: registerForm.cvFileName || ''
+          ...userDataToSave,
+          phoneCode: registerForm.phoneCode,
+          secondaryPhoneCode: registerForm.secondaryPhoneCode,
+          whatsappCode: registerForm.whatsappCode
         }
 
         setRegisteredUserObj(newUser)
@@ -1540,7 +1495,7 @@ export default function Login({ user, onLoginSuccess }) {
                       </div>
                     </div>
                     <div className="login-field">
-                      <label htmlFor="reg-middle-name">Middle Name <span className="login-field__required">*</span></label>
+                      <label htmlFor="reg-middle-name">Middle Name</label>
                       <div className="login-field__input-wrap">
                         <FaUser className="login-field__icon" />
                         <input
@@ -1550,7 +1505,6 @@ export default function Login({ user, onLoginSuccess }) {
                           placeholder={PLACEHOLDERS.middleName}
                           value={registerForm.middleName}
                           onChange={handleRegisterChange}
-                          required
                           disabled={loading}
                         />
                       </div>

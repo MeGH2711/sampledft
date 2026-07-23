@@ -3,6 +3,7 @@ import { useLocation, Link as RouterLink } from 'react-router-dom'
 import { Link as ScrollLink } from 'react-scroll'
 import { FaBars, FaTimes, FaChevronDown, FaCheckCircle, FaClock } from 'react-icons/fa'
 import dftLogo from '../assets/Logo/dft-logo.avif'
+import { personal, contact, meta, getUserDisplayName, getUserFirstName } from '../utils/userHelpers'
 import './Navbar.css'
 
 const navLinks = [
@@ -23,22 +24,31 @@ export default function Navbar({ user, onLogout }) {
   const location = useLocation()
   const isHome = location.pathname === '/'
 
+  const getGreetingName = () => {
+    if (!user) return 'User';
+    const first = getUserFirstName(user);
+    if (first) return first;
+    return 'User';
+  };
+
   const getDropdownDisplayName = () => {
     if (!user) return '';
-    if (user.firstName || user.lastName) {
-      return `${user.firstName || ''} ${user.lastName || ''}`.trim();
+    const fn = personal(user, 'firstName');
+    const ln = personal(user, 'lastName');
+    const constructed = `${fn || ''} ${ln || ''}`.trim();
+
+    if (constructed && constructed !== 'Alumni' && constructed !== 'Alumni Member') {
+      return constructed;
     }
-    const parts = (user.name || '').trim().split(/\s+/);
-    if (parts.length <= 2) return user.name;
-    const titles = ['dr', 'dr.', 'prof', 'prof.', 'mr', 'mr.', 'ms', 'ms.', 'mrs', 'mrs.'];
-    let startIndex = 0;
-    if (titles.includes(parts[0].toLowerCase()) && parts.length > 2) {
-      startIndex = 1;
+    const name = getUserDisplayName(user);
+    if (name && name !== 'Alumni Member' && name !== 'Alumni') {
+      return name;
     }
-    const prefix = startIndex === 1 ? parts[0] + ' ' : '';
-    const first = parts[startIndex];
-    const last = parts[parts.length - 1];
-    return `${prefix}${first} ${last}`.trim();
+    const email = contact(user, 'email');
+    if (email) {
+      return email;
+    }
+    return 'Alumni Member';
   };
 
   useEffect(() => {
@@ -264,15 +274,15 @@ export default function Navbar({ user, onLogout }) {
                   }}
                   aria-label="User menu"
                 >
-                  <span className="navbar__avatar">{user.name.charAt(0).toUpperCase()}</span>
-                  <span className="navbar__user-name">Hi, {user.name.split(' ')[0]}</span>
+                  <span className="navbar__avatar">{getGreetingName().charAt(0).toUpperCase()}</span>
+                  <span className="navbar__user-name">Hi, {getGreetingName()}</span>
                   <FaChevronDown className={`navbar__dropdown-arrow ${userMenuOpen ? 'open' : ''}`} />
                 </button>
                 <div className={`navbar__user-dropdown ${userMenuOpen ? 'navbar__user-dropdown--open' : ''}`}>
                   <div className="navbar__dropdown-header">
                     <strong className="navbar__dropdown-name">{getDropdownDisplayName()}</strong>
-                    <div className={`navbar__user-badge ${user.verification_status ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`}>
-                      {user.verification_status ? (
+                    <div className={`navbar__user-badge ${meta(user, 'verification_status', false) ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`}>
+                      {meta(user, 'verification_status', false) ? (
                         <>
                           <FaCheckCircle className="navbar__user-badge-icon" /> Verified Alumni
                           <span className="navbar__user-badge-tooltip">Your account has been successfully verified by the Administrator.</span>
@@ -284,7 +294,6 @@ export default function Navbar({ user, onLogout }) {
                         </>
                       )}
                     </div>
-                    <span className="navbar__dropdown-sub">Class of {user.degree ? `${user.degree} · ` : ''}{user.passoutYear || user.batch}</span>
                   </div>
                   <hr className="navbar__dropdown-divider" />
                   <RouterLink
@@ -294,8 +303,7 @@ export default function Navbar({ user, onLogout }) {
                   >
                     My Profile
                   </RouterLink>
-                  {/* <hr className="navbar__dropdown-divider" /> */}
-                  {(user.account_type === 'admin' || user.account_type === 'developer') && (
+                  {(meta(user, 'account_type', 'alumni') === 'admin' || meta(user, 'account_type', 'alumni') === 'developer') && (
                     <>
                       <RouterLink
                         to="/admin"
@@ -305,7 +313,6 @@ export default function Navbar({ user, onLogout }) {
                       >
                         Admin Dashboard
                       </RouterLink>
-                      {/* <hr className="navbar__dropdown-divider" /> */}
                     </>
                   )}
                   <button
@@ -529,11 +536,11 @@ export default function Navbar({ user, onLogout }) {
             {user ? (
               <div className="navbar__mobile-user">
                 <div className="navbar__mobile-user-info">
-                  <span className="navbar__mobile-avatar">{user.name.charAt(0).toUpperCase()}</span>
+                  <span className="navbar__mobile-avatar">{getGreetingName().charAt(0).toUpperCase()}</span>
                   <div style={{ textAlign: 'left' }}>
                     <div className="navbar__mobile-user-name">{getDropdownDisplayName()}</div>
-                    <div className={`navbar__user-badge ${user.verification_status ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`}>
-                      {user.verification_status ? (
+                    <div className={`navbar__user-badge ${meta(user, 'verification_status', false) ? 'navbar__user-badge--verified' : 'navbar__user-badge--unverified'}`}>
+                      {meta(user, 'verification_status', false) ? (
                         <>
                           <FaCheckCircle className="navbar__user-badge-icon" /> Verified Alumni
                           <span className="navbar__user-badge-tooltip">Your account has been successfully verified by the Administrator.</span>
@@ -545,7 +552,6 @@ export default function Navbar({ user, onLogout }) {
                         </>
                       )}
                     </div>
-                    <div className="navbar__mobile-user-class">{user.passoutYear || user.batch}</div>
                   </div>
                 </div>
                 <RouterLink
@@ -555,7 +561,7 @@ export default function Navbar({ user, onLogout }) {
                 >
                   My Profile
                 </RouterLink>
-                {(user.account_type === 'admin' || user.account_type === 'developer') && (
+                {(meta(user, 'account_type', 'alumni') === 'admin' || meta(user, 'account_type', 'alumni') === 'developer') && (
                   <RouterLink
                     to="/admin"
                     className="navbar__mobile-profile-btn"

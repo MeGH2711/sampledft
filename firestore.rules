@@ -15,7 +15,8 @@ service cloud.firestore {
     // Check if user is an admin or developer
     function isAdminOrDev() {
       return isLoggedIn() && 
-        (getUserData().account_type == 'admin' || getUserData().account_type == 'developer');
+        (getUserData().account_type == 'admin' || getUserData().account_type == 'developer' ||
+         getUserData().systemMetaData.account_type == 'admin' || getUserData().systemMetaData.account_type == 'developer');
     }
 
     match /users/{userId} {
