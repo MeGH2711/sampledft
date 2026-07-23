@@ -1931,9 +1931,9 @@ export default function Profile({ user, onUpdateUser }) {
                       setError={setError}
                     />
                   </div>
-                </div>
-
-                <h4 className="profile-form__section-title" style={{ marginTop: '24px' }}>Company Details</h4>
+                </div>                <h4 className="profile-form__section-title" style={{ marginTop: '24px' }}>
+                  Company Details {profileForm.userType === 'Student' && <span style={{ fontSize: '0.8rem', color: 'var(--slate)', fontWeight: 'normal', textTransform: 'none' }}>(Not applicable for Students)</span>}
+                </h4>
                 <div className="profile-form__grid">
                   <div className="profile-field profile-field--full">
                     <label htmlFor="prof-company">Current Organization {profileForm.userType === 'Alumni' && <span className="profile-field__required">*</span>}</label>
@@ -1942,7 +1942,7 @@ export default function Profile({ user, onUpdateUser }) {
                       name="company"
                       value={profileForm.company}
                       onChange={handleInputChange}
-                      disabled={!isEditing || loading}
+                      disabled={!isEditing || loading || profileForm.userType === 'Student'}
                       required={isEditing && profileForm.userType === 'Alumni'}
                       placeholder={!isEditing && !profileForm.company ? "No Data Provided" : "Select or type company name"}
                       wrapClassName="profile-field__input-wrap"
@@ -1959,7 +1959,7 @@ export default function Profile({ user, onUpdateUser }) {
                         name="department"
                         value={profileForm.department}
                         onChange={handleInputChange}
-                        disabled={!isEditing || loading}
+                        disabled={!isEditing || loading || profileForm.userType === 'Student'}
                         required={isEditing && profileForm.userType === 'Alumni'}
                         placeholder="No Data Provided"
                       />
@@ -1976,7 +1976,7 @@ export default function Profile({ user, onUpdateUser }) {
                         name="division"
                         value={profileForm.division}
                         onChange={handleInputChange}
-                        disabled={!isEditing || loading}
+                        disabled={!isEditing || loading || profileForm.userType === 'Student'}
                         placeholder="No Data Provided"
                       />
                     </div>
@@ -1992,7 +1992,7 @@ export default function Profile({ user, onUpdateUser }) {
                         name="jobTitle"
                         value={profileForm.jobTitle}
                         onChange={handleInputChange}
-                        disabled={!isEditing || loading}
+                        disabled={!isEditing || loading || profileForm.userType === 'Student'}
                         required={isEditing && profileForm.userType === 'Alumni'}
                         placeholder="No Data Provided"
                       />
@@ -2008,7 +2008,7 @@ export default function Profile({ user, onUpdateUser }) {
                           name="workingSinceMonth"
                           value={profileForm.workingSinceMonth}
                           onChange={handleInputChange}
-                          disabled={!isEditing || loading}
+                          disabled={!isEditing || loading || profileForm.userType === 'Student'}
                           required={isEditing && profileForm.userType === 'Alumni'}
                           style={{ paddingLeft: '42px' }}
                         >
@@ -2022,7 +2022,7 @@ export default function Profile({ user, onUpdateUser }) {
                           name="workingSinceYear"
                           value={profileForm.workingSinceYear}
                           onChange={handleInputChange}
-                          disabled={!isEditing || loading}
+                          disabled={!isEditing || loading || profileForm.userType === 'Student'}
                           required={isEditing && profileForm.userType === 'Alumni'}
                           style={{ paddingLeft: '42px' }}
                         >
@@ -2043,7 +2043,7 @@ export default function Profile({ user, onUpdateUser }) {
                         name="companyWebsite"
                         value={profileForm.companyWebsite}
                         onChange={handleInputChange}
-                        disabled={!isEditing || loading}
+                        disabled={!isEditing || loading || profileForm.userType === 'Student'}
                         required={isEditing && profileForm.userType === 'Alumni'}
                         placeholder="No Data Provided"
                       />
@@ -2060,7 +2060,7 @@ export default function Profile({ user, onUpdateUser }) {
                       value={profileForm.companyCity}
                       state={profileForm.companyState}
                       onChange={handleInputChange}
-                      disabled={!isEditing || loading}
+                      disabled={!isEditing || loading || profileForm.userType === 'Student'}
                       placeholder="No Data Provided"
                       wrapClassName="profile-field__input-wrap"
                     />
@@ -2073,7 +2073,7 @@ export default function Profile({ user, onUpdateUser }) {
                       value={profileForm.companyState}
                       country={profileForm.companyCountry}
                       onChange={handleInputChange}
-                      disabled={!isEditing || loading}
+                      disabled={!isEditing || loading || profileForm.userType === 'Student'}
                       placeholder="No Data Provided"
                       wrapClassName="profile-field__input-wrap"
                     />
@@ -2085,7 +2085,7 @@ export default function Profile({ user, onUpdateUser }) {
                       name="companyCountry"
                       value={profileForm.companyCountry}
                       onChange={handleInputChange}
-                      disabled={!isEditing || loading}
+                      disabled={!isEditing || loading || profileForm.userType === 'Student'}
                       placeholder="No Data Provided"
                       wrapClassName="profile-field__input-wrap"
                     />
@@ -2101,12 +2101,12 @@ export default function Profile({ user, onUpdateUser }) {
                           {PRODUCT_SERVICE_OPTIONS.map(opt => {
                             const isChecked = (profileForm.productServices || []).includes(opt)
                             return (
-                              <label key={opt} className="checkbox-option">
+                              <label key={opt} className="checkbox-option" style={{ cursor: (loading || profileForm.userType === 'Student') ? 'not-allowed' : 'pointer' }}>
                                 <input
                                   type="checkbox"
                                   checked={isChecked}
                                   onChange={() => handleMultiSelectChange('productServices', opt)}
-                                  disabled={loading}
+                                  disabled={loading || profileForm.userType === 'Student'}
                                 />
                                 <span>{opt}</span>
                               </label>
@@ -2137,7 +2137,7 @@ export default function Profile({ user, onUpdateUser }) {
                           placeholder="Enter details of other products/services offered"
                           value={profileForm.otherProductServices}
                           onChange={handleInputChange}
-                          disabled={!isEditing || loading}
+                          disabled={!isEditing || loading || profileForm.userType === 'Student'}
                           required={isEditing}
                           style={{
                             width: '100%',
@@ -2166,7 +2166,7 @@ export default function Profile({ user, onUpdateUser }) {
                         name="lastPromotionDesignation"
                         value={profileForm.lastPromotionDesignation}
                         onChange={handleInputChange}
-                        disabled={!isEditing || loading}
+                        disabled={!isEditing || loading || profileForm.userType === 'Student'}
                         placeholder="No Data Provided"
                       />
                     </div>
@@ -2181,7 +2181,7 @@ export default function Profile({ user, onUpdateUser }) {
                           name="lastPromotionMonth"
                           value={profileForm.lastPromotionMonth}
                           onChange={handleInputChange}
-                          disabled={!isEditing || loading}
+                          disabled={!isEditing || loading || profileForm.userType === 'Student'}
                           style={{ paddingLeft: '42px' }}
                         >
                           <option value="">Select Month</option>
@@ -2194,7 +2194,7 @@ export default function Profile({ user, onUpdateUser }) {
                           name="lastPromotionYear"
                           value={profileForm.lastPromotionYear}
                           onChange={handleInputChange}
-                          disabled={!isEditing || loading}
+                          disabled={!isEditing || loading || profileForm.userType === 'Student'}
                           style={{ paddingLeft: '42px' }}
                         >
                           <option value="">Select Year</option>

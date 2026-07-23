@@ -2019,7 +2019,9 @@ export default function Login({ user, onLoginSuccess }) {
                     </div>
                   </div>
 
-                  <h4 className="login-section-title" style={{ marginTop: '24px' }}>Company Details</h4>
+                  <h4 className="login-section-title" style={{ marginTop: '24px' }}>
+                    Company Details {registerForm.userType === 'Student' && <span style={{ fontSize: '0.8rem', color: 'var(--slate)', fontWeight: 'normal', textTransform: 'none' }}>(Not applicable for Students)</span>}
+                  </h4>
                   <div className="login-form__grid">
                     <div className="login-field login-field--full">
                       <label htmlFor="reg-company">Current Organization {registerForm.userType === 'Alumni' && <span className="login-field__required">*</span>}</label>
@@ -2028,7 +2030,7 @@ export default function Login({ user, onLoginSuccess }) {
                         name="company"
                         value={registerForm.company}
                         onChange={handleRegisterChange}
-                        disabled={loading}
+                        disabled={loading || registerForm.userType === 'Student'}
                         required={registerForm.userType === 'Alumni'}
                         placeholder={PLACEHOLDERS.company || 'Select or type company name'}
                         wrapClassName="login-field__input-wrap"
@@ -2046,7 +2048,7 @@ export default function Login({ user, onLoginSuccess }) {
                           placeholder={PLACEHOLDERS.department}
                           value={registerForm.department}
                           onChange={handleRegisterChange}
-                          disabled={loading}
+                          disabled={loading || registerForm.userType === 'Student'}
                           required={registerForm.userType === 'Alumni'}
                         />
                       </div>
@@ -2063,7 +2065,7 @@ export default function Login({ user, onLoginSuccess }) {
                           placeholder={PLACEHOLDERS.division}
                           value={registerForm.division}
                           onChange={handleRegisterChange}
-                          disabled={loading}
+                          disabled={loading || registerForm.userType === 'Student'}
                         />
                       </div>
                     </div>
@@ -2079,7 +2081,7 @@ export default function Login({ user, onLoginSuccess }) {
                           placeholder={PLACEHOLDERS.jobTitle}
                           value={registerForm.jobTitle}
                           onChange={handleRegisterChange}
-                          disabled={loading}
+                          disabled={loading || registerForm.userType === 'Student'}
                           required={registerForm.userType === 'Alumni'}
                         />
                       </div>
@@ -2094,7 +2096,7 @@ export default function Login({ user, onLoginSuccess }) {
                             name="workingSinceMonth"
                             value={registerForm.workingSinceMonth}
                             onChange={handleRegisterChange}
-                            disabled={loading}
+                            disabled={loading || registerForm.userType === 'Student'}
                             required={registerForm.userType === 'Alumni'}
                             style={{ paddingLeft: '42px' }}
                           >
@@ -2108,7 +2110,7 @@ export default function Login({ user, onLoginSuccess }) {
                             name="workingSinceYear"
                             value={registerForm.workingSinceYear}
                             onChange={handleRegisterChange}
-                            disabled={loading}
+                            disabled={loading || registerForm.userType === 'Student'}
                             required={registerForm.userType === 'Alumni'}
                             style={{ paddingLeft: '42px' }}
                           >
@@ -2130,7 +2132,7 @@ export default function Login({ user, onLoginSuccess }) {
                           placeholder={PLACEHOLDERS.companyWebsite}
                           value={registerForm.companyWebsite}
                           onChange={handleRegisterChange}
-                          disabled={loading}
+                          disabled={loading || registerForm.userType === 'Student'}
                           required={registerForm.userType === 'Alumni'}
                         />
                       </div>
@@ -2147,7 +2149,7 @@ export default function Login({ user, onLoginSuccess }) {
                         value={registerForm.companyCity}
                         state={registerForm.companyState}
                         onChange={handleRegisterChange}
-                        disabled={loading}
+                        disabled={loading || registerForm.userType === 'Student'}
                         wrapClassName="login-field__input-wrap"
                       />
                     </div>
@@ -2160,7 +2162,7 @@ export default function Login({ user, onLoginSuccess }) {
                         value={registerForm.companyState}
                         country={registerForm.companyCountry}
                         onChange={handleRegisterChange}
-                        disabled={loading}
+                        disabled={loading || registerForm.userType === 'Student'}
                         wrapClassName="login-field__input-wrap"
                       />
                     </div>
@@ -2172,7 +2174,7 @@ export default function Login({ user, onLoginSuccess }) {
                         placeholder={PLACEHOLDERS.companyCountry}
                         value={registerForm.companyCountry}
                         onChange={handleRegisterChange}
-                        disabled={loading}
+                        disabled={loading || registerForm.userType === 'Student'}
                         wrapClassName="login-field__input-wrap"
                       />
                     </div>
@@ -2185,12 +2187,12 @@ export default function Login({ user, onLoginSuccess }) {
                         {PRODUCT_SERVICE_OPTIONS.map(opt => {
                           const isChecked = (registerForm.productServices || []).includes(opt)
                           return (
-                            <label key={opt} className="checkbox-option">
+                            <label key={opt} className="checkbox-option" style={{ cursor: (loading || registerForm.userType === 'Student') ? 'not-allowed' : 'pointer' }}>
                               <input
                                 type="checkbox"
                                 checked={isChecked}
                                 onChange={() => handleMultiSelectChange('productServices', opt)}
-                                disabled={loading}
+                                disabled={loading || registerForm.userType === 'Student'}
                               />
                               <span>{opt}</span>
                             </label>
@@ -2212,7 +2214,7 @@ export default function Login({ user, onLoginSuccess }) {
                             value={registerForm.otherProductServices}
                             onChange={handleRegisterChange}
                             required
-                            disabled={loading}
+                            disabled={loading || registerForm.userType === 'Student'}
                           />
                         </div>
                       </div>
@@ -2229,7 +2231,7 @@ export default function Login({ user, onLoginSuccess }) {
                           placeholder={PLACEHOLDERS.lastPromotionDesignation}
                           value={registerForm.lastPromotionDesignation}
                           onChange={handleRegisterChange}
-                          disabled={loading}
+                          disabled={loading || registerForm.userType === 'Student'}
                         />
                       </div>
                     </div>
@@ -2243,7 +2245,7 @@ export default function Login({ user, onLoginSuccess }) {
                             name="lastPromotionMonth"
                             value={registerForm.lastPromotionMonth}
                             onChange={handleRegisterChange}
-                            disabled={loading}
+                            disabled={loading || registerForm.userType === 'Student'}
                             style={{ paddingLeft: '42px' }}
                           >
                             <option value="">Select Month</option>
@@ -2256,7 +2258,7 @@ export default function Login({ user, onLoginSuccess }) {
                             name="lastPromotionYear"
                             value={registerForm.lastPromotionYear}
                             onChange={handleRegisterChange}
-                            disabled={loading}
+                            disabled={loading || registerForm.userType === 'Student'}
                             style={{ paddingLeft: '42px' }}
                           >
                             <option value="">Select Year</option>
