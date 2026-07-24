@@ -1358,9 +1358,16 @@ service cloud.firestore {
                     <div className="admin-modal-info-value">
                       {getArrayField(selectedUser, 'professionalDetails', 'awards').length > 0 ? (
                         <ul style={{ margin: 0, paddingLeft: '20px', listStyleType: 'disc' }}>
-                          {getArrayField(selectedUser, 'professionalDetails', 'awards').map((a, i) => (
-                            <li key={i} style={{ marginBottom: '4px', fontWeight: '600' }}>{a}</li>
-                          ))}
+                          {getArrayField(selectedUser, 'professionalDetails', 'awards').map((a, i) => {
+                            const awardTitle = typeof a === 'object' && a !== null ? (a.name || a.title || '') : String(a || '');
+                            const month = typeof a === 'object' && a !== null ? (a.month || '') : '';
+                            const year = typeof a === 'object' && a !== null ? (a.year || '') : '';
+                            const dateStr = [month, year].filter(Boolean).join(' ');
+                            const displayStr = dateStr ? `${awardTitle} (${dateStr})` : awardTitle;
+                            if (!awardTitle && !dateStr) return null;
+
+                            return <li key={i} style={{ marginBottom: '4px', fontWeight: '600' }}>{displayStr}</li>;
+                          })}
                         </ul>
                       ) : (
                         <span style={{ fontSize: '13px', color: 'var(--slate)' }}>No achievements listed.</span>

@@ -951,7 +951,7 @@ export default function Profile({ user, onUpdateUser }) {
   const handleAddAward = () => {
     setProfileForm(prev => ({
       ...prev,
-      awards: [...(prev.awards || []), '']
+      awards: [...(prev.awards || []), { name: '', month: '', year: '' }]
     }))
   }
 
@@ -962,10 +962,13 @@ export default function Profile({ user, onUpdateUser }) {
     }))
   }
 
-  const handleAwardChange = (index, val) => {
+  const handleAwardChange = (index, field, val) => {
     setProfileForm(prev => {
       const updated = [...(prev.awards || [])]
-      updated[index] = typeof val === 'string' ? capitalizeWords(val) : val
+      const currentObj = typeof updated[index] === 'object' && updated[index] !== null
+        ? updated[index]
+        : { name: String(updated[index] || ''), month: '', year: '' }
+      updated[index] = { ...currentObj, [field]: val }
       return {
         ...prev,
         awards: updated
@@ -1090,6 +1093,33 @@ export default function Profile({ user, onUpdateUser }) {
       if (!profileForm.productServices || profileForm.productServices.length === 0) {
         setError('Please select at least one Product/Service offered by your company.')
         return
+      }
+    }
+
+    // Validation for added Certifications / Qualifications
+    if (profileForm.certifications && profileForm.certifications.length > 0) {
+      for (let i = 0; i < profileForm.certifications.length; i++) {
+        const c = profileForm.certifications[i]
+        const area = typeof c === 'object' && c !== null ? (c.area || '').trim() : String(c || '').trim()
+        const detail = typeof c === 'object' && c !== null ? (c.detail || '').trim() : ''
+        if (!area || !detail) {
+          setError(`Please fill in all mandatory fields for Certification / Qualification #${i + 1} (Area and Detail), or remove it.`)
+          return
+        }
+      }
+    }
+
+    // Validation for added Awards
+    if (profileForm.awards && profileForm.awards.length > 0) {
+      for (let i = 0; i < profileForm.awards.length; i++) {
+        const a = profileForm.awards[i]
+        const name = typeof a === 'object' && a !== null ? (a.name || a.title || '').trim() : String(a || '').trim()
+        const month = typeof a === 'object' && a !== null ? (a.month || '').trim() : ''
+        const year = typeof a === 'object' && a !== null ? (a.year || '').trim() : ''
+        if (!name || !month || !year) {
+          setError(`Please fill in all mandatory fields for Award #${i + 1} (Details, Received Month, and Received Year), or remove it.`)
+          return
+        }
       }
     }
 
@@ -2281,7 +2311,7 @@ export default function Profile({ user, onUpdateUser }) {
                     (profileForm.certifications || []).map((cert, index) => (
                       <div key={index} className={isEditing ? "previous-degree-row" : "profile-form__grid"}>
                         <div className="profile-field">
-                          <label htmlFor={`prof-cert-area-${index}`}>Area of Certification / Qualification</label>
+                          <label htmlFor={`prof-cert-area-${index}`}>Area of Certification / Qualification {isEditing && <span style={{ color: 'var(--signal-red)', marginLeft: '2px' }}>*</span>}</label>
                           <div className="profile-field__input-wrap">
                             <FaCertificate className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
                             <select
@@ -2290,6 +2320,7 @@ export default function Profile({ user, onUpdateUser }) {
                               value={cert.area}
                               onChange={(e) => handleCertificationChange(index, 'area', e.target.value)}
                               disabled={!isEditing || loading}
+                              required={isEditing}
                             >
                               <option value="">Select Area</option>
                               {CERTIFICATION_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
@@ -2298,7 +2329,7 @@ export default function Profile({ user, onUpdateUser }) {
                         </div>
 
                         <div className="profile-field">
-                          <label htmlFor={`prof-cert-detail-${index}`}>About the Certification / Qualification Detail</label>
+                          <label htmlFor={`prof-cert-detail-${index}`}>About the Certification / Qualification Detail {isEditing && <span style={{ color: 'var(--signal-red)', marginLeft: '2px' }}>*</span>}</label>
                           <div className="profile-field__input-wrap">
                             <FaBriefcase className="profile-field__icon" />
                             <input
@@ -2308,6 +2339,7 @@ export default function Profile({ user, onUpdateUser }) {
                               onChange={(e) => handleCertificationChange(index, 'detail', e.target.value)}
                               disabled={!isEditing || loading}
                               placeholder="No Data Provided"
+                              required={isEditing}
                             />
                           </div>
                         </div>
@@ -2361,44 +2393,109 @@ export default function Profile({ user, onUpdateUser }) {
                     Details of Award received from Government, Company, Professional Association etc.
                   </label>
                   {((profileForm.awards || []).length > 0) ? (
-                    (profileForm.awards || []).map((award, index) => (
-                      <div key={index} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                        <div className="profile-field" style={{ flex: 1 }}>
-                          <div className="profile-field__input-wrap">
-                            <FaAward className="profile-field__icon" />
-                            <input
-                              type="text"
-                              value={award}
-                              onChange={(e) => handleAwardChange(index, e.target.value)}
-                              disabled={!isEditing || loading}
-                              placeholder="No Data Provided"
-                            />
+                    (profileForm.awards || []).map((award, index) => {
+                      const awardName = typeof award === 'object' && award !== null ? (award.name || award.title || '') : String(award || '');
+                      const awardMonth = typeof award === 'object' && award !== null ? (award.month || '') : '';
+                      const awardYear = typeof award === 'object' && award !== null ? (award.year || '') : '';
+
+                      if (!isEditing) {
+                        const dateStr = [awardMonth, awardYear].filter(Boolean).join(' ');
+                        const displayStr = dateStr ? `${awardName} (${dateStr})` : awardName;
+
+                        return (
+                          <div key={index} className="profile-field">
+                            <div className="profile-field__input-wrap">
+                              <FaAward className="profile-field__icon" />
+                              <input
+                                type="text"
+                                value={displayStr}
+                                disabled
+                                placeholder="No Data Provided"
+                              />
+                            </div>
+                          </div>
+                        )
+                      }
+
+                      return (
+                        <div key={index} style={{ display: 'flex', flexDirection: 'column', gap: '12px', background: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--line-grey)', padding: '16px', borderRadius: '12px', marginBottom: '10px' }}>
+                          <div className="profile-field">
+                            <label htmlFor={`prof-award-name-${index}`}>Award / Recognition Details {isEditing && <span style={{ color: 'var(--signal-red)', marginLeft: '2px' }}>*</span>}</label>
+                            <div className="profile-field__input-wrap">
+                              <FaAward className="profile-field__icon" />
+                              <input
+                                id={`prof-award-name-${index}`}
+                                type="text"
+                                placeholder="Award Details (e.g. Best Employee 2025)"
+                                value={awardName}
+                                onChange={(e) => handleAwardChange(index, 'name', e.target.value)}
+                                disabled={loading}
+                                required={isEditing}
+                              />
+                            </div>
+                          </div>
+
+                          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                            <div className="profile-field">
+                              <label htmlFor={`prof-award-month-${index}`}>Received Month {isEditing && <span style={{ color: 'var(--signal-red)', marginLeft: '2px' }}>*</span>}</label>
+                              <div className="profile-field__input-wrap">
+                                <FaCalendarAlt className="profile-field__icon" />
+                                <select
+                                  id={`prof-award-month-${index}`}
+                                  name="month"
+                                  value={awardMonth}
+                                  onChange={(e) => handleAwardChange(index, 'month', e.target.value)}
+                                  disabled={loading}
+                                  required={isEditing}
+                                >
+                                  <option value="">Select Month</option>
+                                  {MONTH_OPTIONS.map(m => <option key={m} value={m}>{m}</option>)}
+                                </select>
+                              </div>
+                            </div>
+
+                            <div className="profile-field">
+                              <label htmlFor={`prof-award-year-${index}`}>Received Year {isEditing && <span style={{ color: 'var(--signal-red)', marginLeft: '2px' }}>*</span>}</label>
+                              <div className="profile-field__input-wrap">
+                                <FaCalendarAlt className="profile-field__icon" />
+                                <select
+                                  id={`prof-award-year-${index}`}
+                                  name="year"
+                                  value={awardYear}
+                                  onChange={(e) => handleAwardChange(index, 'year', e.target.value)}
+                                  disabled={loading}
+                                  required={isEditing}
+                                >
+                                  <option value="">Select Year</option>
+                                  {PROMOTION_YEAR_OPTIONS.map(y => <option key={y} value={y}>{y}</option>)}
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveAward(index)}
+                              className="profile-btn profile-btn--secondary"
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                padding: '6px 14px',
+                                fontSize: '0.75rem',
+                                color: 'var(--signal-red)',
+                                backgroundColor: 'rgba(232, 48, 42, 0.05)',
+                                borderColor: 'var(--line-grey)'
+                              }}
+                              title="Remove Award"
+                            >
+                              <FaTrash /> Remove Award
+                            </button>
                           </div>
                         </div>
-                        {isEditing && (
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveAward(index)}
-                            className="profile-btn profile-btn--secondary"
-                            style={{
-                              width: '44px',
-                              height: '44px',
-                              padding: 0,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              color: 'var(--signal-red)',
-                              backgroundColor: 'rgba(232, 48, 42, 0.05)',
-                              borderColor: 'var(--line-grey)',
-                              margin: 0
-                            }}
-                            title="Remove Award"
-                          >
-                            <FaTrash />
-                          </button>
-                        )}
-                      </div>
-                    ))
+                      )
+                    })
                   ) : (
                     <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Awards added.</div>
                   )}

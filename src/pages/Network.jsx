@@ -417,11 +417,20 @@ function DetailModal({ user, open, onClose }) {
                   <div className="modal-card__subsection">
                     <div className="subsection-title"><FaAward /> Awards & Recognitions</div>
                     <div className="pill-tags-list">
-                      {awards.map((a, i) => (
-                        <span key={i} className="award-pill">
-                          <FaAward /> {typeof a === 'object' ? a.name : a}
-                        </span>
-                      ))}
+                      {awards.map((a, i) => {
+                        const awardTitle = typeof a === 'object' && a !== null ? (a.name || a.title || '') : String(a || '');
+                        const month = typeof a === 'object' && a !== null ? (a.month || '') : '';
+                        const year = typeof a === 'object' && a !== null ? (a.year || '') : '';
+                        const dateStr = [month, year].filter(Boolean).join(' ');
+                        const displayStr = dateStr ? `${awardTitle} (${dateStr})` : awardTitle;
+                        if (!awardTitle && !dateStr) return null;
+
+                        return (
+                          <span key={i} className="award-pill">
+                            <FaAward /> {displayStr}
+                          </span>
+                        )
+                      })}
                     </div>
                   </div>
                 )}
