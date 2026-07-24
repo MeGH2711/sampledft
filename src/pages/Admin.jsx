@@ -730,7 +730,7 @@ service cloud.firestore {
                                 className="admin-btn-revoke"
                                 onClick={() => handleToggleVerification(item.uid, true)}
                               >
-                                Revoke Approval
+                                Revoke
                               </button>
                             ) : (
                               <button
@@ -738,7 +738,7 @@ service cloud.firestore {
                                 className="admin-btn-verify"
                                 onClick={() => handleToggleVerification(item.uid, false)}
                               >
-                                Verify Account
+                                Verify
                               </button>
                             )}
                             {currentUserRole === 'developer' && (
@@ -1434,7 +1434,7 @@ service cloud.firestore {
                   style={{ padding: '10px 20px' }}
                   onClick={() => handleToggleVerification(selectedUser.uid, true)}
                 >
-                  Revoke Approval
+                  Revoke
                 </button>
               ) : (
                 <button
@@ -1443,7 +1443,7 @@ service cloud.firestore {
                   style={{ padding: '10px 20px' }}
                   onClick={() => handleToggleVerification(selectedUser.uid, false)}
                 >
-                  Verify Account
+                  Verify
                 </button>
               )}
               {currentUserRole === 'developer' && (
