@@ -1317,9 +1317,17 @@ service cloud.firestore {
                       {getArrayField(selectedUser, 'academicDetails', 'certifications').length > 0 ? (
                         <ul style={{ margin: 0, paddingLeft: '20px', listStyleType: 'disc' }}>
                           {getArrayField(selectedUser, 'academicDetails', 'certifications').map((c, i) => {
-                            const certText = c && typeof c === 'object'
-                              ? `${c.area || ''} ${c.detail ? `(${c.detail})` : ''}`.trim()
-                              : String(c);
+                            let certText = ''
+                            if (c && typeof c === 'object') {
+                              const parts = [c.area, c.level2, c.level3, c.otherDescribe].filter(Boolean)
+                              const breadcrumb = parts.join(' › ')
+                              const validTill = c.validTillMonth && c.validTillYear
+                                ? ` | Valid Till: ${c.validTillMonth} ${c.validTillYear}`
+                                : ''
+                              certText = breadcrumb + validTill
+                            } else {
+                              certText = String(c || '')
+                            }
                             return <li key={i} style={{ marginBottom: '4px', fontWeight: '600' }}>{certText}</li>;
                           })}
                         </ul>

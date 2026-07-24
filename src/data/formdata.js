@@ -16,13 +16,94 @@ export const GENDER_OPTIONS = [
 ]
 
 export const CERTIFICATION_OPTIONS = [
-  "Non-Destructive Testing (NDT)",
+  "Non Destructive Testing",
   "Welding",
   "Corrosion Protection",
   "Piping",
   "Project Management",
-  "Quality",
-  "Other"
+  "Management System",
+  "Others"
+]
+
+// Level 2: options per certification area
+export const CERTIFICATION_LEVEL2_OPTIONS = {
+  "Non Destructive Testing": [
+    "ASNT Level II",
+    "ASNT Level III",
+    "ISO 9712 Level II",
+    "ISO 9712 Level III",
+    "PCN",
+    "Others"
+  ],
+  "Welding": [
+    "Certified Welding Inspector (CWI) by AWS",
+    "Senior Certified Welding Inspector (CWI) by AWS",
+    "CSWIP",
+    "IWE",
+    "Others"
+  ],
+  "Corrosion Protection": [
+    "Certified Coating Inspector (CIP Level 2)",
+    "Protective Coating Specialist (PCS)",
+    "Others"
+  ],
+  "Piping": [
+    "API 510 – Pressure Vessel Inspector",
+    "API 570 – Piping Inspector",
+    "Others"
+  ],
+  "Project Management": [
+    "Project Management Professional (PMP)",
+    "Others"
+  ],
+  "Management System": [
+    "ISO 9001 (Quality Management System)",
+    "ISO 14001 Environmental Management Systems (EMS)",
+    "ISO 45001 Occupational Health and Safety (OH&S) management systems",
+    "Others"
+  ]
+}
+
+// Level 3: conditional sub-options
+export const CERTIFICATION_LEVEL3_OPTIONS = {
+  // NDT: method dropdown for any Level 2 selection
+  "NDT_METHOD": [
+    "Ultrasonic Testing (UT)",
+    "Radiography Testing (RT)",
+    "Visual Testing (VT)",
+    "Magnetic Particle Testing (MPT)",
+    "Penetrant Testing (PT)",
+    "Phased Array Ultrasonic Testing (PAUT)",
+    "Time-of-Flight Diffraction (TOFD)",
+    "Others"
+  ],
+  // Welding CSWIP grades
+  "CSWIP": [
+    "3.0 – Visual Welding Inspector Level 1",
+    "3.1 – Welding Inspector Level 2",
+    "3.2.1 – Senior Welding Inspector Level 3, without Radiographic Interpretation",
+    "3.2.2 – Senior Welding Inspector Level 3, with Radiographic Interpretation"
+  ],
+  // Welding IWE types
+  "IWE": [
+    "IWE – International Welding Engineer",
+    "IWT – International Welding Specialist (IWS)",
+    "IWI – International Welding Inspector"
+  ],
+  // Management System role
+  "MANAGEMENT_ROLE": [
+    "Internal Auditor",
+    "Lead Auditor"
+  ]
+}
+
+// Areas where Valid Till is mandatory
+export const CERTIFICATION_VALID_TILL_REQUIRED = [
+  "Non Destructive Testing",
+  "Welding",
+  "Corrosion Protection",
+  "Piping",
+  "Project Management"
 ]
 
 export const PRODUCT_SERVICE_OPTIONS = [

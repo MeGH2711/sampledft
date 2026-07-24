@@ -613,24 +613,31 @@ function DetailModal({ user, open, onClose }) {
                   </div>
                 )}
 
-                {/* Certifications & Qualifications */}
+                {/* Certifications */}
                 {certifications.length > 0 && (
                   <div className="modal-card__subsection">
                     <div className="subsection-title">
-                      <FaCertificate style={{ color: '#fbbf24' }} /> Certifications & Qualifications
+                      <FaCertificate style={{ color: '#fbbf24' }} /> Certifications
                     </div>
                     <div className="certifications-grid">
                       {certifications.map((c, i) => {
                         const area = typeof c === 'object' ? (c?.area || c?.name || c?.title || '') : String(c)
-                        const detail = typeof c === 'object' ? (c?.detail || c?.description || '') : ''
-                        if (!area && !detail) return null
+                        const level2 = typeof c === 'object' ? (c?.level2 || c?.detail || c?.description || '') : ''
+                        const level3 = typeof c === 'object' ? (c?.level3 || '') : ''
+                        const otherDescribe = typeof c === 'object' ? (c?.otherDescribe || '') : ''
+                        const validTillMonth = typeof c === 'object' ? (c?.validTillMonth || '') : ''
+                        const validTillYear = typeof c === 'object' ? (c?.validTillYear || '') : ''
+
+                        const breadcrumb = [area, level2, level3, otherDescribe].filter(Boolean).join(' › ')
+                        const validTill = validTillMonth && validTillYear ? `Valid Till: ${validTillMonth} ${validTillYear}` : ''
+                        if (!breadcrumb) return null
 
                         return (
                           <div key={i} className="cert-card">
                             <div className="cert-card__badge"><FaCertificate /></div>
                             <div className="cert-card__details">
-                              {area && <div className="cert-card__area">{area}</div>}
-                              {detail && <div className="cert-card__detail">{detail}</div>}
+                              <div className="cert-card__area">{breadcrumb}</div>
+                              {validTill && <div className="cert-card__detail">{validTill}</div>}
                             </div>
                           </div>
                         )
@@ -1170,7 +1177,13 @@ export default function Network({ user, onLogout }) {
         const certs = getArrayField(u, 'academicDetails', 'certifications')
         const certsMatch = certs.some(c => {
           if (c && typeof c === 'object') {
-            return (c.area || '').toLowerCase().includes(q) || (c.detail || '').toLowerCase().includes(q)
+            return (
+              (c.area || '').toLowerCase().includes(q) ||
+              (c.level2 || '').toLowerCase().includes(q) ||
+              (c.level3 || '').toLowerCase().includes(q) ||
+              (c.otherDescribe || '').toLowerCase().includes(q) ||
+              (c.detail || '').toLowerCase().includes(q)
+            )
           }
           return String(c || '').toLowerCase().includes(q)
         })

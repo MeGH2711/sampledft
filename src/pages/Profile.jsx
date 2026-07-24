@@ -44,6 +44,9 @@ import {
   DEGREE_OPTIONS,
   GENDER_OPTIONS,
   CERTIFICATION_OPTIONS,
+  CERTIFICATION_LEVEL2_OPTIONS,
+  CERTIFICATION_LEVEL3_OPTIONS,
+  CERTIFICATION_VALID_TILL_REQUIRED,
   PRODUCT_SERVICE_OPTIONS,
   HOBBY_OPTIONS,
   PLACEHOLDERS
@@ -353,7 +356,7 @@ export default function Profile({ user, onUpdateUser }) {
     city: '',
     state: '',
     country: '',
-    certifications: [],
+    certifications: [], // each: { area, level2, level3, otherDescribe, validTillMonth, validTillYear }
     productServices: [],
     otherProductServices: '',
     department: '',
@@ -410,7 +413,7 @@ export default function Profile({ user, onUpdateUser }) {
     city: '',
     state: '',
     country: '',
-    certifications: [],
+    certifications: [], // each: { area, level2, level3, otherDescribe, validTillMonth, validTillYear }
     productServices: [],
     otherProductServices: '',
     department: '',
@@ -913,7 +916,14 @@ export default function Profile({ user, onUpdateUser }) {
   const handleAddCertification = () => {
     setProfileForm(prev => ({
       ...prev,
-      certifications: [...(prev.certifications || []), { area: '', detail: '' }]
+      certifications: [...(prev.certifications || []), {
+        area: '',
+        level2: '',
+        level3: '',
+        otherDescribe: '',
+        validTillMonth: '',
+        validTillYear: ''
+      }]
     }))
   }
 
@@ -927,7 +937,21 @@ export default function Profile({ user, onUpdateUser }) {
   const handleCertificationChange = (index, field, val) => {
     setProfileForm(prev => {
       const updated = [...(prev.certifications || [])]
-      updated[index] = { ...updated[index], [field]: val }
+      const current = { ...updated[index], [field]: val }
+      // Reset downstream fields when area changes
+      if (field === 'area') {
+        current.level2 = ''
+        current.level3 = ''
+        current.otherDescribe = ''
+        current.validTillMonth = ''
+        current.validTillYear = ''
+      }
+      // Reset level3 & describe when level2 changes
+      if (field === 'level2') {
+        current.level3 = ''
+        current.otherDescribe = ''
+      }
+      updated[index] = current
       return {
         ...prev,
         certifications: updated
@@ -1096,15 +1120,61 @@ export default function Profile({ user, onUpdateUser }) {
       }
     }
 
-    // Validation for added Certifications / Qualifications
+    // Validation for added Certifications
     if (profileForm.certifications && profileForm.certifications.length > 0) {
       for (let i = 0; i < profileForm.certifications.length; i++) {
         const c = profileForm.certifications[i]
         const area = typeof c === 'object' && c !== null ? (c.area || '').trim() : String(c || '').trim()
-        const detail = typeof c === 'object' && c !== null ? (c.detail || '').trim() : ''
-        if (!area || !detail) {
-          setError(`Please fill in all mandatory fields for Certification / Qualification #${i + 1} (Area and Detail), or remove it.`)
+        if (!area) {
+          setError(`Please select an Area of Certification for entry #${i + 1}, or remove it.`)
           return
+        }
+        if (area === 'Others') {
+          if (!(c.otherDescribe || '').trim()) {
+            setError(`Please describe the certification for entry #${i + 1}, or remove it.`)
+            return
+          }
+        } else {
+          // Level 2 required for all non-Others areas
+          if (!(c.level2 || '').trim()) {
+            setError(`Please select a Certification Type for entry #${i + 1}, or remove it.`)
+            return
+          }
+          // If level2 is Others, describe is required
+          if ((c.level2 || '') === 'Others' && !(c.otherDescribe || '').trim()) {
+            setError(`Please describe the certification for entry #${i + 1}, or remove it.`)
+            return
+          }
+          // If area is NDT, Level 3 (NDT method) is required
+          if (area === 'Non Destructive Testing' && !(c.level3 || '').trim()) {
+            setError(`Please select an NDT Method for certification entry #${i + 1}.`)
+            return
+          }
+          // If level2 is CSWIP or IWE, level3 is required
+          if ((c.level2 === 'CSWIP' || c.level2 === 'IWE') && !(c.level3 || '').trim()) {
+            setError(`Please select the sub-type for ${c.level2} in certification entry #${i + 1}.`)
+            return
+          }
+          // Management System requires level3 (role)
+          if (area === 'Management System' && (c.level2 || '') !== 'Others' && !(c.level3 || '').trim()) {
+            setError(`Please select a Role (Internal/Lead Auditor) for certification entry #${i + 1}.`)
+            return
+          }
+          // Valid Till required for specific areas (not Management System / Others)
+          if (CERTIFICATION_VALID_TILL_REQUIRED.includes(area)) {
+            if ((c.level2 || '') !== 'Others') {
+              if (!(c.validTillMonth || '').trim() || !(c.validTillYear || '').trim()) {
+                setError(`Please fill in the Valid Till month and year for certification entry #${i + 1}.`)
+                return
+              }
+            } else {
+              // Others sub-type: valid till also required
+              if (!(c.validTillMonth || '').trim() || !(c.validTillYear || '').trim()) {
+                setError(`Please fill in the Valid Till month and year for certification entry #${i + 1}.`)
+                return
+              }
+            }
+          }
         }
       }
     }
@@ -2303,72 +2373,222 @@ export default function Profile({ user, onUpdateUser }) {
                 </div>
 
                 {/* Certifications list */}
-                <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                <div style={{ marginTop: '15px', display: 'flex', flexDirection: 'column', gap: '18px' }}>
                   <label style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', color: 'var(--slate)' }}>
-                    Certifications / Qualifications
+                    Certifications
                   </label>
                   {((profileForm.certifications || []).length > 0) ? (
-                    (profileForm.certifications || []).map((cert, index) => (
-                      <div key={index} className={isEditing ? "previous-degree-row" : "profile-form__grid"}>
-                        <div className="profile-field">
-                          <label htmlFor={`prof-cert-area-${index}`}>Area of Certification / Qualification {isEditing && <span style={{ color: 'var(--signal-red)', marginLeft: '2px' }}>*</span>}</label>
-                          <div className="profile-field__input-wrap">
-                            <FaCertificate className="profile-field__icon" style={{ color: isEditing ? 'var(--slate)' : 'var(--line-grey)' }} />
-                            <select
-                              id={`prof-cert-area-${index}`}
-                              name="area"
-                              value={cert.area}
-                              onChange={(e) => handleCertificationChange(index, 'area', e.target.value)}
-                              disabled={!isEditing || loading}
-                              required={isEditing}
+                    (profileForm.certifications || []).map((cert, index) => {
+                      const area = cert.area || ''
+                      const level2 = cert.level2 || ''
+                      const level3 = cert.level3 || ''
+                      const level2Options = CERTIFICATION_LEVEL2_OPTIONS[area] || []
+
+                      // Determine level3 options key
+                      const isNDT = area === 'Non Destructive Testing'
+                      const isCSWIP = level2 === 'CSWIP'
+                      const isIWE = level2 === 'IWE'
+                      const isMgmtSys = area === 'Management System'
+                      const showLevel3 = isNDT || isCSWIP || isIWE || (isMgmtSys && level2 && level2 !== 'Others')
+                      const level3Key = isNDT ? 'NDT_METHOD' : isCSWIP ? 'CSWIP' : isIWE ? 'IWE' : isMgmtSys ? 'MANAGEMENT_ROLE' : null
+                      const level3Options = level3Key ? (CERTIFICATION_LEVEL3_OPTIONS[level3Key] || []) : []
+
+                      // Determine if "Others" describe is needed
+                      const showOthersDescribe = area === 'Others' || level2 === 'Others' || (isNDT && level3 === 'Others')
+
+                      // Valid Till shown for non-Management-System non-Others areas
+                      const showValidTill = CERTIFICATION_VALID_TILL_REQUIRED.includes(area) && level2 && level2 !== ''
+
+                      // View-mode display string
+                      if (!isEditing) {
+                        const parts = [area, level2, level3, cert.otherDescribe].filter(Boolean)
+                        const dateStr = cert.validTillMonth && cert.validTillYear ? `Valid Till: ${cert.validTillMonth} ${cert.validTillYear}` : ''
+                        const displayStr = [parts.join(' › '), dateStr].filter(Boolean).join(' | ')
+                        return (
+                          <div key={index} className="profile-form__grid">
+                            <div className="profile-field">
+                              <label>Certification</label>
+                              <div className="profile-field__input-wrap">
+                                <FaCertificate className="profile-field__icon" />
+                                <input type="text" value={displayStr || 'No Data Provided'} disabled placeholder="No Data Provided" />
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      }
+
+                      return (
+                        <div
+                          key={index}
+                          style={{
+                            border: '1px solid var(--line-grey)',
+                            borderRadius: '10px',
+                            padding: '16px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '12px',
+                            background: 'rgba(var(--surface-rgb, 255,255,255), 0.5)'
+                          }}
+                        >
+                          {/* Card header */}
+                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <span style={{ fontSize: '0.8rem', fontWeight: '700', color: 'var(--slate)', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center' }}>
+                              <FaCertificate style={{ marginRight: '6px', color: 'var(--brand)' }} />
+                              Certification #{index + 1}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveCertification(index)}
+                              className="profile-btn profile-btn--secondary"
+                              style={{
+                                padding: '4px 10px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '5px',
+                                color: 'var(--signal-red)',
+                                backgroundColor: 'rgba(232, 48, 42, 0.06)',
+                                borderColor: 'transparent',
+                                fontSize: '0.75rem'
+                              }}
+                              title="Remove Certification"
+                              disabled={loading}
                             >
-                              <option value="">Select Area</option>
-                              {CERTIFICATION_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
-                            </select>
+                              <FaTrash style={{ fontSize: '0.7rem' }} /> Remove
+                            </button>
                           </div>
-                        </div>
 
-                        <div className="profile-field">
-                          <label htmlFor={`prof-cert-detail-${index}`}>About the Certification / Qualification Detail {isEditing && <span style={{ color: 'var(--signal-red)', marginLeft: '2px' }}>*</span>}</label>
-                          <div className="profile-field__input-wrap">
-                            <FaBriefcase className="profile-field__icon" />
-                            <input
-                              id={`prof-cert-detail-${index}`}
-                              type="text"
-                              value={cert.detail}
-                              onChange={(e) => handleCertificationChange(index, 'detail', e.target.value)}
-                              disabled={!isEditing || loading}
-                              placeholder="No Data Provided"
-                              required={isEditing}
-                            />
+                          {/* Level 1 – Area */}
+                          <div className="profile-form__grid" style={{ gap: '12px' }}>
+                            <div className="profile-field">
+                              <label htmlFor={`prof-cert-area-${index}`}>
+                                Area of Certification <span style={{ color: 'var(--signal-red)', marginLeft: '2px' }}>*</span>
+                              </label>
+                              <div className="profile-field__input-wrap">
+                                <FaCertificate className="profile-field__icon" style={{ color: 'var(--slate)' }} />
+                                <select
+                                  id={`prof-cert-area-${index}`}
+                                  value={area}
+                                  onChange={(e) => handleCertificationChange(index, 'area', e.target.value)}
+                                  disabled={loading}
+                                >
+                                  <option value="">Select Area</option>
+                                  {CERTIFICATION_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
+                                </select>
+                              </div>
+                            </div>
+
+                            {/* Level 2 – Certification Type (only for non-Others areas) */}
+                            {area && area !== 'Others' && level2Options.length > 0 && (
+                              <div className="profile-field">
+                                <label htmlFor={`prof-cert-level2-${index}`}>
+                                  Certification Type <span style={{ color: 'var(--signal-red)', marginLeft: '2px' }}>*</span>
+                                </label>
+                                <div className="profile-field__input-wrap">
+                                  <FaAward className="profile-field__icon" style={{ color: 'var(--slate)' }} />
+                                  <select
+                                    id={`prof-cert-level2-${index}`}
+                                    value={level2}
+                                    onChange={(e) => handleCertificationChange(index, 'level2', e.target.value)}
+                                    disabled={loading}
+                                  >
+                                    <option value="">Select Type</option>
+                                    {level2Options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                  </select>
+                                </div>
+                              </div>
+                            )}
                           </div>
-                        </div>
 
-                        {isEditing && (
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveCertification(index)}
-                            className="profile-btn profile-btn--secondary"
-                            style={{
-                              width: '100%',
-                              height: '44px',
-                              padding: 0,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              color: 'var(--signal-red)',
-                              backgroundColor: 'rgba(232, 48, 42, 0.05)',
-                              borderColor: 'var(--line-grey)'
-                            }}
-                            title="Remove Certification"
-                          >
-                            <FaTrash />
-                          </button>
-                        )}
-                      </div>
-                    ))
+                          {/* Level 3 – Sub-type (conditional: NDT method / CSWIP grade / IWE type / Mgmt role) */}
+                          {showLevel3 && level3Options.length > 0 && (
+                            <div className="profile-field">
+                              <label htmlFor={`prof-cert-level3-${index}`}>
+                                {isNDT ? 'NDT Method' : isCSWIP ? 'CSWIP Grade' : isIWE ? 'IWE Type' : 'Role'}
+                                <span style={{ color: 'var(--signal-red)', marginLeft: '2px' }}>*</span>
+                              </label>
+                              <div className="profile-field__input-wrap">
+                                <FaGraduationCap className="profile-field__icon" style={{ color: 'var(--slate)' }} />
+                                <select
+                                  id={`prof-cert-level3-${index}`}
+                                  value={level3}
+                                  onChange={(e) => handleCertificationChange(index, 'level3', e.target.value)}
+                                  disabled={loading}
+                                >
+                                  <option value="">Select</option>
+                                  {level3Options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                </select>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Describe – shown when "Others" is selected at any level */}
+                          {showOthersDescribe && (
+                            <div className="profile-field">
+                              <label htmlFor={`prof-cert-describe-${index}`}>
+                                Describe <span style={{ color: 'var(--signal-red)', marginLeft: '2px' }}>*</span>
+                              </label>
+                              <div className="profile-field__input-wrap">
+                                <FaBriefcase className="profile-field__icon" />
+                                <input
+                                  id={`prof-cert-describe-${index}`}
+                                  type="text"
+                                  value={cert.otherDescribe || ''}
+                                  onChange={(e) => handleCertificationChange(index, 'otherDescribe', e.target.value)}
+                                  disabled={loading}
+                                  placeholder="Describe your certification"
+                                />
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Valid Till – mandatory for NDT/Welding/Corrosion/Piping/PM */}
+                          {showValidTill && (
+                            <div className="profile-form__grid" style={{ gap: '12px' }}>
+                              <div className="profile-field">
+                                <label htmlFor={`prof-cert-vtm-${index}`}>
+                                  Valid Till – Month <span style={{ color: 'var(--signal-red)', marginLeft: '2px' }}>*</span>
+                                </label>
+                                <div className="profile-field__input-wrap">
+                                  <FaCalendarAlt className="profile-field__icon" style={{ color: 'var(--slate)' }} />
+                                  <select
+                                    id={`prof-cert-vtm-${index}`}
+                                    value={cert.validTillMonth || ''}
+                                    onChange={(e) => handleCertificationChange(index, 'validTillMonth', e.target.value)}
+                                    disabled={loading}
+                                    style={{ paddingLeft: '42px' }}
+                                  >
+                                    <option value="">Select Month</option>
+                                    {MONTH_OPTIONS.map(m => <option key={m} value={m}>{m}</option>)}
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="profile-field">
+                                <label htmlFor={`prof-cert-vty-${index}`}>
+                                  Valid Till – Year <span style={{ color: 'var(--signal-red)', marginLeft: '2px' }}>*</span>
+                                </label>
+                                <div className="profile-field__input-wrap">
+                                  <FaCalendarAlt className="profile-field__icon" style={{ color: 'var(--slate)' }} />
+                                  <select
+                                    id={`prof-cert-vty-${index}`}
+                                    value={cert.validTillYear || ''}
+                                    onChange={(e) => handleCertificationChange(index, 'validTillYear', e.target.value)}
+                                    disabled={loading}
+                                    style={{ paddingLeft: '42px' }}
+                                  >
+                                    <option value="">Select Year</option>
+                                    {Array.from({ length: 2051 - 2000 }, (_, i) => String(2000 + i)).map(y => (
+                                      <option key={y} value={y}>{y}</option>
+                                    ))}
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })
                   ) : (
-                    <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Certifications / Qualifications added.</div>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--slate)', fontStyle: 'italic' }}>No Certifications added.</div>
                   )}
                 </div>
 
@@ -2382,7 +2602,7 @@ export default function Profile({ user, onUpdateUser }) {
                       style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 18px', fontSize: '0.8rem' }}
                       disabled={loading}
                     >
-                      <FaPlus /> Add Certification / Qualification
+                      <FaPlus /> Add Certification
                     </button>
                   </div>
                 )}
