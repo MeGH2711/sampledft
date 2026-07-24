@@ -34,6 +34,7 @@ import {
 import { db } from '../firebase'
 import { collection, getDocs } from 'firebase/firestore'
 import { personal, contact, academic, professional, meta, pref, getArrayField, getUserDisplayName, formatDateFormatted } from '../utils/userHelpers'
+import { COMPANY_OPTIONS } from '../data/formdata'
 import PortalNavbar from '../components/PortalNavbar'
 import './Network.css'
 
@@ -215,11 +216,20 @@ function DetailModal({ user, open, onClose }) {
 
   // Professional
   const jobTitle = professional(user, 'jobTitle')
+  const profession = professional(user, 'profession')
+  const department = professional(user, 'department')
+  const division = professional(user, 'division')
+  const workExperience = professional(user, 'workExperience')
   const company = professional(user, 'company')
+  const companyWebsite = professional(user, 'companyWebsite')
   const companyCity = professional(user, 'companyCity')
+  const companyState = professional(user, 'companyState')
   const companyCountry = professional(user, 'companyCountry')
   const workingSinceYear = professional(user, 'workingSinceYear')
   const workingSinceMonth = professional(user, 'workingSinceMonth')
+  const lastPromotionDesignation = professional(user, 'lastPromotionDesignation')
+  const lastPromotionMonth = professional(user, 'lastPromotionMonth')
+  const lastPromotionYear = professional(user, 'lastPromotionYear')
   const awards = getArrayField(user, 'professionalDetails', 'awards')
   const productServices = getArrayField(user, 'professionalDetails', 'productServices')
   const otherProductServices = professional(user, 'otherProductServices')
@@ -385,7 +395,7 @@ function DetailModal({ user, open, onClose }) {
                 <div className="modal-card__icon-box"><FaBriefcase /></div>
                 <div>
                   <h3 className="modal-card__title">Professional Profile</h3>
-                  <p className="modal-card__subtitle">Workplace details & career history</p>
+                  <p className="modal-card__subtitle">Role, designation & career details</p>
                 </div>
               </div>
               <div className="modal-card__body">
@@ -394,14 +404,28 @@ function DetailModal({ user, open, onClose }) {
                     <span className="info-row__label">Designation / Role</span>
                     <span className="info-row__value font-highlight">{jobTitle || 'N/A'}</span>
                   </div>
-                  <div className="info-row">
-                    <span className="info-row__label">Company / Org</span>
-                    <span className="info-row__value font-highlight">{company || 'N/A'}</span>
-                  </div>
-                  {(companyCity || companyCountry) && (
+                  {profession && (
                     <div className="info-row">
-                      <span className="info-row__label">Work Location</span>
-                      <span className="info-row__value">{workLocation}</span>
+                      <span className="info-row__label">Profession</span>
+                      <span className="info-row__value">{profession}</span>
+                    </div>
+                  )}
+                  {department && (
+                    <div className="info-row">
+                      <span className="info-row__label">Department</span>
+                      <span className="info-row__value">{department}</span>
+                    </div>
+                  )}
+                  {division && (
+                    <div className="info-row">
+                      <span className="info-row__label">Division</span>
+                      <span className="info-row__value">{division}</span>
+                    </div>
+                  )}
+                  {workExperience && (
+                    <div className="info-row">
+                      <span className="info-row__label">Total Experience</span>
+                      <span className="info-row__value">{workExperience} Years</span>
                     </div>
                   )}
                   {(workingSinceMonth || workingSinceYear) && (
@@ -410,30 +434,89 @@ function DetailModal({ user, open, onClose }) {
                       <span className="info-row__value">{[workingSinceMonth, workingSinceYear].filter(Boolean).join(' ')}</span>
                     </div>
                   )}
+                  {lastPromotionDesignation && (
+                    <div className="info-row">
+                      <span className="info-row__label">Last Promotion</span>
+                      <span className="info-row__value">
+                        {lastPromotionDesignation}{[lastPromotionMonth, lastPromotionYear].filter(Boolean).length > 0 ? ` (${[lastPromotionMonth, lastPromotionYear].filter(Boolean).join(' ')})` : ''}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Awards */}
                 {awards.length > 0 && (
                   <div className="modal-card__subsection">
-                    <div className="subsection-title"><FaAward /> Awards & Recognitions</div>
-                    <div className="pill-tags-list">
+                    <div className="subsection-title">
+                      <FaAward style={{ color: '#fbbf24' }} /> Awards & Recognitions
+                    </div>
+                    <div className="awards-grid">
                       {awards.map((a, i) => {
                         const awardTitle = typeof a === 'object' && a !== null ? (a.name || a.title || '') : String(a || '');
                         const month = typeof a === 'object' && a !== null ? (a.month || '') : '';
                         const year = typeof a === 'object' && a !== null ? (a.year || '') : '';
                         const dateStr = [month, year].filter(Boolean).join(' ');
-                        const displayStr = dateStr ? `${awardTitle} (${dateStr})` : awardTitle;
                         if (!awardTitle && !dateStr) return null;
 
                         return (
-                          <span key={i} className="award-pill">
-                            <FaAward /> {displayStr}
-                          </span>
+                          <div key={i} className="award-card">
+                            <div className="award-card__badge">
+                              <FaAward />
+                            </div>
+                            <div className="award-card__details">
+                              {awardTitle && <div className="award-card__title">{awardTitle}</div>}
+                              {dateStr && (
+                                <div className="award-card__date">
+                                  <FaCalendarAlt style={{ fontSize: '0.62rem' }} /> Received: {dateStr}
+                                </div>
+                              )}
+                            </div>
+                          </div>
                         )
                       })}
                     </div>
                   </div>
                 )}
+              </div>
+            </div>
+
+            {/* CARD 2: Company & Organization */}
+            <div className="modal-card">
+              <div className="modal-card__header">
+                <div className="modal-card__icon-box"><FaBuilding /></div>
+                <div>
+                  <h3 className="modal-card__title">Company & Organization</h3>
+                  <p className="modal-card__subtitle">Workplace profile & business offerings</p>
+                </div>
+              </div>
+              <div className="modal-card__body">
+                <div className="modal-info-table">
+                  <div className="info-row">
+                    <span className="info-row__label">Company / Org</span>
+                    <span className="info-row__value font-highlight">{company || 'N/A'}</span>
+                  </div>
+                  {[companyCity, companyState, companyCountry].filter(Boolean).join(', ') && (
+                    <div className="info-row">
+                      <span className="info-row__label">Work Location</span>
+                      <span className="info-row__value">{[companyCity, companyState, companyCountry].filter(Boolean).join(', ')}</span>
+                    </div>
+                  )}
+                  {companyWebsite && (
+                    <div className="info-row">
+                      <span className="info-row__label">Company Website</span>
+                      <span className="info-row__value">
+                        <a
+                          href={companyWebsite.startsWith('http') ? companyWebsite : `https://${companyWebsite}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{ color: '#60a5fa', textDecoration: 'underline' }}
+                        >
+                          {companyWebsite}
+                        </a>
+                      </span>
+                    </div>
+                  )}
+                </div>
 
                 {/* Products / Services */}
                 {(standardProductServices.length > 0 || otherProductServicesList.length > 0) && (
@@ -774,6 +857,131 @@ function Chip({ label, onRemove }) {
   )
 }
 
+/* ─── Company Autofill Filter ─── */
+function CompanyAutofillFilter({ value, onChange, companyOptions }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [inputVal, setInputVal] = useState(value || '')
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    setInputVal(value || '')
+  }, [value])
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const filteredOptions = useMemo(() => {
+    if (!inputVal.trim()) return companyOptions.slice(0, 30)
+    const q = inputVal.toLowerCase().trim()
+    return companyOptions
+      .filter(c => c.toLowerCase().includes(q))
+      .slice(0, 30)
+  }, [companyOptions, inputVal])
+
+  return (
+    <div className="company-autofill-container" ref={containerRef} style={{ position: 'relative' }}>
+      <div className="filter-group__input-wrap" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+        <input
+          id="net-company"
+          className="filter-group__input"
+          type="text"
+          placeholder="Type or select company…"
+          value={inputVal}
+          onChange={(e) => {
+            const v = e.target.value
+            setInputVal(v)
+            onChange(v)
+            setIsOpen(true)
+          }}
+          onFocus={() => setIsOpen(true)}
+          autoComplete="off"
+          style={{ paddingRight: inputVal ? '28px' : '12px' }}
+        />
+        {inputVal && (
+          <button
+            type="button"
+            onClick={() => {
+              setInputVal('')
+              onChange('')
+              setIsOpen(false)
+            }}
+            style={{
+              position: 'absolute',
+              right: '10px',
+              background: 'none',
+              border: 'none',
+              color: 'rgba(255, 255, 255, 0.4)',
+              cursor: 'pointer',
+              fontSize: '0.7rem',
+              display: 'flex',
+              alignItems: 'center'
+            }}
+            title="Clear company"
+          >
+            <FaTimes />
+          </button>
+        )}
+      </div>
+
+      {isOpen && filteredOptions.length > 0 && (
+        <div
+          className="company-autofill-dropdown"
+          style={{
+            position: 'absolute',
+            top: 'calc(100% + 4px)',
+            left: 0,
+            right: 0,
+            maxHeight: '180px',
+            overflowY: 'auto',
+            background: '#0c1833',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
+            borderRadius: '8px',
+            boxShadow: '0 12px 28px rgba(0, 0, 0, 0.65)',
+            zIndex: 100,
+            padding: '4px 0'
+          }}
+        >
+          {filteredOptions.map((comp) => (
+            <div
+              key={comp}
+              style={{
+                padding: '7px 12px',
+                fontSize: '0.7rem',
+                color: comp === value ? '#ff8f8c' : 'rgba(255, 255, 255, 0.85)',
+                cursor: 'pointer',
+                background: comp === value ? 'rgba(232, 48, 42, 0.12)' : 'transparent',
+                fontWeight: comp === value ? '700' : '400',
+                transition: 'background 0.15s ease'
+              }}
+              onMouseDown={(e) => {
+                e.preventDefault()
+                setInputVal(comp)
+                onChange(comp)
+                setIsOpen(false)
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = comp === value ? 'rgba(232, 48, 42, 0.12)' : 'transparent'
+              }}
+            >
+              {comp}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 /* ══════════════════════════════════════════
    MAIN NETWORK PAGE COMPONENT
 ══════════════════════════════════════════ */
@@ -820,6 +1028,7 @@ export default function Network({ user, onLogout }) {
 
   /* ── Filter state ── */
   const [search, setSearch] = useState('')
+  const [filterCompany, setFilterCompany] = useState('')
   const [filterBatch, setFilterBatch] = useState('')
   const [filterCountry, setFilterCountry] = useState('')
   const [filterState, setFilterState] = useState('')
@@ -905,6 +1114,16 @@ export default function Network({ user, onLogout }) {
     return [...s].sort()
   }, [usersList])
 
+  const companyOptions = useMemo(() => {
+    const s = new Set()
+    COMPANY_OPTIONS.forEach(c => { if (c) s.add(c) })
+    usersList.forEach(u => {
+      const comp = professional(u, 'company')
+      if (comp) s.add(comp)
+    })
+    return [...s].sort((a, b) => a.localeCompare(b))
+  }, [usersList])
+
   /* ── Filter reset cascade ── */
   const handleCountryChange = (val) => {
     setFilterCountry(val)
@@ -919,12 +1138,13 @@ export default function Network({ user, onLogout }) {
 
   /* ── Active filters count (for mobile badge) ── */
   const activeFilterCount = [
-    filterBatch, filterCountry, filterState, filterCity, filterProfession
+    filterBatch, filterCountry, filterState, filterCity, filterProfession, filterCompany
   ].filter(Boolean).length
 
   /* ── Clear all ── */
   const clearAll = () => {
     setSearch('')
+    setFilterCompany('')
     setFilterBatch('')
     setFilterCountry('')
     setFilterState('')
@@ -957,6 +1177,14 @@ export default function Network({ user, onLogout }) {
         return name.includes(q) || email.includes(q) || company.includes(q)
           || city.includes(q) || country.includes(q) || jobTitle.includes(q) || certsMatch
       })
+    }
+
+    // Company filter
+    if (filterCompany.trim()) {
+      const compQ = filterCompany.toLowerCase().trim()
+      list = list.filter(u =>
+        professional(u, 'company').toLowerCase().includes(compQ)
+      )
     }
 
     // Batch
@@ -1002,7 +1230,7 @@ export default function Network({ user, onLogout }) {
     })
 
     return list
-  }, [usersList, search, filterBatch, filterCountry, filterState, filterCity, filterProfession, sortBy])
+  }, [usersList, search, filterCompany, filterBatch, filterCountry, filterState, filterCity, filterProfession, sortBy])
 
   /* ── Stats ── */
   const totalVerified = usersList.filter(u => meta(u, 'verification_status', false)).length
@@ -1113,6 +1341,7 @@ export default function Network({ user, onLogout }) {
           {/* Active chips */}
           {activeFilterCount > 0 && (
             <div className="network-filters__chips">
+              {filterCompany && <Chip label={`Company: ${filterCompany}`} onRemove={() => setFilterCompany('')} />}
               {filterBatch && <Chip label={`Batch ${filterBatch}`} onRemove={() => setFilterBatch('')} />}
               {filterCountry && <Chip label={filterCountry} onRemove={() => { setFilterCountry(''); setFilterState(''); setFilterCity('') }} />}
               {filterState && <Chip label={filterState} onRemove={() => { setFilterState(''); setFilterCity('') }} />}
@@ -1125,16 +1354,26 @@ export default function Network({ user, onLogout }) {
 
           {/* Filter Groups Grid (2-column on tablet, 1-column on mobile) */}
           <div className="filter-groups-grid">
-            {/* Search */}
+            {/* Search Keyword */}
             <div className="filter-group filter-group--full">
               <label className="filter-group__label" htmlFor="net-search">Search Keyword</label>
               <input
                 id="net-search"
                 className="filter-group__input"
                 type="text"
-                placeholder="Name, company, city…"
+                placeholder="Name, city, degree…"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
+              />
+            </div>
+
+            {/* Search by Company with Autofill Dropdown */}
+            <div className="filter-group filter-group--full">
+              <label className="filter-group__label" htmlFor="net-company">Search by Company</label>
+              <CompanyAutofillFilter
+                value={filterCompany}
+                onChange={setFilterCompany}
+                companyOptions={companyOptions}
               />
             </div>
 

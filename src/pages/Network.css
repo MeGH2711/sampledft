@@ -1850,6 +1850,69 @@
   word-break: break-word;
 }
 
+/* Awards Sub-cards (matching cert-card) */
+.awards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.award-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 12px 14px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.award-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.award-card__badge {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fbbf24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.award-card__details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.award-card__title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--paper-white);
+  line-height: 1.3;
+}
+
+.award-card__date {
+  font-size: 0.68rem;
+  color: #fbbf24;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 1px;
+}
+
 /* Contact Items List */
 .contact-list {
   display: flex;
