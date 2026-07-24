@@ -456,6 +456,7 @@ function DetailModal({ user, open, onClose }) {
                         const month = typeof a === 'object' && a !== null ? (a.month || '') : '';
                         const year = typeof a === 'object' && a !== null ? (a.year || '') : '';
                         const dateStr = [month, year].filter(Boolean).join(' ');
+                        const attachmentUrl = typeof a === 'object' && a !== null ? (a.attachmentUrl || a.url || '') : '';
                         if (!awardTitle && !dateStr) return null;
 
                         return (
@@ -468,6 +469,18 @@ function DetailModal({ user, open, onClose }) {
                               {dateStr && (
                                 <div className="award-card__date">
                                   <FaCalendarAlt style={{ fontSize: '0.62rem' }} /> Received: {dateStr}
+                                </div>
+                              )}
+                              {attachmentUrl && (
+                                <div style={{ marginTop: '4px' }}>
+                                  <a
+                                    href={attachmentUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    style={{ fontSize: '0.72rem', color: '#60a5fa', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                                  >
+                                    <FaFileAlt style={{ fontSize: '0.68rem' }} /> View Attachment
+                                  </a>
                                 </div>
                               )}
                             </div>

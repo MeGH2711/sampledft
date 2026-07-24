@@ -25,7 +25,7 @@ import {
   FaAward,
   FaFilePdf
 } from 'react-icons/fa'
-import { uploadPdfToDrive } from '../utils/googleDriveUpload'
+import { uploadPdfToDrive, deleteFromDrive } from '../utils/googleDriveUpload'
 import { buildUserDoc, personal, contact, academic, professional, meta, pref, getArrayField, getUserDisplayName } from '../utils/userHelpers'
 import { auth, db, isFirebaseConfigured } from '../firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
@@ -379,6 +379,7 @@ export default function Profile({ user, onUpdateUser }) {
     consentPhone: false,
     consentWhatsapp: false,
     consentLinkedin: false,
+    cvUrl: '',
     cvBase64: '',
     cvFileName: ''
   })
@@ -436,6 +437,7 @@ export default function Profile({ user, onUpdateUser }) {
     consentPhone: false,
     consentWhatsapp: false,
     consentLinkedin: false,
+    cvUrl: '',
     cvBase64: '',
     cvFileName: ''
   })
@@ -532,6 +534,7 @@ export default function Profile({ user, onUpdateUser }) {
               consentPhone: Boolean(pref(data, 'consentPhone', false)),
               consentWhatsapp: Boolean(pref(data, 'consentWhatsapp', false)),
               consentLinkedin: Boolean(pref(data, 'consentLinkedin', false)),
+              cvUrl: meta(data, 'cvUrl') || meta(user, 'cvUrl') || '',
               cvBase64: meta(data, 'cvBase64') || meta(user, 'cvBase64') || '',
               cvFileName: meta(data, 'cvFileName') || meta(user, 'cvFileName') || ''
             }
@@ -602,6 +605,7 @@ export default function Profile({ user, onUpdateUser }) {
               consentPhone: Boolean(pref(user, 'consentPhone', false)),
               consentWhatsapp: Boolean(pref(user, 'consentWhatsapp', false)),
               consentLinkedin: Boolean(pref(user, 'consentLinkedin', false)),
+              cvUrl: meta(user, 'cvUrl') || '',
               cvBase64: meta(user, 'cvBase64') || '',
               cvFileName: meta(user, 'cvFileName') || ''
             }
@@ -693,6 +697,7 @@ export default function Profile({ user, onUpdateUser }) {
               consentPhone: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined || parsed.consentLinkedin !== undefined) ? Boolean(parsed.consentPhone) : Boolean(parsed.consentAlumniSearch ?? false),
               consentWhatsapp: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined || parsed.consentLinkedin !== undefined) ? Boolean(parsed.consentWhatsapp) : Boolean(parsed.consentAlumniSearch ?? false),
               consentLinkedin: (parsed.consentEmail !== undefined || parsed.consentPhone !== undefined || parsed.consentWhatsapp !== undefined || parsed.consentLinkedin !== undefined) ? Boolean(parsed.consentLinkedin) : Boolean(parsed.consentAlumniSearch ?? false),
+              cvUrl: parsed.cvUrl || '',
               cvBase64: parsed.cvBase64 || '',
               cvFileName: parsed.cvFileName || ''
             }
@@ -759,7 +764,10 @@ export default function Profile({ user, onUpdateUser }) {
           awards: getArrayField(user, 'professionalDetails', 'awards'),
           hobbies: getArrayField(user, 'personalDetails', 'hobbies'),
           otherHobbies: personal(user, 'otherHobbies') || '',
-          workExperience: professional(user, 'workExperience') || ''
+          workExperience: professional(user, 'workExperience') || '',
+          cvUrl: meta(user, 'cvUrl') || '',
+          cvBase64: meta(user, 'cvBase64') || '',
+          cvFileName: meta(user, 'cvFileName') || ''
         }
         setProfileForm(fallbackData)
         setOriginalForm(fallbackData)
@@ -1253,6 +1261,37 @@ export default function Profile({ user, onUpdateUser }) {
         const { attachmentFile, ...rest } = a
         return rest
       }))
+    }
+
+    // Handle Google Drive deletion if CV was removed by user
+    const hadOriginalCv = Boolean(originalForm.cvUrl || originalForm.cvBase64 || originalForm.cvFileName)
+    const hasCurrentCv = Boolean(profileForm.cvFile || profileForm.cvUrl || profileForm.cvBase64)
+    if (hadOriginalCv && !hasCurrentCv && uid) {
+      try {
+        await deleteFromDrive(uid, 'Alumni Resumes', `${uid}_CV.pdf`)
+      } catch (delErr) {
+        console.warn('Failed to delete CV from Google Drive:', delErr)
+      }
+    }
+
+    // Handle Google Drive deletion for removed Award attachments
+    if (originalForm.awards && Array.isArray(originalForm.awards) && uid) {
+      originalForm.awards.forEach(async (oldAward, i) => {
+        if (oldAward && typeof oldAward === 'object' && oldAward.attachmentUrl) {
+          const stillExists = processedAwards.some(newAward =>
+            newAward && typeof newAward === 'object' && (newAward.attachmentUrl === oldAward.attachmentUrl || newAward.attachmentFile)
+          )
+          if (!stillExists) {
+            try {
+              const ext = oldAward.attachmentFileName ? oldAward.attachmentFileName.split('.').pop() : ''
+              const fileName = ext ? `${uid}_Award_${i + 1}.${ext}` : ''
+              await deleteFromDrive(uid, 'Awards', fileName)
+            } catch (delErr) {
+              console.warn(`Failed to delete Award attachment at index ${i}:`, delErr)
+            }
+          }
+        }
+      })
     }
 
     const rawProfilePayload = {

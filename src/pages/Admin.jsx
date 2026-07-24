@@ -1372,9 +1372,24 @@ service cloud.firestore {
                             const year = typeof a === 'object' && a !== null ? (a.year || '') : '';
                             const dateStr = [month, year].filter(Boolean).join(' ');
                             const displayStr = dateStr ? `${awardTitle} (${dateStr})` : awardTitle;
+                            const attachmentUrl = typeof a === 'object' && a !== null ? (a.attachmentUrl || a.url || '') : '';
                             if (!awardTitle && !dateStr) return null;
 
-                            return <li key={i} style={{ marginBottom: '4px', fontWeight: '600' }}>{displayStr}</li>;
+                            return (
+                              <li key={i} style={{ marginBottom: '6px', fontWeight: '600' }}>
+                                {displayStr}
+                                {attachmentUrl && (
+                                  <a
+                                    href={attachmentUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    style={{ marginLeft: '8px', fontSize: '12px', color: '#2563eb', textDecoration: 'underline', fontWeight: 'normal' }}
+                                  >
+                                    [View Attachment]
+                                  </a>
+                                )}
+                              </li>
+                            );
                           })}
                         </ul>
                       ) : (

@@ -50,3 +50,34 @@ export async function uploadPdfToDrive(file, fileName, userId = '', folder = 'Al
   // Fallback to Base64 data URL if Google Drive script is not configured or fails
   return { fileUrl: base64DataUrl, isDrive: false };
 }
+
+/**
+ * Deletes a file from Google Drive via the Google Apps Script Web App Endpoint.
+ * 
+ * @param {string} userId - User UID to locate file in Drive
+ * @param {string} folder - Sub-folder name (e.g. "Alumni Resumes" or "Awards")
+ * @param {string} fileName - Optional specific filename to delete
+ */
+export async function deleteFromDrive(userId = '', folder = 'Alumni Resumes', fileName = '') {
+  const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
+
+  if (!scriptUrl || !scriptUrl.trim() || !scriptUrl.startsWith('http')) return;
+
+  try {
+    await fetch(scriptUrl.trim(), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify({
+        action: 'delete',
+        uid: userId || '',
+        folder: folder || 'Alumni Resumes',
+        filename: fileName || ''
+      })
+    });
+  } catch (err) {
+    console.warn('Failed to delete file from Google Drive:', err);
+  }
+}
+
