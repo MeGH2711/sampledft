@@ -59,6 +59,7 @@ import {
 } from '../data/formdata'
 import { hashEmail, hashPhoneDigits } from '../utils/hash'
 import { uploadPdfToDrive } from '../utils/googleDriveUpload'
+import AwardDropzone from '../components/AwardDropzone'
 
 const MONTH_OPTIONS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const PROMOTION_YEAR_OPTIONS = Array.from({ length: new Date().getFullYear() - 1980 + 1 }, (_, i) => String(new Date().getFullYear() - i));
@@ -678,7 +679,7 @@ export default function Login({ user, onLoginSuccess }) {
   const handleAddAward = () => {
     setRegisterForm(prev => ({
       ...prev,
-      awards: [...(prev.awards || []), { name: '', month: '', year: '' }]
+      awards: [...(prev.awards || []), { name: '', month: '', year: '', attachmentFile: null, attachmentUrl: '', attachmentFileName: '' }]
     }))
   }
 
@@ -694,12 +695,30 @@ export default function Login({ user, onLoginSuccess }) {
       const updated = [...(prev.awards || [])]
       const currentObj = typeof updated[index] === 'object' && updated[index] !== null
         ? updated[index]
-        : { name: String(updated[index] || ''), month: '', year: '' }
+        : { name: String(updated[index] || ''), month: '', year: '', attachmentFile: null, attachmentUrl: '', attachmentFileName: '' }
       updated[index] = { ...currentObj, [field]: val }
       return {
         ...prev,
         awards: updated
       }
+    })
+  }
+
+  const handleAwardFileSelect = (index, file, base64) => {
+    setRegisterForm(prev => {
+      const updated = [...(prev.awards || [])]
+      const currentObj = typeof updated[index] === 'object' && updated[index] !== null ? updated[index] : { name: '', month: '', year: '' }
+      updated[index] = { ...currentObj, attachmentFile: file, attachmentUrl: base64, attachmentFileName: file ? file.name : '' }
+      return { ...prev, awards: updated }
+    })
+  }
+
+  const handleAwardFileRemove = (index) => {
+    setRegisterForm(prev => {
+      const updated = [...(prev.awards || [])]
+      const currentObj = typeof updated[index] === 'object' && updated[index] !== null ? updated[index] : { name: '', month: '', year: '' }
+      updated[index] = { ...currentObj, attachmentFile: null, attachmentUrl: '', attachmentFileName: '' }
+      return { ...prev, awards: updated }
     })
   }
 
@@ -1121,13 +1140,35 @@ export default function Login({ user, onLoginSuccess }) {
         let finalCvUrl = registerForm.cvBase64 || ''
         if (registerForm.cvFile) {
           try {
-            const cvRes = await uploadPdfToDrive(registerForm.cvFile, `${user.uid}_CV.pdf`, user.uid)
+            const cvRes = await uploadPdfToDrive(registerForm.cvFile, `${user.uid}_CV.pdf`, user.uid, 'Alumni Resumes')
             if (cvRes && cvRes.fileUrl) {
               finalCvUrl = cvRes.fileUrl
             }
           } catch (cvErr) {
             console.warn('Google Drive CV upload failed, fallback to base64 preview:', cvErr)
           }
+        }
+
+        // Upload award attachments to Drive (Awards folder)
+        let processedAwards = registerForm.awards || []
+        if (processedAwards.length > 0) {
+          processedAwards = await Promise.all(processedAwards.map(async (a, i) => {
+            if (!a || typeof a !== 'object') return a
+            if (a.attachmentFile) {
+              try {
+                const ext = a.attachmentFile.name.split('.').pop() || 'pdf'
+                const awardFileName = `${user.uid}_Award_${i + 1}.${ext}`
+                const awardRes = await uploadPdfToDrive(a.attachmentFile, awardFileName, user.uid, 'Awards')
+                if (awardRes && awardRes.fileUrl) {
+                  return { ...a, attachmentUrl: awardRes.fileUrl, attachmentFile: null }
+                }
+              } catch (awardErr) {
+                console.warn(`Award attachment upload failed for index ${i}:`, awardErr)
+              }
+            }
+            const { attachmentFile, ...rest } = a
+            return rest
+          }))
         }
 
         // Save additional profile details to Firestore in organized nested sections (no flat root duplication)
@@ -1174,7 +1215,7 @@ export default function Login({ user, onLoginSuccess }) {
           lastPromotionDesignation: registerForm.lastPromotionDesignation || '',
           lastPromotionMonth: registerForm.lastPromotionMonth || '',
           lastPromotionYear: registerForm.lastPromotionYear || '',
-          awards: registerForm.awards || [],
+          awards: processedAwards,
           hobbies: registerForm.hobbies || [],
           otherHobbies: registerForm.hobbies.includes('Others') ? registerForm.otherHobbies || '' : '',
           workExperience: registerForm.userType === 'Student' ? '' : (registerForm.workExperience || ''),
@@ -2686,6 +2727,19 @@ export default function Login({ user, onLoginSuccess }) {
                                 </div>
                               </div>
                             </div>
+
+                            {/* Award Attachment (Optional) */}
+                            <AwardDropzone
+                              label="Attachment (PDF or Image) – Optional"
+                              awardFile={award.attachmentFile || null}
+                              awardFileName={award.attachmentFileName || ''}
+                              awardUrl={award.attachmentUrl || ''}
+                              onFileSelect={(file, base64) => handleAwardFileSelect(index, file, base64)}
+                              onFileRemove={() => handleAwardFileRemove(index)}
+                              disabled={loading}
+                              isEditing={true}
+                              setError={setError}
+                            />
 
                             <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                               <button

@@ -34,6 +34,7 @@ import StateAutocomplete from '../components/StateAutocomplete'
 import CityAutocomplete from '../components/CityAutocomplete'
 import CompanyAutocomplete from '../components/CompanyAutocomplete'
 import CvDropzone from '../components/CvDropzone'
+import AwardDropzone from '../components/AwardDropzone'
 import FullPageLoader from '../components/FullPageLoader'
 import './Profile.css'
 import { countryCodes } from '../data/countryData'
@@ -975,7 +976,7 @@ export default function Profile({ user, onUpdateUser }) {
   const handleAddAward = () => {
     setProfileForm(prev => ({
       ...prev,
-      awards: [...(prev.awards || []), { name: '', month: '', year: '' }]
+      awards: [...(prev.awards || []), { name: '', month: '', year: '', attachmentFile: null, attachmentUrl: '', attachmentFileName: '' }]
     }))
   }
 
@@ -991,12 +992,30 @@ export default function Profile({ user, onUpdateUser }) {
       const updated = [...(prev.awards || [])]
       const currentObj = typeof updated[index] === 'object' && updated[index] !== null
         ? updated[index]
-        : { name: String(updated[index] || ''), month: '', year: '' }
+        : { name: String(updated[index] || ''), month: '', year: '', attachmentFile: null, attachmentUrl: '', attachmentFileName: '' }
       updated[index] = { ...currentObj, [field]: val }
       return {
         ...prev,
         awards: updated
       }
+    })
+  }
+
+  const handleAwardFileSelect = (index, file, base64) => {
+    setProfileForm(prev => {
+      const updated = [...(prev.awards || [])]
+      const currentObj = typeof updated[index] === 'object' && updated[index] !== null ? updated[index] : { name: '', month: '', year: '' }
+      updated[index] = { ...currentObj, attachmentFile: file, attachmentUrl: base64, attachmentFileName: file ? file.name : '' }
+      return { ...prev, awards: updated }
+    })
+  }
+
+  const handleAwardFileRemove = (index) => {
+    setProfileForm(prev => {
+      const updated = [...(prev.awards || [])]
+      const currentObj = typeof updated[index] === 'object' && updated[index] !== null ? updated[index] : { name: '', month: '', year: '' }
+      updated[index] = { ...currentObj, attachmentFile: null, attachmentUrl: '', attachmentFileName: '' }
+      return { ...prev, awards: updated }
     })
   }
 
@@ -1204,13 +1223,36 @@ export default function Profile({ user, onUpdateUser }) {
     let finalCvUrl = profileForm.cvBase64 || profileForm.cvUrl || ''
     if (profileForm.cvFile) {
       try {
-        const cvRes = await uploadPdfToDrive(profileForm.cvFile, `${uid || 'Alumni'}_CV.pdf`, uid || '')
+        const cvRes = await uploadPdfToDrive(profileForm.cvFile, `${uid || 'Alumni'}_CV.pdf`, uid || '', 'Alumni Resumes')
         if (cvRes && cvRes.fileUrl) {
           finalCvUrl = cvRes.fileUrl
         }
       } catch (cvErr) {
         console.warn('Google Drive CV upload failed in Profile:', cvErr)
       }
+    }
+
+    // Upload award attachments to Drive (Awards folder)
+    let processedAwards = profileForm.awards || []
+    if (processedAwards.length > 0) {
+      processedAwards = await Promise.all(processedAwards.map(async (a, i) => {
+        if (!a || typeof a !== 'object') return a
+        if (a.attachmentFile) {
+          try {
+            const ext = a.attachmentFile.name.split('.').pop() || 'pdf'
+            const awardFileName = `${uid || 'Alumni'}_Award_${i + 1}.${ext}`
+            const awardRes = await uploadPdfToDrive(a.attachmentFile, awardFileName, uid || '', 'Awards')
+            if (awardRes && awardRes.fileUrl) {
+              return { ...a, attachmentUrl: awardRes.fileUrl, attachmentFile: null }
+            }
+          } catch (awardErr) {
+            console.warn(`Award attachment upload failed for index ${i}:`, awardErr)
+          }
+        }
+        // Strip the non-serializable File object before saving
+        const { attachmentFile, ...rest } = a
+        return rest
+      }))
     }
 
     const rawProfilePayload = {
@@ -1257,7 +1299,7 @@ export default function Profile({ user, onUpdateUser }) {
       lastPromotionDesignation: profileForm.lastPromotionDesignation.trim(),
       lastPromotionMonth: profileForm.lastPromotionMonth,
       lastPromotionYear: profileForm.lastPromotionYear,
-      awards: profileForm.awards || [],
+      awards: processedAwards,
       hobbies: profileForm.hobbies || [],
       otherHobbies: profileForm.hobbies.includes('Others') ? profileForm.otherHobbies || '' : '',
       workExperience: profileForm.userType === 'Student' ? '' : (profileForm.workExperience ? profileForm.workExperience.trim() : ''),
@@ -2621,6 +2663,7 @@ export default function Profile({ user, onUpdateUser }) {
                       if (!isEditing) {
                         const dateStr = [awardMonth, awardYear].filter(Boolean).join(' ');
                         const displayStr = dateStr ? `${awardName} (${dateStr})` : awardName;
+                        const awardUrl = typeof award === 'object' ? (award.attachmentUrl || '') : ''
 
                         return (
                           <div key={index} className="profile-field">
@@ -2633,6 +2676,13 @@ export default function Profile({ user, onUpdateUser }) {
                                 placeholder="No Data Provided"
                               />
                             </div>
+                            {awardUrl && (
+                              <div style={{ marginTop: '4px' }}>
+                                <a href={awardUrl} target="_blank" rel="noreferrer" style={{ fontSize: '0.78rem', color: 'var(--brand)', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                  <FaFilePdf style={{ fontSize: '0.72rem' }} /> View Attachment
+                                </a>
+                              </div>
+                            )}
                           </div>
                         )
                       }
@@ -2691,6 +2741,21 @@ export default function Profile({ user, onUpdateUser }) {
                                 </select>
                               </div>
                             </div>
+                          </div>
+
+                          {/* Award Attachment (Optional) */}
+                          <div className="profile-field profile-field--full">
+                            <AwardDropzone
+                              label="Attachment (PDF or Image) – Optional"
+                              awardFile={award.attachmentFile || null}
+                              awardFileName={award.attachmentFileName || ''}
+                              awardUrl={award.attachmentUrl || ''}
+                              onFileSelect={(file, base64) => handleAwardFileSelect(index, file, base64)}
+                              onFileRemove={() => handleAwardFileRemove(index)}
+                              disabled={loading}
+                              isEditing={isEditing}
+                              setError={setError}
+                            />
                           </div>
 
                           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
