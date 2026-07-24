@@ -142,37 +142,31 @@ export default function CityAutocomplete({
         aria-label="Toggle city dropdown"
       >
         <FaChevronDown
-          className={`country-autocomplete__arrow ${
-            isOpen ? 'country-autocomplete__arrow--open' : ''
-          }`}
+          className={`country-autocomplete__arrow ${isOpen ? 'country-autocomplete__arrow--open' : ''
+            }`}
         />
       </button>
 
-      {isOpen && !disabled && (
+      {isOpen && !disabled && filteredCities.length > 0 && (
         <ul className="country-autocomplete__dropdown" ref={listRef}>
-          {filteredCities.length > 0 ? (
-            filteredCities.map((ct, index) => {
-              const isSelected = ct.toLowerCase() === (value || '').trim().toLowerCase();
-              const isHighlighted = index === highlightedIndex;
-              return (
-                <li
-                  key={ct}
-                  className={`country-autocomplete__item ${
-                    isHighlighted ? 'country-autocomplete__item--highlighted' : ''
+          {filteredCities.map((ct, index) => {
+            const isSelected = ct.toLowerCase() === (value || '').trim().toLowerCase();
+            const isHighlighted = index === highlightedIndex;
+            return (
+              <li
+                key={ct}
+                className={`country-autocomplete__item ${isHighlighted ? 'country-autocomplete__item--highlighted' : ''
                   } ${isSelected ? 'country-autocomplete__item--selected' : ''}`}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    handleSelectCity(ct);
-                  }}
-                  onMouseEnter={() => setHighlightedIndex(index)}
-                >
-                  {ct}
-                </li>
-              );
-            })
-          ) : (
-            <li className="country-autocomplete__no-results">No cities found</li>
-          )}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  handleSelectCity(ct);
+                }}
+                onMouseEnter={() => setHighlightedIndex(index)}
+              >
+                {ct}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

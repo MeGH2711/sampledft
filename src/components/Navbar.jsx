@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLocation, Link as RouterLink } from 'react-router-dom'
 import { Link as ScrollLink } from 'react-scroll'
-import { FaBars, FaTimes, FaChevronDown, FaCheckCircle, FaClock } from 'react-icons/fa'
+import { FaBars, FaTimes, FaChevronDown, FaCheckCircle, FaClock, FaSignOutAlt } from 'react-icons/fa'
 import dftLogo from '../assets/Logo/dft-logo.avif'
 import { personal, contact, meta, getUserDisplayName, getUserFirstName } from '../utils/userHelpers'
 import './Navbar.css'
@@ -21,6 +21,18 @@ export default function Navbar({ user, onLogout }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const [showLogoutModal, setShowLogoutModal] = useState(false)
+
+  useEffect(() => {
+    if (showLogoutModal) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [showLogoutModal])
   const location = useLocation()
   const isHome = location.pathname === '/'
 
@@ -370,7 +382,7 @@ export default function Navbar({ user, onLogout }) {
                       className="navbar__user-dropdown-item"
                       onClick={() => setUserMenuOpen(false)}
                     >
-                      Alumni Network
+                      Alumni Portal
                     </RouterLink>
                   )}
                   {(meta(user, 'account_type', 'alumni') === 'admin' || meta(user, 'account_type', 'alumni') === 'developer') && (
@@ -387,8 +399,8 @@ export default function Navbar({ user, onLogout }) {
                   )}
                   <button
                     onClick={() => {
-                      onLogout()
                       setUserMenuOpen(false)
+                      setShowLogoutModal(true)
                     }}
                     className="navbar__user-dropdown-item navbar__user-dropdown-logout"
                   >
@@ -660,7 +672,7 @@ export default function Navbar({ user, onLogout }) {
                     onClick={() => setMenuOpen(false)}
                     style={{ marginTop: '8px' }}
                   >
-                    Alumni Network
+                    Alumni Portal
                   </RouterLink>
                 )}
                 {(meta(user, 'account_type', 'alumni') === 'admin' || meta(user, 'account_type', 'alumni') === 'developer') && (
@@ -675,8 +687,8 @@ export default function Navbar({ user, onLogout }) {
                 )}
                 <button
                   onClick={() => {
-                    onLogout()
                     setMenuOpen(false)
+                    setShowLogoutModal(true)
                   }}
                   className="navbar__mobile-logout-btn"
                 >
@@ -703,6 +715,40 @@ export default function Navbar({ user, onLogout }) {
           </div>
         </div>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutModal && (
+        <div className="logout-modal-overlay" onClick={() => setShowLogoutModal(false)}>
+          <div className="logout-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="logout-modal-icon">
+              <FaSignOutAlt />
+            </div>
+            <h3 className="logout-modal-title">Confirm Logout</h3>
+            <p className="logout-modal-desc">
+              Are you sure you want to log out?
+            </p>
+            <div className="logout-modal-actions">
+              <button
+                type="button"
+                className="logout-modal-btn logout-modal-btn--cancel"
+                onClick={() => setShowLogoutModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="logout-modal-btn logout-modal-btn--confirm"
+                onClick={() => {
+                  setShowLogoutModal(false)
+                  onLogout()
+                }}
+              >
+                Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }

@@ -443,6 +443,35 @@
   transform: translateY(-1px);
 }
 
+.admin-btn-delete-user {
+  background-color: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: var(--signal-red);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.admin-btn-delete-user:hover:not(:disabled) {
+  background-color: var(--signal-red);
+  color: var(--paper-white);
+  border-color: var(--signal-red);
+  transform: translateY(-1px);
+}
+
+.admin-btn-delete-user:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 /* Select element styling inside table */
 .admin-role-select {
   padding: 6px 32px 6px 12px !important;

@@ -149,31 +149,27 @@ export default function CountryAutocomplete({
         />
       </button>
 
-      {isOpen && !disabled && (
+      {isOpen && !disabled && filteredCountries.length > 0 && (
         <ul className="country-autocomplete__dropdown" ref={listRef}>
-          {filteredCountries.length > 0 ? (
-            filteredCountries.map((country, index) => {
-              const isSelected = country.toLowerCase() === (value || '').trim().toLowerCase();
-              const isHighlighted = index === highlightedIndex;
-              return (
-                <li
-                  key={country}
-                  className={`country-autocomplete__item ${
-                    isHighlighted ? 'country-autocomplete__item--highlighted' : ''
-                  } ${isSelected ? 'country-autocomplete__item--selected' : ''}`}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    handleSelectCountry(country);
-                  }}
-                  onMouseEnter={() => setHighlightedIndex(index)}
-                >
-                  {country}
-                </li>
-              );
-            })
-          ) : (
-            <li className="country-autocomplete__no-results">No countries found</li>
-          )}
+          {filteredCountries.map((country, index) => {
+            const isSelected = country.toLowerCase() === (value || '').trim().toLowerCase();
+            const isHighlighted = index === highlightedIndex;
+            return (
+              <li
+                key={country}
+                className={`country-autocomplete__item ${
+                  isHighlighted ? 'country-autocomplete__item--highlighted' : ''
+                } ${isSelected ? 'country-autocomplete__item--selected' : ''}`}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  handleSelectCountry(country);
+                }}
+                onMouseEnter={() => setHighlightedIndex(index)}
+              >
+                {country}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

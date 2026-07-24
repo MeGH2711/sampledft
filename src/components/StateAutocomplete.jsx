@@ -148,31 +148,27 @@ export default function StateAutocomplete({
         />
       </button>
 
-      {isOpen && !disabled && (
+      {isOpen && !disabled && filteredStates.length > 0 && (
         <ul className="country-autocomplete__dropdown" ref={listRef}>
-          {filteredStates.length > 0 ? (
-            filteredStates.map((st, index) => {
-              const isSelected = st.toLowerCase() === (value || '').trim().toLowerCase();
-              const isHighlighted = index === highlightedIndex;
-              return (
-                <li
-                  key={st}
-                  className={`country-autocomplete__item ${
-                    isHighlighted ? 'country-autocomplete__item--highlighted' : ''
-                  } ${isSelected ? 'country-autocomplete__item--selected' : ''}`}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    handleSelectState(st);
-                  }}
-                  onMouseEnter={() => setHighlightedIndex(index)}
-                >
-                  {st}
-                </li>
-              );
-            })
-          ) : (
-            <li className="country-autocomplete__no-results">No states found</li>
-          )}
+          {filteredStates.map((st, index) => {
+            const isSelected = st.toLowerCase() === (value || '').trim().toLowerCase();
+            const isHighlighted = index === highlightedIndex;
+            return (
+              <li
+                key={st}
+                className={`country-autocomplete__item ${
+                  isHighlighted ? 'country-autocomplete__item--highlighted' : ''
+                } ${isSelected ? 'country-autocomplete__item--selected' : ''}`}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  handleSelectState(st);
+                }}
+                onMouseEnter={() => setHighlightedIndex(index)}
+              >
+                {st}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

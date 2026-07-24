@@ -183,29 +183,23 @@ export default function CompanyAutocomplete({
         />
       </button>
 
-      {isOpen && !disabled && (
+      {isOpen && !disabled && filteredCompanies.length > 0 && (
         <ul className="company-autocomplete__dropdown" ref={listRef}>
-          {filteredCompanies.length > 0 ? (
-            filteredCompanies.map((company, index) => {
-              const isSelected = company.toLowerCase() === (value || '').trim().toLowerCase();
-              const isHighlighted = index === highlightedIndex;
-              return (
-                <li
-                  key={company}
-                  className={`company-autocomplete__item ${isHighlighted ? 'company-autocomplete__item--highlighted' : ''
-                    } ${isSelected ? 'company-autocomplete__item--selected' : ''}`}
-                  onClick={() => handleSelectCompany(company)}
-                  onMouseEnter={() => setHighlightedIndex(index)}
-                >
-                  {company}
-                </li>
-              );
-            })
-          ) : (
-            <li className="company-autocomplete__no-results">
-              No matching company found.<br /> You can keep typing to enter a new company.
-            </li>
-          )}
+          {filteredCompanies.map((company, index) => {
+            const isSelected = company.toLowerCase() === (value || '').trim().toLowerCase();
+            const isHighlighted = index === highlightedIndex;
+            return (
+              <li
+                key={company}
+                className={`company-autocomplete__item ${isHighlighted ? 'company-autocomplete__item--highlighted' : ''
+                  } ${isSelected ? 'company-autocomplete__item--selected' : ''}`}
+                onClick={() => handleSelectCompany(company)}
+                onMouseEnter={() => setHighlightedIndex(index)}
+              >
+                {company}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

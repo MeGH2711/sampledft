@@ -18,9 +18,11 @@ import {
   FaFilePdf,
   FaCalendarAlt
 } from 'react-icons/fa'
-import { db } from '../firebase'
+import { auth, db } from '../firebase'
+import { deleteUser as deleteAuthUser } from 'firebase/auth'
 import { buildUserDoc, personal, contact, academic, professional, pref, meta, getArrayField, getUserDisplayName } from '../utils/userHelpers'
-import { collection, getDocs, doc, updateDoc, deleteDoc, addDoc, setDoc } from 'firebase/firestore'
+import { collection, getDocs, doc, updateDoc, deleteDoc, addDoc, setDoc, query, where } from 'firebase/firestore'
+import { hashEmail } from '../utils/hash'
 import useVisitorCount from '../hooks/useVisitorCount'
 import { openPdfInNewTab } from '../utils/pdfHelper'
 import './Admin.css'
@@ -79,6 +81,8 @@ export default function Admin({ user, onUpdateUser }) {
   const [permissionError, setPermissionError] = useState(false)
   const [selectedUser, setSelectedUser] = useState(null)
   const [deletingJobId, setDeletingJobId] = useState(null)
+  const [deletingUser, setDeletingUser] = useState(null)
+  const [isDeletingUser, setIsDeletingUser] = useState(false)
 
   // Job Posting Form State
   const [jobForm, setJobForm] = useState({
@@ -283,6 +287,66 @@ export default function Admin({ user, onUpdateUser }) {
       showToast("Error deleting job vacancy.", "error")
     } finally {
       setDeletingJobId(null)
+    }
+  }
+
+  // --- User Profile Deletion Handler (Developer Only) ---
+  const handleConfirmDeleteUser = async () => {
+    if (!deletingUser) return
+    const targetUid = deletingUser.uid || deletingUser.id
+    const targetEmail = contact(deletingUser, 'email') || deletingUser.email || ''
+    const userName = getUserDisplayName(deletingUser) || 'User'
+
+    setIsDeletingUser(true)
+    try {
+      showToast(`Deleting user profile and records for ${userName}...`, 'info')
+
+      // 1. Delete passwordResetLookup document by email hash
+      if (targetEmail) {
+        try {
+          const emailHashKey = await hashEmail(targetEmail)
+          await deleteDoc(doc(db, 'passwordResetLookup', emailHashKey))
+        } catch (lookupErr) {
+          console.warn('Error deleting passwordResetLookup by email hash:', lookupErr)
+        }
+      }
+
+      // Query passwordResetLookup collection for any matching uid
+      try {
+        const lookupQuery = query(collection(db, 'passwordResetLookup'), where('uid', '==', targetUid))
+        const lookupSnap = await getDocs(lookupQuery)
+        for (const lookupDoc of lookupSnap.docs) {
+          await deleteDoc(doc(db, 'passwordResetLookup', lookupDoc.id))
+        }
+      } catch (lookupQueryErr) {
+        console.warn('Could not query passwordResetLookup by uid:', lookupQueryErr)
+      }
+
+      // 2. Delete Firestore document in 'users' collection
+      await deleteDoc(doc(db, 'users', targetUid))
+
+      // 3. Delete auth account if target is current logged in user
+      if (targetUid === user?.uid && auth?.currentUser) {
+        try {
+          await deleteAuthUser(auth.currentUser)
+        } catch (authErr) {
+          console.warn('Could not delete current auth user directly:', authErr)
+        }
+      }
+
+      // Update state
+      setUsersList(prev => prev.filter(u => (u.uid || u.id) !== targetUid))
+      if (selectedUser && (selectedUser.uid || selectedUser.id) === targetUid) {
+        setSelectedUser(null)
+      }
+
+      showToast(`User profile "${userName}" and all Firestore lookup records deleted successfully.`, 'success')
+    } catch (err) {
+      console.error('Failed to delete user profile:', err)
+      showToast('Failed to delete user profile. Check database permissions.', 'error')
+    } finally {
+      setIsDeletingUser(false)
+      setDeletingUser(null)
     }
   }
 
@@ -677,6 +741,17 @@ service cloud.firestore {
                                 Verify Account
                               </button>
                             )}
+                            {currentUserRole === 'developer' && (
+                              <button
+                                type="button"
+                                className="admin-btn-delete-user"
+                                onClick={() => setDeletingUser(item)}
+                                disabled={String(itemEmail || '').toLowerCase() === 'patelmeghmahesh2701@gmail.com'}
+                                title="Delete entire user profile & lookup data"
+                              >
+                                <FaTrash /> Delete Profile
+                              </button>
+                            )}
                           </td>
                         </tr>
                       )
@@ -912,6 +987,7 @@ service cloud.firestore {
                     <th>Current Permission Role</th>
                     <th>Change Access Level</th>
                     <th>User ID</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -955,12 +1031,23 @@ service cloud.firestore {
                           <td style={{ fontSize: '11px', fontFamily: 'monospace', color: 'var(--slate)' }}>
                             {item.uid}
                           </td>
+                          <td>
+                            <button
+                              type="button"
+                              className="admin-btn-delete-user"
+                              onClick={() => setDeletingUser(item)}
+                              disabled={String(itemEmail || '').toLowerCase() === 'patelmeghmahesh2701@gmail.com'}
+                              title="Delete user profile & all records"
+                            >
+                              <FaTrash /> Delete
+                            </button>
+                          </td>
                         </tr>
                       )
                     })
                   ) : (
                     <tr>
-                      <td colSpan="4" style={{ textAlign: 'center', padding: '40px 0', color: 'var(--slate)' }}>
+                      <td colSpan="5" style={{ textAlign: 'center', padding: '40px 0', color: 'var(--slate)' }}>
                         No user match found.
                       </td>
                     </tr>
@@ -1329,12 +1416,28 @@ service cloud.firestore {
                   Verify Account
                 </button>
               )}
+              {currentUserRole === 'developer' && (
+                <button
+                  type="button"
+                  className="admin-btn-delete-user"
+                  style={{ padding: '10px 18px' }}
+                  onClick={() => {
+                    const target = selectedUser
+                    setSelectedUser(null)
+                    setDeletingUser(target)
+                  }}
+                  disabled={String(contact(selectedUser, 'email') || '').toLowerCase() === 'patelmeghmahesh2701@gmail.com'}
+                  title="Delete user profile & all lookup records"
+                >
+                  <FaTrash /> Delete User Profile
+                </button>
+              )}
             </div>
           </div>
         </div>
       )}
 
-      {/* Deletion Confirmation Modal */}
+      {/* Job Deletion Confirmation Modal */}
       {deletingJobId && (
         <div className="admin-delete-modal-overlay" onClick={() => setDeletingJobId(null)}>
           <div className="admin-delete-modal-card" onClick={(e) => e.stopPropagation()}>
@@ -1360,6 +1463,62 @@ service cloud.firestore {
                 onClick={handleConfirmDeleteJob}
               >
                 Delete Opportunity
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* User Deletion Confirmation Modal (Developer Only) */}
+      {deletingUser && (
+        <div className="admin-delete-modal-overlay" onClick={() => !isDeletingUser && setDeletingUser(null)}>
+          <div className="admin-delete-modal-card" onClick={(e) => e.stopPropagation()}>
+            <h3 className="admin-delete-modal-title">
+              <FaTrash style={{ color: 'var(--signal-red)' }} /> Permanently Delete User
+            </h3>
+            <div className="admin-delete-modal-desc" style={{ textAlign: 'left', lineHeight: '1.6' }}>
+              <p style={{ margin: '0 0 10px 0' }}>
+                Are you sure you want to permanently delete the profile of{' '}
+                <strong>{getUserDisplayName(deletingUser) || 'this user'}</strong> ({contact(deletingUser, 'email') || 'N/A'})?
+              </p>
+              <div style={{
+                background: 'rgba(239, 68, 68, 0.08)',
+                border: '1px solid rgba(239, 68, 68, 0.25)',
+                borderRadius: '8px',
+                padding: '12px 14px',
+                fontSize: '0.82rem',
+                color: 'var(--navy-deep)',
+                margin: '10px 0'
+              }}>
+                <strong>This operation will purge:</strong>
+                <ul style={{ margin: '6px 0 0 0', paddingLeft: '18px' }}>
+                  <li>Hashed phone & password verification records in <code>passwordResetLookup</code></li>
+                  <li>Entire Firestore user document from the <code>users</code> collection</li>
+                  <li>User session & authentication data</li>
+                </ul>
+              </div>
+              <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--signal-red)', fontWeight: '600' }}>
+                ⚠️ Warning: This action cannot be reversed!
+              </p>
+            </div>
+            <div className="admin-delete-modal-footer">
+              <button
+                type="button"
+                className="admin-btn-primary"
+                style={{ background: 'var(--slate)', border: 'none', margin: 0, padding: '10px 18px' }}
+                onClick={() => setDeletingUser(null)}
+                disabled={isDeletingUser}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="admin-btn-delete-confirm"
+                style={{ margin: 0, padding: '10px 18px' }}
+                onClick={handleConfirmDeleteUser}
+                disabled={isDeletingUser}
+              >
+                {isDeletingUser ? 'Deleting User...' : 'Delete Profile & Records'}
               </button>
             </div>
           </div>

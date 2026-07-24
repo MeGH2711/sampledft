@@ -157,11 +157,14 @@ function DetailModal({ user, open, onClose }) {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden'
+      document.documentElement.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
+      document.documentElement.style.overflow = ''
     }
     return () => {
       document.body.style.overflow = ''
+      document.documentElement.style.overflow = ''
     }
   }, [open])
 
@@ -194,6 +197,11 @@ function DetailModal({ user, open, onClose }) {
   const degrees = getArrayField(user, 'academicDetails', 'degrees')
   const hobbies = getArrayField(user, 'personalDetails', 'hobbies')
   const otherHobbies = personal(user, 'otherHobbies')
+  const standardHobbies = hobbies.filter(h => h && h !== 'Others')
+  const otherHobbiesList = (otherHobbies || '')
+    .split(',')
+    .map(item => item.trim())
+    .filter(Boolean)
 
   // Personal
   const gender = personal(user, 'gender')
@@ -212,6 +220,12 @@ function DetailModal({ user, open, onClose }) {
   const workingSinceMonth = professional(user, 'workingSinceMonth')
   const awards = getArrayField(user, 'professionalDetails', 'awards')
   const productServices = getArrayField(user, 'professionalDetails', 'productServices')
+  const otherProductServices = professional(user, 'otherProductServices')
+  const standardProductServices = productServices.filter(p => p && p !== 'Others')
+  const otherProductServicesList = (otherProductServices || '')
+    .split(',')
+    .map(item => item.trim())
+    .filter(Boolean)
   const linkedin = professional(user, 'linkedin')
 
   // System Meta
@@ -244,11 +258,16 @@ function DetailModal({ user, open, onClose }) {
       >
         {/* Modal Header / Banner */}
         <div className="detail-modal__header">
+          <div className="detail-modal__banner-accent" />
+          <button className="detail-modal__close" onClick={onClose} aria-label="Close modal">
+            <FaTimes />
+          </button>
+
           <div className="modal-profile">
             <div className={`modal-profile__avatar user-card__avatar${colorVariant}`}>
               {photoUrl
                 ? <img src={photoUrl} alt={name} />
-                : avatarLetter
+                : <span className="user-card__avatar-initials">{avatarLetter}</span>
               }
             </div>
             <div className="modal-profile__info">
@@ -259,12 +278,21 @@ function DetailModal({ user, open, onClose }) {
                   : <span className="modal-badge modal-badge--pending"><FaClock /> Verification Pending</span>
                 }
               </div>
-              <div className="modal-profile__subrow">
-                {jobTitle && company && (
-                  <span className="modal-chip modal-chip--primary">
-                    <FaBriefcase /> {jobTitle} at <strong>{company}</strong>
+
+              {(jobTitle || company) && (
+                <div className="modal-profile__headline">
+                  <FaBriefcase className="modal-profile__headline-icon" />
+                  <span>
+                    {jobTitle && company ? (
+                      <>{jobTitle} <span className="headline-at">at</span> <strong>{company}</strong></>
+                    ) : (
+                      jobTitle || company
+                    )}
                   </span>
-                )}
+                </div>
+              )}
+
+              <div className="modal-profile__subrow">
                 {batch && (
                   <span className="modal-chip">
                     <FaGraduationCap /> Batch {batch}
@@ -275,40 +303,44 @@ function DetailModal({ user, open, onClose }) {
                     <FaMapMarkerAlt /> {homeLocation}
                   </span>
                 )}
+                {userType && (
+                  <span className="modal-chip modal-chip--tag">
+                    {userType}
+                  </span>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Quick Header Actions */}
-          <div className="modal-header-actions">
-            {cvUrl && (
-              <a href={cvUrl} target="_blank" rel="noreferrer" className="modal-action-btn modal-action-btn--cv" title="View Resume / CV">
-                <FaFileAlt /> <span>Resume / CV</span>
-              </a>
-            )}
-            {consentEmail && email && (
-              <a href={`mailto:${email}`} className="modal-action-btn modal-action-btn--email" title="Send Email">
-                <FaEnvelope /> <span>Email</span>
-              </a>
-            )}
-            {consentLinkedin && linkedin && (
-              <a href={linkedin.startsWith('http') ? linkedin : `https://${linkedin}`} target="_blank" rel="noreferrer" className="modal-action-btn modal-action-btn--linkedin" title="LinkedIn Profile">
-                <FaLinkedin /> <span>LinkedIn</span>
-              </a>
-            )}
-            {consentWhatsapp && cleanWhatsapp && (
-              <a href={`https://wa.me/${cleanWhatsapp}`} target="_blank" rel="noreferrer" className="modal-action-btn modal-action-btn--whatsapp" title="WhatsApp Message">
-                <FaWhatsapp /> <span>Chat</span>
-              </a>
-            )}
-            <button className="detail-modal__close" onClick={onClose} aria-label="Close modal">
-              <FaTimes />
-            </button>
-          </div>
         </div>
 
         {/* Modal Content Body */}
         <div className="detail-modal__body">
+          {/* Quick Actions Strip */}
+          {(cvUrl || (consentEmail && email) || (consentLinkedin && linkedin) || (consentWhatsapp && cleanWhatsapp)) && (
+            <div className="modal-header-actions">
+              {cvUrl && (
+                <a href={cvUrl} target="_blank" rel="noreferrer" className="modal-action-btn modal-action-btn--cv" title="View Resume / CV">
+                  <FaFileAlt /> <span>Resume / CV</span>
+                </a>
+              )}
+              {consentEmail && email && (
+                <a href={`mailto:${email}`} className="modal-action-btn modal-action-btn--email" title="Send Email">
+                  <FaEnvelope /> <span>Email</span>
+                </a>
+              )}
+              {consentLinkedin && linkedin && (
+                <a href={linkedin.startsWith('http') ? linkedin : `https://${linkedin}`} target="_blank" rel="noreferrer" className="modal-action-btn modal-action-btn--linkedin" title="LinkedIn Profile">
+                  <FaLinkedin /> <span>LinkedIn</span>
+                </a>
+              )}
+              {consentWhatsapp && cleanWhatsapp && (
+                <a href={`https://wa.me/${cleanWhatsapp}`} target="_blank" rel="noreferrer" className="modal-action-btn modal-action-btn--whatsapp" title="WhatsApp Message">
+                  <FaWhatsapp /> <span>Chat</span>
+                </a>
+              )}
+            </div>
+          )}
 
           {/* Quick Stats Row */}
           <div className="modal-quick-stats">
@@ -393,14 +425,28 @@ function DetailModal({ user, open, onClose }) {
                 )}
 
                 {/* Products / Services */}
-                {productServices.length > 0 && (
+                {(standardProductServices.length > 0 || otherProductServicesList.length > 0) && (
                   <div className="modal-card__subsection">
                     <div className="subsection-title">Products & Services</div>
-                    <div className="pill-tags-list">
-                      {productServices.map((p, i) => (
-                        <span key={i} className="info-pill">{p}</span>
-                      ))}
-                    </div>
+
+                    {standardProductServices.length > 0 && (
+                      <div className="pill-tags-list">
+                        {standardProductServices.map((p, i) => (
+                          <span key={i} className="info-pill">{p}</span>
+                        ))}
+                      </div>
+                    )}
+
+                    {otherProductServicesList.length > 0 && (
+                      <div className="modal-card__nested-subsection">
+                        <div className="nested-subsection-title">Other Products & Services</div>
+                        <div className="pill-tags-list">
+                          {otherProductServicesList.map((item, i) => (
+                            <span key={i} className="info-pill info-pill--other">{item}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -545,7 +591,7 @@ function DetailModal({ user, open, onClose }) {
                     <div className="contact-item">
                       <div className="contact-item__icon"><FaFileAlt /></div>
                       <div className="contact-item__detail">
-                        <span className="contact-item__label">Curriculum Vitae (Resume)</span>
+                        <span className="contact-item__label">Resume / CV</span>
                         <a href={cvUrl} target="_blank" rel="noreferrer" className="contact-item__link">
                           {cvFileName ? `View ${cvFileName}` : 'View / Download Resume (PDF)'}
                         </a>
@@ -594,15 +640,28 @@ function DetailModal({ user, open, onClose }) {
                 </div>
 
                 {/* Hobbies */}
-                {(hobbies.length > 0 || otherHobbies) && (
+                {(standardHobbies.length > 0 || otherHobbiesList.length > 0) && (
                   <div className="modal-card__subsection">
                     <div className="subsection-title"><FaHeart /> Hobbies & Interests</div>
-                    <div className="pill-tags-list">
-                      {hobbies.map((h, i) => (
-                        <span key={i} className="hobby-pill">{h}</span>
-                      ))}
-                      {otherHobbies && <span className="hobby-pill">{otherHobbies}</span>}
-                    </div>
+
+                    {standardHobbies.length > 0 && (
+                      <div className="pill-tags-list">
+                        {standardHobbies.map((h, i) => (
+                          <span key={i} className="hobby-pill">{h}</span>
+                        ))}
+                      </div>
+                    )}
+
+                    {otherHobbiesList.length > 0 && (
+                      <div className="modal-card__nested-subsection">
+                        <div className="nested-subsection-title">Other Interests & Hobbies</div>
+                        <div className="pill-tags-list">
+                          {otherHobbiesList.map((item, i) => (
+                            <span key={i} className="hobby-pill hobby-pill--other">{item}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -751,11 +810,14 @@ export default function Network({ user, onLogout }) {
   useEffect(() => {
     if (drawerOpen || mobileFiltersOpen) {
       document.body.style.overflow = 'hidden'
+      document.documentElement.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
+      document.documentElement.style.overflow = ''
     }
     return () => {
       document.body.style.overflow = ''
+      document.documentElement.style.overflow = ''
     }
   }, [drawerOpen, mobileFiltersOpen])
 
@@ -919,7 +981,7 @@ export default function Network({ user, onLogout }) {
               Your account is currently under review by our administrators.
             </p>
             <div className="network-locked__badge">
-              <FaClock /> Verification typically takes 1–2 business days
+              <FaClock /> Verification typically takes 1–2 days
             </div>
             <RouterLink to="/profile" className="network-locked__back">
               View My Profile
