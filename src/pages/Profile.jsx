@@ -833,7 +833,7 @@ export default function Profile({ user, onUpdateUser }) {
       'email', 'password', 'confirmPassword', 'newPassword', 'oldPassword', 'currentPassword', 'linkedin', 'companyWebsite', 'captcha',
       'phone', 'secondaryPhone', 'whatsapp', 'workExperience',
       'admissionYear', 'passoutYear', 'workingSinceMonth', 'workingSinceYear',
-      'lastPromotionMonth', 'lastPromotionYear', 'phoneCode', 'secondaryPhoneCode', 'whatsappCode'
+      'jobTitle', 'lastPromotionDesignation', 'lastPromotionMonth', 'lastPromotionYear', 'phoneCode', 'secondaryPhoneCode', 'whatsappCode'
     ];
 
     if (!nonCapitalizedFields.includes(name) && typeof cleanValue === 'string') {

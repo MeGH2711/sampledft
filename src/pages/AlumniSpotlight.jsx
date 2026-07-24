@@ -12,7 +12,7 @@ const spotlightAlumni = [
     role: 'Assitant General Manager, Head QA/QC Welding, INOXCVA',
     batch: 'Batch of 2006',
     award: '',
-    desc: 'Pioneered advanced fabrication processes in heavy manufacturing and established a state-of-the-art facility employing over 300+ technicians and engineers.',
+    desc: 'Rising from Junior Engineer to Quality Head over seventeen years, Prakash Vagh ensures excellence in INOXCVA\'s demanding cryogenic projects while inspiring his team.',
     img: prakashVaghImg,
     linkedin: 'https://www.linkedin.com/in/prakash-vagh-531096100/'
   },

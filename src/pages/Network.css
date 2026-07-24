@@ -1480,6 +1480,8 @@
   align-items: center;
   gap: 12px;
   transition: background 0.2s ease, border-color 0.2s ease;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .stat-card:hover {
@@ -1531,7 +1533,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
-  align-items: start;
+  align-items: stretch;
 }
 
 @media (max-width: 850px) {
@@ -1548,6 +1550,9 @@
   border-radius: 16px;
   overflow: hidden;
   transition: border-color 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .modal-card:hover {
@@ -1597,6 +1602,7 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
+  flex: 1;
 }
 
 /* Info Table (Key-Value) */
