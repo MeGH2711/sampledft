@@ -523,7 +523,7 @@ export default function Login({ user, onLoginSuccess }) {
       : value;
 
     const nonCapitalizedFields = [
-      'email', 'password', 'linkedin', 'companyWebsite', 'captcha',
+      'email', 'password', 'confirmPassword', 'newPassword', 'oldPassword', 'currentPassword', 'linkedin', 'companyWebsite', 'captcha',
       'phone', 'secondaryPhone', 'whatsapp', 'workExperience',
       'admissionYear', 'passoutYear', 'workingSinceMonth', 'workingSinceYear',
       'lastPromotionMonth', 'lastPromotionYear', 'phoneCode', 'secondaryPhoneCode', 'whatsappCode'
@@ -630,8 +630,7 @@ export default function Login({ user, onLoginSuccess }) {
   const handleCertificationChange = (index, field, val) => {
     setRegisterForm(prev => {
       const updated = [...(prev.certifications || [])]
-      const cleanVal = typeof val === 'string' ? capitalizeWords(val) : val;
-      updated[index] = { ...updated[index], [field]: cleanVal }
+      updated[index] = { ...updated[index], [field]: val }
       return {
         ...prev,
         certifications: updated

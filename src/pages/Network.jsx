@@ -28,7 +28,8 @@ import {
   FaTh,
   FaTable,
   FaChevronDown,
-  FaCheck
+  FaCheck,
+  FaCertificate
 } from 'react-icons/fa'
 import { db } from '../firebase'
 import { collection, getDocs } from 'firebase/firestore'
@@ -195,6 +196,7 @@ function DetailModal({ user, open, onClose }) {
   const admYear = academic(user, 'admissionYear') || ''
   const userType = academic(user, 'userType') || ''
   const degrees = getArrayField(user, 'academicDetails', 'degrees')
+  const certifications = getArrayField(user, 'academicDetails', 'certifications')
   const hobbies = getArrayField(user, 'personalDetails', 'hobbies')
   const otherHobbies = personal(user, 'otherHobbies')
   const standardHobbies = hobbies.filter(h => h && h !== 'Others')
@@ -511,6 +513,32 @@ function DetailModal({ user, open, onClose }) {
                                   {[streamName, collegeName].filter(Boolean).join(' · ')}
                                 </div>
                               )}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Certifications & Qualifications */}
+                {certifications.length > 0 && (
+                  <div className="modal-card__subsection">
+                    <div className="subsection-title">
+                      <FaCertificate style={{ color: '#fbbf24' }} /> Certifications & Qualifications
+                    </div>
+                    <div className="certifications-grid">
+                      {certifications.map((c, i) => {
+                        const area = typeof c === 'object' ? (c?.area || c?.name || c?.title || '') : String(c)
+                        const detail = typeof c === 'object' ? (c?.detail || c?.description || '') : ''
+                        if (!area && !detail) return null
+
+                        return (
+                          <div key={i} className="cert-card">
+                            <div className="cert-card__badge"><FaCertificate /></div>
+                            <div className="cert-card__details">
+                              {area && <div className="cert-card__area">{area}</div>}
+                              {detail && <div className="cert-card__detail">{detail}</div>}
                             </div>
                           </div>
                         )
@@ -910,8 +938,15 @@ export default function Network({ user, onLogout }) {
         const city = personal(u, 'city').toLowerCase()
         const country = personal(u, 'country').toLowerCase()
         const jobTitle = professional(u, 'jobTitle').toLowerCase()
+        const certs = getArrayField(u, 'academicDetails', 'certifications')
+        const certsMatch = certs.some(c => {
+          if (c && typeof c === 'object') {
+            return (c.area || '').toLowerCase().includes(q) || (c.detail || '').toLowerCase().includes(q)
+          }
+          return String(c || '').toLowerCase().includes(q)
+        })
         return name.includes(q) || email.includes(q) || company.includes(q)
-          || city.includes(q) || country.includes(q) || jobTitle.includes(q)
+          || city.includes(q) || country.includes(q) || jobTitle.includes(q) || certsMatch
       })
     }
 
