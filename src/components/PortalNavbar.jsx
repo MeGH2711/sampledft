@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
-import { FaArrowLeft, FaNetworkWired } from 'react-icons/fa'
+import { Link as RouterLink, useLocation } from 'react-router-dom'
+import { FaArrowLeft, FaNetworkWired, FaBriefcase } from 'react-icons/fa'
 import dftLogo from '../assets/Logo/dft-logo.avif'
 import { personal, meta, getUserFirstName } from '../utils/userHelpers'
 import './PortalNavbar.css'
 
 export default function PortalNavbar({ user }) {
   const [scrolled, setScrolled] = useState(false)
+  const location = useLocation()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
@@ -31,12 +32,23 @@ export default function PortalNavbar({ user }) {
           </div>
         </RouterLink>
 
-        {/* Center: Page label */}
-        <div className="portal-nav__title">
-          <div className="portal-nav__title-dot" />
-          <span className="portal-nav__title-text">Alumni Network</span>
-          <div className="portal-nav__title-dot" />
-        </div>
+        {/* Center: Interactive Portal Navigation Links */}
+        <nav className="portal-nav__menu" aria-label="Portal Navigation">
+          <RouterLink
+            to="/portal/network"
+            className={`portal-nav__menu-item${location.pathname === '/portal/network' ? ' portal-nav__menu-item--active' : ''}`}
+          >
+            <FaNetworkWired />
+            <span>Alumni Network</span>
+          </RouterLink>
+          <RouterLink
+            to="/portal/jobs"
+            className={`portal-nav__menu-item${location.pathname === '/portal/jobs' ? ' portal-nav__menu-item--active' : ''}`}
+          >
+            <FaBriefcase />
+            <span>Job Board</span>
+          </RouterLink>
+        </nav>
 
         {/* Right: Actions */}
         <div className="portal-nav__actions">

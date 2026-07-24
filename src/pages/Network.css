@@ -1533,12 +1533,23 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
-  align-items: stretch;
+  align-items: flex-start;
+}
+
+.modal-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
 }
 
 @media (max-width: 850px) {
   .modal-content-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .modal-column {
     gap: 20px;
   }
 }

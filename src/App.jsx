@@ -23,6 +23,7 @@ import Login from './pages/Login'
 import Profile from './pages/Profile'
 import Admin from './pages/Admin'
 import Network from './pages/Network'
+import Jobs from './pages/Jobs'
 import TermsAndConditions from './pages/TermsAndConditions'
 import NotFound from './pages/NotFound'
 import { auth, isFirebaseConfigured } from './firebase'
@@ -126,7 +127,7 @@ function App() {
 
   const knownPaths = [
     '/', '/sangam2026', '/dftalumnimeet2023', '/sangaath2024',
-    '/newsroom', '/login', '/profile', '/admin', '/portal/network', '/terms'
+    '/newsroom', '/login', '/profile', '/admin', '/portal/network', '/portal/jobs', '/terms'
   ]
   const isKnownPath = knownPaths.includes(location.pathname)
 
@@ -161,6 +162,7 @@ function App() {
           <Route path="/profile" element={<Profile user={user} onUpdateUser={handleUpdateUser} />} />
           <Route path="/admin" element={<Admin user={user} onUpdateUser={handleUpdateUser} />} />
           <Route path="/portal/network" element={<Network user={user} onLogout={handleLogout} />} />
+          <Route path="/portal/jobs" element={<Jobs user={user} onLogout={handleLogout} />} />
           <Route path="/terms" element={<TermsAndConditions />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
